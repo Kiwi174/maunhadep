@@ -29,6 +29,12 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;align-
 .nb-ghost{background:transparent;border:1px solid rgba(106,175,90,.35);color:var(--green2)}
 .nb-ghost:hover{border-color:var(--green2);background:var(--green2);color:#fff}
 .nb-hide-mobile{display:inline-flex}
+.nb-icon{display:none}
+@media(max-width:768px){
+  .nb-full-text{display:none}
+  .nb-icon{display:inline}
+  .nb-icon-only{padding:7px 10px}
+}
 
 /* PAGE HEADER */
 .page-header{background:var(--dark2);padding:24px 20px 20px;position:relative;overflow:hidden}
@@ -250,8 +256,8 @@ footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;
   <div class="nav-r">
     <span class="nav-user" id="userLabel"></span>
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
-    <button class="nb nb-ghost nb-hide-mobile" onclick="location.href='home.html'">Thư viện mẫu nhà</button>
-    <button class="nb nb-ghost nb-hide-mobile" onclick="location.href='huong.html'">🧭 Phong thuỷ</button>
+    <button class="nb nb-ghost nb-icon-only" title="Thư viện mẫu nhà" onclick="location.href='home.html'"><span class="nb-full-text">Thư viện mẫu nhà</span><span class="nb-icon">🏠</span></button>
+    <button class="nb nb-ghost nb-icon-only" title="Phong thuỷ" onclick="location.href='huong.html'"><span class="nb-full-text">🧭 Phong thuỷ</span><span class="nb-icon">🧭</span></button>
     <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
   </div>
 </nav>
