@@ -28,12 +28,31 @@ nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;align-
 .nb{padding:7px 14px;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:500}
 .nb-ghost{background:transparent;border:1px solid rgba(106,175,90,.35);color:var(--green2)}
 .nb-ghost:hover{border-color:var(--green2);background:var(--green2);color:#fff}
-.nb-hide-mobile{display:inline-flex}
-.nb-icon{display:none}
+
+/* HAMBURGER */
+.ham-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:6px;z-index:201}
+.ham-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:.2s}
+.mob-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:var(--dark2)}
+.mob-menu.open{display:flex;flex-direction:column}
+.mob-menu-head{display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:64px;border-bottom:1px solid rgba(106,175,90,.2);flex-shrink:0}
+.mob-menu-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.mob-menu-logo img{height:38px}
+.mob-close{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:4px}
+.mob-menu-body{flex:1;overflow-y:auto;padding:10px 0}
+.mob-menu-item{display:flex;align-items:center;gap:14px;padding:18px 24px;font-family:"Be Vietnam Pro",sans-serif;font-size:15px;font-weight:500;color:#fff;border:none;background:none;width:100%;text-align:left;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;transition:.15s}
+.mob-menu-item:hover{background:rgba(106,175,90,.1)}
+.mob-menu-item .mi-icon{font-size:20px;width:28px;text-align:center;flex-shrink:0}
+.mob-menu-item.danger{color:#e07070}
+.mob-menu-user{padding:14px 24px 10px;font-size:12px;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:uppercase}
+
 @media(max-width:768px){
-  .nb-full-text{display:none}
-  .nb-icon{display:inline}
-  .nb-icon-only{padding:7px 10px}
+  nav{padding:0 14px;height:56px}
+  .nl-sub{display:none}
+  .nl-name{font-size:13px}
+  .nav-logo img{height:34px}
+  .nav-user{display:none}
+  .nav-r .nb, .nav-r .nav-phone{display:none}
+  .ham-btn{display:flex}
 }
 
 /* PAGE HEADER */
@@ -256,11 +275,36 @@ footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;
   <div class="nav-r">
     <span class="nav-user" id="userLabel"></span>
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
-    <button class="nb nb-ghost nb-icon-only" title="Thư viện mẫu nhà" onclick="location.href='home.html'"><span class="nb-full-text">Thư viện mẫu nhà</span><span class="nb-icon">🏠</span></button>
-    <button class="nb nb-ghost nb-icon-only" title="Phong thuỷ" onclick="location.href='huong.html'"><span class="nb-full-text">🧭 Phong thuỷ</span><span class="nb-icon">🧭</span></button>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">Thư viện mẫu nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='huong.html'">Xem hướng phong thuỷ</button>
     <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
   </div>
+  <button class="ham-btn" onclick="openMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-menu-head">
+    <a href="home.html" class="mob-menu-logo">
+      <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo">
+      <div>
+        <div class="nl-name">Hùng Lê Design Studio</div>
+      </div>
+    </a>
+    <button class="mob-close" onclick="closeMenu()">✕</button>
+  </div>
+  <div class="mob-menu-body">
+    <div class="mob-menu-user" id="mobUserLabel"></div>
+    <a href="home.html" class="mob-menu-item" onclick="closeMenu()"><span class="mi-icon">🏠</span>Thư viện mẫu nhà</a>
+    <a href="estimate.html" class="mob-menu-item" onclick="closeMenu()"><span class="mi-icon">🧮</span>Dự toán chi phí</a>
+    <a href="tel:0947017495" class="mob-menu-item"><span class="mi-icon">📞</span>Gọi: 0947.017.495</a>
+    <a href="https://zalo.me/0947017495" target="_blank" class="mob-menu-item"><span class="mi-icon">💬</span>Zalo: 0947.017.495</a>
+    <a href="huong.html" class="mob-menu-item" onclick="closeMenu()"><span class="mi-icon">🧭</span>Xem hướng phong thuỷ</a>
+    <button class="mob-menu-item danger" onclick="logout()"><span class="mi-icon">🚪</span>Đăng xuất</button>
+  </div>
+</div>
 
 <div class="page-header">
   <h1>Dự toán <span>chi phí xây dựng</span></h1>
@@ -588,9 +632,20 @@ const ROLE  = sessionStorage.getItem('nhadep_role');
 if (!ROLE) location.href = 'index.html';
 const IS_ADMIN = ROLE === 'admin';
 const UNAME = sessionStorage.getItem('nhadep_user');
-if (UNAME) { const el = document.getElementById('userLabel'); if(el) el.textContent = UNAME; }
+if (UNAME) {
+  const el = document.getElementById('userLabel'); if(el) el.textContent = UNAME;
+  const mel = document.getElementById('mobUserLabel'); if(mel) mel.textContent = UNAME;
+}
 if (IS_ADMIN) document.getElementById('adminPanel').style.display = '';
 function logout(){ sessionStorage.clear(); location.href = 'index.html'; }
+function openMenu(){
+  document.getElementById('mobMenu').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMenu(){
+  document.getElementById('mobMenu').classList.remove('open');
+  document.body.style.overflow='';
+}
 
 /* ══════════════════════════════════════════════
    ĐƠN GIÁ — localStorage key: nhadep_dg_v2
