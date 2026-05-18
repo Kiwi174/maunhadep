@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hùng Lê Design Studio — Đăng nhập</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#3D6B34;--green2:#5A9E4A;--green-light:#EAF4E7;
+  --dark:#141916;--dark2:#1E2420;
+  --cream:#F4F3F0;--cream2:#EAEAE6;
+  --text:#1A1F18;--muted:#5A6B56;--border:#C8D0C4;
+}
+body{min-height:100vh;display:flex;font-family:'Be Vietnam Pro',sans-serif;background:var(--dark)}
+
+.hero-side{flex:1;position:relative;overflow:hidden}
+.hero-side img.bg{width:100%;height:100%;object-fit:cover;filter:brightness(.5);animation:slowzoom 20s ease-in-out infinite alternate}
+@keyframes slowzoom{from{transform:scale(1.05)}to{transform:scale(1.13)}}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(26,31,24,.5) 0%,rgba(74,124,63,.18) 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:52px
+}
+.hero-tagline{font-family:'Be Vietnam Pro',sans-serif;font-size:42px;font-weight:700;color:#fff;line-height:1.15}
+.hero-tagline span{color:var(--green2)}
+.hero-sub{margin-top:14px;color:rgba(255,255,255,.75);font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:400}
+.hero-contact{
+  margin-top:24px;display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(106,175,90,.3);
+  border-radius:40px;padding:10px 20px;width:fit-content;
+}
+.hero-contact svg{flex-shrink:0}
+.hero-contact span{color:#fff;font-size:15px;font-weight:600;letter-spacing:.5px}
+
+.login-side{
+  width:440px;flex-shrink:0;background:var(--cream);
+  display:flex;flex-direction:column;justify-content:center;padding:56px 48px;
+  position:relative;
+}
+.login-side::before{
+  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(to bottom,transparent,var(--green),transparent)
+}
+
+.brand{margin-bottom:40px;display:flex;flex-direction:column;align-items:flex-start}
+.brand-logo-img{width:110px;height:auto;margin-bottom:4px}
+.brand-name{font-family:'Be Vietnam Pro',sans-serif;font-size:18px;font-weight:700;color:var(--dark);letter-spacing:.5px}
+.brand-name span{color:var(--green)}
+.brand-sub{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;font-weight:600}
+.brand-line{width:36px;height:2px;background:var(--green);margin-top:10px}
+
+.form-title{font-family:'Be Vietnam Pro',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px}
+.form-hint{font-size:13px;color:var(--muted);margin-bottom:30px;font-weight:400}
+
+.field{margin-bottom:18px}
+.field label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600}
+.field input{
+  width:100%;padding:13px 15px;border:1px solid var(--border);
+  background:#fff;border-radius:3px;font-family:'Be Vietnam Pro',sans-serif;
+  font-size:14px;color:var(--text);outline:none;transition:border-color .2s
+}
+.field input:focus{border-color:var(--green)}
+.field input::placeholder{color:#C0C8BC}
+
+.btn-login{
+  width:100%;padding:14px;background:var(--green);color:#fff;border:none;
+  font-family:'Be Vietnam Pro',sans-serif;font-size:12px;letter-spacing:3px;
+  text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:6px;
+  transition:background .2s;font-weight:600
+}
+.btn-login:hover{background:#3A6330}
+
+.error-msg{
+  display:none;margin-top:12px;padding:11px 15px;
+  background:#FFF2F2;border-left:3px solid #D94040;
+  font-size:13px;color:#B83030;border-radius:2px
+}
+.error-msg.show{display:block}
+
+.login-footer{
+  margin-top:36px;padding-top:22px;border-top:1px solid var(--border);
+  text-align:center
+}
+.login-footer a{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--green);font-size:13px;font-weight:500;text-decoration:none
+}
+.login-footer a:hover{text-decoration:underline}
+
+/* ── Zalo button ── */
+.btn-zalo{
+  width:100%;padding:13px;background:#0068FF;color:#fff;border:none;
+  font-family:'Be Vietnam Pro',sans-serif;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:10px;
+  transition:background .2s;font-weight:600;display:flex;align-items:center;
+  justify-content:center;gap:8px;text-decoration:none
+}
+.btn-zalo:hover{background:#0055CC}
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0 4px;color:var(--muted);font-size:11px;font-weight:500;letter-spacing:1px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── Tablet: 601–900px ── */
+@media(min-width:601px) and (max-width:900px){
+  .login-side{width:380px;padding:44px 36px}
+  .hero-tagline{font-size:32px}
+  .hero-overlay{padding:36px}
+}
+
+/* ── Mobile: ≤600px ── */
+@media(max-width:600px){
+  .hero-side{display:none}
+  .login-side{width:100%;padding:36px 22px}
+  .brand-logo-img{width:80px}
+  .form-title{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero-side">
+  <img class="bg" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" alt="">
+  <div class="hero-overlay">
+    <div class="hero-tagline">Thiết kế từ tâm<br><span>nâng tầm</span> tiện ích</div>
+    <div class="hero-sub">Thư viện mẫu nhà & dự toán chi phí xây dựng</div>
+    <div class="hero-contact">
+      <svg width="40" height="40" fill="none" stroke="#6AAF5A" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      <span>0947.017.495</span>
+    </div>
+  </div>
+</div>
+
+<div class="login-side">
+  <div class="brand">
+    <img class="brand-logo-img" src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="Hùng Lê Design Studio">
+    <div class="brand-sub">Hùng Lê Design Studio</div>
+    <div class="brand-line"></div>
+  </div>
+
+  <div class="form-title">Đăng nhập</div>
+  <div class="form-hint">Vui lòng đăng nhập để xem thư viện mẫu nhà</div>
+
+  <div class="field">
+    <label>Tài khoản</label>
+    <input type="text" id="username" placeholder="Nhập tài khoản" autocomplete="username">
+  </div>
+  <div class="field">
+    <label>Mật khẩu</label>
+    <input type="password" id="password" placeholder="Nhập mật khẩu" autocomplete="current-password">
+  </div>
+
+  <button class="btn-login" onclick="doLogin()">Đăng nhập</button>
+  <div class="error-msg" id="errMsg">Tài khoản hoặc mật khẩu không đúng</div>
+
+  <div class="divider">hoặc liên hệ trực tiếp</div>
+  <a href="tel:0947017495" class="btn-login" style="background:#3D6B34;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Gọi: 0947.017.495
+  </a>
+  <a href="https://zalo.me/0947017495" target="_blank" rel="noopener" class="btn-zalo">
+    <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#fff" fill-opacity=".15"/><path d="M16 4C9.373 4 4 9.149 4 15.5c0 3.48 1.607 6.593 4.145 8.71L7 28l4.02-1.98A12.4 12.4 0 0016 27c6.627 0 12-5.149 12-11.5S22.627 4 16 4z" fill="#fff"/><path d="M22.5 18.8c-.2-.1-1.2-.6-1.4-.65-.2-.08-.34-.1-.48.1-.15.2-.57.65-.7.78-.12.14-.25.15-.46.05-.2-.1-.87-.32-1.65-.98-.61-.52-1.02-1.17-1.14-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.48-1.15-.66-1.57-.17-.41-.35-.35-.48-.36h-.41c-.14 0-.37.05-.56.26-.19.2-.74.72-.74 1.76s.76 2.04.86 2.18c.1.14 1.48 2.28 3.6 3.19.5.22.9.35 1.2.44.5.16.97.14 1.33.08.4-.06 1.24-.5 1.41-1 .18-.48.18-.9.12-1-.05-.08-.19-.13-.4-.23z" fill="#0068FF"/></svg>
+    Zalo: 0947.017.495
+  </a>
+
+  <div class="login-footer">
+    <a href="tel:0947017495">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Liên hệ: 0947.017.495
+    </a>
+  </div>
+</div>
+
+<script>
+const ACCOUNTS = [
+  {user:'admin',  pass:'admin123', role:'admin', token:'HungLe@2026#studio'},
+  {user:'khach01',pass:'123456',   role:'viewer', token:''},
+  {user:'khach02',pass:'123456',   role:'viewer', token:''},
+];
+if(sessionStorage.getItem('nhadep_role')) location.href='home.html';
+function doLogin(){
+  const u=document.getElementById('username').value.trim();
+  const p=document.getElementById('password').value.trim();
+  const found=ACCOUNTS.find(a=>a.user===u&&a.pass===p);
+  if(found){
+    sessionStorage.setItem('nhadep_role',found.role);
+    sessionStorage.setItem('nhadep_user',found.user);
+    if(found.token) sessionStorage.setItem('nhadep_token',found.token);
+    location.href='home.html';
+  } else {
+    document.getElementById('errMsg').classList.add('show');
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+</script>
+</body>
+</html>

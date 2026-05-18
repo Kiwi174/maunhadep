@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hùng Lê Design Studio — Xem hướng nhà hợp tuổi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#4A7C3F;--green2:#6AAF5A;--gl:#E8F3E5;--dark:#1A1F18;--dark2:#232820;--cream:#F6F5F2;--cream2:#EDECE8;--text:#232820;--muted:#7A8A76;--bd:#D8DDD5;--gold:#C9A96E;--red:#C03030}
+body{font-family:"Be Vietnam Pro",sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;border-bottom:1px solid rgba(106,175,90,.2)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:42px}
+.nl-name{font-family:"Cormorant Garamond",serif;font-size:16px;font-weight:600;color:#fff;letter-spacing:1px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase}
+.nav-r{display:flex;gap:7px;align-items:center}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:500;border:1px solid rgba(106,175,90,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);color:#fff}
+.nb{padding:7px 14px;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:500}
+.nb-ghost{background:transparent;border:1px solid rgba(106,175,90,.35);color:var(--green2)}
+.nb-ghost:hover{border-color:var(--green2);color:#fff}
+.nb-green{background:var(--green);color:#fff}
+.nb-green:hover{background:#3A6330}
+.page-header{background:var(--dark2);padding:36px 40px 28px;position:relative;overflow:hidden}
+.page-header::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.page-header h1{font-family:"Cormorant Garamond",serif;font-size:34px;font-weight:300;color:#fff;line-height:1.1}
+.page-header h1 span{color:var(--gold)}
+.page-header p{color:rgba(255,255,255,.5);margin-top:7px;font-size:13px;font-weight:300}
+footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(106,175,90,.15)}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{height:34px}
+.f-name{font-family:"Cormorant Garamond",serif;font-size:15px;color:#fff;letter-spacing:1px}
+.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase}
+.f-r a{color:var(--green2);font-size:13px;font-weight:500;text-decoration:none;display:block;text-align:right}
+.f-r p{font-size:11px;color:var(--muted);margin-top:3px;text-align:right}
+
+/* MAIN LAYOUT */
+.wrap{display:grid;grid-template-columns:420px 1fr;gap:24px;padding:28px 40px 60px;max-width:1100px;margin:0 auto;align-items:start}
+
+/* FORM */
+.fcard{background:#fff;border:1px solid var(--bd);border-radius:4px;overflow:hidden}
+.fch{padding:14px 20px;border-bottom:1px solid var(--bd);background:var(--cream2);display:flex;align-items:center;gap:10px}
+.fch-icon{width:30px;height:30px;background:var(--gold);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.fch h2{font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:600;color:var(--text)}
+.fcb{padding:20px}
+.fg{margin-bottom:16px}.fg:last-child{margin-bottom:0}
+.fg label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-weight:500}
+.fg input,.fg select{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:14px;color:var(--text);outline:none;background:#fff;transition:border-color .2s}
+.fg input:focus,.fg select:focus{border-color:var(--gold)}
+
+/* GIỚI TÍNH */
+.sex-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.si2{position:relative}
+.si2 input{position:absolute;opacity:0;width:0;height:0}
+.sl{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px solid var(--bd);border-radius:3px;cursor:pointer;transition:.15s;font-size:14px;font-weight:500;color:var(--muted)}
+.sl .ico{font-size:20px}
+.si2 input:checked+.sl{border-color:var(--gold);background:#FBF6EE;color:var(--text)}
+
+/* HƯỚNG GRID */
+.huong-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hi{position:relative}
+.hi input{position:absolute;opacity:0;width:0;height:0}
+.hl{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;border:1.5px solid var(--bd);border-radius:3px;cursor:pointer;transition:.15s;font-size:12px;color:var(--muted);text-align:center;line-height:1.3}
+.hl .ico{font-size:18px;margin-bottom:3px}
+.hi input:checked+.hl{border-color:var(--gold);background:#FBF6EE;color:var(--text);font-weight:600}
+
+.btn-xem{width:100%;padding:14px;background:var(--gold);color:var(--dark);border:none;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;font-weight:700;transition:.2s;margin-top:16px}
+.btn-xem:hover{background:#B8935A}
+.btn-reset{width:100%;padding:9px;background:transparent;color:var(--muted);border:1px solid var(--bd);font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:.2s;margin-top:8px}
+.btn-reset:hover{border-color:var(--text);color:var(--text)}
+
+/* GHI CHÚ PHONG THỦY */
+.note-box{background:var(--cream2);border:1px solid var(--bd);border-radius:4px;padding:16px 18px;margin-top:18px;font-size:12px;color:var(--muted);line-height:1.7}
+.note-box strong{color:var(--text)}
+
+/* KẾT QUẢ */
+.result-area{position:sticky;top:88px}
+.r-empty{background:#fff;border:1px solid var(--bd);border-radius:4px;padding:60px 30px;text-align:center;color:var(--muted)}
+.r-empty .big{font-size:48px;margin-bottom:14px}
+.r-empty p{font-size:14px;line-height:1.7}
+
+/* MENH CARD */
+.menh-card{background:var(--dark2);border-radius:4px;overflow:hidden;border:1px solid rgba(201,169,110,.2);margin-bottom:16px}
+.menh-head{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.07)}
+.menh-head h3{font-family:"Cormorant Garamond",serif;font-size:20px;color:var(--gold);font-weight:400}
+.menh-info{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+.mi-item{padding:13px 16px;border-right:1px solid rgba(255,255,255,.06)}
+.mi-item:last-child{border:none}
+.mi-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.mi-val{font-size:15px;font-weight:600;color:#fff}
+.mi-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* HƯỚNG TỐT */
+.section-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;margin:16px 0 10px;padding-left:2px}
+.huong-list{display:flex;flex-direction:column;gap:8px}
+.huong-item{background:#fff;border:1px solid var(--bd);border-radius:4px;display:flex;align-items:stretch;overflow:hidden;transition:box-shadow .2s}
+.huong-item.tot{border-left:4px solid var(--green)}
+.huong-item.xau{border-left:4px solid #C03030}
+.huong-item.hien-tai{background:#FFFBF0;border-color:var(--gold);border-left:4px solid var(--gold)}
+.hi-left{padding:12px 14px;display:flex;flex-direction:column;justify-content:center;min-width:90px;border-right:1px solid var(--bd)}
+.hi-compass{font-size:22px;margin-bottom:3px}
+.hi-name{font-size:13px;font-weight:600;color:var(--text)}
+.hi-viet{font-size:11px;color:var(--muted)}
+.hi-right{padding:12px 14px;flex:1}
+.hi-loai{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:5px}
+.huong-item.tot .hi-loai{color:var(--green)}
+.huong-item.xau .hi-loai{color:var(--red)}
+.huong-item.hien-tai .hi-loai{color:var(--gold)}
+.hi-ykien{font-size:12px;color:var(--muted);line-height:1.6}
+.hi-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-top:5px;font-weight:500}
+.huong-item.tot .hi-badge{background:#E8F3E5;color:var(--green)}
+.huong-item.xau .hi-badge{background:#FFF0F0;color:var(--red)}
+.huong-item.hien-tai .hi-badge{background:#FBF6EE;color:#9A6B20}
+
+/* LA BÀN */
+.compass-wrap{background:#fff;border:1px solid var(--bd);border-radius:4px;padding:20px;margin-bottom:16px;text-align:center}
+.compass-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px}
+.compass{position:relative;width:200px;height:200px;margin:0 auto;border-radius:50%;background:var(--dark2);border:3px solid var(--gold)}
+.compass-dir{position:absolute;font-size:11px;font-weight:600;color:rgba(255,255,255,.7)}
+.cd-n{top:6px;left:50%;transform:translateX(-50%)}
+.cd-s{bottom:6px;left:50%;transform:translateX(-50%)}
+.cd-e{right:8px;top:50%;transform:translateY(-50%)}
+.cd-w{left:8px;top:50%;transform:translateY(-50%)}
+.cd-ne{top:22px;right:22px}
+.cd-nw{top:22px;left:22px}
+.cd-se{bottom:22px;right:22px}
+.cd-sw{bottom:22px;left:22px}
+.compass-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:16px;height:16px;background:var(--gold);border-radius:50%}
+.compass-needle{position:absolute;top:50%;left:50%;width:4px;height:80px;transform-origin:50% 100%;border-radius:2px 2px 0 0;margin-left:-2px;margin-top:-80px}
+.needle-n{background:linear-gradient(to top,transparent,#C03030)}
+.needle-s{background:linear-gradient(to bottom,transparent,rgba(255,255,255,.4));transform:rotate(180deg)}
+.compass-ring{position:absolute;inset:12px;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
+
+/* ── HAMBURGER ── */
+.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:#fff;-webkit-tap-highlight-color:transparent}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--dark2);z-index:99;flex-direction:column;padding:14px;gap:6px;border-top:1px solid rgba(106,175,90,.2);overflow-y:auto}
+.mob-menu.open{display:flex;animation:fadeDown .2s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.mob-item{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:3px;font-size:14px;font-weight:500;color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);border:none;cursor:pointer;font-family:"Be Vietnam Pro",sans-serif;text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent}
+.mob-item:active{background:rgba(106,175,90,.15)}
+.mob-sep{height:1px;background:rgba(255,255,255,.08);margin:2px 0}
+
+/* ── ZALO BUTTON ── */
+.btn-zalo-gold{display:block;width:100%;padding:12px;margin-top:8px;background:#0068FF;border:none;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#fff;cursor:pointer;font-weight:700;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
+.btn-zalo-gold:hover{background:#0055CC}
+.contact-btns{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.contact-btns a{flex:1;min-width:140px;padding:12px;border:none;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s;cursor:pointer}
+.btn-call{background:var(--gold);color:var(--dark)}
+.btn-call:hover{background:#B8935A}
+.btn-zalo2{background:#0068FF;color:#fff}
+.btn-zalo2:hover{background:#0055CC}
+
+/* ── Tablet: 601–900px ── */
+@media(min-width:601px) and (max-width:900px){
+  nav{padding:0 18px;height:60px}
+  .nav-r .nb{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+  .mob-menu{top:60px}
+  .page-header{padding:28px 24px}
+  .page-header h1{font-size:28px}
+  .wrap{grid-template-columns:360px 1fr;gap:18px;padding:22px 18px 48px}
+  footer{padding:16px 18px}
+}
+
+/* ── Mobile: ≤600px ── */
+@media(max-width:600px){
+  :root{--nav-h:56px}
+  nav{padding:0 14px;height:56px}
+  .nav-r .nb,.nav-r .nav-phone{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+  .mob-menu{top:56px}
+  .page-header{padding:20px 14px 16px}
+  .page-header h1{font-size:22px}
+  .wrap{grid-template-columns:1fr;padding:14px 12px 48px;gap:16px}
+  .result-area{position:static}
+  .huong-grid{grid-template-columns:repeat(4,1fr)}
+  .menh-info{grid-template-columns:1fr 1fr}
+  .compass{width:160px;height:160px}
+  footer{flex-direction:column;gap:8px;padding:14px 14px}.f-r a,.f-r p{text-align:left}
+}
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav>
+  <a href="home.html" class="nav-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo">
+    <div>
+      <div class="nl-name">Hùng Lê Design Studio</div>
+      <div class="nl-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </a>
+  <div class="nav-r">
+    <span class="nav-user" id="userLabel"></span>
+    <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">Thư viện mẫu nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">🧮 Dự toán chi phí</button>
+    <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
+  </div>
+  <button class="mob-toggle" id="mobToggle" onclick="toggleMob()" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
+  <a href="estimate.html" class="mob-item">🧮 Dự toán chi phí</a>
+  <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
+  <a href="https://zalo.me/0947017495" target="_blank" rel="noopener" class="mob-item">
+    <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M16 4C9.373 4 4 9.149 4 15.5c0 3.48 1.607 6.593 4.145 8.71L7 28l4.02-1.98A12.4 12.4 0 0016 27c6.627 0 12-5.149 12-11.5S22.627 4 16 4z" fill="#0068FF"/><path d="M22.5 18.8c-.2-.1-1.2-.6-1.4-.65-.2-.08-.34-.1-.48.1-.15.2-.57.65-.7.78-.12.14-.25.15-.46.05-.2-.1-.87-.32-1.65-.98-.61-.52-1.02-1.17-1.14-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.48-1.15-.66-1.57-.17-.41-.35-.35-.48-.36h-.41c-.14 0-.37.05-.56.26-.19.2-.74.72-.74 1.76s.76 2.04.86 2.18c.1.14 1.48 2.28 3.6 3.19.5.22.9.35 1.2.44.5.16.97.14 1.33.08.4-.06 1.24-.5 1.41-1 .18-.48.18-.9.12-1-.05-.08-.19-.13-.4-.23z" fill="#fff"/></svg>
+    Zalo: 0947.017.495
+  </a>
+  <div class="mob-sep"></div>
+  <button class="mob-item" onclick="logout()" style="color:#c05050">🚪 Đăng xuất</button>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>Xem hướng nhà <span>hợp tuổi</span></h1>
+  <p>Tra cứu hướng nhà tốt xấu theo cung mệnh Bát Trạch phong thuỷ</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="wrap">
+
+  <!-- CỘT TRÁI: FORM -->
+  <div>
+    <div class="fcard">
+      <div class="fch">
+        <div class="fch-icon">🧭</div>
+        <h2>Thông tin tra cứu</h2>
+      </div>
+      <div class="fcb">
+
+        <div class="fg">
+          <label>Năm sinh (Âm lịch)</label>
+          <input type="number" id="namSinh" placeholder="VD: 1985" min="1900" max="2025">
+        </div>
+
+        <div class="fg">
+          <label>Giới tính</label>
+          <div class="sex-grid">
+            <div class="si2">
+              <input type="radio" name="sex" id="sNam" value="nam" checked>
+              <label class="sl" for="sNam"><span class="ico">♂</span> Nam</label>
+            </div>
+            <div class="si2">
+              <input type="radio" name="sex" id="sNu" value="nu">
+              <label class="sl" for="sNu"><span class="ico">♀</span> Nữ</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label>Hướng nhà đang xét</label>
+          <div class="huong-grid">
+            <div class="hi"><input type="radio" name="huong" id="hB" value="Bắc" checked><label class="hl" for="hB"><span class="ico">⬆</span>Bắc</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hDB" value="Đông Bắc"><label class="hl" for="hDB"><span class="ico">↗</span>Đông Bắc</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hD" value="Đông"><label class="hl" for="hD"><span class="ico">➡</span>Đông</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hDN" value="Đông Nam"><label class="hl" for="hDN"><span class="ico">↘</span>Đông Nam</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hN" value="Nam"><label class="hl" for="hN"><span class="ico">⬇</span>Nam</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hTN" value="Tây Nam"><label class="hl" for="hTN"><span class="ico">↙</span>Tây Nam</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hT" value="Tây"><label class="hl" for="hT"><span class="ico">⬅</span>Tây</label></div>
+            <div class="hi"><input type="radio" name="huong" id="hTB" value="Tây Bắc"><label class="hl" for="hTB"><span class="ico">↖</span>Tây Bắc</label></div>
+          </div>
+        </div>
+
+        <button class="btn-xem" onclick="xemHuong()">Xem hướng nhà</button>
+        <button class="btn-reset" onclick="resetHuong()">Làm lại</button>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>Lưu ý:</strong> Kết quả tra cứu dựa theo phương pháp <strong>Bát Trạch phong thuỷ</strong> cổ truyền.
+      Hướng nhà được tính theo <em>hướng cửa chính</em> (mặt tiền nhà nhìn ra).
+      Đây chỉ là tham khảo, nên kết hợp với tư vấn chuyên gia phong thuỷ để có quyết định chính xác nhất.
+    </div>
+  </div>
+
+  <!-- CỘT PHẢI: KẾT QUẢ -->
+  <div class="result-area">
+
+    <!-- La bàn -->
+    <div class="compass-wrap">
+      <div class="compass-title">La bàn hướng nhà</div>
+      <div class="compass">
+        <div class="compass-ring"></div>
+        <div class="compass-dir cd-n">B</div>
+        <div class="compass-dir cd-s">N</div>
+        <div class="compass-dir cd-e">Đ</div>
+        <div class="compass-dir cd-w">T</div>
+        <div class="compass-dir cd-ne">ĐB</div>
+        <div class="compass-dir cd-nw">TB</div>
+        <div class="compass-dir cd-se">ĐN</div>
+        <div class="compass-dir cd-sw">TN</div>
+        <div class="compass-needle needle-n" id="compassNeedle" style="transform:translateX(-50%) translateY(-100%)"></div>
+        <div class="compass-needle needle-s"></div>
+        <div class="compass-center"></div>
+      </div>
+    </div>
+
+    <!-- Trống ban đầu -->
+    <div class="r-empty" id="rEmpty">
+      <div class="big">🧭</div>
+      <p>Nhập năm sinh, giới tính và hướng nhà<br>rồi nhấn <strong>Xem hướng nhà</strong> để tra cứu</p>
+    </div>
+
+    <!-- Kết quả (ẩn ban đầu) -->
+    <div id="rResult" style="display:none">
+      <!-- Thông tin mệnh -->
+      <div class="menh-card">
+        <div class="menh-head">
+          <h3 id="rTieuDe"></h3>
+        </div>
+        <div class="menh-info">
+          <div class="mi-item">
+            <div class="mi-lbl">Năm âm lịch</div>
+            <div class="mi-val" id="rNamAL"></div>
+            <div class="mi-sub" id="rCanChi"></div>
+          </div>
+          <div class="mi-item">
+            <div class="mi-lbl">Cung mệnh</div>
+            <div class="mi-val" id="rCungMenh"></div>
+            <div class="mi-sub" id="rNhomMenh"></div>
+          </div>
+          <div class="mi-item">
+            <div class="mi-lbl">Nhóm nhà</div>
+            <div class="mi-val" id="rNhom"></div>
+            <div class="mi-sub" id="rNhomMo"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hướng đang xét -->
+      <div class="section-title">📍 Hướng bạn đang xét</div>
+      <div class="huong-list" id="rHienTai"></div>
+
+      <!-- Hướng tốt -->
+      <div class="section-title">✅ 4 hướng tốt (nên chọn)</div>
+      <div class="huong-list" id="rTot"></div>
+
+      <!-- Hướng xấu -->
+      <div class="section-title">❌ 4 hướng xấu (nên tránh)</div>
+      <div class="huong-list" id="rXau"></div>
+
+      <div class="contact-btns">
+        <a href="tel:0947017495" class="btn-call">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Gọi tư vấn
+        </a>
+        <a href="https://zalo.me/0947017495" target="_blank" rel="noopener" class="btn-zalo2">
+          <svg width="14" height="14" viewBox="0 0 32 32" fill="none"><path d="M16 4C9.373 4 4 9.149 4 15.5c0 3.48 1.607 6.593 4.145 8.71L7 28l4.02-1.98A12.4 12.4 0 0016 27c6.627 0 12-5.149 12-11.5S22.627 4 16 4z" fill="#fff"/><path d="M22.5 18.8c-.2-.1-1.2-.6-1.4-.65-.2-.08-.34-.1-.48.1-.15.2-.57.65-.7.78-.12.14-.25.15-.46.05-.2-.1-.87-.32-1.65-.98-.61-.52-1.02-1.17-1.14-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.48-1.15-.66-1.57-.17-.41-.35-.35-.48-.36h-.41c-.14 0-.37.05-.56.26-.19.2-.74.72-.74 1.76s.76 2.04.86 2.18c.1.14 1.48 2.28 3.6 3.19.5.22.9.35 1.2.44.5.16.97.14 1.33.08.4-.06 1.24-.5 1.41-1 .18-.48.18-.9.12-1-.05-.08-.19-.13-.4-.23z" fill="#0068FF"/></svg>
+          Nhắn Zalo
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo">
+    <div>
+      <div class="f-name">Hùng Lê Design Studio</div>
+      <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </div>
+  <div class="f-r">
+    <a href="tel:0947017495">📞 0947.017.495</a>
+    <a href="https://zalo.me/0947017495" target="_blank" rel="noopener" style="color:#4A9EFF;margin-top:4px">
+      <svg width="13" height="13" viewBox="0 0 32 32" fill="none" style="vertical-align:middle;margin-right:4px"><path d="M16 4C9.373 4 4 9.149 4 15.5c0 3.48 1.607 6.593 4.145 8.71L7 28l4.02-1.98A12.4 12.4 0 0016 27c6.627 0 12-5.149 12-11.5S22.627 4 16 4z" fill="#4A9EFF"/><path d="M22.5 18.8c-.2-.1-1.2-.6-1.4-.65-.2-.08-.34-.1-.48.1-.15.2-.57.65-.7.78-.12.14-.25.15-.46.05-.2-.1-.87-.32-1.65-.98-.61-.52-1.02-1.17-1.14-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.48-1.15-.66-1.57-.17-.41-.35-.35-.48-.36h-.41c-.14 0-.37.05-.56.26-.19.2-.74.72-.74 1.76s.76 2.04.86 2.18c.1.14 1.48 2.28 3.6 3.19.5.22.9.35 1.2.44.5.16.97.14 1.33.08.4-.06 1.24-.5 1.41-1 .18-.48.18-.9.12-1-.05-.08-.19-.13-.4-.23z" fill="#fff"/></svg>Zalo: 0947.017.495
+    </a>
+    <p>© <span id="footerYear"></span> Hùng Lê Design Studio</p>
+  </div>
+</footer>
+
+<script>
+const role = sessionStorage.getItem('nhadep_role');
+if (!role) location.href = 'index.html';
+const uname = sessionStorage.getItem('nhadep_user');
+if (uname) { const el = document.getElementById('userLabel'); if(el) el.textContent = uname; }
+function logout() { sessionStorage.clear(); location.href = 'index.html'; }
+
+// ══ FOOTER YEAR ══
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+// ══ MOBILE MENU ══
+function toggleMob() { document.getElementById('mobMenu').classList.toggle('open'); }
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobMenu');
+  const toggle = document.getElementById('mobToggle');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target))
+    menu.classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('mobMenu').classList.remove('open');
+});
+
+// ══ DỮ LIỆU BÁT TRẠCH ══
+// Cung mệnh theo năm sinh ÂM LỊCH × giới tính
+// Công thức chuẩn theo Bát Trạch (dùng 2 số cuối năm AL):
+// Sinh trước 2000 — Nam: 10 - s (nếu = 5 → 2/Khôn), Nữ: s + 5 (nếu = 5 → 8/Cấn)
+// Sinh từ 2000    — Nam:  9 - s (nếu = 5 → 2/Khôn), Nữ: s + 6 (nếu = 5 → 8/Cấn)
+
+const CUNG_NAME = ['','Khảm','Khôn','Chấn','Tốn','(5)','Càn','Đoài','Cấn','Ly'];
+const CUNG_SYMBOL = ['','☵','☷','☳','☴','','☰','☱','☶','☲'];
+const DONG_TU = [1,3,4,9]; // Khảm Chấn Tốn Ly — Đông Tứ Mệnh
+const TAY_TU  = [2,6,7,8]; // Khôn Càn Đoài Cấn — Tây Tứ Mệnh
+
+// Hướng tốt/xấu theo cung mệnh — Bát Trạch chính thống
+// [Sinh Khí, Thiên Y, Diên Niên, Phục Vị, Họa Hại, Lục Sát, Ngũ Quỷ, Tuyệt Mệnh]
+const BAT_TRACH = {
+  1: {tot:['Nam','Đông','Đông Nam','Bắc'], xau:['Tây Nam','Tây Bắc','Tây','Đông Bắc'],
+       sk:'Nam', ty:'Đông', dn:'Đông Nam', pv:'Bắc',
+       hh:'Tây Nam', ls:'Tây Bắc', nq:'Tây', tm:'Đông Bắc'},
+  2: {tot:['Tây Bắc','Tây Nam','Tây','Đông Bắc'], xau:['Nam','Đông','Đông Nam','Bắc'],
+       sk:'Tây Bắc', ty:'Tây Nam', dn:'Tây', pv:'Đông Bắc',
+       hh:'Đông', ls:'Nam', nq:'Đông Nam', tm:'Bắc'},
+  3: {tot:['Nam','Bắc','Đông Nam','Đông'], xau:['Tây','Đông Bắc','Tây Bắc','Tây Nam'],
+       sk:'Nam', ty:'Bắc', dn:'Đông Nam', pv:'Đông',
+       hh:'Tây', ls:'Đông Bắc', nq:'Tây Bắc', tm:'Tây Nam'},
+  4: {tot:['Bắc','Nam','Đông','Đông Nam'], xau:['Đông Bắc','Tây','Tây Nam','Tây Bắc'],
+       sk:'Bắc', ty:'Nam', dn:'Đông', pv:'Đông Nam',
+       hh:'Đông Bắc', ls:'Tây', nq:'Tây Nam', tm:'Tây Bắc'},
+  6: {tot:['Tây','Đông Bắc','Tây Nam','Tây Bắc'], xau:['Đông Nam','Đông','Bắc','Nam'],
+       sk:'Tây', ty:'Đông Bắc', dn:'Tây Nam', pv:'Tây Bắc',
+       hh:'Đông Nam', ls:'Đông', nq:'Bắc', tm:'Nam'},
+  7: {tot:['Đông Bắc','Tây','Tây Bắc','Tây Nam'], xau:['Đông','Đông Nam','Nam','Bắc'],
+       sk:'Đông Bắc', ty:'Tây', dn:'Tây Bắc', pv:'Tây Nam',
+       hh:'Đông', ls:'Đông Nam', nq:'Nam', tm:'Bắc'},
+  8: {tot:['Tây Nam','Tây Bắc','Đông Bắc','Tây'], xau:['Nam','Bắc','Đông','Đông Nam'],
+       sk:'Tây Nam', ty:'Tây Bắc', dn:'Đông Bắc', pv:'Tây',
+       hh:'Nam', ls:'Bắc', nq:'Đông', tm:'Đông Nam'},
+  9: {tot:['Đông','Đông Nam','Bắc','Nam'], xau:['Tây','Tây Nam','Đông Bắc','Tây Bắc'],
+       sk:'Đông', ty:'Đông Nam', dn:'Bắc', pv:'Nam',
+       hh:'Tây', ls:'Tây Nam', nq:'Đông Bắc', tm:'Tây Bắc'},
+};
+
+const HUONG_COMPASS = {
+  'Bắc':180,'Nam':0,'Đông':270,'Tây':90,
+  'Đông Bắc':225,'Đông Nam':315,'Tây Bắc':45,'Tây Nam':135
+};
+const HUONG_ICON = {
+  'Bắc':'⬆','Nam':'⬇','Đông':'➡','Tây':'⬅',
+  'Đông Bắc':'↗','Đông Nam':'↘','Tây Bắc':'↖','Tây Nam':'↙'
+};
+const CAN_CHI = [
+  ['Canh Ngọ','Tân Mùi','Nhâm Thân','Quý Dậu','Giáp Tuất','Ất Hợi','Bính Tý','Đinh Sửu','Mậu Dần','Kỷ Mão'],
+  ['Canh Thìn','Tân Tỵ','Nhâm Ngọ','Quý Mùi','Giáp Thân','Ất Dậu','Bính Tuất','Đinh Hợi','Mậu Tý','Kỷ Sửu'],
+  ['Canh Dần','Tân Mão','Nhâm Thìn','Quý Tỵ','Giáp Ngọ','Ất Mùi','Bính Thân','Đinh Dậu','Mậu Tuất','Kỷ Hợi'],
+  ['Canh Tý','Tân Sửu','Nhâm Dần','Quý Mão','Giáp Thìn','Ất Tỵ','Bính Ngọ','Đinh Mùi','Mậu Thân','Kỷ Dậu'],
+];
+
+function sumDigits(n) {
+  return String(n).split('').reduce((a,b)=>a+parseInt(b),0);
+}
+function getCungMenh(namAL, sex) {
+  // Chỉ lấy 2 số cuối của năm âm lịch, rút về 1 chữ số
+  const hai_so_cuoi = namAL % 100;
+  let s = Math.floor(hai_so_cuoi / 10) + (hai_so_cuoi % 10);
+  while (s >= 10) s = sumDigits(s);
+
+  let cung;
+  if (namAL < 2000) {
+    // Sinh trước 2000: Nam = 10 - s, Nữ = s + 5
+    if (sex === 'nam') {
+      cung = 10 - s;
+      if (cung === 0) cung = 9;
+      if (cung === 5) cung = 2; // nam mệnh 5 → Khôn (2)
+    } else {
+      cung = s + 5;
+      if (cung > 9) cung = sumDigits(cung);
+      if (cung === 5) cung = 8; // nữ mệnh 5 → Cấn (8)
+    }
+  } else {
+    // Sinh từ 2000 trở đi: Nam = 9 - s, Nữ = s + 6
+    if (sex === 'nam') {
+      cung = 9 - s;
+      if (cung === 0) cung = 9;
+      if (cung === 5) cung = 2;
+    } else {
+      cung = s + 6;
+      if (cung > 9) cung = sumDigits(cung);
+      if (cung === 5) cung = 8;
+    }
+  }
+  return cung;
+}
+function getCanChi(namDL) {
+  const idx = (namDL - 1900) % 60;
+  return CAN_CHI[Math.floor(idx/10)%4][idx%10] || '';
+}
+
+function xemHuong() {
+  const namAL = parseInt(document.getElementById('namSinh').value);
+  if (!namAL || namAL < 1900 || namAL > 2060) {
+    alert('Vui lòng nhập năm sinh âm lịch hợp lệ (1900–2025)'); return;
+  }
+  const sex    = document.querySelector('input[name="sex"]:checked').value;
+  const huongChon = document.querySelector('input[name="huong"]:checked').value;
+  const cung   = getCungMenh(namAL, sex);
+  const bt     = BAT_TRACH[cung];
+  if (!bt) { alert('Không xác định được cung mệnh. Vui lòng kiểm tra lại năm sinh.'); return; }
+
+  const nhom   = DONG_TU.includes(cung) ? 'Đông' : 'Tây';
+  const canChi = getCanChi(namAL);
+
+  // Cập nhật La bàn
+  const deg = HUONG_COMPASS[huongChon] || 0;
+  document.getElementById('compassNeedle').style.transform = `rotate(${deg}deg)`;
+
+  // Mệnh thông tin
+  document.getElementById('rTieuDe').textContent  = `${sex==='nam'?'Nam':'Nữ'} sinh năm ${namAL} (Âm lịch) — Cung ${CUNG_NAME[cung]} ${CUNG_SYMBOL[cung]}`;
+  document.getElementById('rNamAL').textContent    = namAL;
+  document.getElementById('rCanChi').textContent   = canChi;
+  document.getElementById('rCungMenh').textContent = CUNG_NAME[cung] + ' ' + CUNG_SYMBOL[cung];
+  document.getElementById('rNhomMenh').textContent = nhom + ' Tứ Mệnh';
+  document.getElementById('rNhom').textContent     = nhom === 'Đông' ? 'Đông Tứ Trạch' : 'Tây Tứ Trạch';
+  document.getElementById('rNhomMo').textContent   = nhom === 'Đông' ? 'Hợp hướng Đông' : 'Hợp hướng Tây';
+
+  // Xây hướng hiện tại
+  const isTot = bt.tot.includes(huongChon);
+  const loaiHienTai = isTot ? getTotLoai(bt, huongChon) : getXauLoai(bt, huongChon);
+  document.getElementById('rHienTai').innerHTML = huongCard(huongChon, isTot ? 'tot' : 'xau', loaiHienTai, true);
+
+  // Hướng tốt (4 hướng)
+  const totCards = [
+    {h:bt.sk,l:'Sinh Khí',m:'Phát tài, sức khỏe, con cái. Hướng tốt nhất.'},
+    {h:bt.ty,l:'Thiên Y',m:'Sức khỏe, bình an, trị bệnh, giàu có.'},
+    {h:bt.dn,l:'Diên Niên',m:'Hôn nhân hòa thuận, trường thọ, thăng tiến.'},
+    {h:bt.pv,l:'Phục Vị',m:'Ổn định, bảo vệ tài sản, bình an.'},
+  ];
+  document.getElementById('rTot').innerHTML = totCards.map(t=>huongCard(t.h,'tot',t.l+' — '+t.m,false)).join('');
+
+  // Hướng xấu
+  const xauCards = [
+    {h:bt.tm,l:'Tuyệt Mệnh',m:'Xấu nhất — ảnh hưởng sức khỏe, tài lộc.'},
+    {h:bt.nq,l:'Ngũ Quỷ', m:'Dễ bị tai nạn, bệnh tật, hao tài.'},
+    {h:bt.ls,l:'Lục Sát',  m:'Tranh cãi, kiện tụng, hao tài.'},
+    {h:bt.hh,l:'Họa Hại',  m:'Cãi vã, tổn hao, con cái khó dạy.'},
+  ];
+  document.getElementById('rXau').innerHTML = xauCards.map(t=>huongCard(t.h,'xau',t.l+' — '+t.m,false)).join('');
+
+  document.getElementById('rEmpty').style.display  = 'none';
+  document.getElementById('rResult').style.display = 'block';
+  if (window.innerWidth < 768) document.querySelector('.result-area').scrollIntoView({behavior:'smooth'});
+}
+
+function getTotLoai(bt, h) {
+  if (bt.sk===h) return 'Sinh Khí — Tốt nhất: Phát tài, sức khỏe, con cái';
+  if (bt.ty===h) return 'Thiên Y — Sức khỏe, bình an, giàu có';
+  if (bt.dn===h) return 'Diên Niên — Hôn nhân hòa thuận, thăng tiến';
+  if (bt.pv===h) return 'Phục Vị — Ổn định, bảo vệ tài sản';
+  return 'Hướng tốt';
+}
+function getXauLoai(bt, h) {
+  if (bt.tm===h) return 'Tuyệt Mệnh — Xấu nhất, cần tránh';
+  if (bt.nq===h) return 'Ngũ Quỷ — Tai nạn, hao tài';
+  if (bt.ls===h) return 'Lục Sát — Tranh cãi, kiện tụng';
+  if (bt.hh===h) return 'Họa Hại — Cãi vã, tổn hao';
+  return 'Hướng xấu';
+}
+function huongCard(huong, loai, moTa, isHienTai) {
+  const icon = HUONG_ICON[huong] || '•';
+  const cls  = isHienTai ? 'hien-tai' : loai;
+  const badge = isHienTai ? '📍 Hướng bạn chọn' : (loai==='tot'?'✓ Tốt':'✗ Nên tránh');
+  return `<div class="huong-item ${cls}">
+    <div class="hi-left"><div class="hi-compass">${icon}</div><div class="hi-name">${huong}</div></div>
+    <div class="hi-right">
+      <div class="hi-loai">${moTa.split('—')[0].trim()}</div>
+      <div class="hi-ykien">${moTa.includes('—')?moTa.split('—').slice(1).join('—').trim():moTa}</div>
+      <span class="hi-badge">${badge}</span>
+    </div>
+  </div>`;
+}
+function resetHuong() {
+  document.getElementById('namSinh').value = '';
+  document.getElementById('sNam').checked  = true;
+  document.getElementById('hB').checked    = true;
+  document.getElementById('compassNeedle').style.transform = 'rotate(0deg)';
+  document.getElementById('rEmpty').style.display  = 'block';
+  document.getElementById('rResult').style.display = 'none';
+}
+</script>
+</body></html>

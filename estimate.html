@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hùng Lê Design Studio — Dự toán chi phí xây dựng</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;
+  --dark:#141916;--dark2:#1E2420;
+  --cream:#F4F3F0;--cream2:#EAEAE6;
+  --text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;
+}
+body{font-family:"Be Vietnam Pro",sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;border-bottom:1px solid rgba(106,175,90,.2)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:42px}
+.nl-name{font-family:"Be Vietnam Pro",sans-serif;font-size:15px;font-weight:700;color:#fff;letter-spacing:.5px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase}
+.nav-r{display:flex;gap:7px;align-items:center}
+.nav-user{font-size:12px;color:rgba(255,255,255,.6);margin-right:4px}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:500;border:1px solid rgba(106,175,90,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+.nb{padding:7px 14px;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:500}
+.nb-ghost{background:transparent;border:1px solid rgba(106,175,90,.35);color:var(--green2)}
+.nb-ghost:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+
+/* PAGE HEADER */
+.page-header{background:var(--dark2);padding:36px 40px 28px;position:relative;overflow:hidden}
+.page-header::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--green2),transparent)}
+.page-header h1{font-family:"Be Vietnam Pro",sans-serif;font-size:32px;font-weight:700;color:#fff;line-height:1.15}
+.page-header h1 span{color:var(--green2)}
+.page-header p{color:rgba(255,255,255,.7);margin-top:7px;font-size:13px;font-weight:400}
+
+/* FOOTER */
+footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(106,175,90,.15)}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{height:34px}
+.f-name{font-family:"Be Vietnam Pro",sans-serif;font-size:14px;font-weight:700;color:#fff;letter-spacing:.5px}
+.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase}
+.f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
+.f-r p{font-size:11px;color:rgba(255,255,255,.5);margin-top:3px;text-align:right}
+
+/* LAYOUT */
+.wrap{display:grid;grid-template-columns:1fr 415px;gap:24px;padding:28px 40px 60px;max-width:1240px;margin:0 auto;align-items:start}
+
+/* CARD */
+.card{background:#fff;border:1px solid var(--bd);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.card:last-child{margin-bottom:0}
+.ch{padding:13px 20px;border-bottom:1px solid var(--bd);background:var(--cream2);display:flex;align-items:center;gap:10px}
+.ch-icon{width:28px;height:28px;background:var(--green);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.ch h2{font-family:"Be Vietnam Pro",sans-serif;font-size:15px;font-weight:700;color:var(--text)}
+.cb{padding:16px 20px}
+.fg{margin-bottom:13px}
+.fg:last-child{margin-bottom:0}
+.fg>label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600}
+.fg input,.fg select{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:13px;color:var(--text);outline:none;background:#fff;transition:border-color .2s}
+.fg input:focus,.fg select:focus{border-color:var(--green)}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+
+/* RADIO LOẠI NHÀ */
+.type-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.ri{position:relative}
+.ri input{position:absolute;opacity:0;width:0;height:0}
+.rl{display:block;padding:9px 4px;border:1.5px solid var(--bd);border-radius:3px;text-align:center;cursor:pointer;transition:.15s;font-size:11px;color:var(--text);line-height:1.4;font-weight:500}
+.rl .ico{font-size:16px;margin-bottom:3px;display:block}
+.ri input:checked+.rl{border-color:var(--green);background:var(--gl);color:var(--green)}
+
+/* RADIO GÓI */
+.pkg-radio{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.pki{position:relative}
+.pki input{position:absolute;opacity:0;width:0;height:0}
+.pkl{display:block;padding:12px 13px;border:1.5px solid var(--bd);border-radius:3px;cursor:pointer;transition:.15s}
+.pkl-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.pkl-desc{font-size:11px;color:var(--muted);line-height:1.4;font-weight:400}
+.pki input:checked+.pkl{border-color:var(--green);background:var(--gl)}
+.pki input:checked+.pkl .pkl-name{color:var(--green)}
+
+/* MỨC HOÀN THIỆN — 3 mức */
+.fin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.fni{position:relative}
+.fni input{position:absolute;opacity:0;width:0;height:0}
+.fnl{display:block;padding:10px 6px;border:1.5px solid var(--bd);border-radius:3px;text-align:center;cursor:pointer;transition:.15s}
+.fn-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
+.fn-desc{font-size:10px;color:var(--muted);font-weight:500}
+.fni input:checked+.fnl{border-color:var(--green);background:var(--gl)}
+.fni input:checked+.fnl .fn-name{color:var(--green)}
+.fni input:checked+.fnl .fn-desc{color:var(--green2)}
+
+/* TẦNG */
+.tang-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.tang-row{display:grid;grid-template-columns:140px 1fr 36px;gap:8px;align-items:center;padding:9px 12px;background:var(--cream2);border:1px solid var(--bd);border-radius:3px}
+.tang-label{font-size:12px;color:var(--text);font-weight:600}
+.tang-input{padding:7px 10px;border:1px solid var(--bd);border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:13px;color:var(--text);outline:none;background:#fff;transition:border-color .2s;width:100%}
+.tang-input:focus{border-color:var(--green)}
+.btn-del{background:none;border:none;color:#C03030;cursor:pointer;font-size:20px;padding:0;line-height:1;text-align:center}
+.btn-del:hover{color:#8B0000}
+.btn-add-tang{display:flex;align-items:center;gap:6px;padding:8px 14px;background:transparent;border:1px dashed var(--green2);border-radius:3px;color:var(--green);font-family:"Be Vietnam Pro",sans-serif;font-size:12px;cursor:pointer;transition:.2s;font-weight:500}
+.btn-add-tang:hover{background:var(--gl)}
+
+/* MÓNG */
+.mong-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.mgi{position:relative}
+.mgi input{position:absolute;opacity:0;width:0;height:0}
+.mgl{display:block;padding:9px 11px;border:1.5px solid var(--bd);border-radius:3px;cursor:pointer;transition:.15s}
+.mgl-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.mgl-coef{font-size:11px;color:var(--muted);font-weight:500}
+.mgi input:checked+.mgl{border-color:var(--green);background:var(--gl)}
+.mgi input:checked+.mgl .mgl-name{color:var(--green)}
+.mgi input:checked+.mgl .mgl-coef{color:var(--green2)}
+
+/* MÁI */
+.mai-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.mai-item{position:relative}
+.mai-item input{position:absolute;opacity:0;width:0;height:0}
+.mai-lbl{display:block;padding:9px 11px;border:1.5px solid var(--bd);border-radius:3px;cursor:pointer;transition:.15s}
+.mai-lbl-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.mai-lbl-coef{font-size:11px;color:var(--muted);font-weight:500}
+.mai-item input:checked+.mai-lbl{border-color:var(--green);background:var(--gl)}
+.mai-item input:checked+.mai-lbl .mai-lbl-name{color:var(--green)}
+.mai-item input:checked+.mai-lbl .mai-lbl-coef{color:var(--green2)}
+
+/* TOGGLE */
+.toggle-row{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid var(--bd);border-radius:3px;cursor:pointer;user-select:none;transition:.15s}
+.toggle-row:hover{border-color:var(--green);background:var(--gl)}
+.toggle-row input[type=checkbox]{accent-color:var(--green);width:16px;height:16px;cursor:pointer;flex-shrink:0}
+.toggle-row span{font-size:13px;color:var(--text);font-weight:600}
+.sub-section{display:none;margin-top:10px;padding:13px;background:var(--cream2);border-radius:3px;border:1px solid var(--bd)}
+.sub-section.on{display:block}
+
+/* INFO NOTE */
+.info-note{font-size:12px;color:var(--text);margin-bottom:12px;padding:8px 11px;background:rgba(61,107,52,.08);border-radius:3px;border-left:2px solid var(--green2);line-height:1.5;font-weight:400}
+.info-note strong{color:var(--green)}
+
+/* ADMIN PANEL */
+.admin-panel{border:2px solid rgba(74,124,63,.45)}
+.admin-panel .ch{background:linear-gradient(to right,rgba(74,124,63,.12),rgba(74,124,63,.04))}
+.admin-badge{font-size:9px;padding:2px 7px;border-radius:10px;background:var(--green);color:#fff;letter-spacing:1px;text-transform:uppercase;margin-left:8px}
+.dg-block{margin-bottom:16px}
+.dg-block:last-child{margin-bottom:0}
+.dg-block-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text);font-weight:700;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--bd)}
+.dg-header{display:grid;grid-template-columns:1fr 100px 100px;gap:8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:700}
+.dg-row{display:grid;grid-template-columns:1fr 100px 100px;gap:8px;align-items:center;margin-bottom:7px}
+.dg-row:last-child{margin-bottom:0}
+.dg-row-label{font-size:12px;color:var(--text);font-weight:500}
+.dg-row input{padding:7px 9px;border:1px solid var(--bd);border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;color:var(--green);outline:none;background:#fff;text-align:right;width:100%;transition:border-color .2s}
+.dg-row input:focus{border-color:var(--green)}
+.dg-row-single{display:grid;grid-template-columns:1fr 100px;gap:8px;align-items:center;margin-bottom:7px}
+.dg-row-single input{padding:7px 9px;border:1px solid var(--bd);border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;color:var(--green);outline:none;background:#fff;text-align:right;width:100%;transition:border-color .2s}
+.dg-row-single input:focus{border-color:var(--green)}
+.dg-note{font-size:11px;color:var(--muted);font-style:italic;margin-top:7px;line-height:1.5;padding:6px 9px;background:var(--cream2);border-radius:3px;font-weight:500}
+.btn-save-dg{display:flex;align-items:center;gap:7px;width:100%;padding:11px;background:var(--green);color:#fff;border:none;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:700;transition:.2s;justify-content:center;margin-top:14px}
+.btn-save-dg:hover{background:#3A6330}
+.btn-save-dg.saved{background:#2A5A20}
+.save-status{font-size:11px;color:var(--green2);margin-top:7px;text-align:center;min-height:16px}
+
+/* PHÍ PHÁT SINH */
+.ps-row{display:flex;align-items:center;gap:10px}
+.ps-row input{width:75px!important;text-align:center}
+.ps-row span{font-size:12px;color:var(--text);font-weight:500}
+
+/* RESULT PANEL */
+.result-panel{position:sticky;top:88px;max-height:calc(100vh - 108px);overflow-y:auto;}
+.rc{background:var(--dark2);border-radius:4px;overflow:hidden;border:1px solid rgba(106,175,90,.2)}
+.rch{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.25)}
+.rch h3{font-family:"Be Vietnam Pro",sans-serif;font-size:16px;color:#fff;font-weight:700}
+.rch p{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
+.rcb{padding:16px 18px}
+
+.irow{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;align-items:baseline;gap:8px}
+.ik{color:rgba(255,255,255,.85);flex-shrink:0;line-height:1.5}
+.iv{color:#fff;font-weight:600;text-align:right;line-height:1.5;font-size:14px}
+.divider{height:1px;background:rgba(255,255,255,.07);margin:11px 0}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:8px;background:rgba(106,175,90,.2);color:var(--green2);vertical-align:middle;line-height:1.5;margin-left:4px;white-space:nowrap}
+
+.total-box{background:linear-gradient(135deg,rgba(74,124,63,.28),rgba(106,175,90,.1));border:1px solid rgba(106,175,90,.4);border-radius:4px;padding:14px 16px;margin:12px 0}
+.total-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:5px;font-weight:600}
+.total-val{font-family:"Be Vietnam Pro",sans-serif;font-size:30px;color:#fff;font-weight:700;line-height:1}
+.total-range{font-size:13px;color:rgba(255,255,255,.75);margin-top:6px}
+
+.bk-wrap{margin-top:14px}
+.bk-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);font-weight:700;margin-bottom:8px}
+.bk-table{width:100%;border-collapse:collapse;font-size:13px}
+.bk-table th{text-align:left;padding:6px 7px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.bk-table th:not(:first-child){text-align:right}
+.bk-table td{padding:6px 7px;border-top:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.9);vertical-align:middle}
+.bk-table td:not(:first-child){text-align:right;white-space:nowrap}
+.bk-table td:last-child{color:var(--green2)}
+.bk-sep td{border-top:1px solid rgba(106,175,90,.2)!important}
+.bk-total td{border-top:1px solid rgba(106,175,90,.35)!important;font-weight:700;color:#fff!important;padding-top:8px}
+.bk-total td:last-child{color:var(--green2)!important}
+
+.rnote{padding:10px 13px;background:rgba(255,255,255,.06);border-radius:3px;border-left:2px solid rgba(106,175,90,.5);font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;margin-top:12px}
+.rnote strong{color:var(--green2)}
+
+.btn-copy{width:100%;padding:10px;background:transparent;border:1px solid rgba(106,175,90,.4);border-radius:3px;color:var(--green2);font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:.2s;margin-top:10px;font-weight:500}
+.btn-copy:hover{border-color:var(--green2);background:rgba(106,175,90,.1)}
+.btn-copy.copied{border-color:var(--green2);background:var(--green2);color:#fff}
+.btn-contact{display:block;width:100%;padding:12px;margin-top:10px;background:var(--green);border:none;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#fff;cursor:pointer;font-weight:600;transition:.2s;text-align:center;text-decoration:none}
+.btn-contact:hover{background:#3A6330}
+.r-empty{text-align:center;padding:32px 20px;color:rgba(255,255,255,.6)}
+.r-empty .big{font-size:42px;margin-bottom:10px}
+.r-empty p{font-size:13px;line-height:1.7;color:rgba(255,255,255,.6)}
+
+@media(max-width:960px){.type-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){
+  nav{padding:0 14px}
+  .page-header{padding:26px 18px}.page-header h1{font-size:24px}
+  .wrap{grid-template-columns:1fr;padding:18px 14px 48px}
+  .result-panel{position:static}
+  .r2{grid-template-columns:1fr}
+  .mong-grid,.mai-grid{grid-template-columns:1fr}
+  .dg-header,.dg-row{grid-template-columns:1fr}
+  .dg-row-single{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:8px;padding:16px 18px}
+  .f-r a,.f-r p{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="home.html" class="nav-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo">
+    <div>
+      <div class="nl-name">Hùng Lê Design Studio</div>
+      <div class="nl-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </a>
+  <div class="nav-r">
+    <span class="nav-user" id="userLabel"></span>
+    <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">Thư viện mẫu nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Phong thuỷ</button>
+    <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Dự toán <span>chi phí xây dựng</span></h1>
+  <p>Tính toán realtime — Đơn giá tham khảo 2026</p>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════ CỘT TRÁI ═══════════ -->
+<div>
+
+  <!-- 1. LOẠI NHÀ + GÓI + MỨC -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">🏗️</div><h2>Loại công trình & Gói thi công</h2></div>
+    <div class="cb">
+
+      <div class="fg">
+        <label>Loại công trình</label>
+        <div class="type-grid">
+          <div class="ri"><input type="radio" name="loai" id="rNP" value="nhapho" checked><label class="rl" for="rNP"><span class="ico">🏙️</span>Nhà phố</label></div>
+          <div class="ri"><input type="radio" name="loai" id="rBT" value="bietthu"><label class="rl" for="rBT"><span class="ico">🏡</span>Biệt thự</label></div>
+          <div class="ri"><input type="radio" name="loai" id="rNV" value="nhavuon"><label class="rl" for="rNV"><span class="ico">🌿</span>Nhà vườn</label></div>
+          <div class="ri"><input type="radio" name="loai" id="rMN" value="maiNhat"><label class="rl" for="rMN"><span class="ico">🏯</span>Mái Nhật</label></div>
+          <div class="ri"><input type="radio" name="loai" id="rMT" value="maiThai"><label class="rl" for="rMT"><span class="ico">⛩️</span>Mái Thái</label></div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Gói thi công</label>
+        <div class="pkg-radio">
+          <div class="pki">
+            <input type="radio" name="goi" id="gTho" value="tho" checked>
+            <label class="pkl" for="gTho">
+              <div class="pkl-name">Phần thô</div>
+              <div class="pkl-desc">Trát trong/ngoài + cán nền. Móng & mái luôn tính đơn giá thô.</div>
+            </label>
+          </div>
+          <div class="pki">
+            <input type="radio" name="goi" id="gTG" value="trongoi">
+            <label class="pkl" for="gTG">
+              <div class="pkl-name">Trọn gói</div>
+              <div class="pkl-desc">Thiết kế + thô + hoàn thiện. Riêng móng & mái vẫn giá thô.</div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Mức độ hoàn thiện</label>
+        <div class="fin-grid">
+          <div class="fni"><input type="radio" name="muc" id="mCB" value="coban" checked><label class="fnl" for="mCB"><div class="fn-name">Cơ bản</div><div class="fn-desc">Dùng đơn giá Min</div></label></div>
+          <div class="fni"><input type="radio" name="muc" id="mPT" value="phothong"><label class="fnl" for="mPT"><div class="fn-name">Phổ thông</div><div class="fn-desc">Trung bình Min–Max</div></label></div>
+          <div class="fni"><input type="radio" name="muc" id="mCC" value="caocap"><label class="fnl" for="mCC"><div class="fn-name">Cao cấp</div><div class="fn-desc">Dùng đơn giá Max</div></label></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. DIỆN TÍCH SÀN -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">📐</div><h2>Diện tích sàn các tầng</h2></div>
+    <div class="cb">
+      <div class="tang-list" id="tangList"></div>
+      <button class="btn-add-tang" onclick="addTang()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Thêm tầng
+      </button>
+      <div style="margin-top:10px;padding:8px 11px;background:var(--cream2);border-radius:3px;font-size:12px;color:var(--muted)">
+        💡 Diện tích móng = DT sàn tầng trệt: <strong id="dtMongAuto" style="color:var(--green)">— m²</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MÓNG -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">⚓</div><h2>Loại móng</h2></div>
+    <div class="cb">
+      <div class="info-note">Móng luôn tính theo <strong>đơn giá phần thô</strong>, kể cả khi chọn gói Trọn gói</div>
+      <div class="mong-grid">
+        <div class="mgi"><input type="radio" name="mong" id="mDon" value="don" data-coef="0.30" checked><label class="mgl" for="mDon"><div class="mgl-name">Móng đơn</div><div class="mgl-coef">Hệ số: 30%</div></label></div>
+        <div class="mgi"><input type="radio" name="mong" id="mCoc" value="coc" data-coef="0.50"><label class="mgl" for="mCoc"><div class="mgl-name">Móng cọc</div><div class="mgl-coef">Hệ số: 50%</div></label></div>
+        <div class="mgi"><input type="radio" name="mong" id="mB1" value="bang1" data-coef="0.50"><label class="mgl" for="mB1"><div class="mgl-name">Móng băng 1 phương</div><div class="mgl-coef">Hệ số: 50%</div></label></div>
+        <div class="mgi"><input type="radio" name="mong" id="mB2" value="bang2" data-coef="0.70"><label class="mgl" for="mB2"><div class="mgl-name">Móng băng 2 phương</div><div class="mgl-coef">Hệ số: 70%</div></label></div>
+        <div class="mgi"><input type="radio" name="mong" id="mBe" value="be" data-coef="1.00"><label class="mgl" for="mBe"><div class="mgl-name">Móng bè</div><div class="mgl-coef">Hệ số: 100%</div></label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MÁI -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">🏠</div><h2>Loại mái & diện tích mái</h2></div>
+    <div class="cb">
+      <div class="info-note">Sàn mái = DT thực × hệ số loại mái × <strong>1.200.000 đ/m²</strong> (cố định, không theo gói)</div>
+      <div class="fg">
+        <label>Loại mái</label>
+        <div class="mai-grid">
+          <div class="mai-item"><input type="radio" name="mai" id="maiNone" value="none" data-coef="0" checked><label class="mai-lbl" for="maiNone"><div class="mai-lbl-name">Không có mái riêng</div><div class="mai-lbl-coef">—</div></label></div>
+          <div class="mai-item"><input type="radio" name="mai" id="maiBTCT" value="btct" data-coef="0.45"><label class="mai-lbl" for="maiBTCT"><div class="mai-lbl-name">Mái BTCT</div><div class="mai-lbl-coef">Hệ số: 40–50% → 45%</div></label></div>
+          <div class="mai-item"><input type="radio" name="mai" id="maiTon" value="ton" data-coef="0.25"><label class="mai-lbl" for="maiTon"><div class="mai-lbl-name">Mái tôn</div><div class="mai-lbl-coef">Hệ số: 20–30% → 25%</div></label></div>
+          <div class="mai-item"><input type="radio" name="mai" id="maiNgoiKeo" value="ngoiKeo" data-coef="0.65"><label class="mai-lbl" for="maiNgoiKeo"><div class="mai-lbl-name">Mái ngói kèo sắt hộp</div><div class="mai-lbl-coef">Hệ số: 60–70% → 65%</div></label></div>
+          <div class="mai-item"><input type="radio" name="mai" id="maiNgoiBTCT" value="ngoiBTCT" data-coef="0.95"><label class="mai-lbl" for="maiNgoiBTCT"><div class="mai-lbl-name">Mái ngói BTCT dán ngói</div><div class="mai-lbl-coef">Hệ số: 90–100% → 95%</div></label></div>
+        </div>
+      </div>
+      <div class="fg" id="rowDtMai" style="display:none">
+        <label>Diện tích mái thực tế (m²)</label>
+        <input type="number" id="dtMai" placeholder="0" min="0" value="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. SÂN THƯỢNG & SÂN NHÀ -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">🌿</div><h2>Sân thượng & Sân nhà</h2></div>
+    <div class="cb">
+      <div class="info-note">Tính theo <strong>đơn giá thô</strong></div>
+      <div class="r2">
+        <div class="fg">
+          <label>DT sân thượng (m²)</label>
+          <input type="number" id="dtSanThuong" placeholder="0" min="0" value="0">
+        </div>
+        <div class="fg">
+          <label>Loại sân thượng</label>
+          <select id="loaiSanThuong">
+            <option value="0">— Không có —</option>
+            <option value="0.45">Sân thượng thường (40–50%)</option>
+            <option value="0.70">Có giàn khung (60–80%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="r2">
+        <div class="fg">
+          <label>DT sân trước/sau (m²)</label>
+          <input type="number" id="dtSan" placeholder="0" min="0" value="0">
+        </div>
+        <div class="fg">
+          <label>Loại sân</label>
+          <select id="loaiSan">
+            <option value="0">— Không có —</option>
+            <option value="0.45">Sân trước/sau (40–50%)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. TẦNG HẦM -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">🕳️</div><h2>Tầng hầm</h2></div>
+    <div class="cb">
+      <label class="toggle-row">
+        <input type="checkbox" id="coHam" onchange="toggleHam()">
+        <span>Công trình có tầng hầm</span>
+      </label>
+      <div class="sub-section" id="hamSection">
+        <div class="info-note" style="margin-bottom:10px">Tính theo <strong>đơn giá thô</strong></div>
+        <div class="r2">
+          <div class="fg">
+            <label>Diện tích hầm (m²)</label>
+            <input type="number" id="dtHam" placeholder="0" min="0" value="0">
+          </div>
+          <div class="fg">
+            <label>Độ sâu</label>
+            <select id="doSauHam">
+              <option value="1.30">Sâu 1.0–1.3m (×130%)</option>
+              <option value="1.50">Sâu 1.3–1.5m (×150%)</option>
+              <option value="1.80">Sâu 1.5–1.8m (×180%)</option>
+              <option value="2.10">Sâu 1.8–2.1m (×210%)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. PHÍ PHÁT SINH -->
+  <div class="card">
+    <div class="ch"><div class="ch-icon">📊</div><h2>Chi phí phát sinh</h2></div>
+    <div class="cb">
+      <div class="fg">
+        <label>Tỷ lệ phát sinh (%)</label>
+        <div class="ps-row">
+          <input type="number" id="phatSinh" value="5" min="0" max="50">
+          <span>% tính trên tổng chi phí (mặc định 5%)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. ADMIN: BẢNG ĐƠN GIÁ — CHỈ HIỂN THỊ VỚI ADMIN -->
+  <div class="card admin-panel" id="adminPanel" style="display:none">
+    <div class="ch"><div class="ch-icon">⚙️</div><h2>Bảng đơn giá tham khảo <span class="admin-badge">ADMIN</span></h2></div>
+    <div class="cb">
+      <div class="info-note" style="margin-bottom:14px">Chỉnh sửa và nhấn <strong>Lưu</strong> để cập nhật. Dữ liệu lưu localStorage — tất cả phiên trên cùng trình duyệt sẽ dùng giá này.</div>
+
+      <div class="dg-block">
+        <div class="dg-block-title">① Đơn giá phần thô (đ/m²) — dùng cho: Móng · Thân nhà (gói thô) · Sân thượng · Sân nhà · Tầng hầm</div>
+        <div class="dg-header"><span>Loại nhà</span><span style="text-align:right">Min (đ)</span><span style="text-align:right">Max (đ)</span></div>
+        <div class="dg-row"><span class="dg-row-label">Nhà phố</span><input type="number" id="dg_tho_np_min" value="4000000"><input type="number" id="dg_tho_np_max" value="4500000"></div>
+        <div class="dg-row"><span class="dg-row-label">Biệt thự</span><input type="number" id="dg_tho_bt_min" value="4000000"><input type="number" id="dg_tho_bt_max" value="5000000"></div>
+        <div class="dg-row"><span class="dg-row-label">Nhà vườn</span><input type="number" id="dg_tho_nv_min" value="4000000"><input type="number" id="dg_tho_nv_max" value="4500000"></div>
+        <div class="dg-row"><span class="dg-row-label">Mái Nhật</span><input type="number" id="dg_tho_mn_min" value="4000000"><input type="number" id="dg_tho_mn_max" value="4500000"></div>
+        <div class="dg-row"><span class="dg-row-label">Mái Thái</span><input type="number" id="dg_tho_mt_min" value="4000000"><input type="number" id="dg_tho_mt_max" value="4500000"></div>
+      </div>
+
+      <div class="dg-block">
+        <div class="dg-block-title">② Đơn giá trọn gói (đ/m²) — chỉ dùng cho: Thân nhà khi chọn gói Trọn gói</div>
+        <div class="dg-header"><span>Loại nhà</span><span style="text-align:right">Min (đ)</span><span style="text-align:right">Max (đ)</span></div>
+        <div class="dg-row"><span class="dg-row-label">Nhà phố</span><input type="number" id="dg_tg_np_min" value="6500000"><input type="number" id="dg_tg_np_max" value="7500000"></div>
+        <div class="dg-row"><span class="dg-row-label">Biệt thự</span><input type="number" id="dg_tg_bt_min" value="8000000"><input type="number" id="dg_tg_bt_max" value="10000000"></div>
+        <div class="dg-row"><span class="dg-row-label">Nhà vườn</span><input type="number" id="dg_tg_nv_min" value="7000000"><input type="number" id="dg_tg_nv_max" value="8000000"></div>
+        <div class="dg-row"><span class="dg-row-label">Mái Nhật</span><input type="number" id="dg_tg_mn_min" value="7000000"><input type="number" id="dg_tg_mn_max" value="8500000"></div>
+        <div class="dg-row"><span class="dg-row-label">Mái Thái</span><input type="number" id="dg_tg_mt_min" value="7500000"><input type="number" id="dg_tg_mt_max" value="9500000"></div>
+        <div class="dg-note">💡 Mức hoàn thiện → Cơ bản = Min &nbsp;·&nbsp; Phổ thông = (Min+Max)÷2 &nbsp;·&nbsp; Cao cấp = Max</div>
+      </div>
+
+      <div class="dg-block">
+        <div class="dg-block-title">③ Đơn giá sàn mái cố định (đ/m² quy đổi)</div>
+        <div class="dg-row-single"><span class="dg-row-label">Đơn giá mái (đ/m²)</span><input type="number" id="dg_mai" value="1200000"></div>
+        <div class="dg-note">CT: DT mái thực × hệ số loại mái × đơn giá mái. Không phụ thuộc gói thi công.</div>
+      </div>
+
+      <button class="btn-save-dg" id="btnSaveDG" onclick="saveDonGia()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Lưu đơn giá
+      </button>
+      <div class="save-status" id="saveStatus"></div>
+    </div>
+  </div>
+
+</div><!-- /cột trái -->
+
+<!-- ═══════════ CỘT PHẢI ═══════════ -->
+<div class="result-panel">
+  <div class="rc">
+    <div class="rch">
+      <h3>Kết quả dự toán</h3>
+      <p>Realtime — cập nhật ngay khi thay đổi input</p>
+    </div>
+    <div class="rcb">
+
+      <div id="rEmpty" class="r-empty">
+        <div class="big">🏗️</div>
+        <p>Nhập diện tích sàn tầng trệt<br>để xem kết quả dự toán</p>
+      </div>
+
+      <div id="rMain" style="display:none">
+
+        <div class="irow"><span class="ik">Loại công trình</span><span class="iv" id="rLoai"></span></div>
+        <div class="irow"><span class="ik">Gói thi công</span><span class="iv" id="rGoi"></span></div>
+        <div class="irow"><span class="ik">Mức hoàn thiện</span><span class="iv" id="rMuc"></span></div>
+        <div class="divider"></div>
+
+        <!-- ĐƠN GIÁ ÁP DỤNG -->
+        <div class="irow">
+          <span class="ik">ĐG thô <span class="badge" id="rDGThoMuc"></span></span>
+          <span class="iv" id="rDGTho"></span>
+        </div>
+        <div class="irow" id="rowDGTG">
+          <span class="ik">ĐG trọn gói <span class="badge" id="rDGTGMuc"></span></span>
+          <span class="iv" id="rDGTG"></span>
+        </div>
+        <div class="irow">
+          <span class="ik">ĐG mái (cố định)</span>
+          <span class="iv" id="rDGMai"></span>
+        </div>
+        <div class="divider"></div>
+
+        <!-- THÀNH TIỀN -->
+        <div class="irow"><span class="ik">Thân nhà <span class="badge" id="rThanBadge"></span></span><span class="iv" id="rTienThan"></span></div>
+        <div class="irow"><span class="ik">Móng <span class="badge" id="rMongBadge"></span></span><span class="iv" id="rTienMong"></span></div>
+        <div class="irow" id="rowTienMai"><span class="ik">Sàn mái <span class="badge" id="rMaiBadge"></span></span><span class="iv" id="rTienMai"></span></div>
+        <div class="irow" id="rowTienST"><span class="ik">Sân thượng</span><span class="iv" id="rTienST"></span></div>
+        <div class="irow" id="rowTienSan"><span class="ik">Sân trước/sau</span><span class="iv" id="rTienSan"></span></div>
+        <div class="irow" id="rowTienHam"><span class="ik">Tầng hầm</span><span class="iv" id="rTienHam"></span></div>
+        <div class="divider"></div>
+
+        <div class="irow">
+          <span class="ik" style="color:rgba(255,255,255,.8);font-weight:600">Tổng XD (chưa phát sinh)</span>
+          <span class="iv" style="color:var(--green2);font-size:14px" id="rTongXD"></span>
+        </div>
+        <div class="irow">
+          <span class="ik">+ Phát sinh (<span id="rPsLabel"></span>%)</span>
+          <span class="iv" id="rTienPS"></span>
+        </div>
+
+        <div class="total-box">
+          <div class="total-label">TỔNG CHI PHÍ ƯỚC TÍNH</div>
+          <div class="total-val" id="rTong"></div>
+          <div class="total-range" id="rRange"></div>
+        </div>
+
+        <button class="btn-copy" id="btnCopy" onclick="copyResult()">📋 Sao chép kết quả</button>
+
+        <div class="bk-wrap">
+          <div class="bk-title">Chi tiết từng hạng mục</div>
+          <table class="bk-table">
+            <thead><tr><th>Hạng mục</th><th>DT (m²)</th><th>Hệ số</th><th>Thành tiền</th></tr></thead>
+            <tbody id="rBreakdown"></tbody>
+          </table>
+        </div>
+
+        <div class="rnote"><strong>Lưu ý:</strong> Đây là ước tính tham khảo. Giá thực tế phụ thuộc thiết kế, vật liệu, địa hình và thời điểm thi công.</div>
+        <a href="tel:0947017495" class="btn-contact">📞 Tư vấn báo giá: 0947.017.495</a>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /cột phải -->
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="f-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo">
+    <div>
+      <div class="f-name">Hùng Lê Design Studio</div>
+      <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </div>
+  <div class="f-r">
+    <a href="tel:0947017495">📞 0947.017.495</a>
+    <p>© 2026 Hùng Lê Design Studio</p>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════ */
+const API_URL = 'https://script.google.com/macros/s/AKfycbwdH-OVryjHOLoUcGKIC542uOPDqVpdUA6CvPftXVJotWinOpeHuBVCNdzd8bDV-Md1/exec';
+const ROLE  = sessionStorage.getItem('nhadep_role');
+if (!ROLE) location.href = 'index.html';
+const IS_ADMIN = ROLE === 'admin';
+const UNAME = sessionStorage.getItem('nhadep_user');
+if (UNAME) { const el = document.getElementById('userLabel'); if(el) el.textContent = UNAME; }
+if (IS_ADMIN) document.getElementById('adminPanel').style.display = '';
+function logout(){ sessionStorage.clear(); location.href = 'index.html'; }
+
+/* ══════════════════════════════════════════════
+   ĐƠN GIÁ — localStorage key: nhadep_dg_v2
+   Cấu trúc lưu dạng JSON object
+══════════════════════════════════════════════ */
+const DG_KEY = 'nhadep_dg_v2';
+
+const DG_DEFAULT = {
+  // ĐG thô — áp dụng cho: thân nhà (gói thô), móng, sân thượng, sân nhà, tầng hầm
+  tho:{
+    nhapho: {min:4000000, max:4500000},
+    bietthu:{min:4000000, max:5000000},
+    nhavuon:{min:4000000, max:4500000},
+    maiNhat:{min:4000000, max:4500000},
+    maiThai:{min:4000000, max:4500000},
+  },
+  // ĐG trọn gói — CHỈ áp dụng cho thân nhà khi chọn gói trọn gói
+  tg:{
+    nhapho: {min:6500000,  max:7500000},
+    bietthu:{min:8000000,  max:10000000},
+    nhavuon:{min:7000000,  max:8000000},
+    maiNhat:{min:7000000,  max:8500000},
+    maiThai:{min:7500000,  max:9500000},
+  },
+  // ĐG mái cố định — không phụ thuộc gói
+  mai: 1200000,
+};
+
+// Load từ localStorage, fallback về default nếu chưa có
+let DG = (()=>{
+  try{
+    const s = localStorage.getItem(DG_KEY);
+    return s ? JSON.parse(s) : JSON.parse(JSON.stringify(DG_DEFAULT));
+  }catch(e){ return JSON.parse(JSON.stringify(DG_DEFAULT)); }
+})();
+
+// IDs mapping cho admin inputs
+const LOAI_LIST = ['nhapho','bietthu','nhavuon','maiNhat','maiThai'];
+const ID_LIST   = ['np','bt','nv','mn','mt'];
+
+function fillAdminInputs(){
+  if(!IS_ADMIN) return;
+  LOAI_LIST.forEach((l,i)=>{
+    document.getElementById('dg_tho_'+ID_LIST[i]+'_min').value = DG.tho[l].min;
+    document.getElementById('dg_tho_'+ID_LIST[i]+'_max').value = DG.tho[l].max;
+    document.getElementById('dg_tg_'+ID_LIST[i]+'_min').value  = DG.tg[l].min;
+    document.getElementById('dg_tg_'+ID_LIST[i]+'_max').value  = DG.tg[l].max;
+  });
+  document.getElementById('dg_mai').value = DG.mai;
+  // Realtime preview khi admin gõ
+  document.querySelectorAll('#adminPanel input').forEach(el=>el.addEventListener('input',syncDGFromInputs));
+}
+
+function syncDGFromInputs(){
+  LOAI_LIST.forEach((l,i)=>{
+    DG.tho[l].min = +document.getElementById('dg_tho_'+ID_LIST[i]+'_min').value || DG_DEFAULT.tho[l].min;
+    DG.tho[l].max = +document.getElementById('dg_tho_'+ID_LIST[i]+'_max').value || DG_DEFAULT.tho[l].max;
+    DG.tg[l].min  = +document.getElementById('dg_tg_'+ID_LIST[i]+'_min').value  || DG_DEFAULT.tg[l].min;
+    DG.tg[l].max  = +document.getElementById('dg_tg_'+ID_LIST[i]+'_max').value  || DG_DEFAULT.tg[l].max;
+  });
+  DG.mai = +document.getElementById('dg_mai').value || 1200000;
+  calc();
+}
+function flattenDG(dg){
+  const out = {};
+  ['nhapho','bietthu','nhavuon','maiNhat','maiThai'].forEach(l=>{
+    out['tho_'+l+'_min'] = dg.tho[l].min;
+    out['tho_'+l+'_max'] = dg.tho[l].max;
+    out['tg_'+l+'_min']  = dg.tg[l].min;
+    out['tg_'+l+'_max']  = dg.tg[l].max;
+  });
+  out['mai'] = dg.mai;
+  return out;
+}
+async function saveDonGia(){
+  syncDGFromInputs();
+  const btn = document.getElementById('btnSaveDG');
+  btn.textContent = '⏳ Đang lưu...';
+  try{
+    await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'text/plain'},
+      body: JSON.stringify({ action:'saveDonGia', data: flattenDG(DG) }),
+      redirect: 'follow'
+    });
+    document.getElementById('saveStatus').textContent = '✅ Đã lưu — ' + new Date().toLocaleString('vi-VN');
+    btn.textContent = '✓ Đã lưu!';
+    setTimeout(()=>{ btn.innerHTML='Lưu đơn giá'; },3000);
+  } catch(e){
+    document.getElementById('saveStatus').textContent = '⚠️ Lỗi: ' + e.message;
+    btn.textContent = 'Lưu đơn giá';
+  }
+}
+/* ══════════════════════════════════════════════
+   LẤY ĐƠN GIÁ THEO MỨC HOÀN THIỆN
+   coban = min | phothong = (min+max)/2 | caocap = max
+══════════════════════════════════════════════ */
+function getRate(obj, muc){
+  if(muc==='coban')    return obj.min;
+  if(muc==='phothong') return (obj.min + obj.max) / 2;
+  return obj.max; // caocap
+}
+
+/* ══════════════════════════════════════════════
+   TẦNG
+══════════════════════════════════════════════ */
+let tangCount = 0;
+function tangLabel(i){ return i===0?'Tầng trệt':(i===1?'Tầng lầu 1':`Tầng lầu ${i}`); }
+
+function addTang(dt=''){
+  const i = tangCount;
+  tangCount++;
+  const div = document.createElement('div');
+  div.className = 'tang-row';
+  div.innerHTML = `
+    <span class="tang-label">${tangLabel(i)}</span>
+    <input class="tang-input" type="number" placeholder="Diện tích sàn (m²)" min="0" value="${dt}" oninput="calc()">
+    ${i>0?`<button class="btn-del" onclick="delTang(this)" title="Xóa">×</button>`:'<span></span>'}`;
+  document.getElementById('tangList').appendChild(div);
+  calc();
+}
+
+function delTang(btn){
+  btn.closest('.tang-row').remove();
+  document.querySelectorAll('#tangList .tang-row').forEach((r,i)=>{
+    r.querySelector('.tang-label').textContent = tangLabel(i);
+  });
+  tangCount = document.querySelectorAll('#tangList .tang-row').length;
+  calc();
+}
+
+function toggleHam(){
+  document.getElementById('hamSection').classList.toggle('on', document.getElementById('coHam').checked);
+  calc();
+}
+
+document.querySelectorAll('input[name="mai"]').forEach(r=>r.addEventListener('change',function(){
+  document.getElementById('rowDtMai').style.display = this.value!=='none'?'':'none';
+  if(this.value==='none') document.getElementById('dtMai').value=0;
+  calc();
+}));
+const MAI_LOCK = ['nhavuon','maiNhat','maiThai'];
+const MAI_DEFAULT = {
+  nhapho:'none', bietthu:'ngoiKeo', nhavuon:'ngoiKeo', maiNhat:'ngoiKeo', maiThai:'ngoiKeo'
+};
+
+function applyMaiByLoai(loai){
+  const locked = MAI_LOCK.includes(loai);
+  const defVal = MAI_DEFAULT[loai] || 'none';
+
+  document.querySelectorAll('.mai-item').forEach(item=>{
+    const radio = item.querySelector('input[name="mai"]');
+    if(locked){
+      if(radio.value === defVal){
+        item.style.display = '';
+        radio.checked = true;
+      } else {
+        item.style.display = 'none';
+        radio.checked = false;
+      }
+    } else {
+      item.style.display = '';
+    }
+  });
+
+  if(!locked){
+    const radio = document.querySelector(`input[name="mai"][value="${defVal}"]`);
+    if(radio) radio.checked = true;
+  }
+
+  const val = document.querySelector('input[name="mai"]:checked').value;
+  document.getElementById('rowDtMai').style.display = val!=='none' ? '' : 'none';
+  if(val==='none') document.getElementById('dtMai').value = 0;
+}
+
+document.querySelectorAll('input[name="loai"]').forEach(r=>r.addEventListener('change',function(){
+  applyMaiByLoai(this.value);
+  calc();
+}));
+
+/* ══════════════════════════════════════════════
+   FORMAT HELPERS
+══════════════════════════════════════════════ */
+function fmtVND(n){
+  if(n>=1e9) return (n/1e9).toLocaleString('vi-VN',{maximumFractionDigits:3})+' tỷ đ';
+  if(n>=1e6) return (n/1e6).toLocaleString('vi-VN',{maximumFractionDigits:1})+' triệu đ';
+  return n.toLocaleString('vi-VN')+' đ';
+}
+function fmtM2(n){ return n.toLocaleString('vi-VN',{maximumFractionDigits:1})+' m²'; }
+function fmtDGShort(n){ return (n/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})+' tr/m²'; }
+
+/* ══════════════════════════════════════════════
+   TÍNH TOÁN CHÍNH — REALTIME
+
+   THUẬT TOÁN RÕ RÀNG:
+   ┌─────────────────────────────────────────────┐
+   │ THÂN NHÀ = Σ(DT sàn tầng) × ĐG thô/TG     │
+   │            (theo gói & mức hoàn thiện)       │
+   │                                              │
+   │ MÓNG     = DT trệt × Hệ số móng × ĐG THÔ   │
+   │            → LUÔN LUÔN giá thô, kể cả TG    │
+   │                                              │
+   │ SÀN MÁI  = DT thực × Hệ số loại mái         │
+   │            × 1.200.000đ (cố định)            │
+   │                                              │
+   │ SÂN TƯNG = DT × hệ số × ĐG THÔ              │
+   │ SÂN NHÀ  = DT × hệ số × ĐG THÔ              │
+   │ TẦNG HẦM = DT × hệ số sâu × ĐG THÔ          │
+   │                                              │
+   │ TỔNG = sum(trên) × (1 + phát sinh%)         │
+   └─────────────────────────────────────────────┘
+══════════════════════════════════════════════ */
+function calc(){
+  const loai = document.querySelector('input[name="loai"]:checked').value;
+  const goi  = document.querySelector('input[name="goi"]:checked').value;
+  const muc  = document.querySelector('input[name="muc"]:checked').value;
+
+  // ĐG áp dụng cho THÂN NHÀ
+  const dgThanApDung = goi==='tho'
+    ? getRate(DG.tho[loai], muc)
+    : getRate(DG.tg[loai],  muc);
+  const dgThanMin = goi==='tho' ? DG.tho[loai].min : DG.tg[loai].min;
+  const dgThanMax = goi==='tho' ? DG.tho[loai].max : DG.tg[loai].max;
+
+  // ĐG THÔ — dùng cho móng, sân, hầm (và thân nhà khi gói thô)
+  const dgTho       = getRate(DG.tho[loai], muc);
+  const dgThoMin    = DG.tho[loai].min;
+  const dgThoMax    = DG.tho[loai].max;
+
+  // ĐG trọn gói (để hiển thị tham khảo dù chọn gói thô)
+  const dgTGApDung  = getRate(DG.tg[loai], muc);
+
+  /* ── THÂN NHÀ ── */
+  const tangInputs = document.querySelectorAll('#tangList .tang-input');
+  let dtTret=0, dtSanTong=0;
+  const tangItems=[];
+  tangInputs.forEach((inp,i)=>{
+    const v=parseFloat(inp.value)||0;
+    if(i===0) dtTret=v;
+    dtSanTong+=v;
+    if(v>0) tangItems.push({lbl:tangLabel(i), dt:v});
+  });
+  document.getElementById('dtMongAuto').textContent = fmtM2(dtTret);
+
+  if(dtSanTong===0){
+    document.getElementById('rEmpty').style.display='';
+    document.getElementById('rMain').style.display='none';
+    return;
+  }
+
+  const tienThan    = dtSanTong * dgThanApDung;
+  const tienThanMin = dtSanTong * dgThanMin;
+  const tienThanMax = dtSanTong * dgThanMax;
+
+  /* ── MÓNG — luôn giá THÔ ── */
+  const mongEl   = document.querySelector('input[name="mong"]:checked');
+  const mongCoef = parseFloat(mongEl.dataset.coef);
+  const mongName = mongEl.closest('.mgi').querySelector('.mgl-name').textContent;
+  const dtMong   = dtTret * mongCoef;
+  const tienMong    = dtMong * dgTho;      // ← giá THÔ luôn luôn
+  const tienMongMin = dtMong * dgThoMin;
+  const tienMongMax = dtMong * dgThoMax;
+
+  /* ── SÀN MÁI — DT thực × hệ số loại mái × 1.200.000đ ── */
+  const maiEl    = document.querySelector('input[name="mai"]:checked');
+  const maiCoef  = parseFloat(maiEl.dataset.coef)||0;
+  const maiName  = maiEl.value!=='none'
+    ? maiEl.closest('.mai-item').querySelector('.mai-lbl-name').textContent : '';
+  const dtMaiRaw = parseFloat(document.getElementById('dtMai').value)||0;
+  const dtMaiQD  = dtMaiRaw * maiCoef;
+  const tienMai  = dtMaiQD * DG.mai;      // ← 1.200.000đ cố định
+
+  /* ── SÂN THƯỢNG — giá THÔ ── */
+  const dtST    = parseFloat(document.getElementById('dtSanThuong').value)||0;
+  const coefST  = parseFloat(document.getElementById('loaiSanThuong').value)||0;
+  const dtSTQD  = dtST * coefST;
+  const tienST  = dtSTQD * dgTho;
+  const tienSTMin = dtSTQD * dgThoMin;
+  const tienSTMax = dtSTQD * dgThoMax;
+
+  /* ── SÂN NHÀ — giá THÔ ── */
+  const dtSan   = parseFloat(document.getElementById('dtSan').value)||0;
+  const coefSan = parseFloat(document.getElementById('loaiSan').value)||0;
+  const dtSanQD = dtSan * coefSan;
+  const tienSan = dtSanQD * dgTho;
+  const tienSanMin = dtSanQD * dgThoMin;
+  const tienSanMax = dtSanQD * dgThoMax;
+
+  /* ── TẦNG HẦM — giá THÔ ── */
+  const coHam  = document.getElementById('coHam').checked;
+  const dtHam  = coHam ? (parseFloat(document.getElementById('dtHam').value)||0) : 0;
+  const doSau  = parseFloat(document.getElementById('doSauHam').value)||1.3;
+  const dtHamQD   = dtHam * doSau;
+  const tienHam   = dtHamQD * dgTho;
+  const tienHamMin= dtHamQD * dgThoMin;
+  const tienHamMax= dtHamQD * dgThoMax;
+
+  /* ── TỔNG ── */
+  const ps       = parseFloat(document.getElementById('phatSinh').value)||5;
+  const tongXD   = tienThan + tienMong + tienMai + tienST + tienSan + tienHam;
+  const tongXDMin= tienThanMin + tienMongMin + tienMai + tienSTMin + tienSanMin + tienHamMin;
+  const tongXDMax= tienThanMax + tienMongMax + tienMai + tienSTMax + tienSanMax + tienHamMax;
+  const tienPS   = tongXD * ps/100;
+  const tong     = tongXD + tienPS;
+  const tongMin  = tongXDMin * (1+ps/100);
+  const tongMax  = tongXDMax * (1+ps/100);
+
+  /* ══ RENDER ══ */
+  const LOAI_TEN = {nhapho:'Nhà phố',bietthu:'Biệt thự',nhavuon:'Nhà vườn',maiNhat:'Mái Nhật',maiThai:'Mái Thái'};
+  const MUC_TEN  = {coban:'Cơ bản',phothong:'Phổ thông',caocap:'Cao cấp'};
+
+  document.getElementById('rLoai').textContent = LOAI_TEN[loai];
+  document.getElementById('rGoi').textContent  = goi==='tho'?'Phần thô':'Trọn gói';
+  document.getElementById('rMuc').textContent  = MUC_TEN[muc];
+
+  document.getElementById('rDGThoMuc').textContent = MUC_TEN[muc];
+  document.getElementById('rDGTho').textContent    = fmtDGShort(dgTho);
+  document.getElementById('rDGTGMuc').textContent  = MUC_TEN[muc];
+  document.getElementById('rDGTG').textContent     = fmtDGShort(dgTGApDung);
+  document.getElementById('rowDGTG').style.display = goi==='trongoi'?'':'none';
+  document.getElementById('rDGMai').textContent    = fmtDGShort(DG.mai);
+
+  document.getElementById('rThanBadge').textContent = goi==='tho'?'giá thô':'giá TG';
+  document.getElementById('rTienThan').textContent  = fmtVND(tienThan);
+  document.getElementById('rMongBadge').textContent = mongName+' ×'+(mongCoef*100).toFixed(0)+'%';
+  document.getElementById('rTienMong').textContent  = fmtVND(tienMong);
+
+  if(maiEl.value!=='none' && dtMaiRaw>0){
+    document.getElementById('rowTienMai').style.display='';
+    document.getElementById('rMaiBadge').textContent = maiName+' ×'+(maiCoef*100).toFixed(0)+'%';
+    document.getElementById('rTienMai').textContent  = fmtVND(tienMai);
+  } else document.getElementById('rowTienMai').style.display='none';
+
+  show('rowTienST',  tienST>0,  'rTienST',  fmtVND(tienST));
+  show('rowTienSan', tienSan>0, 'rTienSan', fmtVND(tienSan));
+  show('rowTienHam', coHam&&dtHamQD>0, 'rTienHam', fmtVND(tienHam));
+
+  document.getElementById('rTongXD').textContent = fmtVND(tongXD);
+  document.getElementById('rPsLabel').textContent = ps;
+  document.getElementById('rTienPS').textContent  = fmtVND(tienPS);
+  document.getElementById('rTong').textContent    = fmtVND(tong);
+  document.getElementById('rRange').textContent   = 'Dao động: '+fmtVND(tongMin)+' – '+fmtVND(tongMax);
+
+  /* ── BREAKDOWN ── */
+  const rows=[];
+  // Thân nhà (từng tầng)
+  tangItems.forEach((t,i)=>{
+    rows.push({
+      lbl: t.lbl, sep: i===0,
+      dtRaw: fmtM2(t.dt), coef:'100%',
+      dtQD: fmtM2(t.dt),
+      tien: fmtVND(t.dt * dgThanApDung),
+      note: goi==='tho'?'giá thô':'giá TG'
+    });
+  });
+  // Móng
+  rows.push({lbl:mongName, sep:true, dtRaw:fmtM2(dtTret), coef:(mongCoef*100).toFixed(0)+'%', dtQD:fmtM2(dtMong), tien:fmtVND(tienMong), note:'giá thô'});
+  // Mái
+  if(maiEl.value!=='none'&&dtMaiRaw>0)
+    rows.push({lbl:maiName, sep:false, dtRaw:fmtM2(dtMaiRaw), coef:(maiCoef*100).toFixed(0)+'%', dtQD:fmtM2(dtMaiQD), tien:fmtVND(tienMai), note:'1.2tr/m²'});
+  // Sân thượng
+  if(tienST>0) rows.push({lbl:'Sân thượng',sep:false,dtRaw:fmtM2(dtST),coef:(coefST*100).toFixed(0)+'%',dtQD:fmtM2(dtSTQD),tien:fmtVND(tienST),note:'giá thô'});
+  // Sân nhà
+  if(tienSan>0) rows.push({lbl:'Sân trước/sau',sep:false,dtRaw:fmtM2(dtSan),coef:(coefSan*100).toFixed(0)+'%',dtQD:fmtM2(dtSanQD),tien:fmtVND(tienSan),note:'giá thô'});
+  // Hầm
+  if(coHam&&dtHamQD>0) rows.push({lbl:'Tầng hầm',sep:false,dtRaw:fmtM2(dtHam),coef:(doSau*100).toFixed(0)+'%',dtQD:fmtM2(dtHamQD),tien:fmtVND(tienHam),note:'giá thô'});
+
+  document.getElementById('rBreakdown').innerHTML =
+    rows.map(r=>`<tr${r.sep?' class="bk-sep"':''}>
+      <td>${r.lbl}<br><small style="color:var(--muted)">${r.note}</small></td>
+      <td>${r.dtRaw}</td>
+      <td>${r.coef}<br><small style="color:var(--muted)">→ ${r.dtQD}</small></td>
+      <td>${r.tien}</td>
+    </tr>`).join('')
+    + `<tr class="bk-total"><td colspan="3">Tổng XD (chưa phát sinh)</td><td>${fmtVND(tongXD)}</td></tr>
+       <tr><td colspan="3" style="color:var(--muted)">+ Phát sinh ${ps}%</td><td style="color:rgba(255,255,255,.7)">${fmtVND(tienPS)}</td></tr>
+       <tr class="bk-total"><td colspan="3">TỔNG CHI PHÍ ƯỚC TÍNH</td><td>${fmtVND(tong)}</td></tr>`;
+
+  document.getElementById('rEmpty').style.display='none';
+  document.getElementById('rMain').style.display='';
+
+  window._lastResult={
+    loai:LOAI_TEN[loai], goi:goi==='tho'?'Phần thô':'Trọn gói', muc:MUC_TEN[muc],
+    tongXD:fmtVND(tongXD), ps, tienPS:fmtVND(tienPS),
+    tong:fmtVND(tong), range:fmtVND(tongMin)+' – '+fmtVND(tongMax)
+  };
+}
+
+function show(rowId, visible, valId, valText){
+  document.getElementById(rowId).style.display = visible?'':'none';
+  if(visible) document.getElementById(valId).textContent = valText;
+}
+
+/* ══════════════════════════════════════════════
+   COPY
+══════════════════════════════════════════════ */
+function copyResult(){
+  const r=window._lastResult; if(!r) return;
+  const txt=[
+    'DỰ TOÁN CHI PHÍ XÂY DỰNG',
+    '━━━━━━━━━━━━━━━━━━━━━━━━',
+    `Loại công trình  : ${r.loai}`,
+    `Gói thi công     : ${r.goi}`,
+    `Mức hoàn thiện   : ${r.muc}`,
+    '━━━━━━━━━━━━━━━━━━━━━━━━',
+    `Tổng XD          : ${r.tongXD}`,
+    `Chi phí phát sinh: ${r.tienPS} (${r.ps}%)`,
+    `TỔNG ƯỚC TÍNH   : ${r.tong}`,
+    `Dao động         : ${r.range}`,
+    '━━━━━━━━━━━━━━━━━━━━━━━━',
+    'Hùng Lê Design Studio — ☎ 0947.017.495',
+  ].join('\n');
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.getElementById('btnCopy');
+    btn.textContent='✓ Đã sao chép!'; btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='📋 Sao chép kết quả';btn.classList.remove('copied');},2500);
+  });
+}
+
+/* ══════════════════════════════════════════════
+   BIND + INIT
+══════════════════════════════════════════════ */
+['goi','muc','mong'].forEach(n=>
+  document.querySelectorAll(`input[name="${n}"]`).forEach(el=>el.addEventListener('change',calc))
+);
+['dtSanThuong','loaiSanThuong','dtSan','loaiSan','dtHam','doSauHam','phatSinh','dtMai'].forEach(id=>{
+  const el=document.getElementById(id); if(el) el.addEventListener('input',calc);
+});
+
+fillAdminInputs();
+addTang();
+applyMaiByLoai(document.querySelector('input[name="loai"]:checked').value); 
+calc();
+</script>
+</body>
+</html>
