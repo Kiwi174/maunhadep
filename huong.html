@@ -200,11 +200,12 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <div class="nav-r">
     <span class="nav-user" id="userLabel"></span>
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
-    <button class="nb nb-ghost" onclick="location.href='home.html'">Thư viện mẫu nhà</button>
-    <button class="nb nb-ghost" onclick="location.href='estimate.html'">🧮 Dự toán chi phí</button>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">🏠 Thư viện</button>
+    <button class="nb nb-green" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">Dự toán</button>
     <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
     <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
-    <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
+    <button class="nb nb-ghost" id="navLogoutBtn" onclick="logout()">Đăng xuất</button>
   </div>
   <button class="mob-toggle" id="mobToggle" onclick="toggleMob()" aria-label="Menu">
     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -394,9 +395,12 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 
 <script>
 const role = sessionStorage.getItem('nhadep_role');
-if (!role) location.href = 'index.html';
+if (!role || role === 'guest') location.href = 'index.html?require=login';
 const uname = sessionStorage.getItem('nhadep_user');
-if (uname) { const el = document.getElementById('userLabel'); if(el) el.textContent = uname; }
+if (uname) {
+  const label = role === 'ctv' ? ('CTV: ' + uname) : ('Xin chào, ' + uname);
+  const el = document.getElementById('userLabel'); if(el) el.textContent = label;
+}
 function logout() { sessionStorage.clear(); location.href = 'index.html'; }
 
 // ══ FOOTER YEAR ══

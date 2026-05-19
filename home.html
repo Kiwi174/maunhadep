@@ -146,7 +146,8 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
 .card:active{transform:scale(.98)}
 .cimg{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--cream2)}
-.cimg img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;background:var(--cream2)}
+.cimg img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;background:var(--cream2);-webkit-user-drag:none;user-drag:none;pointer-events:none}
+.mo-imgs-2 img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
 .card:hover .cimg img{transform:scale(1.04)}
 .cbadge{position:absolute;top:10px;left:10px;background:rgba(61,107,52,.9);color:#fff;font-size:10px;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;font-weight:700;backdrop-filter:blur(4px)}
 .admin-btns{display:none;position:absolute;top:10px;right:10px;gap:6px}
@@ -366,6 +367,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <div class="nav-r">
     <span class="nav-user" id="userLabel"></span>
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
+    <button class="nb nb-green" onclick="location.href='home.html'">🏠 Thư viện</button>
     <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
     <button class="nb nb-ghost" onclick="location.href='estimate.html'">Dự toán</button>
     <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
@@ -725,14 +727,13 @@ const role       = sessionStorage.getItem('nhadep_role');
 const user       = sessionStorage.getItem('nhadep_user');
 const adminToken = sessionStorage.getItem('nhadep_token');
 
-// Phân quyền: guest → xem, ctv → thêm, admin → full
-// Nếu chưa có role gì → set guest tự động (vào thẳng không cần login)
-if (!role) sessionStorage.setItem('nhadep_role', 'guest');
+// Yêu cầu đăng nhập — không cho phép khách
+if (!role || role === 'guest') { location.href = 'index.html?require=login'; }
 
 const effectiveRole = (() => {
   if (role === 'admin' && adminToken) return 'admin';
   if (role === 'ctv'   && adminToken) return 'ctv';
-  return 'guest';
+  return 'member';
 })();
 
 // Nhãn user
@@ -740,23 +741,13 @@ if (user) {
   const label = role === 'ctv' ? ('CTV: ' + user) : ('Xin chào, ' + user);
   document.getElementById('userLabel').textContent = label;
   document.getElementById('mobUser').textContent   = label;
-} else {
-  document.getElementById('userLabel').textContent = 'Khách';
-  document.getElementById('mobUser').textContent   = 'Đang xem với tư cách khách';
 }
 
-// Hiển thị nút nav theo role
-if (effectiveRole === 'guest') {
-  document.getElementById('navLoginBtn').style.display  = '';
-  document.getElementById('navLogoutBtn').style.display = 'none';
-  document.getElementById('mobLoginBtn').style.display  = '';
-  document.getElementById('mobLogoutBtn').style.display = 'none';
-} else {
-  document.getElementById('navLoginBtn').style.display  = 'none';
-  document.getElementById('navLogoutBtn').style.display = '';
-  document.getElementById('mobLoginBtn').style.display  = 'none';
-  document.getElementById('mobLogoutBtn').style.display = '';
-}
+// Hiển thị nút đăng xuất (luôn luôn vì đã login)
+document.getElementById('navLoginBtn').style.display  = 'none';
+document.getElementById('navLogoutBtn').style.display = '';
+document.getElementById('mobLoginBtn').style.display  = 'none';
+document.getElementById('mobLogoutBtn').style.display = '';
 
 if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
   document.getElementById('addBtnTop').style.display = 'inline-flex';
@@ -961,32 +952,17 @@ function clearChip(type) {
 }
 
 // ══ PHÂN QUYỀN GIAO DIỆN ══
-const PAGE_SIZE = (effectiveRole === 'admin' || effectiveRole === 'ctv') ? 16 : 8;
+const PAGE_SIZE = 16;
 let currentPage = 1;
 
-// Ẩn/hiện toolbar tìm kiếm & lọc theo role
-if (effectiveRole === 'guest') {
-  document.getElementById('toolbarEl').classList.add('toolbar-guest-hidden');
-  // Chèn banner khóa vào filter-bar thay vì ẩn hoàn toàn toolbar
-  document.getElementById('filterBarEl').innerHTML =
-    `<div class="guest-lock">
-       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-       Tìm kiếm &amp; lọc chỉ dành cho thành viên — <a href="index.html">Đăng nhập</a> để sử dụng đầy đủ tính năng.
-     </div>`;
-} else {
-  // Hiển thị sort wrap cho member/ctv/admin
-  document.getElementById('sortWrap').style.display = '';
-}
+// Hiển thị sort wrap cho tất cả (đã login)
+document.getElementById('sortWrap').style.display = '';
 
 // ══ RENDER ══
 function renderGallery() {
-  // Guest không được tìm/lọc → reset về toàn bộ
-  const q = effectiveRole !== 'guest'
-    ? (document.getElementById('searchInput').value || '').toLowerCase()
-    : '';
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
 
   const filtered = allHouses.filter(h => {
-    if (effectiveRole === 'guest') return true; // guest xem tất cả, không lọc
     const okL = fLoai === 'all' || h.loai === fLoai;
     const okM = fMai  === 'all' || h.mainha === fMai;
     const okQ = !q || (h.ten||'').toLowerCase().includes(q) || (h.mota||'').toLowerCase().includes(q);
@@ -1416,6 +1392,8 @@ if('serviceWorker' in navigator){
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 }
+
+
 
 // ══ INIT ══
 loadData();

@@ -30,6 +30,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
 .nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
 .nav-r{display:flex;gap:6px;align-items:center}
+.nav-user{font-size:12px;color:var(--muted);margin-right:4px;font-weight:500}
 .nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
 .nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
 .nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center}
@@ -223,11 +224,14 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     </div>
   </a>
   <div class="nav-r">
+    <span class="nav-user" id="userLabel"></span>
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
-    <a href="home.html" class="nb nb-ghost">← Thư viện</a>
-    <a href="xemtuoilamnha.html" class="nb nb-ghost">🗓 Xem tuổi</a>
-    <a href="estimate.html" class="nb nb-ghost">Dự toán</a>
-    <a href="huong.html" class="nb nb-ghost">🧭 Hướng nhà</a>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">🏠 Thư viện</button>
+    <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">Dự toán</button>
+    <button class="nb nb-green" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
+    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
+    <button class="nb nb-ghost" id="navLogoutBtn" onclick="logout()">Đăng xuất</button>
   </div>
   <button class="mob-toggle" id="mobToggle" onclick="toggleMob()">
     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -242,6 +246,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="estimate.html" class="mob-item">📊 Dự toán chi phí</a>
   <div class="mob-sep"></div>
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
+  <button class="mob-item" onclick="logout()" style="color:#c05050">🚪 Đăng xuất</button>
 </div>
 
 <!-- HERO -->
@@ -274,9 +279,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <div class="ih-group thuoc-sel-wrap">
         <label>Loại thước</label>
         <select class="thuoc-sel" id="thuocSel" onchange="onThuocChange()">
-          <option value="0">📐 Thước 52,2 cm — Thông thủy (cửa, cửa sổ...)</option>
-          <option value="1">🏗 Thước 42,9 cm — Dương trạch (bếp, bậc...)</option>
-          <option value="2">🪔 Thước 38,8 cm — Âm phần (bàn thờ, tủ thờ...)</option>
+          <option value="0">📐 Thước 52,2 cm — Thông thủy (cửa đi, cửa sổ...)</option>
+          <option value="1">🏗 Thước 42,9 cm — Dương trạch (bếp, bệ, bậc...)</option>
+          <option value="2">🪔 Thước 38,8 cm — Âm phần (nội thất, bàn thờ, tủ thờ...)</option>
         </select>
       </div>
       <button class="btn-check" onclick="check()">🔍 Tra kích thước</button>
@@ -367,6 +372,16 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 </footer>
 
 <script>
+// ── KIỂM TRA ĐĂNG NHẬP ──
+const _role = sessionStorage.getItem('nhadep_role');
+if (!_role || _role === 'guest') location.href = 'index.html?require=login';
+const _uname = sessionStorage.getItem('nhadep_user');
+if (_uname) {
+  const label = _role === 'ctv' ? ('CTV: ' + _uname) : ('Xin chào, ' + _uname);
+  const el = document.getElementById('userLabel'); if(el) el.textContent = label;
+}
+function logout() { sessionStorage.clear(); location.href = 'index.html'; }
+
 document.getElementById('footerYear').textContent = new Date().getFullYear();
 
 // ══ DỮ LIỆU 3 THƯỚC ══
