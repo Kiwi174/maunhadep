@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="theme-color" content="#3D6B34">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="Xem tuổi làm nhà theo phong thuỷ — Kiểm tra Kim Lâu, Hoang Ốc, Tam Tai và gợi ý tuổi mượn phù hợp.">
+<title>Xem Tuổi Làm Nhà — Hùng Lê Design Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;
+  --dark:#141916;
+  --cream:#F4F3F0;--cream2:#EAEAE6;
+  --text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;
+  --red:#C0392B;--red-light:#FDF0EE;
+  --gold:#B8860B;--gold-light:#FFFBEB;
+  --radius:6px;
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --nav-h:60px;
+}
+html{scroll-behavior:smooth}
+body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ══ NAV ══ */
+.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-logo img{height:40px}
+.nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.nav-r{display:flex;gap:6px;align-items:center}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+.nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
+.nb-ghost:hover{background:var(--green);color:#fff}
+.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--text);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.mob-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:#fff;z-index:99;flex-direction:column;padding:16px;gap:8px;border-top:1px solid var(--bd);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.mob-menu.open{display:flex;animation:fadeDown .2s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.mob-item{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:var(--radius);font-size:15px;font-weight:600;color:var(--text);background:var(--cream);text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.mob-item:active{background:var(--gl)}
+.mob-sep{height:1px;background:var(--bd);margin:2px 0}
+
+/* ══ HERO ══ */
+.hero{background:linear-gradient(135deg,#EEF6EB 0%,#F4F3F0 100%);padding:28px 32px 0;position:relative;overflow:hidden;border-bottom:1px solid var(--bd)}
+.hero::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(90,158,74,.1) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:900px;margin:0 auto}
+.hero h1{font-size:clamp(19px,3vw,28px);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-.3px}
+.hero h1 span{color:var(--green2)}
+.hero-desc{color:var(--muted);margin-top:6px;font-size:13px;line-height:1.6;max-width:600px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.h-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;background:#fff;border:1px solid var(--bd);border-radius:20px;font-size:11px;font-weight:600;color:var(--muted)}
+.h-tag.bad{color:var(--red);border-color:rgba(192,57,43,.25);background:var(--red-light)}
+.h-tag.ok{color:var(--green);border-color:rgba(90,158,74,.3);background:var(--gl)}
+
+/* ══ INPUT CARD (hero bottom) ══ */
+.input-card{max-width:900px;margin:18px auto 0;background:#fff;border:1px solid var(--bd);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow)}
+.ic-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:14px}
+.ic-row{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+.ic-group{display:flex;flex-direction:column;gap:6px}
+.ic-group label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ic-input{padding:13px 16px;border:1.5px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:20px;font-weight:700;color:var(--text);outline:none;transition:border-color .2s;width:100%;text-align:center;-moz-appearance:textfield}
+.ic-input::-webkit-outer-spin-button,.ic-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.ic-input:focus{border-color:var(--green);background:#fff}
+.ic-input.err{border-color:var(--red)}
+.ic-sub{font-size:11px;color:var(--muted);margin-top:4px;text-align:center;font-weight:500;min-height:16px}
+.btn-check{padding:14px 28px;background:var(--green);border:none;font-family:inherit;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);font-weight:700;transition:.2s;white-space:nowrap;align-self:flex-end;width:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn-check:hover{background:#2f5228}
+.btn-check:active{background:#264420;transform:scale(.98)}
+.ic-hint{margin-top:12px;font-size:11px;color:var(--muted);padding-top:12px;border-top:1px solid var(--cream2);line-height:1.6}
+
+/* ══ MAIN ══ */
+.main{max-width:900px;margin:0 auto;padding:24px 32px 80px}
+
+/* ══ KẾT QUẢ TỔNG QUAN ══ */
+.result-overview{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;display:none;animation:fadeUp .3s ease}
+.result-overview.show{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ro-header{padding:16px 20px;display:flex;align-items:center;gap:14px}
+.ro-header.good{background:#EDF7EC;border-bottom:1px solid #B8DFB6}
+.ro-header.warn{background:var(--gold-light);border-bottom:1px solid #E8D066}
+.ro-header.bad{background:var(--red-light);border-bottom:1px solid #F0C4BC}
+.ro-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;font-weight:700}
+.ro-icon.good{background:#27AE60;color:#fff}
+.ro-icon.warn{background:#E6AC00;color:#fff}
+.ro-icon.bad{background:var(--red);color:#fff}
+.ro-main{flex:1;min-width:0}
+.ro-verdict{font-size:17px;font-weight:700;line-height:1.2}
+.ro-verdict.good{color:#219653}
+.ro-verdict.warn{color:#856200}
+.ro-verdict.bad{color:var(--red)}
+.ro-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.ro-body{padding:0}
+
+/* ══ INFO ROWS ══ */
+.info-table{width:100%;border-collapse:collapse}
+.info-table tr{border-bottom:1px solid var(--cream2)}
+.info-table tr:last-child{border-bottom:none}
+.info-table td{padding:11px 20px;font-size:13px;vertical-align:top}
+.info-table td:first-child{width:44%;color:var(--muted);font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+.info-table td:last-child{font-weight:700;color:var(--text)}
+.info-table tr:hover td{background:var(--cream)}
+
+/* ══ BADGE ══ */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.badge.good{background:#EDF7EC;color:#219653;border:1px solid #B8DFB6}
+.badge.warn{background:var(--gold-light);color:#856200;border:1px solid #E8D066}
+.badge.bad{background:var(--red-light);color:var(--red);border:1px solid #F0C4BC}
+.badge.neutral{background:var(--cream2);color:var(--muted);border:1px solid var(--bd)}
+
+/* ══ HẠN CARDS ══ */
+.han-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px 20px}
+.han-card{border-radius:var(--radius);padding:14px;border:1px solid var(--bd);background:var(--cream)}
+.han-card.bad{border-color:rgba(192,57,43,.3);background:var(--red-light)}
+.han-card.good{border-color:rgba(90,158,74,.3);background:var(--gl)}
+.han-card.warn{border-color:#E8D066;background:var(--gold-light)}
+.hc-name{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.hc-name.bad{color:var(--red)}
+.hc-name.good{color:var(--green)}
+.hc-name.warn{color:#856200}
+.hc-val{font-size:22px;font-weight:800;line-height:1}
+.hc-val.bad{color:var(--red)}
+.hc-val.good{color:var(--green)}
+.hc-val.warn{color:#856200}
+.hc-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+
+/* ══ TUỔI MƯỢN ══ */
+.muon-section{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;display:none}
+.muon-section.show{display:block;animation:fadeUp .3s ease}
+.muon-head{padding:14px 20px;background:var(--cream2);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.muon-head-icon{font-size:18px}
+.muon-head-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.muon-list{padding:12px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.muon-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--gl);border:1px solid rgba(90,158,74,.25);border-radius:var(--radius)}
+.muon-item.best{background:#EDF7EC;border-color:#B8DFB6}
+.mi-tuoi{font-size:13px;font-weight:700;color:var(--text);min-width:80px}
+.mi-canchi{font-size:12px;color:var(--green2);font-weight:600;flex:1}
+.mi-badge{font-size:10px}
+.mi-note{font-size:11px;color:var(--muted);margin-top:3px}
+.muon-note{padding:0 16px 16px;font-size:12px;color:var(--muted);line-height:1.7;font-style:italic}
+
+/* ══ GIẢI THÍCH ══ */
+.explain-section{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
+.explain-tabs{display:flex;border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}
+.explain-tabs::-webkit-scrollbar{display:none}
+.etab{padding:12px 18px;background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.etab:hover{color:var(--green);background:var(--gl)}
+.etab.active{color:var(--green);border-bottom-color:var(--green);background:#fff}
+.etab-body{display:none;padding:18px 20px}
+.etab-body.active{display:block;animation:fadeUp .2s ease}
+.etab-body h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;margin-top:14px}
+.etab-body h4:first-child{margin-top:0}
+.etab-body p{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:8px}
+.etab-body ul{padding-left:18px}
+.etab-body ul li{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:4px}
+.etab-body strong{color:var(--text)}
+
+/* ══ NOTE BOX ══ */
+.note-box{background:#FFF9E6;border:1px solid #F0DC8A;border-radius:var(--radius);padding:14px 18px;font-size:12px;color:#7A6310;line-height:1.75;margin-bottom:20px}
+.note-box strong{color:#5A4800;font-weight:700}
+
+/* ══ FOOTER ══ */
+footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{height:32px}
+.f-name{font-size:14px;font-weight:700;color:var(--text)}
+.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
+.f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right;font-weight:500}
+
+/* ══ RESPONSIVE TABLET ══ */
+@media(min-width:601px) and (max-width:1000px){
+  .nav{padding:0 18px}
+  .nav-r .nb{display:none}
+  .nl-sub{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+  .hero{padding:22px 18px 0}
+  .input-card{margin:16px 0 0;border-radius:0;border-left:none;border-right:none;box-shadow:none}
+  .main{padding:18px 18px 60px}
+  .han-grid{grid-template-columns:repeat(3,1fr)}
+  footer{padding:16px 18px}
+}
+
+/* ══ RESPONSIVE MOBILE ══ */
+@media(max-width:600px){
+  :root{--nav-h:56px}
+
+  /* Nav */
+  .nav{padding:0 14px;height:56px}
+  .nav-r .nb,.nav-r .nav-phone{display:none}
+  .nl-sub{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+
+  /* Hero */
+  .hero{padding:14px 14px 0;border-bottom:none}
+  .hero h1{font-size:18px}
+  .hero-desc{font-size:12px;margin-top:4px}
+  .hero-tags{gap:6px;margin-top:10px}
+  .h-tag{font-size:10px;padding:3px 9px}
+
+  /* Input card – full bleed */
+  .input-card{margin:10px 0 0;padding:14px 14px 12px;border-radius:0;border-left:none;border-right:none;box-shadow:none;border-top:2px solid var(--green)}
+  .ic-title{font-size:9px;margin-bottom:10px}
+  .ic-row{grid-template-columns:1fr 1fr;gap:10px}
+  .btn-check{grid-column:1/-1;padding:14px;font-size:14px;letter-spacing:.5px}
+  .ic-input{font-size:22px;font-weight:800;padding:12px 8px}
+  .ic-sub{font-size:10px}
+  .ic-hint{font-size:11px}
+
+  /* Main */
+  .main{padding:12px 12px 72px}
+
+  /* Overview header */
+  .ro-header{padding:13px 14px;gap:12px}
+  .ro-icon{width:44px;height:44px;font-size:18px}
+  .ro-verdict{font-size:15px}
+
+  /* Info table */
+  .info-table td{padding:9px 14px;font-size:12px}
+  .info-table td:first-child{font-size:10px;width:42%}
+
+  /* Han grid */
+  .han-grid{grid-template-columns:1fr;gap:8px;padding:12px 14px 14px}
+  .han-card{padding:12px 14px;display:flex;align-items:center;gap:14px}
+  .hc-val{font-size:20px}
+  .hc-name{margin-bottom:0;white-space:nowrap}
+  .hc-sub{margin-top:0}
+
+  /* Muon section */
+  .muon-head{padding:12px 14px}
+  .muon-list{padding:10px 12px 12px;gap:7px}
+  .muon-item{padding:10px 12px;gap:10px}
+  .mi-tuoi{font-size:12px;min-width:70px}
+  .muon-note{padding:0 12px 12px;font-size:11px}
+
+  /* Explain tabs */
+  .etab{padding:11px 14px;font-size:11px}
+  .etab-body{padding:14px}
+  .etab-body h4{font-size:13px}
+  .etab-body p,.etab-body li{font-size:12px}
+
+  /* Note box */
+  .note-box{font-size:12px;padding:12px 14px}
+
+  /* Footer */
+  footer{flex-direction:column;align-items:flex-start;padding:14px 14px 20px;gap:8px}
+  .f-r a,.f-r p{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="home.html" class="nav-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" width="40" height="40" loading="eager">
+    <div>
+      <div class="nl-name">Hùng Lê Design Studio</div>
+      <div class="nl-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </a>
+  <div class="nav-r">
+    <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
+    <a href="home.html" class="nb nb-ghost">← Thư viện</a>
+    <a href="thuocloban.html" class="nb nb-ghost">📐 Thước Lỗ Ban</a>
+    <a href="estimate.html" class="nb nb-ghost">Dự toán</a>
+    <a href="huong.html" class="nb nb-ghost">🧭 Hướng nhà</a>
+  </div>
+  <button class="mob-toggle" id="mobToggle" onclick="toggleMob()" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
+  <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban trực tuyến</a>
+  <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
+  <a href="estimate.html" class="mob-item">📊 Dự toán chi phí xây dựng</a>
+  <div class="mob-sep"></div>
+  <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>🗓 Xem <span>tuổi làm nhà</span></h1>
+    <p class="hero-desc">Theo phong thuỷ, chủ nhà nên tránh 3 hạn lớn khi xây dựng: Kim Lâu, Hoang Ốc và Tam Tai. Nhập năm sinh và năm dự kiến làm nhà để kiểm tra ngay.</p>
+    <div class="hero-tags">
+      <span class="h-tag bad">⚠ Kim Lâu — 5 năm xấu theo chu kỳ</span>
+      <span class="h-tag bad">⚠ Hoang Ốc — 3 cung xấu</span>
+      <span class="h-tag bad">⚠ Tam Tai — 3 năm liên tiếp</span>
+      <span class="h-tag ok">✓ Gợi ý mượn tuổi khi phạm hạn</span>
+    </div>
+  </div>
+
+  <!-- INPUT CARD -->
+  <div class="input-card">
+    <div class="ic-title">Nhập thông tin để xem tuổi</div>
+    <div class="ic-row">
+      <div class="ic-group">
+        <label>Năm sinh dương lịch</label>
+        <input class="ic-input" type="number" id="namSinh" placeholder="1985" min="1900" max="2025" inputmode="numeric" oninput="onInputChange()">
+        <div class="ic-sub" id="subSinh"></div>
+      </div>
+      <div class="ic-group">
+        <label>Năm làm nhà dự kiến</label>
+        <input class="ic-input" type="number" id="namLam" placeholder="2026" min="2020" max="2060" inputmode="numeric" oninput="onInputChange()">
+        <div class="ic-sub" id="subLam"></div>
+      </div>
+      <button class="btn-check" onclick="check()">🔍 Xem tuổi làm nhà</button>
+    </div>
+    <div class="ic-hint">
+      💡 <strong>Lưu ý:</strong> Nếu phạm hạn, hệ thống sẽ gợi ý <strong>tuổi mượn</strong> phù hợp để đứng tên động thổ. Tính theo tuổi <strong>chủ nhà (thường là chồng)</strong>.
+    </div>
+  </div>
+</div><!-- /hero -->
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- KẾT QUẢ TỔNG QUAN -->
+  <div class="result-overview" id="resultOverview">
+    <div class="ro-header" id="roHeader">
+      <div class="ro-icon" id="roIcon"></div>
+      <div class="ro-main">
+        <div class="ro-verdict" id="roVerdict"></div>
+        <div class="ro-sub" id="roSub"></div>
+      </div>
+    </div>
+    <div class="ro-body">
+      <table class="info-table" id="infoTable"></table>
+      <div class="han-grid" id="hanGrid"></div>
+    </div>
+  </div>
+
+  <!-- TUỔI MƯỢN -->
+  <div class="muon-section" id="muonSection">
+    <div class="muon-head">
+      <span class="muon-head-icon">🤝</span>
+      <span class="muon-head-title">Gợi ý tuổi mượn để động thổ</span>
+    </div>
+    <div class="muon-list" id="muonList"></div>
+    <p class="muon-note">Người được mượn tuổi sẽ đứng tên làm lễ động thổ, đổ móng, đổ mái và nhập trạch thay gia chủ. Khi gia chủ hết hạn xấu có thể làm lễ mua bán nhà âm để lấy lại tên.</p>
+  </div>
+
+  <!-- GIẢI THÍCH -->
+  <div class="explain-section">
+    <div class="explain-tabs">
+      <button class="etab active" onclick="switchTab(0)">Kim Lâu</button>
+      <button class="etab" onclick="switchTab(1)">Hoang Ốc</button>
+      <button class="etab" onclick="switchTab(2)">Tam Tai</button>
+      <button class="etab" onclick="switchTab(3)">Hóa giải</button>
+    </div>
+    <div class="etab-body active" id="etab0">
+      <h4>Kim Lâu là gì?</h4>
+      <p>Kim Lâu là hạn phong thuỷ theo tuổi gia chủ, xảy ra theo chu kỳ 5 năm: <strong>tuổi 1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61, 66, 71...</strong> (tính từ tuổi âm lịch, tức tuổi ta). Có nghĩa là với tuổi kết thúc bằng 1 hoặc 6 đều phạm Kim Lâu.</p>
+      <h4>Ảnh hưởng</h4>
+      <p>Theo quan niệm dân gian, người phạm hạn Kim Lâu mà tiến hành làm nhà, động thổ sẽ gặp nhiều trắc trở, ốm đau, hao tài tổn lộc trong quá trình xây dựng.</p>
+      <h4>Ví dụ</h4>
+      <ul>
+        <li>Sinh năm 1985 → 2026: tuổi âm lịch là 42 → không phạm Kim Lâu</li>
+        <li>Sinh năm 1981 → 2026: tuổi âm lịch là 46 → <strong>phạm Kim Lâu</strong></li>
+      </ul>
+    </div>
+    <div class="etab-body" id="etab1">
+      <h4>Hoang Ốc là gì?</h4>
+      <p>Hoang Ốc là hạn xấu theo <strong>Cung Mệnh</strong> của gia chủ (Bát Trạch phong thuỷ). Mỗi người thuộc một trong 8 cung mệnh, và trong mỗi chu kỳ 8 năm sẽ có 3 năm phạm Hoang Ốc ứng với 3 cung xấu nhất: <strong>Tuyệt Mệnh, Lục Sát, Ngũ Quỷ</strong>.</p>
+      <h4>8 Cung mệnh</h4>
+      <ul>
+        <li><strong>Đông Tứ Trạch:</strong> Khảm (1), Ly (9), Chấn (3), Tốn (4)</li>
+        <li><strong>Tây Tứ Trạch:</strong> Càn (6), Đoài (7), Cấn (8), Khôn (2)</li>
+      </ul>
+      <p>Năm phạm Hoang Ốc là các năm có cung hành niên rơi vào Tuyệt Mệnh, Lục Sát, hoặc Ngũ Quỷ của chủ nhà.</p>
+    </div>
+    <div class="etab-body" id="etab2">
+      <h4>Tam Tai là gì?</h4>
+      <p>Tam Tai là hạn 3 năm liên tiếp theo nhóm tuổi địa chi. Mỗi nhóm 4 tuổi sẽ cùng bước vào Tam Tai trong cùng giai đoạn:</p>
+      <ul>
+        <li><strong>Thân – Tý – Thìn:</strong> Tam Tai vào năm Dần – Mão – Thìn</li>
+        <li><strong>Hợi – Mão – Mùi:</strong> Tam Tai vào năm Tỵ – Ngọ – Mùi</li>
+        <li><strong>Dần – Ngọ – Tuất:</strong> Tam Tai vào năm Thân – Dậu – Tuất</li>
+        <li><strong>Tỵ – Dậu – Sửu:</strong> Tam Tai vào năm Hợi – Tý – Sửu</li>
+      </ul>
+      <h4>Năm Tam Tai 2024–2030</h4>
+      <ul>
+        <li>2024–2026 (Thìn–Tỵ–Ngọ): nhóm Thân–Tý–Thìn</li>
+        <li>2025–2027 (Tỵ–Ngọ–Mùi): nhóm Hợi–Mão–Mùi</li>
+        <li>2028–2030 (Thân–Dậu–Tuất): nhóm Dần–Ngọ–Tuất</li>
+      </ul>
+    </div>
+    <div class="etab-body" id="etab3">
+      <h4>Hóa giải Tam Tai</h4>
+      <ul>
+        <li><strong>Chưa động thổ:</strong> Mượn tuổi người không phạm Tam Tai, không phạm Kim Lâu để đứng tên lễ động thổ.</li>
+        <li><strong>Đã động thổ:</strong> Cúng giải hạn Tam Tai tại nhà mỗi tháng liên tục trong 3 năm, chọn đúng ngày và hướng theo năm phạm hạn.</li>
+      </ul>
+      <h4>Hóa giải Kim Lâu</h4>
+      <ul>
+        <li><strong>Mượn tuổi:</strong> Tìm người ngoài gia đình, không phạm Kim Lâu, tuổi đẹp trong năm để đứng tên làm lễ từ động thổ đến nhập trạch.</li>
+        <li>Khi gia chủ qua hạn Kim Lâu, làm lễ mua bán nhà âm để đứng tên lại.</li>
+        <li><strong>Không có cách nào khác</strong> ngoài mượn tuổi — nếu không mượn được nên dời sang năm khác.</li>
+      </ul>
+      <h4>Hóa giải Hoang Ốc</h4>
+      <ul>
+        <li>Tương tự Kim Lâu: mượn tuổi người khác đứng tên lễ động thổ trước khi khởi công.</li>
+        <li>Chỉ có tác dụng khi <strong>chưa động thổ</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- NOTE -->
+  <div class="note-box">
+    <strong>📌 Lưu ý quan trọng:</strong> Đây là công cụ tra cứu phong thuỷ dân gian mang tính tham khảo. Quyết định xây dựng nên được cân nhắc thêm với thầy phong thuỷ uy tín và điều kiện thực tế của gia đình. Hùng Lê Design Studio không chịu trách nhiệm về các quyết định xây dựng dựa hoàn toàn vào kết quả từ công cụ này.
+  </div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" loading="lazy" width="32" height="32">
+    <div>
+      <div class="f-name">Hùng Lê Design Studio</div>
+      <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </div>
+  <div class="f-r">
+    <a href="tel:0947017495">📞 0947.017.495</a>
+    <p>© <span id="footerYear"></span> Hùng Lê Design Studio</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+/* ══════════════════════════════════════════
+   DỮ LIỆU CAN CHI
+══════════════════════════════════════════ */
+const CAN  = ['Giáp','Ất','Bính','Đinh','Mậu','Kỷ','Canh','Tân','Nhâm','Quý'];
+const CHI  = ['Tý','Sửu','Dần','Mão','Thìn','Tỵ','Ngọ','Mùi','Thân','Dậu','Tuất','Hợi'];
+
+const CUNG_MENH_NAM = {
+  // năm sinh dương lịch → cung mệnh nam
+  // Công thức: lấy 2 chữ số cuối, cộng lại đến 1 chữ số, dùng bảng
+};
+
+// Tính Can Chi của một năm dương lịch (gốc: 1984 = Giáp Tý)
+function getCanChi(y) {
+  const can = CAN[((y - 1984) % 10 + 10) % 10];
+  const chi = CHI[((y - 1984) % 12 + 12) % 12];
+  return can + ' ' + chi;
+}
+
+// Tính tuổi âm lịch (tuổi ta): năm làm - năm sinh + 1
+function tuoiTa(namSinh, namLam) {
+  return namLam - namSinh + 1;
+}
+
+/* ══ KIM LÂU ══
+   Tuổi ta kết thúc bằng 1 hoặc 6 → phạm Kim Lâu
+*/
+function isKimLau(namSinh, namLam) {
+  const t = tuoiTa(namSinh, namLam) % 10;
+  return t === 1 || t === 6;
+}
+
+/* ══ CUNG MỆNH ══
+   Công thức nam: lấy 2 chữ số cuối năm sinh âm lịch,
+   cộng chữ số lại cho đến 1 chữ số (nếu = 0 → 9).
+   Nam: 11 − số → cung; Nữ: số − 4 → cung (nếu ≤ 0 +9)
+   Năm sinh âm lịch ≈ năm dương lịch (xét năm dương đơn giản)
+*/
+const CUNG_NAME = ['','Khảm','Khôn','Chấn','Tốn','','Càn','Đoài','Cấn','Ly'];
+const CUNG_HANH = ['','Thủy','Thổ','Mộc','Mộc','','Kim','Kim','Thổ','Hỏa'];
+// Đông Tứ Trạch: 1 (Khảm), 9 (Ly), 3 (Chấn), 4 (Tốn)
+// Tây Tứ Trạch: 2 (Khôn), 6 (Càn), 7 (Đoài), 8 (Cấn)
+
+function digitSum(n) {
+  let s = n;
+  while (s >= 10) { s = String(s).split('').reduce((a,b) => a + parseInt(b), 0); }
+  return s;
+}
+
+function getCungMenh(namSinhDL, gioiTinh = 'nam') {
+  // Tính 2 chữ số cuối năm âm lịch (xấp xỉ bằng năm dương)
+  const hai = namSinhDL % 100;
+  const s = digitSum(hai === 0 ? 100 : hai);
+  const ds = s === 0 ? 9 : s;
+  let cung;
+  if (gioiTinh === 'nam') {
+    cung = (11 - ds) % 9;
+    if (cung <= 0) cung += 9;
+    if (cung === 5) cung = 2; // Nam 5 → 2 (Khôn)
+  } else {
+    cung = (ds + 4) % 9;
+    if (cung === 0) cung = 9;
+    if (cung === 5) cung = 8; // Nữ 5 → 8 (Cấn)
+  }
+  return cung;
+}
+
+/* ══ HOANG ỐC ══
+   Mỗi cung mệnh có 3 hướng Tuyệt Mệnh / Lục Sát / Ngũ Quỷ.
+   Năm phạm Hoang Ốc = năm có cung hành niên trùng 3 hướng xấu đó.
+   Cung hành niên theo năm: cung năm dương lịch
+   Công thức cung năm: tương tự cung nam (11 - digitSum(2 chữ số cuối năm)) % 9
+*/
+// Bảng 3 cung xấu (Tuyệt Mệnh / Lục Sát / Ngũ Quỷ) theo cung mệnh
+const HOANG_OC_MAP = {
+  1: [2, 7, 6], // Khảm: Khôn, Đoài, Càn
+  2: [3, 4, 1], // Khôn: Chấn, Tốn, Khảm
+  3: [2, 6, 7], // Chấn: Khôn, Càn, Đoài
+  4: [2, 7, 8], // Tốn: Khôn, Đoài, Cấn
+  6: [3, 4, 9], // Càn: Chấn, Tốn, Ly
+  7: [1, 4, 3], // Đoài: Khảm, Tốn, Chấn
+  8: [1, 9, 4], // Cấn: Khảm, Ly, Tốn
+  9: [6, 8, 7], // Ly: Càn, Cấn, Đoài
+};
+const HOANG_OC_TEN = {
+  1: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  2: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  3: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  4: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  6: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  7: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  8: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+  9: ['Tuyệt Mệnh','Lục Sát','Ngũ Quỷ'],
+};
+
+function getCungNam(year) {
+  const hai = year % 100;
+  const s = digitSum(hai === 0 ? 100 : hai);
+  let c = (11 - (s === 0 ? 9 : s)) % 9;
+  if (c <= 0) c += 9;
+  if (c === 5) c = 2;
+  return c;
+}
+
+function isHoangOc(cungMenh, namLam) {
+  const cungNam = getCungNam(namLam);
+  const xau = HOANG_OC_MAP[cungMenh] || [];
+  const idx = xau.indexOf(cungNam);
+  if (idx === -1) return { pham: false };
+  return { pham: true, loai: HOANG_OC_TEN[cungMenh][idx], cungXau: CUNG_NAME[cungNam] };
+}
+
+/* ══ TAM TAI ══ */
+// Địa chi năm sinh → nhóm Tam Tai
+// Nhóm: [Thân=0,Tý=4,Thìn=8] → Tam Tai: Dần=6,Mão=7,Thìn=8
+// Nhóm: [Hợi=3,Mão=7,Mùi=11] → Tam Tai: Tỵ=9,Ngọ=10,Mùi=11
+// Nhóm: [Dần=6,Ngọ=10,Tuất=2] → Tam Tai: Thân=0,Dậu=1,Tuất=2
+// Nhóm: [Tỵ=9,Dậu=1,Sửu=5] → Tam Tai: Hợi=3,Tý=4,Sửu=5
+const TAM_TAI_GROUPS = [
+  { giapNhom: [8,0,4],  giapTamTai: [2,3,4],   ten: 'Thân – Tý – Thìn', namTT: 'Dần – Mão – Thìn' },
+  { giapNhom: [11,3,7], giapTamTai: [5,6,7],   ten: 'Hợi – Mão – Mùi',  namTT: 'Tỵ – Ngọ – Mùi' },
+  { giapNhom: [2,6,10], giapTamTai: [8,9,10],  ten: 'Dần – Ngọ – Tuất', namTT: 'Thân – Dậu – Tuất' },
+  { giapNhom: [5,9,1],  giapTamTai: [11,0,1],  ten: 'Tỵ – Dậu – Sửu',  namTT: 'Hợi – Tý – Sửu' },
+];
+
+function getChiIdx(year) { return ((year - 1984) % 12 + 12) % 12; }
+
+function isTamTai(namSinh, namLam) {
+  const chiSinh = getChiIdx(namSinh);
+  const chiLam  = getChiIdx(namLam);
+  for (const g of TAM_TAI_GROUPS) {
+    if (g.giapNhom.includes(chiSinh) && g.giapTamTai.includes(chiLam)) {
+      // Tìm năm bắt đầu Tam Tai
+      const ttStart = namLam - g.giapTamTai.indexOf(chiLam);
+      return { pham: true, nhom: g.ten, namTT: g.namTT, start: ttStart, end: ttStart + 2 };
+    }
+  }
+  return { pham: false };
+}
+
+/* ══ TÌM TUỔI MƯỢN ══ */
+function findMuonTuoi(namLam, cungMenh, count = 5) {
+  const candidates = [];
+  // Tìm trong khoảng ±40 năm từ namLam - 10 (người trưởng thành ~25-65 tuổi)
+  for (let ns = namLam - 65; ns <= namLam - 20; ns++) {
+    if (ns < 1940) continue;
+    const kl  = isKimLau(ns, namLam);
+    const ho  = isHoangOc(getCungMenh(ns), namLam);
+    const tt  = isTamTai(ns, namLam);
+    if (!kl && !ho.pham && !tt.pham) {
+      const tuoi = tuoiTa(ns, namLam);
+      const cc   = getCanChi(ns);
+      const cm   = getCungMenh(ns);
+      candidates.push({ namSinh: ns, tuoi, canChi: cc, cungMenh: CUNG_NAME[cm], score: Math.abs(tuoi - 40) });
+    }
+  }
+  // Ưu tiên tuổi gần 35–50 (score nhỏ hơn)
+  candidates.sort((a,b) => a.score - b.score);
+  return candidates.slice(0, count);
+}
+
+/* ══ RENDER KẾT QUẢ ══ */
+function check() {
+  const ns = parseInt(document.getElementById('namSinh').value);
+  const nl = parseInt(document.getElementById('namLam').value);
+
+  if (!ns || ns < 1920 || ns > 2010) {
+    document.getElementById('namSinh').classList.add('err');
+    return;
+  }
+  document.getElementById('namSinh').classList.remove('err');
+  if (!nl || nl < 2020 || nl > 2060) {
+    document.getElementById('namLam').classList.add('err');
+    return;
+  }
+  document.getElementById('namLam').classList.remove('err');
+
+  const tuoiAL = tuoiTa(ns, nl);
+  const ccSinh = getCanChi(ns);
+  const ccLam  = getCanChi(nl);
+  const cm     = getCungMenh(ns);
+  const cmName = CUNG_NAME[cm];
+  const kl     = isKimLau(ns, nl);
+  const ho     = isHoangOc(cm, nl);
+  const tt     = isTamTai(ns, nl);
+
+  const hanCount = [kl, ho.pham, tt.pham].filter(Boolean).length;
+
+  // ── Header ──
+  const roHeader  = document.getElementById('roHeader');
+  const roIcon    = document.getElementById('roIcon');
+  const roVerdict = document.getElementById('roVerdict');
+  const roSub     = document.getElementById('roSub');
+
+  let verdict, cls;
+  if (hanCount === 0) {
+    cls = 'good';
+    verdict = '✅ Năm này làm nhà được tuổi!';
+    roSub.textContent = `Tuổi ${ccSinh} không phạm Kim Lâu, Hoang Ốc hay Tam Tai trong năm ${nl}.`;
+  } else if (hanCount === 1) {
+    cls = 'warn';
+    verdict = '⚠ Năm này phạm 1 hạn — nên cân nhắc mượn tuổi';
+    roSub.textContent = `Tuổi ${ccSinh} có 1 hạn trong năm ${nl}. Nên mượn tuổi để an toàn.`;
+  } else {
+    cls = 'bad';
+    verdict = `❌ Năm này phạm ${hanCount} hạn — nên mượn tuổi`;
+    roSub.textContent = `Tuổi ${ccSinh} phạm nhiều hạn trong năm ${nl}. Khuyến nghị mượn tuổi.`;
+  }
+  roHeader.className = 'ro-header ' + cls;
+  roIcon.className   = 'ro-icon ' + cls;
+  roIcon.textContent = hanCount === 0 ? '✓' : hanCount === 1 ? '!' : '✕';
+  roVerdict.className = 'ro-verdict ' + cls;
+  roVerdict.textContent = verdict;
+
+  // ── Info table ──
+  document.getElementById('infoTable').innerHTML = `
+    <tr><td>Năm sinh dương lịch</td><td>${ns} <span style="color:var(--muted);font-weight:500;font-size:12px">(${ccSinh})</span></td></tr>
+    <tr><td>Tuổi âm lịch</td><td>${tuoiAL} tuổi</td></tr>
+    <tr><td>Năm làm nhà</td><td>${nl} <span style="color:var(--muted);font-weight:500;font-size:12px">(${ccLam})</span></td></tr>
+    <tr><td>Cung mệnh</td><td>${cmName} <span style="color:var(--muted);font-weight:500;font-size:12px">(cung ${cm})</span></td></tr>
+    <tr><td>Tuổi tốt có thể mượn năm ${nl}</td><td id="muonTuoiShort">${hanCount > 0 ? 'Đang tính...' : 'Không cần mượn'}</td></tr>
+  `;
+
+  // ── Hạn cards ──
+  document.getElementById('hanGrid').innerHTML = `
+    <div class="han-card ${kl ? 'bad' : 'good'}">
+      <div>
+        <div class="hc-name ${kl ? 'bad' : 'good'}">Kim Lâu</div>
+        <div class="hc-val ${kl ? 'bad' : 'good'}">${kl ? 'Phạm' : 'Không'}</div>
+        <div class="hc-sub">Tuổi ta: ${tuoiAL} ${kl ? '(tận cùng 1 hoặc 6)' : '(an toàn)'}</div>
+      </div>
+    </div>
+    <div class="han-card ${ho.pham ? 'bad' : 'good'}">
+      <div>
+        <div class="hc-name ${ho.pham ? 'bad' : 'good'}">Hoang Ốc</div>
+        <div class="hc-val ${ho.pham ? 'bad' : 'good'}">${ho.pham ? 'Phạm' : 'Không'}</div>
+        <div class="hc-sub">${ho.pham ? ho.loai + ' — cung ' + ho.cungXau : 'Cung hành niên an toàn'}</div>
+      </div>
+    </div>
+    <div class="han-card ${tt.pham ? 'bad' : 'good'}">
+      <div>
+        <div class="hc-name ${tt.pham ? 'bad' : 'good'}">Tam Tai</div>
+        <div class="hc-val ${tt.pham ? 'bad' : 'good'}">${tt.pham ? 'Phạm' : 'Không'}</div>
+        <div class="hc-sub">${tt.pham ? `Nhóm ${tt.nhom}<br>Hạn ${tt.start}–${tt.end}` : 'Không trong Tam Tai'}</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('resultOverview').classList.add('show');
+
+  // ── Tuổi mượn ──
+  const muonSec  = document.getElementById('muonSection');
+  const muonList = document.getElementById('muonList');
+
+  if (hanCount > 0) {
+    const muons = findMuonTuoi(nl, cm, 5);
+    if (muons.length) {
+      // Cập nhật dòng tuổi tốt
+      document.getElementById('muonTuoiShort').textContent = muons.slice(0,3).map(m => `${m.namSinh} (${m.canChi})`).join(', ');
+
+      muonList.innerHTML = muons.map((m, i) => `
+        <div class="muon-item ${i === 0 ? 'best' : ''}">
+          <div>
+            <div class="mi-tuoi">Sinh năm ${m.namSinh}</div>
+            <div class="mi-note" style="font-size:11px;color:var(--muted)">Tuổi ${m.tuoi} — ${m.canChi} — Cung ${m.cungMenh}</div>
+          </div>
+          <div class="mi-canchi">${i === 0 ? '<span class="badge good">✓ Tốt nhất</span>' : '<span class="badge neutral">Phù hợp</span>'}</div>
+        </div>
+      `).join('');
+      muonSec.classList.add('show');
+    }
+  } else {
+    muonSec.classList.remove('show');
+  }
+
+  // Scroll nhẹ xuống kết quả
+  setTimeout(() => {
+    document.getElementById('resultOverview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+/* ══ LIVE CAN CHI ══ */
+function onInputChange() {
+  const ns = parseInt(document.getElementById('namSinh').value);
+  const nl = parseInt(document.getElementById('namLam').value);
+  document.getElementById('namSinh').classList.remove('err');
+  document.getElementById('namLam').classList.remove('err');
+  if (ns && ns >= 1920 && ns <= 2010)
+    document.getElementById('subSinh').textContent = 'Can chi: ' + getCanChi(ns);
+  else
+    document.getElementById('subSinh').textContent = '';
+  if (nl && nl >= 2020 && nl <= 2060)
+    document.getElementById('subLam').textContent = 'Năm ' + getCanChi(nl);
+  else
+    document.getElementById('subLam').textContent = '';
+}
+
+/* ══ TABS GIẢI THÍCH ══ */
+function switchTab(idx) {
+  document.querySelectorAll('.etab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.etab-body').forEach((b, i) => b.classList.toggle('active', i === idx));
+}
+
+/* ══ MOBILE MENU ══ */
+function toggleMob() { document.getElementById('mobMenu').classList.toggle('open'); }
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobMenu');
+  const tog  = document.getElementById('mobToggle');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !tog.contains(e.target))
+    menu.classList.remove('open');
+});
+
+/* ══ ENTER ══ */
+document.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+
+/* ══ INIT: điền năm hiện tại vào ô làm nhà ══ */
+document.getElementById('namLam').value = new Date().getFullYear();
+onInputChange();
+</script>
+</body>
+</html>
