@@ -796,9 +796,9 @@ async function apiGet() {
 async function apiPost(body) {
   const payload = adminToken ? { ...body, _token: adminToken } : body;
 
-  // uploadImage cần timeout dài hơn vì xử lý file nặng
+  // uploadImage và scanFolder cần timeout dài hơn vì xử lý file/Drive nặng
   const controller = new AbortController();
-  const timeout = body.action === 'uploadImage' ? 60000 : 15000;
+  const timeout = (body.action === 'uploadImage' || body.action === 'scanFolder') ? 120000 : 15000;
   const timer = setTimeout(() => controller.abort(), timeout);
 
   try {
@@ -1208,7 +1208,7 @@ async function saveHouse() {
   const ten=document.getElementById('eTen').value.trim();
   if(!ten){showToast('⚠ Vui lòng nhập tên mẫu nhà');return;}
   const isNew=!document.getElementById('eId').value;
-  if (!isNew && effectiveRole === 'guest') { showToast('⚠ Bạn không có quyền chỉnh sửa'); return; }
+  if (!isNew && effectiveRole === 'member') { showToast('⚠ Bạn không có quyền chỉnh sửa'); return; }
   const id=document.getElementById('eId').value||('U'+Date.now());
   const obj={id,ten,loai:document.getElementById('eLoai').value,mainha:document.getElementById('eMai').value,
     dientich:parseInt(document.getElementById('eDT').value)||0,sophong:parseInt(document.getElementById('ePN').value)||0,
@@ -1347,10 +1347,18 @@ async function runImport() {
   btn.disabled = true; btn.textContent = '⏳ Đang quét...';
   status.style.display = 'block';
   status.style.background = '#EAF4E7'; status.style.color = '#3D6B34';
-  status.textContent = '⏳ Đang quét ảnh trong folder, vui lòng chờ...';
+  status.textContent = '⏳ Đang quét ảnh trong folder, có thể mất 30–60 giây...';
+
+  // Tiến trình động để user biết đang xử lý
+  let dots = 0;
+  const ticker = setInterval(() => {
+    dots = (dots + 1) % 4;
+    status.textContent = '⏳ Đang xử lý' + '.'.repeat(dots) + ' (có thể mất 30–60 giây)';
+  }, 800);
 
   try {
     const res = await apiPost({ action: 'scanFolder', folderId });
+    clearInterval(ticker);
     if (res.ok) {
       status.style.background = '#EAF4E7'; status.style.color = '#3D6B34';
       status.textContent = '✓ Đã import ' + res.count + ' mẫu nhà mới' + (res.skipped ? ' (bỏ qua ' + res.skipped + ' ảnh đã có)' : '');
@@ -1361,8 +1369,13 @@ async function runImport() {
       status.textContent = '⚠ Lỗi: ' + (res.error || 'Không xác định');
     }
   } catch(e) {
+    clearInterval(ticker);
     status.style.background = '#FEF2F2'; status.style.color = '#c03030';
-    status.textContent = '⚠ Lỗi kết nối. Vui lòng thử lại.';
+    if (e.name === 'AbortError') {
+      status.textContent = '⚠ Quá thời gian chờ. Folder quá lớn hoặc mạng chậm — hãy thử lại.';
+    } else {
+      status.textContent = '⚠ Lỗi kết nối: ' + e.message;
+    }
   } finally {
     btn.disabled = false; btn.textContent = '📥 Bắt đầu Import';
   }
