@@ -6,9 +6,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;--dark:#141916;--cream:#F4F3F0;--cream2:#EAEAE6;--text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;--gold:#C9A96E;--red:#C03030;--radius:6px;--nav-h:60px}
+:root{--green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;--dark:#141916;--cream:#F4F3F0;--cream2:#EAEAE6;--text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;--gold:#C9A96E;--red:#C03030;--radius:6px;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.12);--nav-h:60px}
 body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
-nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
 .nav-logo img{height:40px}
 .nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
@@ -20,6 +20,8 @@ nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:c
 .nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap}
 .nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
 .nb-ghost:hover{background:var(--green);color:#fff}
+.nb-login{background:var(--green);color:#fff;border:none}
+.nb-login:hover{background:#2f5228}
 .nb-green{background:var(--green);color:#fff}
 .nb-green:hover{background:#2f5228}
 .page-header{background:linear-gradient(135deg,#EEF6EB 0%,#F4F3F0 100%);padding:28px 32px 22px;border-bottom:1px solid var(--bd);position:relative;overflow:hidden}
@@ -27,13 +29,13 @@ nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:c
 .page-header h1{font-size:clamp(22px,3.5vw,32px);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-.5px}
 .page-header h1 span{color:var(--green2)}
 .page-header p{color:var(--muted);margin-top:5px;font-size:13px;font-weight:400}
-footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd)}
+footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
 .f-logo{display:flex;align-items:center;gap:10px}
 .f-logo img{height:32px}
 .f-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
-.f-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
 .f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
-.f-r p{font-size:11px;color:var(--muted);margin-top:3px;text-align:right}
+.f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right;font-weight:500}
 
 /* MAIN LAYOUT */
 .wrap{display:grid;grid-template-columns:420px 1fr;gap:24px;padding:28px 40px 60px;max-width:1100px;margin:0 auto;align-items:start}
@@ -133,13 +135,13 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
 .compass-ring{position:absolute;inset:12px;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
 
 /* ── HAMBURGER ── */
-.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:#fff;-webkit-tap-highlight-color:transparent}
-.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--dark2);z-index:99;flex-direction:column;padding:14px;gap:6px;border-top:1px solid rgba(106,175,90,.2);overflow-y:auto}
+.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);-webkit-tap-highlight-color:transparent}
+.mob-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:#fff;z-index:99;flex-direction:column;padding:16px;gap:8px;border-top:1px solid var(--bd);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mob-menu.open{display:flex;animation:fadeDown .2s ease}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.mob-item{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:3px;font-size:14px;font-weight:500;color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);border:none;cursor:pointer;font-family:"Be Vietnam Pro",sans-serif;text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent}
-.mob-item:active{background:rgba(106,175,90,.15)}
-.mob-sep{height:1px;background:rgba(255,255,255,.08);margin:2px 0}
+.mob-item{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:var(--radius);font-size:14px;font-weight:600;color:var(--text);background:var(--cream);border:none;cursor:pointer;font-family:inherit;text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent}
+.mob-item:active{background:var(--gl)}
+.mob-sep{height:1px;background:var(--bd);margin:2px 0}
 
 /* ── ZALO BUTTON ── */
 .btn-zalo-gold{display:block;width:100%;padding:12px;margin-top:8px;background:#0068FF;border:none;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#fff;cursor:pointer;font-weight:700;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
@@ -151,9 +153,13 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
 .btn-zalo2{background:#0068FF;color:#fff}
 .btn-zalo2:hover{background:#0055CC}
 
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;transition:.3s;z-index:999;pointer-events:none;border:1px solid rgba(90,158,74,.3);white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 /* ── Tablet: 601–900px ── */
 @media(min-width:601px) and (max-width:900px){
-  nav{padding:0 18px;height:60px}
+  nav,.nav{padding:0 18px;height:60px}
   .nav-r .nb{display:none}
   .mob-toggle{display:flex;align-items:center;justify-content:center}
   .mob-menu{top:60px}
@@ -166,7 +172,7 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
 /* ── Mobile: ≤600px ── */
 @media(max-width:600px){
   :root{--nav-h:56px}
-  nav{padding:0 14px;height:56px}
+  nav,.nav{padding:0 14px;height:56px}
   .nav-r .nb,.nav-r .nav-phone{display:none}
   .mob-toggle{display:flex;align-items:center;justify-content:center}
   .mob-menu{top:56px}
@@ -183,7 +189,7 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
 </head>
 <body>
 <!-- NAV -->
-<nav>
+<nav class="nav">
   <a href="home.html" class="nav-logo">
     <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo">
     <div>
@@ -196,6 +202,8 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
     <button class="nb nb-ghost" onclick="location.href='home.html'">Thư viện mẫu nhà</button>
     <button class="nb nb-ghost" onclick="location.href='estimate.html'">🧮 Dự toán chi phí</button>
+    <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
+    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
     <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
   </div>
   <button class="mob-toggle" id="mobToggle" onclick="toggleMob()" aria-label="Menu">
@@ -207,6 +215,9 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
 <div class="mob-menu" id="mobMenu">
   <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
   <a href="estimate.html" class="mob-item">🧮 Dự toán chi phí</a>
+  <a href="huong.html" class="mob-item">🧭 Hướng nhà hợp tuổi</a>
+  <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <a href="https://zalo.me/0947017495" target="_blank" rel="noopener" class="mob-item">
     <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M16 4C9.373 4 4 9.149 4 15.5c0 3.48 1.607 6.593 4.145 8.71L7 28l4.02-1.98A12.4 12.4 0 0016 27c6.627 0 12-5.149 12-11.5S22.627 4 16 4z" fill="#0068FF"/><path d="M22.5 18.8c-.2-.1-1.2-.6-1.4-.65-.2-.08-.34-.1-.48.1-.15.2-.57.65-.7.78-.12.14-.25.15-.46.05-.2-.1-.87-.32-1.65-.98-.61-.52-1.02-1.17-1.14-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.48-1.15-.66-1.57-.17-.41-.35-.35-.48-.36h-.41c-.14 0-.37.05-.56.26-.19.2-.74.72-.74 1.76s.76 2.04.86 2.18c.1.14 1.48 2.28 3.6 3.19.5.22.9.35 1.2.44.5.16.97.14 1.33.08.4-.06 1.24-.5 1.41-1 .18-.48.18-.9.12-1-.05-.08-.19-.13-.4-.23z" fill="#fff"/></svg>
@@ -359,6 +370,9 @@ footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify
 
   </div>
 </div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <!-- FOOTER -->
 <footer>
