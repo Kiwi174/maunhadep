@@ -73,6 +73,16 @@ body{min-height:100vh;display:flex;font-family:'Be Vietnam Pro',sans-serif;backg
 }
 .btn-login:hover{background:#3A6330}
 
+/* ── Nút xem không đăng nhập ── */
+.btn-guest{
+  width:100%;padding:14px;background:#fff;color:var(--green);border:2px solid var(--green);
+  font-family:'Be Vietnam Pro',sans-serif;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;cursor:pointer;border-radius:3px;margin-top:6px;
+  transition:all .2s;font-weight:700;display:flex;align-items:center;
+  justify-content:center;gap:8px;text-decoration:none
+}
+.btn-guest:hover{background:var(--green-light)}
+
 .error-msg{
   display:none;margin-top:12px;padding:11px 15px;
   background:#FFF2F2;border-left:3px solid #D94040;
@@ -139,8 +149,15 @@ body{min-height:100vh;display:flex;font-family:'Be Vietnam Pro',sans-serif;backg
     <div class="brand-line"></div>
   </div>
 
-  <div class="form-title">Đăng nhập</div>
-  <div class="form-hint">Vui lòng đăng nhập để xem thư viện mẫu nhà</div>
+  <div class="form-title">Thư viện mẫu nhà</div>
+  <div class="form-hint">Xem miễn phí hoặc đăng nhập để sử dụng đầy đủ tính năng</div>
+
+  <a href="home.html" class="btn-guest" onclick="setGuest()">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    Xem thư viện không cần đăng nhập
+  </a>
+
+  <div class="divider">hoặc đăng nhập tài khoản</div>
 
   <div class="field">
     <label>Tài khoản</label>
@@ -154,7 +171,7 @@ body{min-height:100vh;display:flex;font-family:'Be Vietnam Pro',sans-serif;backg
   <button class="btn-login" onclick="doLogin()">Đăng nhập</button>
   <div class="error-msg" id="errMsg">Tài khoản hoặc mật khẩu không đúng</div>
 
-  <div class="divider">hoặc liên hệ trực tiếp</div>
+  <div class="divider">liên hệ trực tiếp</div>
   <a href="tel:0947017495" class="btn-login" style="background:#3D6B34;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none">
     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
     Gọi: 0947.017.495
@@ -174,11 +191,19 @@ body{min-height:100vh;display:flex;font-family:'Be Vietnam Pro',sans-serif;backg
 
 <script>
 const ACCOUNTS = [
-  {user:'admin',  pass:'admin123', role:'admin', token:'HungLe@2026#studio'},
-  {user:'khach01',pass:'123456',   role:'viewer', token:''},
-  {user:'khach02',pass:'123456',   role:'viewer', token:''},
+  {user:'admin', pass:'admin123', role:'admin', token:'HungLe@2026#studio'},
+  {user:'ctv01',  pass:'123456',  role:'ctv',   token:'ctv01_token'},
+  {user:'ctv02',  pass:'123456',  role:'ctv',   token:'ctv02_token'},
 ];
-if(sessionStorage.getItem('nhadep_role')) location.href='home.html';
+// Nếu đã login rồi thì vào thẳng home, trừ guest (guest không redirect)
+const _r = sessionStorage.getItem('nhadep_role');
+if(_r && _r !== 'guest') location.href='home.html';
+
+function setGuest() {
+  sessionStorage.setItem('nhadep_role','guest');
+  sessionStorage.removeItem('nhadep_user');
+  sessionStorage.removeItem('nhadep_token');
+}
 function doLogin(){
   const u=document.getElementById('username').value.trim();
   const p=document.getElementById('password').value.trim();
