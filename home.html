@@ -46,6 +46,8 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap}
 .nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
 .nb-ghost:hover{background:var(--green);color:#fff}
+.nb-login{background:var(--green);color:#fff;border:none}
+.nb-login:hover{background:#2f5228}
 .nb-green{background:var(--green);color:#fff}
 .nb-green:hover{background:#2f5228}
 
@@ -89,6 +91,38 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .fb.active{color:var(--green);font-weight:700}
 .fb.active::after{left:0;right:0}
 .fsep{width:14px;border-right:1px solid var(--bd);flex-shrink:0}
+
+/* ── FILTER PANEL ── */
+.filter-bar{display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
+.filter-btn{display:flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.filter-btn:hover{border-color:var(--green);color:var(--green)}
+.filter-btn.has-filter{border-color:var(--green);background:var(--gl);color:var(--green)}
+.filter-btn svg{transition:transform .2s}
+.filter-btn.open svg.chev{transform:rotate(180deg)}
+.filter-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gl);border:1px solid rgba(90,158,74,.35);border-radius:20px;font-size:11px;font-weight:600;color:var(--green)}
+.filter-chip button{background:none;border:none;cursor:pointer;color:var(--green);font-size:13px;line-height:1;padding:0 2px}
+.filter-clear{background:none;border:none;font-family:inherit;font-size:11px;color:var(--muted);cursor:pointer;padding:4px 6px;font-weight:600;text-decoration:underline;-webkit-tap-highlight-color:transparent}
+.filter-clear:hover{color:var(--text)}
+/* Dropdown panel */
+.fpanel-wrap{position:relative}
+.fpanel{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:95;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--shadow-lg);padding:16px 18px;min-width:320px;animation:sup .2s ease}
+.fpanel.open{display:block}
+.fpanel-section{margin-bottom:14px}
+.fpanel-section:last-child{margin-bottom:0}
+.fpanel-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.fpanel-options{display:flex;flex-wrap:wrap;gap:6px}
+.fopt{padding:5px 12px;border:1px solid var(--bd);border-radius:20px;background:#fff;font-family:inherit;font-size:12px;font-weight:500;color:var(--text);cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
+.fopt:hover{border-color:var(--green);color:var(--green)}
+.fopt.active{background:var(--green);border-color:var(--green);color:#fff;font-weight:700}
+.fpanel-range{display:flex;align-items:center;gap:8px}
+.fpanel-range input{width:80px;padding:6px 10px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;text-align:center;transition:border-color .2s}
+.fpanel-range input:focus{border-color:var(--green)}
+.fpanel-range span{color:var(--muted);font-size:12px}
+.fpanel-actions{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--cream2)}
+.fpanel-apply{flex:1;padding:9px;background:var(--green);border:none;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);transition:.2s}
+.fpanel-apply:hover{background:#2f5228}
+.fpanel-reset{padding:9px 14px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s}
+.fpanel-reset:hover{border-color:var(--dark)}
 
 /* ── GALLERY ── */
 .gw{padding:20px 32px 56px;max-width:1400px;margin:0 auto;width:100%}
@@ -149,6 +183,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .mo-badge{display:inline-block;background:var(--gl);color:var(--green2);font-size:10px;padding:3px 11px;letter-spacing:2px;text-transform:uppercase;border-radius:3px;margin-bottom:8px;font-weight:700}
 .mo-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px}
 .mo-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.mo-specs.has-mt{grid-template-columns:repeat(4,1fr)}
 .spec{background:#fff;border:1px solid var(--bd);padding:11px 13px;border-radius:var(--radius)}
 .spec-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-weight:700}
 .spec-val{font-size:16px;font-weight:700;color:var(--text)}
@@ -208,7 +243,23 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .cfm-ok{padding:9px 18px;background:#DC2626;border:none;font-family:inherit;font-size:12px;font-weight:700;color:#fff;cursor:pointer;border-radius:var(--radius);transition:.2s}
 .cfm-ok:hover{background:#b91c1c}
 
-/* ── TOAST ── */
+/* ── GUEST LOCK BANNER ── */
+.guest-lock{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);padding:14px 20px;display:flex;align-items:center;gap:12px;margin:12px 0 4px;font-size:13px;color:var(--muted)}
+.guest-lock svg{flex-shrink:0;color:var(--green2)}
+.guest-lock a{color:var(--green);font-weight:700;text-decoration:none}
+.guest-lock a:hover{text-decoration:underline}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:28px;flex-wrap:wrap}
+.pg-btn{min-width:36px;height:36px;padding:0 10px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.pg-btn:hover:not(:disabled){border-color:var(--green);color:var(--green);background:var(--gl)}
+.pg-btn.active{background:var(--green);border-color:var(--green);color:#fff}
+.pg-btn:disabled{opacity:.35;cursor:not-allowed}
+.pg-dots{color:var(--muted);font-size:13px;padding:0 4px}
+
+/* ── TOOLBAR HIDDEN FOR GUEST ── */
+.toolbar-guest-hidden .search-row,.toolbar-guest-hidden .filter-bar{display:none}
+.toolbar-guest-hidden{border-bottom:none;padding:0}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;transition:.3s;z-index:999;pointer-events:none;border:1px solid rgba(90,158,74,.3);white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -291,7 +342,10 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
     <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
     <button class="nb nb-ghost" onclick="location.href='estimate.html'">Dự toán</button>
-    <button class="nb nb-ghost" onclick="logout()">Đăng xuất</button>
+    <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
+    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
+    <button class="nb nb-ghost" id="navLogoutBtn" style="display:none" onclick="logout()">Đăng xuất</button>
+    <button class="nb nb-login" id="navLoginBtn" style="display:none" onclick="location.href='index.html'">Đăng nhập</button>
   </div>
   <button class="mob-toggle" id="mobToggle" onclick="toggleMob()" aria-label="Menu">
     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
@@ -306,9 +360,12 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <div class="mob-sep"></div>
   <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
   <a href="estimate.html" class="mob-item">📊 Dự toán chi phí xây dựng</a>
+  <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
-  <button class="mob-item" onclick="logout()" style="color:#c03030">🚪 Đăng xuất</button>
+  <button class="mob-item" id="mobLogoutBtn" style="display:none" onclick="logout()" style="color:#c03030">🚪 Đăng xuất</button>
+  <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
 
 <!-- HERO -->
@@ -322,35 +379,71 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div><div class="stat-num" id="heroShowCount">—</div><div class="stat-lbl">Đang hiển thị</div></div>
       </div>
     </div>
-    <button id="addBtnTop" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-      Thêm mẫu nhà
-    </button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="addBtnTop" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Thêm mẫu nhà
+      </button>
+      <button id="importBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:6px;padding:9px 14px;font-size:11px;letter-spacing:1px" onclick="openImportModal()">
+        📥 Import từ Drive
+      </button>
+    </div>
   </div>
 </div>
 
 <!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="search-row">
+<div class="toolbar" id="toolbarEl">
+  <div class="search-row" id="searchRowEl">
     <div class="sw">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input class="si" id="searchInput" placeholder="Tìm kiếm mẫu nhà..." oninput="renderGallery()">
     </div>
   </div>
-  <div class="filter-tabs">
-    <span class="tab-lbl">Loại nhà</span>
-    <button class="fb active" data-loai="all">Tất cả</button>
-    <button class="fb" data-loai="cap4">Cấp 4</button>
-    <button class="fb" data-loai="2tang">2 tầng</button>
-    <button class="fb" data-loai="3tang">3 tầng</button>
-    <button class="fb" data-loai="tren3tang">Trên 3T</button>
-    <div class="fsep"></div>
-    <span class="tab-lbl">Kiểu mái</span>
-    <button class="fb active" data-mai="all">Tất cả</button>
-    <button class="fb" data-mai="mai-thai">Mái thái</button>
-    <button class="fb" data-mai="mai-nhat">Mái nhật</button>
-    <button class="fb" data-mai="hien-dai">Hiện đại</button>
-    <button class="fb" data-mai="mai-bang">Mái bằng</button>
+  <div class="filter-bar" id="filterBarEl">
+    <div class="fpanel-wrap" id="fpanelWrap">
+      <button class="filter-btn" id="filterToggleBtn" onclick="toggleFilterPanel()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Lọc mẫu nhà
+        <svg class="chev" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="fpanel" id="filterPanel">
+        <div class="fpanel-section">
+          <div class="fpanel-lbl">Loại nhà</div>
+          <div class="fpanel-options">
+            <button class="fopt active" data-fl="loai" data-fv="all">Tất cả</button>
+            <button class="fopt" data-fl="loai" data-fv="cap4">Cấp 4</button>
+            <button class="fopt" data-fl="loai" data-fv="2tang">2 tầng</button>
+            <button class="fopt" data-fl="loai" data-fv="3tang">3 tầng</button>
+            <button class="fopt" data-fl="loai" data-fv="tren3tang">Trên 3 tầng</button>
+          </div>
+        </div>
+        <div class="fpanel-section">
+          <div class="fpanel-lbl">Kiểu mái</div>
+          <div class="fpanel-options">
+            <button class="fopt active" data-fl="mai" data-fv="all">Tất cả</button>
+            <button class="fopt" data-fl="mai" data-fv="mai-thai">Mái thái</button>
+            <button class="fopt" data-fl="mai" data-fv="mai-nhat">Mái nhật</button>
+            <button class="fopt" data-fl="mai" data-fv="hien-dai">Hiện đại</button>
+            <button class="fopt" data-fl="mai" data-fv="mai-bang">Mái bằng</button>
+          </div>
+        </div>
+        <div class="fpanel-section">
+          <div class="fpanel-lbl">Mặt tiền (mét)</div>
+          <div class="fpanel-range">
+            <input type="number" id="fMtMin" placeholder="Từ" min="0" step="0.5">
+            <span>—</span>
+            <input type="number" id="fMtMax" placeholder="Đến" min="0" step="0.5">
+            <span style="font-size:12px;color:var(--muted)">m</span>
+          </div>
+        </div>
+        <div class="fpanel-actions">
+          <button class="fpanel-reset" onclick="resetFilters()">Đặt lại</button>
+          <button class="fpanel-apply" onclick="applyFilters()">Áp dụng</button>
+        </div>
+      </div>
+    </div>
+    <div id="activeChips"></div>
+    <button class="filter-clear" id="filterClearAll" style="display:none" onclick="resetFilters()">✕ Xoá bộ lọc</button>
   </div>
 </div>
 
@@ -369,6 +462,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
     </div>
   </div>
+  <div id="paginationEl" class="pagination"></div>
 </div>
 
 <!-- FOOTER -->
@@ -394,10 +488,11 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     <div class="mo-body">
       <div class="mo-badge" id="vBadge"></div>
       <div class="mo-title" id="vTitle"></div>
-      <div class="mo-specs">
+      <div class="mo-specs" id="vSpecs">
         <div class="spec"><div class="spec-lbl">Diện tích</div><div class="spec-val" id="vDT"></div><div class="spec-unit">m² mặt bằng</div></div>
         <div class="spec"><div class="spec-lbl">Phòng ngủ</div><div class="spec-val" id="vPN"></div><div class="spec-unit">phòng</div></div>
         <div class="spec"><div class="spec-lbl">Chi phí dự kiến</div><div class="spec-val" id="vCP" style="color:var(--green)"></div><div class="spec-unit">triệu đồng</div></div>
+        <div class="spec" id="vMTSpec" style="display:none"><div class="spec-lbl">Mặt tiền</div><div class="spec-val" id="vMT"></div><div class="spec-unit">mét</div></div>
       </div>
       <div class="mo-desc" id="vDesc"></div>
       <div class="mo-actions">
@@ -449,6 +544,16 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <input type="number" id="ePN" placeholder="3" min="0">
       </div>
     </div>
+    <div class="ef-r2">
+      <div class="ef">
+        <label>Mặt tiền từ (m)</label>
+        <input type="number" id="eMtMin" placeholder="5" min="0" step="0.5">
+      </div>
+      <div class="ef">
+        <label>Mặt tiền đến (m)</label>
+        <input type="number" id="eMtMax" placeholder="8" min="0" step="0.5">
+      </div>
+    </div>
     <div class="ef">
       <label>Chi phí dự kiến (triệu đồng)</label>
       <input type="text" id="eCP" placeholder="VD: 500–750">
@@ -462,12 +567,10 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <div class="img-box">
         <img id="prev1" class="img-box-preview" alt="preview ảnh chính">
         <div class="img-box-actions">
-          <input class="img-url-input" id="eUrl1" placeholder="Dán link URL ảnh..." oninput="onUrlInput(1)" onpaste="setTimeout(()=>onUrlInput(1),0)">
-          <button class="img-file-btn" onclick="document.getElementById('eFile1').click()">📁 Chọn file</button>
+          <input class="img-url-input" id="eUrl1" placeholder="Dán link Google Drive hoặc URL ảnh..." oninput="onUrlInput(1)" onpaste="setTimeout(()=>onUrlInput(1),0)">
           <button class="img-clear" onclick="clearImg(1)">✕</button>
         </div>
-        <input type="file" id="eFile1" class="img-file-input" accept="image/*" onchange="onFileChange(1)">
-        <div class="img-hint">Dán link URL hoặc upload file ảnh từ máy tính</div>
+        <div class="img-hint">Upload ảnh lên Drive → Nhấp phải → Lấy link → Dán vào đây</div>
       </div>
     </div>
     <div class="ef">
@@ -475,11 +578,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <div class="img-box">
         <img id="prev2" class="img-box-preview" alt="preview ảnh phụ">
         <div class="img-box-actions">
-          <input class="img-url-input" id="eUrl2" placeholder="Dán link URL ảnh..." oninput="onUrlInput(2)" onpaste="setTimeout(()=>onUrlInput(2),0)">
-          <button class="img-file-btn" onclick="document.getElementById('eFile2').click()">📁 Chọn file</button>
+          <input class="img-url-input" id="eUrl2" placeholder="Dán link Google Drive hoặc URL ảnh..." oninput="onUrlInput(2)" onpaste="setTimeout(()=>onUrlInput(2),0)">
           <button class="img-clear" onclick="clearImg(2)">✕</button>
         </div>
-        <input type="file" id="eFile2" class="img-file-input" accept="image/*" onchange="onFileChange(2)">
       </div>
     </div>
     <div class="edit-actions">
@@ -500,6 +601,23 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     <div class="cfm-actions">
       <button class="cfm-cancel" id="confirmCancel">Huỷ</button>
       <button class="cfm-ok" id="confirmOk">Xoá</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="eb" id="importModal">
+  <div class="em" style="max-width:460px">
+    <h3>📥 Import ảnh từ Google Drive</h3>
+    <div class="ef">
+      <label>Folder ID hoặc link folder Google Drive</label>
+      <input type="text" id="importFolderId" placeholder="VD: 1YnD06ouySvl... hoặc dán link folder">
+      <div class="img-hint" style="margin-top:6px">Mở folder Drive → copy link trên thanh địa chỉ → dán vào đây</div>
+    </div>
+    <div id="importStatus" style="display:none;padding:10px 12px;border-radius:6px;font-size:13px;margin-bottom:12px"></div>
+    <div class="edit-actions">
+      <button class="btn-save" id="btnImport" onclick="runImport()">📥 Bắt đầu Import</button>
+      <button class="btn-cancel" onclick="closeImportModal()">Huỷ</button>
     </div>
   </div>
 </div>
@@ -543,18 +661,51 @@ const CACHE_KEY = 'nhadep_houses_v2';
 const CACHE_TTL = 5 * 60 * 1000; // 5 phút
 
 // ══ AUTH ══
-const role        = sessionStorage.getItem('nhadep_role');
-const user        = sessionStorage.getItem('nhadep_user');
-const adminToken  = sessionStorage.getItem('nhadep_token'); // token được set lúc login, gửi kèm request write
-// Nếu role=admin mà không có token → coi như user thường (chống giả mạo qua DevTools đơn giản)
-const effectiveRole = (role === 'admin' && adminToken) ? 'admin' : (role || null);
-if (!effectiveRole) location.href = 'index.html';
-document.getElementById('userLabel').textContent = user ? 'Xin chào, ' + user : '';
-document.getElementById('mobUser').textContent   = user ? 'Đăng nhập: ' + user : '';
-if (effectiveRole === 'admin') {
+const role       = sessionStorage.getItem('nhadep_role');
+const user       = sessionStorage.getItem('nhadep_user');
+const adminToken = sessionStorage.getItem('nhadep_token');
+
+// Phân quyền: guest → xem, ctv → thêm, admin → full
+// Nếu chưa có role gì → set guest tự động (vào thẳng không cần login)
+if (!role) sessionStorage.setItem('nhadep_role', 'guest');
+
+const effectiveRole = (() => {
+  if (role === 'admin' && adminToken) return 'admin';
+  if (role === 'ctv'   && adminToken) return 'ctv';
+  return 'guest';
+})();
+
+// Nhãn user
+if (user) {
+  const label = role === 'ctv' ? ('CTV: ' + user) : ('Xin chào, ' + user);
+  document.getElementById('userLabel').textContent = label;
+  document.getElementById('mobUser').textContent   = label;
+} else {
+  document.getElementById('userLabel').textContent = 'Khách';
+  document.getElementById('mobUser').textContent   = 'Đang xem với tư cách khách';
+}
+
+// Hiển thị nút nav theo role
+if (effectiveRole === 'guest') {
+  document.getElementById('navLoginBtn').style.display  = '';
+  document.getElementById('navLogoutBtn').style.display = 'none';
+  document.getElementById('mobLoginBtn').style.display  = '';
+  document.getElementById('mobLogoutBtn').style.display = 'none';
+} else {
+  document.getElementById('navLoginBtn').style.display  = 'none';
+  document.getElementById('navLogoutBtn').style.display = '';
+  document.getElementById('mobLoginBtn').style.display  = 'none';
+  document.getElementById('mobLogoutBtn').style.display = '';
+}
+
+if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
   document.getElementById('addBtnTop').style.display = 'inline-flex';
   document.getElementById('btnEditMo').classList.add('on');
 }
+if (effectiveRole === 'admin') {
+  document.getElementById('importBtn').style.display = 'inline-flex';
+}
+
 function logout() { sessionStorage.clear(); location.href = 'index.html'; }
 
 // ══ MAPS ══
@@ -592,15 +743,28 @@ async function apiGet() {
   return json.data || [];
 }
 async function apiPost(body) {
-  // Gửi kèm adminToken để GAS xác thực quyền write phía server
   const payload = adminToken ? { ...body, _token: adminToken } : body;
-  const res = await fetch(API_URL, {
-    method:'POST', headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify(payload), redirect:'follow'
-  });
-  return res.json();
-}
 
+  // uploadImage cần timeout dài hơn vì xử lý file nặng
+  const controller = new AbortController();
+  const timeout = body.action === 'uploadImage' ? 60000 : 15000;
+  const timer = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    return res.json();
+  } catch(err) {
+    clearTimeout(timer);
+    throw err;
+  }
+}
 // ══ LOAD — CACHE-FIRST STRATEGY ══
 async function loadData() {
   const cached = getCached();
@@ -643,16 +807,114 @@ function applyUpdate() {
 }
 
 // ══ FILTER STATE ══
-let fLoai = 'all', fMai = 'all';
+let fLoai = 'all', fMai = 'all', fMtMin = null, fMtMax = null;
+
+// ══ FILTER PANEL ══
+function toggleFilterPanel() {
+  const panel = document.getElementById('filterPanel');
+  const btn   = document.getElementById('filterToggleBtn');
+  panel.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('fpanelWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('filterPanel').classList.remove('open');
+    document.getElementById('filterToggleBtn').classList.remove('open');
+  }
+});
+document.querySelectorAll('.fopt').forEach(b => b.addEventListener('click', () => {
+  const fl = b.dataset.fl;
+  document.querySelectorAll(`.fopt[data-fl="${fl}"]`).forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+}));
+function applyFilters() {
+  fLoai = document.querySelector('.fopt.active[data-fl="loai"]')?.dataset.fv || 'all';
+  fMai  = document.querySelector('.fopt.active[data-fl="mai"]')?.dataset.fv  || 'all';
+  const minV = document.getElementById('fMtMin').value;
+  const maxV = document.getElementById('fMtMax').value;
+  fMtMin = minV !== '' ? parseFloat(minV) : null;
+  fMtMax = maxV !== '' ? parseFloat(maxV) : null;
+  document.getElementById('filterPanel').classList.remove('open');
+  document.getElementById('filterToggleBtn').classList.remove('open');
+  currentPage = 1;
+  updateFilterChips();
+  renderGallery();
+}
+function resetFilters() {
+  fLoai = 'all'; fMai = 'all'; fMtMin = null; fMtMax = null;
+  document.querySelectorAll('.fopt[data-fv="all"]').forEach(b => {
+    document.querySelectorAll(`.fopt[data-fl="${b.dataset.fl}"]`).forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+  });
+  document.getElementById('fMtMin').value = '';
+  document.getElementById('fMtMax').value = '';
+  document.getElementById('filterPanel').classList.remove('open');
+  document.getElementById('filterToggleBtn').classList.remove('open');
+  currentPage = 1;
+  updateFilterChips();
+  renderGallery();
+}
+function updateFilterChips() {
+  const chips = document.getElementById('activeChips');
+  const clearAll = document.getElementById('filterClearAll');
+  const btn = document.getElementById('filterToggleBtn');
+  const parts = [];
+  const html = [];
+  if (fLoai !== 'all') { parts.push('loai'); html.push(`<span class="filter-chip">${LOAI[fLoai]||fLoai}<button onclick="clearChip('loai')">✕</button></span>`); }
+  if (fMai  !== 'all') { parts.push('mai');  html.push(`<span class="filter-chip">${MAI[fMai]||fMai}<button onclick="clearChip('mai')">✕</button></span>`); }
+  if (fMtMin!==null||fMtMax!==null) {
+    const label = (fMtMin!==null?fMtMin+'m':'') + (fMtMin!==null&&fMtMax!==null?' – ':'') + (fMtMax!==null?fMtMax+'m':'');
+    parts.push('mt');
+    html.push(`<span class="filter-chip">Mặt tiền ${label}<button onclick="clearChip('mt')">✕</button></span>`);
+  }
+  chips.innerHTML = html.join('');
+  clearAll.style.display = parts.length ? '' : 'none';
+  btn.classList.toggle('has-filter', parts.length > 0);
+}
+function clearChip(type) {
+  if (type==='loai') { fLoai='all'; document.querySelectorAll('.fopt[data-fl="loai"]').forEach(x=>x.classList.remove('active')); document.querySelector('.fopt[data-fl="loai"][data-fv="all"]').classList.add('active'); }
+  if (type==='mai')  { fMai='all';  document.querySelectorAll('.fopt[data-fl="mai"]').forEach(x=>x.classList.remove('active'));  document.querySelector('.fopt[data-fl="mai"][data-fv="all"]').classList.add('active'); }
+  if (type==='mt')   { fMtMin=null; fMtMax=null; document.getElementById('fMtMin').value=''; document.getElementById('fMtMax').value=''; }
+  updateFilterChips(); renderGallery();
+}
+
+// ══ PHÂN QUYỀN GIAO DIỆN ══
+const PAGE_SIZE = (effectiveRole === 'admin' || effectiveRole === 'ctv') ? 16 : 8;
+let currentPage = 1;
+
+// Ẩn/hiện toolbar tìm kiếm & lọc theo role
+if (effectiveRole === 'guest') {
+  document.getElementById('toolbarEl').classList.add('toolbar-guest-hidden');
+  // Chèn banner khóa vào filter-bar thay vì ẩn hoàn toàn toolbar
+  document.getElementById('filterBarEl').innerHTML =
+    `<div class="guest-lock">
+       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+       Tìm kiếm &amp; lọc chỉ dành cho thành viên — <a href="index.html">Đăng nhập</a> để sử dụng đầy đủ tính năng.
+     </div>`;
+}
 
 // ══ RENDER ══
 function renderGallery() {
-  const q        = (document.getElementById('searchInput').value || '').toLowerCase();
+  // Guest không được tìm/lọc → reset về toàn bộ
+  const q = effectiveRole !== 'guest'
+    ? (document.getElementById('searchInput').value || '').toLowerCase()
+    : '';
+
   const filtered = allHouses.filter(h => {
+    if (effectiveRole === 'guest') return true; // guest xem tất cả, không lọc
     const okL = fLoai === 'all' || h.loai === fLoai;
     const okM = fMai  === 'all' || h.mainha === fMai;
-    const okQ = !q || h.ten.toLowerCase().includes(q) || (h.mota||'').toLowerCase().includes(q);
-    return okL && okM && okQ;
+    const okQ = !q || (h.ten||'').toLowerCase().includes(q) || (h.mota||'').toLowerCase().includes(q);
+    let okMT = true;
+    if (fMtMin !== null || fMtMax !== null) {
+      const mtMin = parseFloat(h.matienmin) || 0;
+      const mtMax = parseFloat(h.matienmax) || mtMin;
+      const lo = fMtMin !== null ? fMtMin : 0;
+      const hi = fMtMax !== null ? fMtMax : Infinity;
+      okMT = mtMax >= lo && (mtMin <= hi);
+    }
+    return okL && okM && okQ && okMT;
   });
 
   document.getElementById('totalCount').textContent    = allHouses.length;
@@ -660,31 +922,42 @@ function renderGallery() {
   document.getElementById('totalCount2').textContent   = allHouses.length;
   document.getElementById('showCount2').textContent    = filtered.length;
 
-  const gallery = document.getElementById('gallery');
-  const isAdmin = effectiveRole === 'admin';
-  const ph      = 'https://via.placeholder.com/400x300/EAEAE6/5A6B56?text=Chưa+có+ảnh';
+  // Reset về trang 1 khi filter/search thay đổi
+  if (currentPage > Math.ceil(filtered.length / PAGE_SIZE)) currentPage = 1;
+
+  const gallery  = document.getElementById('gallery');
+  const isAdmin  = effectiveRole === 'admin';
+  const isCtv    = effectiveRole === 'ctv';
+  const ph       = 'https://via.placeholder.com/400x300/EAEAE6/5A6B56?text=Chưa+có+ảnh';
 
   if (!filtered.length) {
     gallery.innerHTML = '<div class="grid"><div class="empty"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><p>Không tìm thấy mẫu nhà phù hợp</p></div></div>';
+    document.getElementById('paginationEl').innerHTML = '';
     return;
   }
 
-  gallery.innerHTML = '<div class="grid">' + filtered.map((h,i) => `
+  // Phân trang
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const start      = (currentPage - 1) * PAGE_SIZE;
+  const pageItems  = filtered.slice(start, start + PAGE_SIZE);
+
+  gallery.innerHTML = '<div class="grid">' + pageItems.map((h, i) => `
     <div class="card" style="animation-delay:${Math.min(i,12)*.04}s">
       <div class="cimg" onclick="openView('${escHtml(h.id)}')">
         <img src="${escHtml(h.anh1||ph)}" loading="lazy" decoding="async" onerror="this.src='${ph}'" alt="${escHtml(h.ten)}">
         <div class="cbadge">${escHtml(LOAI[h.loai]||h.loai)}</div>
-        ${isAdmin?`<div class="admin-btns on">
+        ${(isAdmin || isCtv) ? `<div class="admin-btns on">
           <button class="abtn ab-edit" onclick="event.stopPropagation();openEdit('${escHtml(h.id)}')">✏</button>
-          <button class="abtn ab-del"  onclick="event.stopPropagation();deleteHouse('${escHtml(h.id)}')">✕</button>
-        </div>`:''}
+          ${isAdmin ? `<button class="abtn ab-del" onclick="event.stopPropagation();deleteHouse('${escHtml(h.id)}')">✕</button>` : ''}
+        </div>` : ''}
       </div>
       <div class="cbody" onclick="openView('${escHtml(h.id)}')">
         <div class="ctitle">${escHtml(h.ten)}</div>
         <div class="cmeta">
           <span class="cmi"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> ${escHtml(String(h.dientich||'—'))} m²</span>
           <span class="cmi"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> ${escHtml(MAI[h.mainha]||h.mainha)}</span>
-          <span class="cmi"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg> ${escHtml(String(h.sophong||'—'))} PN</span>
+          <span class="cmi"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg> ${escHtml(String(h.sophong||'—'))} Phòng ngủ</span>
+          ${(h.matienmin||h.matienmax)?`<span class="cmi"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 17h18M3 7h18"/><path d="M7 12h10"/></svg> Mặt tiền: ${h.matienmin||''}${h.matienmin&&h.matienmax?'–':''}${h.matienmax||''} m</span>`:''}
         </div>
         <div class="cdesc">${escHtml(h.mota||'')}</div>
       </div>
@@ -693,17 +966,59 @@ function renderGallery() {
         <div class="ccta">Xem →</div>
       </div>
     </div>`).join('') + '</div>';
+
+  renderPagination(totalPages);
 }
 
-// ══ FILTER EVENTS ══
-document.querySelectorAll('[data-loai]').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('[data-loai]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); fLoai = b.dataset.loai; renderGallery();
-}));
-document.querySelectorAll('[data-mai]').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('[data-mai]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); fMai = b.dataset.mai; renderGallery();
-}));
+// ══ PAGINATION ══
+function renderPagination(totalPages) {
+  const el = document.getElementById('paginationEl');
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+
+  let html = '';
+  // Nút Trước
+  html += `<button class="pg-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+
+  // Số trang (hiện tối đa 5 nút, dùng dấu ... nếu nhiều)
+  const pages = getPageRange(currentPage, totalPages);
+  pages.forEach(p => {
+    if (p === '...') {
+      html += `<span class="pg-dots">…</span>`;
+    } else {
+      html += `<button class="pg-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+    }
+  });
+
+  // Nút Sau
+  html += `<button class="pg-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+  el.innerHTML = html;
+}
+
+function getPageRange(cur, total) {
+  if (total <= 7) return Array.from({length:total},(_,i)=>i+1);
+  const pages = [];
+  if (cur <= 4) {
+    for (let i=1;i<=5;i++) pages.push(i);
+    pages.push('...'); pages.push(total);
+  } else if (cur >= total-3) {
+    pages.push(1); pages.push('...');
+    for (let i=total-4;i<=total;i++) pages.push(i);
+  } else {
+    pages.push(1); pages.push('...');
+    for (let i=cur-1;i<=cur+1;i++) pages.push(i);
+    pages.push('...'); pages.push(total);
+  }
+  return pages;
+}
+
+function goPage(p) {
+  currentPage = p;
+  renderGallery();
+  // Scroll lên đầu gallery
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ══ FILTER EVENTS (handled by panel above) ══
 
 // ══ MODAL XEM ══
 let viewingId = null;
@@ -725,6 +1040,19 @@ function openView(id) {
   document.getElementById('vPN').textContent    = h.sophong||'—';
   document.getElementById('vCP').textContent    = (h.chiphi||'—')+(h.chiphi?' tr':'');
   document.getElementById('vDesc').textContent  = h.mota||'';
+  // Mặt tiền
+  const mtSpec = document.getElementById('vMTSpec');
+  const mtVal  = document.getElementById('vMT');
+  const mtSpecs = document.getElementById('vSpecs');
+  if (h.matienmin || h.matienmax) {
+    const label = (h.matienmin||'') + (h.matienmin&&h.matienmax?' – ':'') + (h.matienmax||'');
+    mtVal.textContent = label;
+    mtSpec.style.display = '';
+    mtSpecs.classList.add('has-mt');
+  } else {
+    mtSpec.style.display = 'none';
+    mtSpecs.classList.remove('has-mt');
+  }
   document.getElementById('viewModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -736,7 +1064,7 @@ function editFromView() { closeView(); openEdit(viewingId); }
 let img1Data=null, img2Data=null;
 function openAdd() {
   document.getElementById('editTitle').textContent = 'Thêm mẫu nhà mới';
-  ['eId','eTen','eDT','ePN','eCP','eMota'].forEach(id=>document.getElementById(id).value='');
+  ['eId','eTen','eDT','ePN','eCP','eMota','eMtMin','eMtMax'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('eLoai').value='cap4'; document.getElementById('eMai').value='mai-thai';
   img1Data=null; img2Data=null; resetImgUI(1); resetImgUI(2);
   document.getElementById('editModal').classList.add('open'); document.body.style.overflow='hidden';
@@ -748,12 +1076,12 @@ function openEdit(id) {
   document.getElementById('eDT').value=h.dientich||''; document.getElementById('ePN').value=h.sophong||'';
   document.getElementById('eCP').value=h.chiphi||''; document.getElementById('eMota').value=h.mota||'';
   document.getElementById('eLoai').value=h.loai||'cap4'; document.getElementById('eMai').value=h.mainha||'mai-thai';
+  document.getElementById('eMtMin').value=h.matienmin||''; document.getElementById('eMtMax').value=h.matienmax||'';
   img1Data=h.anh1||null; img2Data=h.anh2||null; setImgUI(1,img1Data); setImgUI(2,img2Data);
   document.getElementById('editModal').classList.add('open'); document.body.style.overflow='hidden';
 }
 function closeEdit() {
   document.getElementById('editModal').classList.remove('open'); document.body.style.overflow='';
-  document.getElementById('eFile1').value=''; document.getElementById('eFile2').value='';
 }
 function setImgUI(n,src) {
   const urlEl=document.getElementById('eUrl'+n), prev=document.getElementById('prev'+n);
@@ -763,8 +1091,8 @@ function setImgUI(n,src) {
 function resetImgUI(n) {
   document.getElementById('eUrl'+n).value='';
   const prev=document.getElementById('prev'+n); prev.src=''; prev.classList.remove('on');
-  document.getElementById('eFile'+n).value='';
 }
+function clearImg(n) { if(n===1) img1Data=null; else img2Data=null; resetImgUI(n); }
 function convertGDriveUrl(url) {
   let m=url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
   if(m) return 'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w1000';
@@ -781,44 +1109,90 @@ function onUrlInput(n) {
   if(val){prev.src=val;prev.classList.add('on');prev.onerror=()=>{prev.classList.remove('on');prev.src='';};}
   else{prev.src='';prev.classList.remove('on');}
 }
-function onFileChange(n) {
-  const file=document.getElementById('eFile'+n).files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const data=e.target.result;
-    if(n===1) img1Data=data; else img2Data=data;
-    const prev=document.getElementById('prev'+n); prev.src=data; prev.classList.add('on');
-    document.getElementById('eUrl'+n).value='';
-  };
-  reader.readAsDataURL(file);
-}
-function clearImg(n) { if(n===1) img1Data=null; else img2Data=null; resetImgUI(n); }
 
 async function saveHouse() {
   const ten=document.getElementById('eTen').value.trim();
   if(!ten){showToast('⚠ Vui lòng nhập tên mẫu nhà');return;}
+  const isNew=!document.getElementById('eId').value;
+  // CTV không được xoá nhưng được sửa và thêm
+  if (!isNew && effectiveRole === 'guest') { showToast('⚠ Bạn không có quyền chỉnh sửa'); return; }
   const id=document.getElementById('eId').value||('U'+Date.now());
   const obj={id,ten,loai:document.getElementById('eLoai').value,mainha:document.getElementById('eMai').value,
     dientich:parseInt(document.getElementById('eDT').value)||0,sophong:parseInt(document.getElementById('ePN').value)||0,
     chiphi:document.getElementById('eCP').value.trim()||'—',mota:document.getElementById('eMota').value.trim(),
+    matienmin:document.getElementById('eMtMin').value.trim()||'',
+    matienmax:document.getElementById('eMtMax').value.trim()||'',
     anh1:img1Data||'',anh2:img2Data||''};
-  const isNew=!document.getElementById('eId').value;
   const btn=document.getElementById('btnSave'); btn.disabled=true; btn.textContent='⏳ Đang lưu...';
   try {
     await apiPost({action:isNew?'add':'edit',house:obj});
     if(isNew) allHouses.push(obj);
     else{const i=allHouses.findIndex(x=>x.id===id);if(i>=0)allHouses[i]=obj;}
-    setCache(allHouses); closeEdit(); await loadData(); showToast('✓ Đã lưu mẫu nhà thành công');
+    setCache(allHouses); renderGallery(); closeEdit(); showToast('✓ Đã lưu mẫu nhà thành công');
   } catch(e) { showToast('⚠ Lỗi khi lưu. Vui lòng thử lại.'); }
   finally { btn.disabled=false; btn.textContent='💾 Lưu mẫu nhà'; }
 }
 async function deleteHouse(id) {
+  if (effectiveRole !== 'admin') { showToast('⚠ Bạn không có quyền xoá mẫu nhà'); return; }
   const ok = await showConfirm('Bạn có chắc muốn xoá mẫu nhà này?\nHành động này không thể hoàn tác.');
   if (!ok) return;
   try {
     await apiPost({action:'delete',id});
     allHouses=allHouses.filter(x=>x.id!==id); setCache(allHouses); renderGallery(); showToast('✓ Đã xoá mẫu nhà');
   } catch(e) { showToast('⚠ Lỗi khi xoá. Vui lòng thử lại.'); }
+}
+
+// ══ IMPORT FROM DRIVE ══
+function extractFolderId(input) {
+  input = input.trim();
+  // Link dạng https://drive.google.com/drive/folders/FOLDER_ID
+  const m = input.match(/folders\/([a-zA-Z0-9_-]+)/);
+  if (m) return m[1];
+  // Nếu là ID thuần (không có slash, không có dấu cách)
+  if (/^[a-zA-Z0-9_-]{10,}$/.test(input)) return input;
+  return null;
+}
+function openImportModal() {
+  document.getElementById('importFolderId').value = '';
+  document.getElementById('importStatus').style.display = 'none';
+  document.getElementById('btnImport').disabled = false;
+  document.getElementById('btnImport').textContent = '📥 Bắt đầu Import';
+  document.getElementById('importModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeImportModal() {
+  document.getElementById('importModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+async function runImport() {
+  const raw = document.getElementById('importFolderId').value.trim();
+  const folderId = extractFolderId(raw);
+  if (!folderId) { showToast('⚠ Folder ID không hợp lệ'); return; }
+
+  const btn = document.getElementById('btnImport');
+  const status = document.getElementById('importStatus');
+  btn.disabled = true; btn.textContent = '⏳ Đang quét...';
+  status.style.display = 'block';
+  status.style.background = '#EAF4E7'; status.style.color = '#3D6B34';
+  status.textContent = '⏳ Đang quét ảnh trong folder, vui lòng chờ...';
+
+  try {
+    const res = await apiPost({ action: 'scanFolder', folderId });
+    if (res.ok) {
+      status.style.background = '#EAF4E7'; status.style.color = '#3D6B34';
+      status.textContent = '✓ Đã import ' + res.count + ' mẫu nhà mới' + (res.skipped ? ' (bỏ qua ' + res.skipped + ' ảnh đã có)' : '');
+      await loadData();
+      setTimeout(closeImportModal, 1500);
+    } else {
+      status.style.background = '#FEF2F2'; status.style.color = '#c03030';
+      status.textContent = '⚠ Lỗi: ' + (res.error || 'Không xác định');
+    }
+  } catch(e) {
+    status.style.background = '#FEF2F2'; status.style.color = '#c03030';
+    status.textContent = '⚠ Lỗi kết nối. Vui lòng thử lại.';
+  } finally {
+    btn.disabled = false; btn.textContent = '📥 Bắt đầu Import';
+  }
 }
 
 // ══ TOAST ══
