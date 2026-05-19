@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3D6B34">
+<title>Thước Lỗ Ban — Hùng Lê Design Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;
+  --dark:#141916;
+  --cream:#F4F3F0;--cream2:#EAEAE6;
+  --text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;
+  --red:#C0392B;--red-light:#FDF0EE;
+  --radius:6px;
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --nav-h:60px;
+}
+html{scroll-behavior:smooth}
+body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-logo img{height:40px}
+.nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.nav-r{display:flex;gap:6px;align-items:center}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+.nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center}
+.nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
+.nb-ghost:hover{background:var(--green);color:#fff}
+.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);-webkit-tap-highlight-color:transparent}
+.mob-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:#fff;z-index:99;flex-direction:column;padding:16px;gap:8px;border-top:1px solid var(--bd);overflow-y:auto}
+.mob-menu.open{display:flex;animation:fadeDown .2s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.mob-item{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:var(--radius);font-size:14px;font-weight:600;color:var(--text);background:var(--cream);text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent}
+.mob-item:active{background:var(--gl)}
+.mob-sep{height:1px;background:var(--bd);margin:2px 0}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#EEF6EB 0%,#F4F3F0 100%);padding:28px 32px 22px;position:relative;overflow:hidden;border-bottom:1px solid var(--bd)}
+.hero::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(90,158,74,.1) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto}
+.hero h1{font-size:clamp(20px,3vw,28px);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-.3px}
+.hero h1 span{color:var(--green2)}
+.hero-desc{color:var(--muted);margin-top:6px;font-size:13px}
+.hero-note{margin-top:12px;display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.hn{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600}
+.hn-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.hn-dot.good{background:#C0392B}
+.hn-dot.bad{background:#2C2C2C}
+
+/* ── INPUT HERO BOX ── */
+.input-hero{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);padding:18px 22px;max-width:1100px;margin:18px auto 0;box-shadow:var(--shadow)}
+.ih-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:12px}
+.ih-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.ih-group{display:flex;flex-direction:column;gap:5px}
+.ih-group label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.size-input{padding:11px 14px;border:1.5px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:22px;font-weight:700;color:var(--text);outline:none;transition:border-color .2s;width:190px;text-align:center}
+.size-input:focus{border-color:var(--green);background:#fff}
+.unit-sel{padding:11px 12px;border:1.5px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:14px;font-weight:600;color:var(--text);outline:none;background:#fff;cursor:pointer;transition:border-color .2s}
+.unit-sel:focus{border-color:var(--green)}
+/* Dropdown chọn thước */
+.thuoc-sel-wrap{display:flex;flex-direction:column;gap:5px}
+.thuoc-sel{padding:11px 12px;border:1.5px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;font-weight:600;color:var(--text);outline:none;background:#fff;cursor:pointer;transition:border-color .2s;min-width:220px}
+.thuoc-sel:focus{border-color:var(--green)}
+.btn-check{padding:12px 26px;background:var(--green);border:none;font-family:inherit;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);font-weight:700;transition:.2s;white-space:nowrap;align-self:flex-end}
+.btn-check:hover{background:#2f5228}
+.btn-reset{padding:12px 16px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-radius:var(--radius);font-weight:600;transition:.2s;align-self:flex-end}
+.btn-reset:hover{border-color:var(--dark);color:var(--text)}
+.ih-hint{margin-top:10px;font-size:11px;color:var(--muted);font-style:italic;padding-top:10px;border-top:1px solid var(--cream2)}
+
+/* ── GỢI Ý KÍCH THƯỚC TỐT ── */
+.suggest-wrap{margin-top:12px;padding-top:12px;border-top:1px solid var(--cream2);display:none}
+.suggest-wrap.show{display:block}
+.suggest-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.suggest-label::before{content:"✨"}
+.suggest-chips{display:flex;flex-wrap:wrap;gap:7px}
+.suggest-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;background:var(--gl);border:1px solid rgba(90,158,74,.35);border-radius:20px;font-size:12px;font-weight:700;color:var(--green);cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
+.suggest-chip:hover{background:var(--green);color:#fff;border-color:var(--green)}
+.suggest-chip .sc-diff{font-size:10px;font-weight:500;opacity:.75}
+.suggest-chip .sc-cung{font-size:10px;background:rgba(61,107,52,.12);padding:1px 6px;border-radius:10px;font-weight:600}
+
+/* ── MAIN ── */
+.main{max-width:1100px;margin:0 auto;padding:24px 32px 64px}
+
+/* ── RULER PANEL (single) ── */
+.rulers-grid{margin-bottom:24px}
+.ruler-panel{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.ruler-panel.active-panel{border-color:var(--green);box-shadow:0 0 0 2px rgba(90,158,74,.2)}
+.rp-head{padding:12px 16px;background:var(--cream);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.rp-head:hover{background:var(--gl)}
+.rp-num{width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.5px}
+.ruler-panel.active-panel .rp-num{background:var(--green2)}
+.rp-info{flex:1;min-width:0}
+.rp-size{font-size:14px;font-weight:700;color:var(--text);line-height:1.2}
+.rp-use{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-body{padding:12px 14px}
+
+/* ── RULER VISUAL ── */
+.ruler-track{display:flex;width:100%;height:44px;border-radius:4px;overflow:hidden}
+.rcung{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;letter-spacing:.3px;text-align:center;transition:filter .2s,outline .2s;cursor:default;position:relative;overflow:hidden}
+.rcung.good{background:#C0392B;color:#fff}
+.rcung.bad{background:#2C2C2C;color:#888}
+.rcung.active-seg{outline:3px solid var(--green2);outline-offset:-3px;z-index:2;filter:brightness(1.15)}
+.rcung-name{writing-mode:vertical-lr;transform:rotate(180deg);font-size:8px;letter-spacing:.4px;line-height:1}
+.ruler-scale{display:flex;padding:3px 0 0}
+.rs-mark{flex:1;text-align:center;font-size:9px;color:var(--muted);font-weight:500}
+
+/* ── RESULT BADGE ON RULER PANEL ── */
+.rp-result{margin-top:8px;padding:8px 11px;border-radius:var(--radius);font-size:12px;font-weight:600;display:none;align-items:center;gap:8px;animation:fadeUp .25s ease}
+.rp-result.show{display:flex}
+.rp-result.good{background:#EDF7EC;color:#219653;border:1px solid #B8DFB6}
+.rp-result.bad{background:var(--red-light);color:var(--red);border:1px solid #F0C4BC}
+.rp-result-icon{font-size:16px}
+.rp-result-text{flex:1;line-height:1.3}
+.rp-result-cung{font-weight:700}
+.rp-result-size{font-size:11px;opacity:.8}
+
+/* ── DETAIL CARD (expanded result) ── */
+.detail-box{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;display:none}
+.detail-box.show{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.detail-header{padding:16px 20px;display:flex;align-items:center;gap:14px}
+.detail-header.good{background:#EDF7EC;border-bottom:1px solid #B8DFB6}
+.detail-header.bad{background:var(--red-light);border-bottom:1px solid #F0C4BC}
+.d-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;font-weight:700}
+.d-icon.good{background:#27AE60;color:#fff}
+.d-icon.bad{background:var(--red);color:#fff}
+.d-main{flex:1}
+.d-size{font-size:22px;font-weight:700;color:var(--text)}
+.d-cung{font-size:14px;font-weight:700;margin-top:2px}
+.d-cung.good{color:#219653}
+.d-cung.bad{color:var(--red)}
+.d-thuoc{font-size:11px;color:var(--muted);margin-top:2px;font-weight:500}
+.detail-body{padding:16px 20px}
+.d-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+.d-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.subcungs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.subcung-tag{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600}
+.subcung-tag.good{background:var(--gl);color:var(--green);border:1px solid rgba(90,158,74,.3)}
+.subcung-tag.bad{background:var(--red-light);color:var(--red);border:1px solid rgba(192,57,43,.2)}
+
+/* ── QUICK TABLE ── */
+.quick-section{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
+.quick-head{padding:14px 20px;background:var(--cream2);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.quick-head-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.tab-btns{display:flex;gap:0;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden}
+.tb{padding:5px 12px;background:#fff;border:none;font-family:inherit;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:.15s;border-right:1px solid var(--bd);white-space:nowrap}
+.tb:last-child{border-right:none}
+.tb:hover{background:var(--gl);color:var(--green)}
+.tb.active{background:var(--green);color:#fff}
+.quick-table{width:100%;border-collapse:collapse}
+.quick-table th{padding:10px 14px;text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:1px solid var(--bd);background:var(--cream)}
+.quick-table td{padding:9px 14px;font-size:12px;border-bottom:1px solid var(--cream2);vertical-align:middle}
+.quick-table tr:last-child td{border-bottom:none}
+.quick-table tr:hover td{background:var(--cream)}
+.cung-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.cung-badge.good{background:#C0392B;color:#fff}
+.cung-badge.bad{background:#2C2C2C;color:#bbb}
+.size-list{font-size:11px;color:var(--muted);line-height:1.8}
+
+/* ── NOTE BOX ── */
+.note-box{background:#FFF9E6;border:1px solid #F0DC8A;border-radius:var(--radius);padding:14px 18px;font-size:12px;color:#7A6310;line-height:1.7;margin-bottom:20px}
+.note-box strong{color:#5A4800}
+
+/* ── FOOTER ── */
+footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{height:32px}
+.f-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
+.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
+.f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right;font-weight:500}
+
+/* ── RESPONSIVE Tablet ── */
+@media(min-width:601px) and (max-width:1000px){
+  .nav{padding:0 18px}
+  .nav-r .nb{display:none}
+  .nl-sub{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+  .hero{padding:22px 18px 18px}
+  .input-hero{margin:14px 18px 0}
+  .main{padding:18px 18px 48px}
+  footer{padding:16px 18px}
+}
+/* ── RESPONSIVE Mobile ── */
+@media(max-width:600px){
+  :root{--nav-h:56px}
+  .nav{padding:0 14px;height:56px}
+  .nav-r .nb,.nav-r .nav-phone{display:none}
+  .nl-sub{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+  .hero{padding:16px 14px 14px}
+  .input-hero{margin:12px 12px 0;padding:14px}
+  .ih-row{flex-direction:column;align-items:stretch}
+  .size-input,.btn-check,.btn-reset,.thuoc-sel{width:100%;justify-content:center;text-align:center}
+  .main{padding:14px 12px 48px}
+  .ruler-track{height:36px}
+  .rcung-name{font-size:7px}
+  footer{flex-direction:column;align-items:flex-start;padding:14px}
+  .f-r a,.f-r p{text-align:left}
+  .quick-table th:nth-child(3),.quick-table td:nth-child(3){display:none}
+  .tab-btns .tb{font-size:10px;padding:5px 8px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="home.html" class="nav-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" width="40" height="40" loading="eager">
+    <div>
+      <div class="nl-name">Hùng Lê Design Studio</div>
+      <div class="nl-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </a>
+  <div class="nav-r">
+    <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
+    <a href="home.html" class="nb nb-ghost">← Thư viện</a>
+    <a href="xemtuoilamnha.html" class="nb nb-ghost">🗓 Xem tuổi</a>
+    <a href="estimate.html" class="nb nb-ghost">Dự toán</a>
+    <a href="huong.html" class="nb nb-ghost">🧭 Hướng nhà</a>
+  </div>
+  <button class="mob-toggle" id="mobToggle" onclick="toggleMob()">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
+  <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
+  <a href="estimate.html" class="mob-item">📊 Dự toán chi phí</a>
+  <div class="mob-sep"></div>
+  <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>📐 Thước <span>Lỗ Ban</span> trực tuyến</h1>
+    <p class="hero-desc">Tra kích thước phong thuỷ chuẩn — nhập 1 con số, xem ngay cả 3 thước</p>
+    <div class="hero-note">
+      <div class="hn"><div class="hn-dot good"></div><span>Màu đỏ = Tốt, nên dùng</span></div>
+      <div class="hn"><div class="hn-dot bad"></div><span>Màu đen = Xấu, nên tránh</span></div>
+    </div>
+  </div>
+
+  <!-- INPUT TRONG HERO -->
+  <div class="input-hero">
+    <div class="ih-label">Nhập kích thước cần tra</div>
+    <div class="ih-row">
+      <div class="ih-group">
+        <label>Kích thước</label>
+        <input class="size-input" type="number" id="sizeInput" placeholder="80" min="0" step="0.1" oninput="onInput()">
+      </div>
+      <div class="ih-group">
+        <label>Đơn vị</label>
+        <select class="unit-sel" id="unitSel" onchange="onInput()">
+          <option value="cm">cm</option>
+          <option value="mm">mm</option>
+          <option value="m">m</option>
+        </select>
+      </div>
+      <div class="ih-group thuoc-sel-wrap">
+        <label>Loại thước</label>
+        <select class="thuoc-sel" id="thuocSel" onchange="onThuocChange()">
+          <option value="0">📐 Thước 52,2 cm — Thông thủy (cửa, cửa sổ...)</option>
+          <option value="1">🏗 Thước 42,9 cm — Dương trạch (bếp, bậc...)</option>
+          <option value="2">🪔 Thước 38,8 cm — Âm phần (bàn thờ, tủ thờ...)</option>
+        </select>
+      </div>
+      <button class="btn-check" onclick="check()">🔍 Tra kích thước</button>
+      <button class="btn-reset" onclick="resetAll()">Xoá</button>
+    </div>
+
+    <!-- GỢI Ý KÍCH THƯỚC TỐT -->
+    <div class="suggest-wrap" id="suggestWrap">
+      <div class="suggest-label">Kích thước tốt gần nhất bạn có thể dùng</div>
+      <div class="suggest-chips" id="suggestChips"></div>
+    </div>
+
+    <div class="ih-hint">
+      💡 <strong>Lưu ý:</strong> Với cửa đi / cửa sổ, chỉ cần xem <strong>Thước 52,2 cm</strong> là đủ. Hai thước còn lại không bắt buộc phải vào lỗ ban.
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- KẾT QUẢ CHI TIẾT -->
+  <div class="detail-box" id="detailBox">
+    <div class="detail-header" id="detailHeader">
+      <div class="d-icon" id="detailIcon"></div>
+      <div class="d-main">
+        <div class="d-size" id="detailSize"></div>
+        <div class="d-cung" id="detailCung"></div>
+        <div class="d-thuoc" id="detailThuoc"></div>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="d-label">Ý nghĩa phong thuỷ</div>
+      <div class="d-desc" id="detailDesc"></div>
+      <div class="subcungs" id="detailSubs"></div>
+    </div>
+  </div>
+
+  <!-- 3 THƯỚC SONG SONG -->
+  <div class="rulers-grid" id="rulersGrid"></div>
+
+  <!-- NOTE -->
+  <div class="note-box">
+    <strong>📌 Hướng dẫn sử dụng:</strong><br>
+    — <strong>Thước 52,2 cm:</strong> dùng cho khoảng <em>thông thủy</em> (cửa đi, cửa sổ, giếng trời…). Đo lọt lòng, không tính khung.<br>
+    — <strong>Thước 42,9 cm:</strong> dùng cho <em>khối xây dựng</em> (bếp, bậc tam cấp, bệ, kệ…). Đo phủ bì bên ngoài.<br>
+    — <strong>Thước 38,8 cm:</strong> dùng cho <em>đồ thờ cúng &amp; âm phần</em> (bàn thờ, tủ thờ, mộ phần…). Không dùng cho nhà người sống.
+  </div>
+
+  <!-- BẢNG CHI TIẾT CÁC CUNG -->
+  <div class="quick-section">
+    <div class="quick-head">
+      <span class="quick-head-title">Bảng cung tốt xấu</span>
+      <div class="tab-btns">
+        <button class="tb active" onclick="switchTable(0)">52,2 cm</button>
+        <button class="tb" onclick="switchTable(1)">42,9 cm</button>
+        <button class="tb" onclick="switchTable(2)">38,8 cm</button>
+      </div>
+    </div>
+    <table class="quick-table">
+      <thead>
+        <tr>
+          <th style="width:110px">Cung</th>
+          <th style="width:70px">Loại</th>
+          <th>Ý nghĩa</th>
+          <th>Cung nhỏ</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" loading="lazy" width="32" height="32">
+    <div>
+      <div class="f-name">Hùng Lê Design Studio</div>
+      <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </div>
+  <div class="f-r">
+    <a href="tel:0947017495">📞 0947.017.495</a>
+    <p>© <span id="footerYear"></span> Hùng Lê Design Studio</p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+// ══ DỮ LIỆU 3 THƯỚC ══
+const THUOCS = [
+  {
+    name: 'Thước 52,2 cm',
+    label: 'Thông thủy',
+    useFor: 'Cửa đi, cửa sổ, giếng trời',
+    size: 52.2,
+    cungSize: 6.525,
+    cungs: [
+      { name:'Quý Nhân',   good:true,  desc:'Gặp quý nhân, gia cảnh thịnh vượng, con cái thành đạt, tài lộc tăng tiến.',               subs:['Trung Tín','Quyền Lộc','Tác Quan','Phát Đạt','Thông Minh'] },
+      { name:'Hiểm Họa',   good:false, desc:'Tán tài lộc, trôi dạt tha phương, cuộc sống túng thiếu, gia đạo bất hòa, con cái hư hỏng.', subs:['Hỗn Nhân','Thất Hiếu','Án Thành','Tai Họa','Trường Bệnh'] },
+      { name:'Thiên Tai',  good:false, desc:'Gặp chuyện không hay, ốm đau, gia đình lục đục, mất của cải, con cái không may mắn.',       subs:['Quan Tài','Thân Tàn','Hoàn Tử','Thất Tài','Cô Quả'] },
+      { name:'Thiên Tài',  good:true,  desc:'Gia cảnh nhiều may mắn, hưng thịnh, con cái đủ tiền tài lợi lộc, ngoan ngoãn hiếu thảo.', subs:['Thi Thơ','Văn Học','Thanh Quý','Tác Lộc','Thiên Lộc'] },
+      { name:'Nhân Lộc',   good:true,  desc:'Gia cảnh khả quan, làm ăn phát đạt, bạn bè trung thành, con cái thông minh hiếu thảo.',   subs:['Đăng Khoa','Tiến Bảo','Tiến Tài','Hưng Vượng','Lộc Tồn'] },
+      { name:'Cô Độc',     good:false, desc:'Cô đơn, chia lìa, vợ chồng mâu thuẫn, con cái xa cách, hao tài tổn lộc.',               subs:['Cô Quả','Li Tán','Thối Tài','Thất Vọng','Cô Lập'] },
+      { name:'Thiên Tặc',  good:false, desc:'Tai bay vạ gió, kiện tụng, tù tội, bệnh bất ngờ, chết chóc, hao người hao của.',         subs:['Tai Chí','Bệnh Lâm','Quan Phi','Tù Tội','Tử Vong'] },
+      { name:'Tể Tướng',   good:true,  desc:'Gia đạo hanh thông mọi mặt, con cái tấn tài tấn lộc, sinh quý tử, gặp may mắn bất ngờ.', subs:['Nạp Phúc','Phú Quý','Thiên Lộc','Đăng Khoa','Quý Tử'] },
+    ]
+  },
+  {
+    name: 'Thước 42,9 cm',
+    label: 'Dương trạch',
+    useFor: 'Bếp, bậc tam cấp, khối xây',
+    size: 42.9,
+    cungSize: 5.3625,
+    cungs: [
+      { name:'Tài',   good:true,  desc:'Tài lộc, tiền bạc dồi dào, có tài có đức, kho báu đầy ắp, đón nhận phúc lộc.', subs:['Tài Đức','Bảo Khố','Lục Hợp','Nghênh Phúc'] },
+      { name:'Bệnh',  good:false, desc:'Bệnh tật, ốm đau liên miên, mất tiền của, bị kiện tụng, cô quả đơn lẻ.',       subs:['Thoát Tài','Công Sự','Lao Chấp','Cô Quả'] },
+      { name:'Ly',    good:false, desc:'Ly tán, chia lìa, xa cách người thân, cầm cố đồ đạc, mất mát của cải.',         subs:['Trưởng Khố','Kiếp Tài','Quan Quỷ','Thất Thoát'] },
+      { name:'Nghĩa', good:true,  desc:'Nghĩa khí, thêm con trai, có lợi lộc, sinh quý tử, nhiều điều may mắn tốt đẹp.',subs:['Thêm Đinh','Ích Lợi','Quý Tử','Đại Cát'] },
+      { name:'Quan',  good:true,  desc:'Công danh rộng mở, tiền bạc nhiều, ích lợi tăng trưởng, giàu sang phú quý.',    subs:['Thuận Khoa','Hoành Tài','Tiến Ích','Phú Quý'] },
+      { name:'Nạn',   good:false, desc:'Tai ương, nguy hiểm, chết chóc, mất người thân, ly hương xa quê, mất của cải.', subs:['Tử Biệt','Thoái Khẩu','Ly Hương','Tài Thất'] },
+      { name:'Hại',   good:false, desc:'Tai nạn bất ngờ, chết chóc, mắc bệnh hiểm nghèo, thị phi cãi cọ khẩu thiệt.', subs:['Tai Chí','Tử Tuyệt','Bệnh Lâm','Khẩu Thiệt'] },
+      { name:'Mạng',  good:true,  desc:'Ổn định vững bền, tiền tài đến, đỗ đạt thành công, được dâng của quý, làm ăn hưng vượng.', subs:['Tài Chí','Đăng Khoa','Tiến Bảo','Hưng Vượng'] },
+    ]
+  },
+  {
+    name: 'Thước 38,8 cm',
+    label: 'Âm phần',
+    useFor: 'Bàn thờ, tủ thờ, mộ phần',
+    size: 38.8,
+    cungSize: 3.88,
+    cungs: [
+      { name:'Đinh',  good:true,  desc:'Thêm con trai, phúc tinh chiếu, thi cử đỗ đạt, tiền bạc dồi dào, tài vượng.',     subs:['Phúc Tinh','Cập Đệ','Tài Vượng','Đăng Khoa'] },
+      { name:'Hại',   good:false, desc:'Tai họa bất ngờ, khẩu thiệt thị phi, bệnh tật, gia đạo đoạn tuyệt.',              subs:['Khẩu Thiệt','Bệnh Lâm','Tử Tuyệt','Tai Chí'] },
+      { name:'Vượng', good:true,  desc:'Thịnh vượng, giàu sang, hưng vượng, tài lộc dồi dào, mọi mặt đều hanh thông.',    subs:['Đăng Khoa','Hưng Vượng','Tài Lộc','Phát Đạt'] },
+      { name:'Khổ',   good:false, desc:'Khổ cực, mất tiền của, mất chức quyền, kiện tụng, không may về con cái.',          subs:['Thất Thoát','Quan Quỷ','Kiếp Tài','Vô Tự'] },
+      { name:'Nghĩa', good:true,  desc:'Đại cát, tài vượng, ích lợi, phúc phận đến, may mắn tiền bạc bất ngờ.',           subs:['Đại Cát','Tài Vượng','Ích Lợi','Thiên Khố'] },
+      { name:'Quan',  good:true,  desc:'Phú quý, giàu sang, tiến bảo, lắm tiền nhiều cửa, công danh thành đạt.',          subs:['Phú Quý','Tiến Bảo','Hoạch Tài','Thuận Khoa'] },
+      { name:'Tử',    good:false, desc:'Chết chóc, tử tuyệt, bệnh nặng, người thân qua đời, tổn thất chia lìa.',          subs:['Tử Tuyệt','Đoạn Tuyệt','Bệnh Trọng','Chia Lìa'] },
+      { name:'Hưng',  good:true,  desc:'Hưng thịnh, công danh đỗ đạt, con cháu ngoan giỏi, thêm đinh, giàu có êm ấm.',   subs:['Đăng Khoa','Quý Tử','Thêm Đinh','Hưng Vượng'] },
+      { name:'Thất',  good:false, desc:'Thất bát, mất mát, rơi vào tù tội, tiền bạc trôi mất, con cái hư hỏng.',          subs:['Thất Lộc','Tù Tội','Hao Tài','Hư Thân'] },
+      { name:'Tài',   good:true,  desc:'Phúc phận đến, sáu hướng tốt lành, tiền bạc may mắn, có tài có đức, tốt mọi bề.', subs:['Nghinh Phúc','Lục Hợp','Tiến Bảo','Tài Đức'] },
+    ]
+  }
+];
+
+let currentTable = 0;
+let lastResults = null;
+let currentThuocIdx = 0; // thước đang chọn
+
+// ═══ HELPERS ═══
+function toCm(val, unit) {
+  if (unit==='mm') return val/10;
+  if (unit==='m')  return val*100;
+  return val;
+}
+function fromCm(cm, unit) {
+  if (unit==='mm') return Math.round(cm*10*10)/10;
+  if (unit==='m')  return Math.round(cm/100*1000)/1000;
+  return Math.round(cm*10)/10;
+}
+function getCungIdx(cm, ti) {
+  const t = THUOCS[ti];
+  const rem = ((cm % t.size) + t.size) % t.size;
+  return Math.min(Math.floor(rem / t.cungSize), t.cungs.length - 1);
+}
+function getDispVal(val, unit) {
+  if (unit==='mm') return val + ' mm';
+  if (unit==='m')  return val + ' m';
+  return val + ' cm';
+}
+
+// ═══ TÌM GỢI Ý KÍCH THƯỚC TỐT GẦN NHẤT ═══
+function findGoodSuggestions(cm, ti, count = 4) {
+  const t = THUOCS[ti];
+  // Tìm các khoảng tốt trong chu kỳ
+  const goodRanges = [];
+  t.cungs.forEach((c, i) => {
+    if (c.good) {
+      // Bắt đầu và kết thúc cung này (cm trong chu kỳ)
+      const start = i * t.cungSize;
+      const end   = (i + 1) * t.cungSize;
+      // Lấy điểm giữa của cung (an toàn nhất)
+      const mid = (start + end) / 2;
+      goodRanges.push({ cungIdx: i, cungName: c.name, mid });
+    }
+  });
+
+  // Với mỗi good range, tìm giá trị cm thực tế gần cm nhất (các chu kỳ xung quanh)
+  const candidates = [];
+  const cycle = t.size;
+  const baseCycle = Math.floor(cm / cycle); // chu kỳ hiện tại
+
+  for (const gr of goodRanges) {
+    // Xét chu kỳ -2 đến +2 để đủ lựa chọn cả nhỏ hơn và lớn hơn
+    for (let k = baseCycle - 2; k <= baseCycle + 2; k++) {
+      const candidate = k * cycle + gr.mid;
+      if (candidate > 0 && Math.abs(candidate - cm) > 0.05) {
+        candidates.push({
+          cm: candidate,
+          diff: candidate - cm,
+          absDiff: Math.abs(candidate - cm),
+          cungName: gr.cungName,
+          cungIdx: gr.cungIdx
+        });
+      }
+    }
+  }
+
+  // Sắp xếp theo khoảng cách tuyệt đối, lấy count gần nhất
+  candidates.sort((a, b) => a.absDiff - b.absDiff);
+
+  // Lấy cả nhỏ hơn và lớn hơn: 2 nhỏ gần nhất, 2 lớn gần nhất
+  const smaller = candidates.filter(c => c.diff < 0).slice(0, Math.ceil(count/2));
+  const larger  = candidates.filter(c => c.diff > 0).slice(0, Math.ceil(count/2));
+  // Gộp và sắp theo diff tăng dần
+  return [...smaller, ...larger].sort((a,b) => a.diff - b.diff);
+}
+
+// ═══ RENDER GỢI Ý ═══
+function renderSuggestions(cm, ti) {
+  const unit = document.getElementById('unitSel').value;
+  const wrap = document.getElementById('suggestWrap');
+  const chips = document.getElementById('suggestChips');
+
+  if (!cm || cm <= 0) { wrap.classList.remove('show'); return; }
+
+  const suggestions = findGoodSuggestions(cm, ti, 4);
+  if (!suggestions.length) { wrap.classList.remove('show'); return; }
+
+  chips.innerHTML = suggestions.map(s => {
+    const dispCm = Math.round(s.cm * 10) / 10;
+    const dispVal = fromCm(s.cm, unit);
+    const diffStr = s.diff > 0 ? `+${Math.round(s.diff*10)/10} cm` : `${Math.round(s.diff*10)/10} cm`;
+    return `<button class="suggest-chip" onclick="applySuggestion(${dispCm})" title="Cung ${s.cungName}">
+      <span>${dispVal} ${unit !== 'cm' ? `<span style="font-weight:400;font-size:10px">(${dispCm} cm)</span>` : ''}</span>
+      <span class="sc-cung">${s.cungName}</span>
+      <span class="sc-diff">${diffStr}</span>
+    </button>`;
+  }).join('');
+
+  wrap.classList.add('show');
+}
+
+// ═══ ÁP DỤNG GỢI Ý ═══
+function applySuggestion(cmVal) {
+  const unit = document.getElementById('unitSel').value;
+  const dispVal = fromCm(cmVal, unit);
+  document.getElementById('sizeInput').value = dispVal;
+  check();
+}
+
+// ═══ RENDER SINGLE RULER ═══
+function renderRuler(activeIdx = -1, ti = currentThuocIdx) {
+  const grid = document.getElementById('rulersGrid');
+  const t = THUOCS[ti];
+  const hasResult = activeIdx >= 0;
+  const cung = hasResult ? t.cungs[activeIdx] : null;
+
+  const trackHTML = t.cungs.map((c, i) => `
+    <div class="rcung ${c.good?'good':'bad'} ${i===activeIdx?'active-seg':''}"
+         style="flex:${100/t.cungs.length}%" title="${c.name}: ${c.good?'TỐT':'XẤU'}">
+      <span class="rcung-name">${c.name}</span>
+    </div>
+  `).join('');
+
+  const scaleHTML = Array.from({length: t.cungs.length+1}, (_,i) =>
+    `<div class="rs-mark">${Math.round(i * t.cungSize * 10)/10}</div>`
+  ).join('');
+
+  const resultHTML = hasResult ? `
+    <div class="rp-result ${cung.good?'good':'bad'} show">
+      <span class="rp-result-icon">${cung.good?'✅':'❌'}</span>
+      <div class="rp-result-text">
+        <div class="rp-result-cung">Cung ${cung.name} — ${cung.good?'TỐT nên dùng':'XẤU nên tránh'}</div>
+        <div class="rp-result-size">${cung.subs.join(' · ')}</div>
+      </div>
+    </div>` : '';
+
+  grid.innerHTML = `
+    <div class="ruler-panel ${hasResult?'active-panel':''}">
+      <div class="rp-head" style="cursor:default">
+        <div class="rp-num">${ti+1}</div>
+        <div class="rp-info">
+          <div class="rp-size">${t.name} <span style="font-size:10px;font-weight:500;color:var(--green2);margin-left:4px">${t.label}</span></div>
+          <div class="rp-use">${t.useFor}</div>
+        </div>
+      </div>
+      <div class="rp-body">
+        <div class="ruler-track">${trackHTML}</div>
+        <div class="ruler-scale">${scaleHTML}</div>
+        ${resultHTML}
+      </div>
+    </div>
+  `;
+}
+
+// ═══ DETAIL BOX ═══
+function showDetail(ti, activeIdx) {
+  if (activeIdx < 0) return;
+  const t = THUOCS[ti];
+  const cung = t.cungs[activeIdx];
+  const val = parseFloat(document.getElementById('sizeInput').value);
+  const unit = document.getElementById('unitSel').value;
+  const cm = toCm(val, unit);
+  const dispVal = getDispVal(val, unit);
+  const dispCm = Math.round(cm*10)/10;
+
+  const box = document.getElementById('detailBox');
+  document.getElementById('detailHeader').className = 'detail-header '+(cung.good?'good':'bad');
+  document.getElementById('detailIcon').className = 'd-icon '+(cung.good?'good':'bad');
+  document.getElementById('detailIcon').textContent = cung.good ? '✓' : '✕';
+  document.getElementById('detailSize').textContent = dispVal + (unit!=='cm'?` (≈ ${dispCm} cm)`:'');
+  document.getElementById('detailCung').className = 'd-cung '+(cung.good?'good':'bad');
+  document.getElementById('detailCung').textContent = `Cung ${cung.name} — ${cung.good?'✅ TỐT nên dùng':'❌ XẤU nên tránh'}`;
+  document.getElementById('detailThuoc').textContent = t.name + ' — ' + t.label;
+  document.getElementById('detailDesc').textContent = cung.desc;
+  document.getElementById('detailSubs').innerHTML = cung.subs.map(s =>
+    `<span class="subcung-tag ${cung.good?'good':'bad'}">${s}</span>`).join('');
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ═══ THAY ĐỔI THƯỚC ═══
+function onThuocChange() {
+  currentThuocIdx = parseInt(document.getElementById('thuocSel').value);
+  // Cập nhật table theo thước mới
+  currentTable = currentThuocIdx;
+  document.querySelectorAll('.tb').forEach((b,i) => b.classList.toggle('active', i===currentThuocIdx));
+  renderTable();
+
+  // Nếu đã có giá trị thì tính lại
+  const val = parseFloat(document.getElementById('sizeInput').value);
+  if (val && val > 0) {
+    const unit = document.getElementById('unitSel').value;
+    const cm = toCm(val, unit);
+    const idx = getCungIdx(cm, currentThuocIdx);
+    renderRuler(idx, currentThuocIdx);
+    renderSuggestions(cm, currentThuocIdx);
+    if (lastResults) {
+      lastResults[currentThuocIdx] = idx;
+      showDetail(currentThuocIdx, idx);
+    }
+  } else {
+    renderRuler(-1, currentThuocIdx);
+    document.getElementById('suggestWrap').classList.remove('show');
+  }
+}
+
+// ═══ LIVE PREVIEW ═══
+function onInput() {
+  const val = parseFloat(document.getElementById('sizeInput').value);
+  if (!val || val <= 0) {
+    renderRuler(-1, currentThuocIdx);
+    document.getElementById('suggestWrap').classList.remove('show');
+    return;
+  }
+  const unit = document.getElementById('unitSel').value;
+  const cm = toCm(val, unit);
+  const idx = getCungIdx(cm, currentThuocIdx);
+  renderRuler(idx, currentThuocIdx);
+  renderSuggestions(cm, currentThuocIdx);
+}
+
+// ═══ CHECK ═══
+function check() {
+  const val = parseFloat(document.getElementById('sizeInput').value);
+  if (!val || val <= 0) { alert('Vui lòng nhập kích thước hợp lệ!'); return; }
+  const unit = document.getElementById('unitSel').value;
+  const cm = toCm(val, unit);
+  const ti = currentThuocIdx;
+  const idx = getCungIdx(cm, ti);
+
+  lastResults = THUOCS.map((_,i) => getCungIdx(cm, i));
+  renderRuler(idx, ti);
+  renderSuggestions(cm, ti);
+  showDetail(ti, idx);
+}
+
+// ═══ RESET ═══
+function resetAll() {
+  document.getElementById('sizeInput').value = '';
+  lastResults = null;
+  document.getElementById('detailBox').classList.remove('show');
+  document.getElementById('suggestWrap').classList.remove('show');
+  renderRuler(-1, currentThuocIdx);
+}
+
+// ═══ TABLE ═══
+function switchTable(idx) {
+  currentTable = idx;
+  document.querySelectorAll('.tb').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderTable();
+}
+function renderTable() {
+  const t = THUOCS[currentTable];
+  document.getElementById('tableBody').innerHTML = t.cungs.map(c => `
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td><span class="cung-badge ${c.good?'good':'bad'}">${c.good?'TỐT':'XẤU'}</span></td>
+      <td style="color:var(--muted);font-size:12px">${c.desc.split('.')[0]}.</td>
+      <td class="size-list">${c.subs.join(' · ')}</td>
+    </tr>
+  `).join('');
+}
+
+// ═══ MOBILE MENU ═══
+function toggleMob() { document.getElementById('mobMenu').classList.toggle('open'); }
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobMenu');
+  const tog  = document.getElementById('mobToggle');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !tog.contains(e.target))
+    menu.classList.remove('open');
+});
+
+// Enter key
+document.addEventListener('keydown', e => { if (e.key==='Enter') check(); });
+
+// ═══ INIT ═══
+renderRuler(-1, 0);
+renderTable();
+</script>
+</body>
+</html>
