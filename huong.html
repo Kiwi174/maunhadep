@@ -3,35 +3,36 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hùng Lê Design Studio — Xem hướng nhà hợp tuổi</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--green:#4A7C3F;--green2:#6AAF5A;--gl:#E8F3E5;--dark:#1A1F18;--dark2:#232820;--cream:#F6F5F2;--cream2:#EDECE8;--text:#232820;--muted:#7A8A76;--bd:#D8DDD5;--gold:#C9A96E;--red:#C03030}
-body{font-family:"Be Vietnam Pro",sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
-nav{position:sticky;top:0;z-index:100;background:var(--dark);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;border-bottom:1px solid rgba(106,175,90,.2)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo img{height:42px}
-.nl-name{font-family:"Cormorant Garamond",serif;font-size:16px;font-weight:600;color:#fff;letter-spacing:1px;line-height:1.1}
-.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase}
-.nav-r{display:flex;gap:7px;align-items:center}
-.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:500;border:1px solid rgba(106,175,90,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
-.nav-phone:hover{border-color:var(--green2);color:#fff}
-.nb{padding:7px 14px;border-radius:3px;font-family:"Be Vietnam Pro",sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:500}
-.nb-ghost{background:transparent;border:1px solid rgba(106,175,90,.35);color:var(--green2)}
-.nb-ghost:hover{border-color:var(--green2);color:#fff}
+:root{--green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;--dark:#141916;--cream:#F4F3F0;--cream2:#EAEAE6;--text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;--gold:#C9A96E;--red:#C03030;--radius:6px;--nav-h:60px}
+body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-logo img{height:40px}
+.nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.nav-r{display:flex;gap:6px;align-items:center}
+.nav-user{font-size:12px;color:var(--muted);margin-right:4px;font-weight:500}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+.nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap}
+.nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
+.nb-ghost:hover{background:var(--green);color:#fff}
 .nb-green{background:var(--green);color:#fff}
-.nb-green:hover{background:#3A6330}
-.page-header{background:var(--dark2);padding:36px 40px 28px;position:relative;overflow:hidden}
-.page-header::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
-.page-header h1{font-family:"Cormorant Garamond",serif;font-size:34px;font-weight:300;color:#fff;line-height:1.1}
-.page-header h1 span{color:var(--gold)}
-.page-header p{color:rgba(255,255,255,.5);margin-top:7px;font-size:13px;font-weight:300}
-footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(106,175,90,.15)}
+.nb-green:hover{background:#2f5228}
+.page-header{background:linear-gradient(135deg,#EEF6EB 0%,#F4F3F0 100%);padding:28px 32px 22px;border-bottom:1px solid var(--bd);position:relative;overflow:hidden}
+.page-header::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(90,158,74,.1) 0%,transparent 70%);pointer-events:none}
+.page-header h1{font-size:clamp(22px,3.5vw,32px);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-.5px}
+.page-header h1 span{color:var(--green2)}
+.page-header p{color:var(--muted);margin-top:5px;font-size:13px;font-weight:400}
+footer{background:#fff;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd)}
 .f-logo{display:flex;align-items:center;gap:10px}
-.f-logo img{height:34px}
-.f-name{font-family:"Cormorant Garamond",serif;font-size:15px;color:#fff;letter-spacing:1px}
-.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase}
-.f-r a{color:var(--green2);font-size:13px;font-weight:500;text-decoration:none;display:block;text-align:right}
+.f-logo img{height:32px}
+.f-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
+.f-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
 .f-r p{font-size:11px;color:var(--muted);margin-top:3px;text-align:right}
 
 /* MAIN LAYOUT */
@@ -87,7 +88,7 @@ footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;
 .mi-item{padding:13px 16px;border-right:1px solid rgba(255,255,255,.06)}
 .mi-item:last-child{border:none}
 .mi-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.mi-val{font-size:15px;font-weight:600;color:#fff}
+.mi-val{font-size:15px;font-weight:600;color:#141313}
 .mi-sub{font-size:11px;color:var(--muted);margin-top:2px}
 
 /* HƯỚNG TỐT */
@@ -113,10 +114,10 @@ footer{background:var(--dark);padding:20px 40px;display:flex;align-items:center;
 .huong-item.hien-tai .hi-badge{background:#FBF6EE;color:#9A6B20}
 
 /* LA BÀN */
-.compass-wrap{background:#fff;border:1px solid var(--bd);border-radius:4px;padding:20px;margin-bottom:16px;text-align:center}
+.compass-wrap{background:#f9f8f8;border:1px solid var(--bd);border-radius:4px;padding:20px;margin-bottom:16px;text-align:center}
 .compass-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px}
 .compass{position:relative;width:200px;height:200px;margin:0 auto;border-radius:50%;background:var(--dark2);border:3px solid var(--gold)}
-.compass-dir{position:absolute;font-size:11px;font-weight:600;color:rgba(255,255,255,.7)}
+.compass-dir{position:absolute;font-size:11px;font-weight:600;color:rgba(12, 12, 12, 0.7)}
 .cd-n{top:6px;left:50%;transform:translateX(-50%)}
 .cd-s{bottom:6px;left:50%;transform:translateX(-50%)}
 .cd-e{right:8px;top:50%;transform:translateY(-50%)}
