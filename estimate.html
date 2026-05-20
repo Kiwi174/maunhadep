@@ -370,7 +370,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <div class="card">
     <div class="ch"><div class="ch-icon">🏠</div><h2>Loại mái & diện tích mái</h2></div>
     <div class="cb">
-      <div class="info-note">Sàn mái = DT thực × hệ số loại mái × <strong>1.200.000 đ/m²</strong> (cố định, không theo gói)</div>
+      <div class="info-note">Sàn mái = DT thực × hệ số loại mái × <strong>đơn giá/m²</strong> (cố định, không theo gói)</div>
       <div class="fg">
         <label>Loại mái</label>
         <select id="maiEl" onchange="onMaiChange(this.value);calc()">
@@ -470,7 +470,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <div class="card admin-panel" id="adminPanel" style="display:none">
     <div class="ch"><div class="ch-icon">⚙️</div><h2>Bảng đơn giá tham khảo <span class="admin-badge">ADMIN</span></h2></div>
     <div class="cb">
-      <div class="info-note" style="margin-bottom:14px">Chỉnh sửa và nhấn <strong>Lưu</strong> để cập nhật. Dữ liệu lưu localStorage — tất cả phiên trên cùng trình duyệt sẽ dùng giá này.</div>
+      <div class="info-note" style="margin-bottom:14px">Chỉnh sửa và nhấn <strong>Lưu</strong> để cập nhật. Dữ liệu lưu trên Google Sheet — mọi thiết bị và trình duyệt đều dùng chung đơn giá này.</div>
 
       <div class="dg-block">
         <div class="dg-block-title">① Đơn giá phần thô (đ/m²) — dùng cho: Móng · Thân nhà (gói thô) · Sân thượng · Sân nhà · Tầng hầm</div>
@@ -646,13 +646,47 @@ const DG_DEFAULT = {
   mai: 1200000,
 };
 
-// Load từ localStorage, fallback về default nếu chưa có
-let DG = (()=>{
+// Load đơn giá từ Google Sheet, fallback về localStorage rồi default
+let DG = JSON.parse(JSON.stringify(DG_DEFAULT));
+
+async function loadDonGia(){
+  // Thử load từ Sheet trước
+  try{
+    const res = await fetch(API_URL + '?type=dongia', { redirect:'follow' });
+    const json = await res.json();
+    // GS trả flat {tho_nhapho_min:..., tg_nhapho_min:..., mai:...}
+    // → parse sang nested {tho:{nhapho:{min,max}}, tg:{...}, mai}
+    const flat = json.ok ? json.data : json;
+    if(flat && typeof flat === 'object'){
+      const nested = { tho:{}, tg:{}, mai: flat.mai || DG_DEFAULT.mai };
+      Object.entries(flat).forEach(([k,v])=>{
+        if(k==='mai') return;
+        const p = k.split('_'); // ['tho','nhapho','min']
+        if(p.length<3) return;
+        const loai=p[0], ten=p[1], mm=p[2];
+        if(!nested[loai]) nested[loai]={};
+        if(!nested[loai][ten]) nested[loai][ten]={};
+        nested[loai][ten][mm] = +v;
+      });
+      // validate đủ keys
+      const ok = LOAI_LIST.every(l=> nested.tho[l] && nested.tg[l]);
+    if(ok){
+      DG = nested;
+      try{ localStorage.setItem(DG_KEY, JSON.stringify(DG)); }catch(e){}
+      fillAdminInputs();
+      calc();
+      return;
+    }} // end if(ok) + if(flat)
+  }catch(e){ /* Sheet lỗi → dùng cache */ }
+  // Fallback: localStorage
   try{
     const s = localStorage.getItem(DG_KEY);
-    return s ? JSON.parse(s) : JSON.parse(JSON.stringify(DG_DEFAULT));
-  }catch(e){ return JSON.parse(JSON.stringify(DG_DEFAULT)); }
-})();
+    if(s){ DG = JSON.parse(s); fillAdminInputs(); calc(); return; }
+  }catch(e){}
+  // Fallback cuối: default
+  fillAdminInputs();
+  calc();
+}
 
 // IDs mapping cho admin inputs
 const LOAI_LIST = ['nhapho','bietthu','nhavuon','maiNhat','maiThai'];
@@ -703,7 +737,9 @@ async function saveDonGia(){
       body: JSON.stringify({ action:'saveDonGia', data: flattenDG(DG) }),
       redirect: 'follow'
     });
-    document.getElementById('saveStatus').textContent = '✅ Đã lưu — ' + new Date().toLocaleString('vi-VN');
+    // Cache lại localStorage để dùng offline
+    try{ localStorage.setItem(DG_KEY, JSON.stringify(DG)); }catch(e){}
+    document.getElementById('saveStatus').textContent = '✅ Đã lưu lên Google Sheet — ' + new Date().toLocaleString('vi-VN');
     btn.textContent = '✓ Đã lưu!';
     setTimeout(()=>{ btn.innerHTML='Lưu đơn giá'; },3000);
   } catch(e){
@@ -1067,10 +1103,9 @@ function toggleMob(){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('mobMenu').classList.remove('open');});
 
-fillAdminInputs();
 addTang();
 applyMaiByLoai(document.getElementById('selLoai').value);
-calc();
+loadDonGia(); // load từ Google Sheet, rồi fillAdminInputs + calc
 </script>
 <!-- NÚT XEM DỰ TOÁN (FAB) -->
 <button class="fab-result" onclick="document.getElementById('resultPanel').scrollIntoView({behavior:'smooth',block:'start'})">

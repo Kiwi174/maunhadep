@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#3D6B34">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Hùng Lê Design Studio — Thư viện mẫu nhà</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -392,7 +393,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
-  <button class="mob-item" id="mobLogoutBtn" style="display:none" onclick="logout()" style="color:#c03030">🚪 Đăng xuất</button>
+  <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
 
@@ -415,6 +416,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <button id="importBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:6px;padding:9px 14px;font-size:11px;letter-spacing:1px" onclick="openImportModal()">
         📥 Import từ Drive
       </button>
+
     </div>
   </div>
 </div>
@@ -472,8 +474,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
             <button class="fopt" data-fl="mai" data-fv="mai-thai">Mái thái</button>
             <button class="fopt" data-fl="mai" data-fv="mai-nhat">Mái nhật</button>
             <button class="fopt" data-fl="mai" data-fv="hien-dai">Hiện đại</button>
-            <button class="fopt" data-fl="mai" data-fv="mai-bang">Mái bằng</button>
-          </div>
+            <button class="fopt" data-fl="mai" data-fv="mai-bang" style="display:none">Mái bằng</button>          </div>
         </div>
         <div class="fpanel-section">
           <div class="fpanel-lbl">Mặt tiền (mét)</div>
@@ -494,15 +495,15 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     <button class="filter-clear" id="filterClearAll" style="display:none" onclick="resetFilters()">✕ Xoá bộ lọc</button>
     <!-- SORT -->
     <div class="sort-wrap" id="sortWrap" style="margin-left:auto;display:none">
-      <button class="sort-btn" id="sortBtn" onclick="toggleSortPanel()">
+      <button class="sort-btn active-sort" id="sortBtn" onclick="toggleSortPanel()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M9 18h6"/></svg>
-        <span id="sortLabel">Sắp xếp</span>
+        <span id="sortLabel">Mới nhất</span>
         <svg class="chev" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       <div class="sort-panel" id="sortPanel">
-        <button class="sort-opt active" data-sort="default" onclick="setSort('default','Mặc định')">📋 Mặc định</button>
+        <button class="sort-opt" data-sort="default" onclick="setSort('default','Mặc định')">📋 Mặc định</button>
         <button class="sort-opt" data-sort="az" onclick="setSort('az','Tên A → Z')">🔤 Tên A → Z</button>
-        <button class="sort-opt" data-sort="newest" onclick="setSort('newest','Mới nhất')">🆕 Mới nhất</button>
+        <button class="sort-opt active" data-sort="newest" onclick="setSort('newest','Mới nhất')">🆕 Mới nhất</button>
         <button class="sort-opt" data-sort="oldest" onclick="setSort('oldest','Cũ nhất')">🕰 Cũ nhất</button>
       </div>
     </div>
@@ -592,7 +593,6 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
           <option value="mai-thai">Mái thái</option>
           <option value="mai-nhat">Mái nhật</option>
           <option value="hien-dai">Hiện đại</option>
-          <option value="mai-bang">Mái bằng</option>
         </select>
       </div>
     </div>
@@ -669,20 +669,58 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 
 <!-- IMPORT MODAL -->
 <div class="eb" id="importModal">
-  <div class="em" style="max-width:460px">
-    <h3>📥 Import ảnh từ Google Drive</h3>
-    <div class="ef">
-      <label>Folder ID hoặc link folder Google Drive</label>
-      <input type="text" id="importFolderId" placeholder="VD: 1YnD06ouySvl... hoặc dán link folder">
-      <div class="img-hint" style="margin-top:6px">Mở folder Drive → copy link trên thanh địa chỉ → dán vào đây</div>
+  <div class="em" style="max-width:680px">
+    <h3>&#128229; Import ảnh từ Google Drive</h3>
+
+    <!-- BƯỚC 1: Nhập folder -->
+    <div id="importStep1">
+      <div class="ef">
+        <label>Folder ID hoặc link folder Google Drive</label>
+        <input type="text" id="importFolderId" placeholder="VD: 1YnD06ouySvl... hoặc dán link folder">
+        <div class="img-hint" style="margin-top:6px">Mở folder Drive &#8594; copy link trên thanh địa chỉ &#8594; dán vào đây</div>
+      </div>
+      <div id="scanProgressWrap" style="display:none;margin-bottom:12px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600" id="scanProgressLabel">&#9203; Đang quét folder...</div>
+        <div style="background:var(--cream2);border-radius:20px;height:8px;overflow:hidden">
+          <div id="scanProgressBar" style="height:100%;width:0%;background:var(--green2);border-radius:20px;transition:width .3s ease"></div>
+        </div>
+      </div>
+      <div class="edit-actions">
+        <button class="btn-save" id="btnScan" onclick="runScan()">&#128269; Quét folder</button>
+        <button class="btn-cancel" onclick="closeImportModal()">Huỷ</button>
+      </div>
     </div>
-    <div id="importStatus" style="display:none;padding:10px 12px;border-radius:6px;font-size:13px;margin-bottom:12px"></div>
-    <div class="edit-actions">
-      <button class="btn-save" id="btnImport" onclick="runImport()">📥 Bắt đầu Import</button>
-      <button class="btn-cancel" onclick="closeImportModal()">Huỷ</button>
+
+    <!-- BƯỚC 2: Preview & chọn ảnh -->
+    <div id="importStep2" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;font-weight:700;color:var(--text)">
+          Chọn ảnh để import (<span id="selectedCount">0</span>/<span id="totalScanned">0</span>)
+        </div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <button class="filter-btn" onclick="bulkDupAction('replace')" id="btnBulkReplace" style="font-size:11px;padding:5px 10px;display:none">&#9888; Ghi đè tất cả trùng</button>
+          <button class="filter-btn" onclick="bulkDupAction('keep')" id="btnBulkKeep" style="font-size:11px;padding:5px 10px;display:none">&#128274; Giữ nguyên tất cả trùng</button>
+          <button class="filter-btn" onclick="toggleSelectAll(true)"  style="font-size:11px;padding:5px 10px">&#9989; Chọn tất cả</button>
+          <button class="filter-btn" onclick="toggleSelectAll(false)" style="font-size:11px;padding:5px 10px">&#11036; Bỏ chọn tất cả</button>
+        </div>
+      </div>
+      <div id="importPreviewList" style="max-height:340px;overflow-y:auto;border:1px solid var(--bd);border-radius:var(--radius);background:#fafaf9"></div>
+      <div id="importProgressWrap" style="display:none;margin:12px 0">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600" id="importProgressLabel">&#9203; Đang import...</div>
+        <div style="background:var(--cream2);border-radius:20px;height:8px;overflow:hidden">
+          <div id="importProgressBar" style="height:100%;width:0%;background:var(--green2);border-radius:20px;transition:width .3s ease"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px" id="importProgressDetail"></div>
+      </div>
+      <div id="importStatus2" style="display:none;padding:10px 12px;border-radius:6px;font-size:13px;margin:10px 0"></div>
+      <div class="edit-actions" style="margin-top:12px">
+        <button class="btn-save" id="btnImport" onclick="runImport()">&#128229; Import ảnh đã chọn</button>
+        <button class="btn-cancel" onclick="backToStep1()">&#8592; Quay lại</button>
+      </div>
     </div>
   </div>
 </div>
+
 
 <div class="toast" id="toast"></div>
 
@@ -763,6 +801,386 @@ function logout() { sessionStorage.clear(); location.href = 'index.html'; }
 const LOAI = { cap4:'Nhà cấp 4', '2tang':'Nhà 2 tầng', '3tang':'Nhà 3 tầng', tren3tang:'Trên 3 tầng' };
 const MAI  = { 'mai-thai':'Mái thái', 'mai-nhat':'Mái nhật', 'hien-dai':'Hiện đại', 'mai-bang':'Mái bằng' };
 
+// ══ MÔ TẢ THEO LOẠI NHÀ ══
+const MOTA_TEMPLATES = {
+  'cap4': {
+    'mai-nhat': 'Ngôi nhà 1 tầng mái Nhật mang vẻ đẹp thanh lịch, nhẹ nhàng nhưng vẫn toát lên sự sang trọng hiện đại. Thiết kế mái có độ dốc vừa phải giúp tổng thể cân đối, hài hòa và phù hợp với khí hậu Việt Nam. Không gian ngoại thất thường sử dụng tone màu trung tính kết hợp hệ cửa kính lớn tạo cảm giác rộng rãi, thông thoáng và gần gũi thiên nhiên. Kiểu nhà này đặc biệt phù hợp với gia đình nhỏ, người trung niên hoặc gia chủ yêu thích cuộc sống yên bình, tiện nghi. Bố trí công năng khoa học giúp mọi khu vực liên kết thuận tiện, hạn chế cầu thang nên rất an toàn cho trẻ nhỏ và người lớn tuổi. Sân vườn xung quanh có thể kết hợp tiểu cảnh, hồ cá hoặc khu vực thư giãn tạo nên một không gian sống thư thái, hiện đại nhưng vẫn đậm chất Á Đông tinh tế.',
+    'mai-thai': 'Mẫu nhà 1 tầng mái Thái luôn được yêu thích nhờ vẻ đẹp cao ráo, sang trọng và khả năng chống nóng hiệu quả. Thiết kế mái dốc đặc trưng giúp công trình trở nên nổi bật, tạo cảm giác thanh thoát và bề thế dù chỉ có một tầng. Kiến trúc thường kết hợp các đường nét hiện đại cùng hệ cột, phào chỉ nhẹ để tăng chiều sâu thẩm mỹ. Không gian bên trong được bố trí khoa học với phòng khách rộng, khu bếp liên thông và các phòng ngủ đầy đủ tiện nghi. Đây là lựa chọn lý tưởng cho gia đình ở nông thôn hoặc ngoại ô muốn sở hữu một căn nhà đẹp, thoáng và bền vững theo thời gian. Khuôn viên sân trước có thể tận dụng làm gara, sân chơi hoặc trồng cây xanh, mang lại cảm giác gần gũi thiên nhiên và tạo nên không gian sống thoải mái cho cả gia đình.',
+    'hien-dai': 'Mẫu nhà 1 tầng phong cách hiện đại gây ấn tượng bởi thiết kế tối giản nhưng đầy tinh tế và tiện nghi. Các đường nét vuông vức kết hợp vật liệu như kính, gỗ và đá trang trí giúp công trình trở nên trẻ trung, sang trọng và hợp xu hướng. Không gian mở được ưu tiên nhằm tận dụng tối đa ánh sáng tự nhiên và sự thông thoáng cho toàn bộ ngôi nhà. Đây là kiểu thiết kế phù hợp với gia đình trẻ yêu thích phong cách sống năng động, hiện đại nhưng vẫn đảm bảo sự ấm cúng. Nội thất thường hướng đến sự gọn gàng, tiện dụng và tối ưu diện tích sử dụng. Ngoài ra, mẫu nhà này còn dễ dàng kết hợp sân vườn, hiên thư giãn hoặc khu vực cà phê ngoài trời, tạo nên không gian sống thoải mái và đầy cảm hứng cho mọi thành viên trong gia đình.',
+    'mai-bang': 'Mẫu nhà 1 tầng mái bằng mang phong cách kiến trúc hiện đại với đường nét vuông vức, khỏe khoắn và đầy tính thẩm mỹ. Mái bằng giúp tối ưu diện tích sân thượng, dễ dàng cải tạo hoặc mở rộng thêm tầng trong tương lai. Thiết kế đơn giản nhưng tinh tế, phù hợp với gia đình yêu thích phong cách sống hiện đại và tiết kiệm chi phí xây dựng.',
+  },
+  '1.5tang': {
+    'mai-nhat': 'Mẫu nhà 1.5 tầng mái Nhật là lựa chọn hoàn hảo cho gia đình muốn tối ưu công năng nhưng vẫn giữ được vẻ đẹp thanh lịch và hiện đại. Phần tầng lửng giúp tăng diện tích sử dụng mà không làm công trình quá cao, mang lại cảm giác cân đối và tinh tế. Hệ mái Nhật nhẹ nhàng kết hợp màu sắc trung tính tạo nên tổng thể sang trọng, hài hòa với nhiều loại cảnh quan. Thiết kế này thường bố trí phòng khách và khu sinh hoạt chung ở tầng dưới, trong khi tầng lửng dành cho phòng ngủ hoặc không gian làm việc riêng tư. Kiến trúc mở cùng hệ cửa kính lớn giúp đón gió và ánh sáng tự nhiên hiệu quả. Đây là kiểu nhà phù hợp với gia đình trẻ yêu thích sự tiện nghi, hiện đại và muốn sở hữu không gian sống vừa đẹp mắt vừa tối ưu chi phí xây dựng.',
+    'mai-thai': 'Nhà 1.5 tầng mái Thái sở hữu vẻ đẹp nổi bật với thiết kế cao ráo, sang trọng và đầy cuốn hút. Phần mái dốc đặc trưng không chỉ tăng giá trị thẩm mỹ mà còn giúp chống nóng và thoát nước hiệu quả. Tầng lửng được tận dụng thông minh để mở rộng công năng mà vẫn giữ được sự thông thoáng cho không gian bên dưới. Kiểu nhà này rất phù hợp với các gia đình có từ 3–5 thành viên muốn sở hữu một tổ ấm tiện nghi nhưng không cần xây dựng quá nhiều tầng. Ngoại thất thường kết hợp màu trắng, ghi hoặc nâu gỗ để tạo cảm giác hiện đại và bền vững theo thời gian. Sự kết hợp giữa kiến trúc mái Thái truyền thống và đường nét hiện đại giúp ngôi nhà vừa gần gũi vừa sang trọng, phù hợp với nhiều khu vực từ thành phố đến nông thôn.',
+    'hien-dai': 'Mẫu nhà 1.5 tầng hiện đại mang phong cách trẻ trung với thiết kế tối giản nhưng đầy tính thẩm mỹ. Phần tầng lửng tạo điểm nhấn kiến trúc độc đáo đồng thời tăng diện tích sử dụng mà vẫn giữ được sự gọn gàng cho tổng thể công trình. Các vật liệu hiện đại như kính cường lực, lam gỗ và đá ốp trang trí được sử dụng khéo léo giúp ngôi nhà trở nên sang trọng và hợp xu hướng. Không gian mở giữa phòng khách, bếp và khu vực sinh hoạt chung tạo cảm giác rộng rãi và kết nối giữa các thành viên. Thiết kế này đặc biệt phù hợp với gia đình trẻ yêu thích sự năng động, tiện nghi và tối ưu chi phí xây dựng. Ngoài ra, nhà còn có thể kết hợp sân vườn nhỏ hoặc khu vực thư giãn ngoài trời để mang lại trải nghiệm sống thoải mái và gần gũi thiên nhiên hơn.',
+  },
+  '2tang': {
+    'mai-nhat': 'Mẫu nhà 2 tầng mái Nhật mang vẻ đẹp hiện đại pha chút tinh tế Á Đông, tạo nên tổng thể hài hòa và sang trọng. Thiết kế mái có độ dốc nhẹ giúp công trình thanh thoát hơn đồng thời chống nóng và thoát nước hiệu quả. Không gian hai tầng được bố trí khoa học, đáp ứng đầy đủ nhu cầu sinh hoạt của gia đình nhiều thế hệ. Tầng một thường là khu sinh hoạt chung rộng rãi, trong khi tầng trên dành cho các phòng ngủ riêng tư và ban công thư giãn. Kiểu nhà này phù hợp với cả thành thị lẫn nông thôn nhờ khả năng thích nghi linh hoạt với nhiều diện tích đất khác nhau. Ngoại thất thường sử dụng gam màu trung tính kết hợp kính và gỗ trang trí, tạo cảm giác hiện đại nhưng vẫn ấm cúng. Đây là lựa chọn lý tưởng cho gia chủ yêu thích sự thanh lịch và tiện nghi.',
+    'mai-thai': 'Nhà 2 tầng mái Thái luôn nằm trong top thiết kế được ưa chuộng nhờ vẻ đẹp sang trọng và bề thế. Hệ mái cao giúp công trình trở nên nổi bật, đồng thời hỗ trợ chống nóng hiệu quả trong điều kiện khí hậu nhiệt đới. Kiến trúc thường kết hợp giữa phong cách hiện đại và một chút tân cổ điển nhẹ để tạo chiều sâu thẩm mỹ. Không gian bên trong được phân chia hợp lý với phòng khách rộng, bếp tiện nghi và nhiều phòng ngủ thoải mái cho cả gia đình. Ban công và cửa sổ lớn giúp tăng khả năng lưu thông không khí và đón ánh sáng tự nhiên. Với sự cân đối giữa công năng và hình thức, mẫu nhà này phù hợp cho gia đình muốn xây dựng một không gian sống bền đẹp, sang trọng và đáp ứng tốt nhu cầu sinh hoạt lâu dài.',
+    'hien-dai': 'Mẫu nhà 2 tầng hiện đại gây ấn tượng bởi thiết kế mạnh mẽ, trẻ trung và tối ưu không gian sử dụng. Các hình khối vuông vức kết hợp vật liệu như kính, đá và lam gỗ tạo nên vẻ đẹp sang trọng và hợp xu hướng kiến trúc mới. Thiết kế mở giúp ngôi nhà luôn thông thoáng, tận dụng tối đa ánh sáng tự nhiên và tiết kiệm năng lượng. Công năng được bố trí khoa học với khu sinh hoạt chung ở tầng dưới và không gian nghỉ ngơi riêng tư ở tầng trên. Đây là lựa chọn phù hợp cho gia đình trẻ yêu thích phong cách sống hiện đại, tiện nghi và đề cao tính thẩm mỹ. Ngoài ra, mẫu nhà còn dễ dàng kết hợp gara, sân vườn hoặc hồ cá mini để tăng trải nghiệm sống. Tổng thể công trình mang đến cảm giác năng động, tinh tế và đầy cảm hứng cho cuộc sống hàng ngày.',
+  },
+  '2.5tang': {
+    'mai-nhat': 'Mẫu nhà 2.5 tầng mái Nhật là sự kết hợp hài hòa giữa tính thẩm mỹ hiện đại và công năng sử dụng linh hoạt. Thiết kế tầng tum hoặc tầng lửng phía trên giúp gia tăng diện tích mà vẫn giữ được sự thanh thoát cho tổng thể công trình. Hệ mái Nhật với độ dốc nhẹ mang đến cảm giác sang trọng, tinh tế và phù hợp với nhiều phong cách sống khác nhau. Không gian bên trong được bố trí khoa học, đáp ứng tốt nhu cầu sinh hoạt của gia đình đông thành viên. Ban công rộng cùng hệ cửa kính lớn giúp ngôi nhà luôn tràn ngập ánh sáng tự nhiên và gió trời. Kiểu nhà này đặc biệt phù hợp với gia chủ yêu thích sự hiện đại nhưng vẫn muốn giữ nét nhẹ nhàng, ấm cúng. Tổng thể công trình mang lại cảm giác tiện nghi, bền vững và đầy giá trị thẩm mỹ theo thời gian.',
+    'mai-thai': 'Nhà 2.5 tầng mái Thái nổi bật với vẻ đẹp bề thế, sang trọng và đầy cuốn hút. Hệ mái cao kết hợp kiến trúc nhiều lớp tạo nên điểm nhấn mạnh mẽ cho toàn bộ công trình. Phần tầng tum hoặc tầng lửng phía trên có thể tận dụng làm phòng thờ, phòng làm việc hoặc khu thư giãn riêng tư. Thiết kế này giúp tối ưu diện tích sử dụng mà vẫn đảm bảo sự thông thoáng và thẩm mỹ. Ngoại thất thường sử dụng gam màu sáng kết hợp đá ốp và lan can hiện đại để tăng vẻ sang trọng. Không gian sống được bố trí khoa học, phù hợp với gia đình nhiều thế hệ cần sự tiện nghi và riêng tư. Đây là mẫu nhà lý tưởng cho những ai muốn sở hữu một công trình đẹp mắt, nổi bật và bền vững theo thời gian mà vẫn giữ được sự gần gũi, ấm cúng.',
+    'hien-dai': 'Mẫu nhà 2.5 tầng hiện đại mang phong cách kiến trúc trẻ trung với thiết kế tối ưu cả về công năng lẫn thẩm mỹ. Các hình khối mạnh mẽ kết hợp vật liệu hiện đại giúp công trình trở nên nổi bật và đầy cá tính. Phần tum phía trên có thể tận dụng làm sân thượng, phòng giải trí hoặc khu vực thư giãn ngoài trời. Không gian mở giữa các khu vực sinh hoạt tạo cảm giác rộng rãi, thoáng đãng và kết nối các thành viên trong gia đình. Hệ cửa kính lớn giúp tận dụng ánh sáng tự nhiên, đồng thời mang lại vẻ đẹp hiện đại và sang trọng cho tổng thể công trình. Đây là lựa chọn phù hợp với gia đình yêu thích phong cách sống năng động, tiện nghi và đề cao trải nghiệm sống chất lượng. Tổng thể ngôi nhà vừa hiện đại, tinh tế vừa tạo cảm giác thoải mái và đầy cảm hứng.',
+  },
+  '3tang': {
+    'mai-nhat': 'Mẫu nhà 3 tầng mái Nhật mang vẻ đẹp sang trọng, thanh lịch và đầy tính hiện đại. Thiết kế mái dốc nhẹ giúp công trình trở nên cân đối, mềm mại và phù hợp với nhiều diện tích đất khác nhau. Không gian ba tầng được bố trí khoa học nhằm đáp ứng nhu cầu sinh hoạt cho gia đình đông thành viên hoặc kết hợp kinh doanh. Tầng trên cùng có thể thiết kế phòng thờ, sân thượng hoặc khu vực thư giãn riêng tư. Hệ cửa kính lớn cùng ban công rộng giúp ngôi nhà luôn thông thoáng và tràn ngập ánh sáng tự nhiên. Ngoại thất sử dụng tone màu trung tính kết hợp vật liệu hiện đại tạo cảm giác sang trọng nhưng vẫn gần gũi. Đây là lựa chọn phù hợp cho gia chủ yêu thích phong cách sống tiện nghi, hiện đại và mong muốn sở hữu một không gian sống đẳng cấp, bền đẹp theo thời gian.',
+    'mai-thai': 'Nhà 3 tầng mái Thái là biểu tượng của sự bề thế và sang trọng trong kiến trúc hiện đại. Hệ mái cao đặc trưng giúp công trình nổi bật, đồng thời tăng khả năng chống nóng và thoát nước hiệu quả. Thiết kế ba tầng cho phép bố trí đầy đủ không gian sinh hoạt, nghỉ ngơi và giải trí cho gia đình đông thành viên. Kiến trúc thường kết hợp các đường nét hiện đại cùng chi tiết trang trí tinh tế để tạo chiều sâu thẩm mỹ. Ban công rộng, cửa kính lớn và khoảng thông tầng giúp ngôi nhà luôn thoáng đãng và ngập tràn ánh sáng tự nhiên. Ngoài công năng tiện nghi, mẫu nhà này còn thể hiện gu thẩm mỹ và vị thế của gia chủ. Tổng thể công trình mang đến cảm giác đẳng cấp, ấm cúng và phù hợp với xu hướng kiến trúc bền vững hiện nay.',
+    'hien-dai': 'Mẫu nhà 3 tầng hiện đại sở hữu thiết kế mạnh mẽ, tinh tế và tối ưu công năng cho cuộc sống đô thị. Các đường nét vuông vức kết hợp kính, đá và lam trang trí tạo nên vẻ đẹp sang trọng, trẻ trung và đầy cá tính. Không gian được thiết kế mở nhằm tận dụng tối đa ánh sáng tự nhiên và tăng sự kết nối giữa các khu vực sinh hoạt. Ba tầng giúp bố trí linh hoạt nhiều phòng chức năng như phòng làm việc, phòng giải trí, sân thượng hoặc khu thư giãn riêng. Đây là lựa chọn lý tưởng cho gia đình yêu thích phong cách sống hiện đại, tiện nghi và đề cao trải nghiệm sống chất lượng. Ngoài vẻ đẹp thẩm mỹ, mẫu nhà còn chú trọng sự thông thoáng và tính ứng dụng cao trong sinh hoạt hàng ngày. Tổng thể công trình mang lại cảm giác đẳng cấp, năng động và phù hợp với xu hướng kiến trúc tương lai.',
+  },
+  'tren3tang': {
+    'mai-nhat': 'Mẫu nhà nhiều tầng mái Nhật là đỉnh cao của kiến trúc hiện đại, kết hợp hoàn hảo giữa tính thẩm mỹ và công năng sử dụng vượt trội. Thiết kế đa tầng linh hoạt đáp ứng mọi nhu cầu của gia đình đông thành viên hoặc mục đích kết hợp kinh doanh. Hệ mái Nhật thanh thoát cùng các đường nét tinh tế tạo nên tổng thể sang trọng, hài hòa và đầy giá trị thẩm mỹ. Không gian sống được phân chia khoa học, đảm bảo sự riêng tư và tiện nghi cho từng thành viên. Tổng thể công trình toát lên vẻ sang trọng đẳng cấp và bền vững theo thời gian.',
+    'mai-thai': 'Biệt thự nhiều tầng mái Thái là công trình mang đậm dấu ấn bề thế và đẳng cấp. Hệ mái cao kết hợp kiến trúc nhiều lớp tạo nên điểm nhấn mạnh mẽ, nổi bật trong bất kỳ khuôn viên nào. Không gian sống rộng rãi, tiện nghi và sang trọng xứng tầm với gia chủ có gu thẩm mỹ cao. Thiết kế đa tầng cho phép bố trí đầy đủ phòng chức năng từ sinh hoạt chung đến giải trí và thư giãn. Công trình thể hiện rõ phong cách sống đẳng cấp và sự đầu tư lâu dài cho không gian gia đình.',
+    'hien-dai': 'Mẫu biệt thự hiện đại nhiều tầng là sự kết hợp hoàn hảo giữa kiến trúc đương đại và tiện nghi sống đẳng cấp. Các không gian chức năng được bố trí khoa học, từ khu sinh hoạt chung đến không gian riêng tư và giải trí. Đây là lựa chọn lý tưởng cho gia đình thành đạt muốn sở hữu một không gian sống xứng tầm với phong cách sống hiện đại và đầy cảm hứng.',
+  },
+};
+
+// ══ ĐỊA DANH NGẪU NHIÊN ══
+const DIA_DANH = [
+  // Hà Giang (6)
+  { thon: 'Thôn Đồng Văn',    xa: 'xã Đồng Văn',    tinh: 'Hà Giang' },
+  { thon: 'Thôn Mèo Vạc',     xa: 'xã Mèo Vạc',     tinh: 'Hà Giang' },
+  { thon: 'Thôn Hoàng Su Phì',xa: 'xã Bản Máy',      tinh: 'Hà Giang' },
+  { thon: 'Thôn Xín Mần',     xa: 'xã Xín Mần',      tinh: 'Hà Giang' },
+  { thon: 'Thôn Vị Xuyên',    xa: 'xã Thuận Hòa',    tinh: 'Hà Giang' },
+  { thon: 'Thôn Bắc Mê',      xa: 'xã Yên Định',     tinh: 'Hà Giang' },
+  // Cao Bằng (6)
+  { thon: 'Thôn Bản Lũng',    xa: 'xã Trùng Khánh', tinh: 'Cao Bằng' },
+  { thon: 'Thôn Nà Giàng',    xa: 'xã Hà Quảng',    tinh: 'Cao Bằng' },
+  { thon: 'Thôn Tà Lùng',     xa: 'xã Phục Hòa',    tinh: 'Cao Bằng' },
+  { thon: 'Thôn Bảo Lâm',     xa: 'xã Đức Hạnh',    tinh: 'Cao Bằng' },
+  { thon: 'Thôn Thông Nông',  xa: 'xã Lương Thông',  tinh: 'Cao Bằng' },
+  { thon: 'Thôn Nguyên Bình', xa: 'xã Bắc Hợp',     tinh: 'Cao Bằng' },
+  // Bắc Kạn (5)
+  { thon: 'Thôn Ba Bể',       xa: 'xã Nam Mẫu',      tinh: 'Bắc Kạn' },
+  { thon: 'Thôn Chợ Đồn',     xa: 'xã Bằng Lãng',    tinh: 'Bắc Kạn' },
+  { thon: 'Thôn Ngân Sơn',    xa: 'xã Thượng Quan',  tinh: 'Bắc Kạn' },
+  { thon: 'Thôn Pác Nặm',     xa: 'xã Công Bằng',    tinh: 'Bắc Kạn' },
+  { thon: 'Thôn Na Rì',       xa: 'xã Lạng San',     tinh: 'Bắc Kạn' },
+  // Lạng Sơn (6)
+  { thon: 'Thôn Đồng Đăng',   xa: 'xã Cao Lộc',     tinh: 'Lạng Sơn' },
+  { thon: 'Thôn Bình Gia',    xa: 'xã Bắc Sơn',     tinh: 'Lạng Sơn' },
+  { thon: 'Thôn Tân Thanh',   xa: 'xã Văn Lãng',    tinh: 'Lạng Sơn' },
+  { thon: 'Thôn Hữu Lũng',    xa: 'xã Hòa Lạc',     tinh: 'Lạng Sơn' },
+  { thon: 'Thôn Chi Lăng',    xa: 'xã Chi Lăng',    tinh: 'Lạng Sơn' },
+  { thon: 'Thôn Lộc Bình',    xa: 'xã Tú Mịch',     tinh: 'Lạng Sơn' },
+  // Tuyên Quang (6)
+  { thon: 'Thôn Bình An',     xa: 'xã Yên Nguyên',  tinh: 'Tuyên Quang' },
+  { thon: 'Thôn Phú Thịnh',   xa: 'xã Tân Trào',    tinh: 'Tuyên Quang' },
+  { thon: 'Thôn Hồng Thái',   xa: 'xã Hùng Lợi',    tinh: 'Tuyên Quang' },
+  { thon: 'Thôn Sơn Dương',   xa: 'xã Sơn Dương',   tinh: 'Tuyên Quang' },
+  { thon: 'Thôn Minh Hương',  xa: 'xã Minh Hương',  tinh: 'Tuyên Quang' },
+  { thon: 'Thôn Phù Lưu',     xa: 'xã Phù Lưu',     tinh: 'Tuyên Quang' },
+  // Lào Cai (6)
+  { thon: 'Thôn Bản Phố',     xa: 'xã Bắc Hà',      tinh: 'Lào Cai' },
+  { thon: 'Thôn Sơn Hải',     xa: 'xã Bát Xát',     tinh: 'Lào Cai' },
+  { thon: 'Thôn Sa Pa',       xa: 'xã Lao Chải',    tinh: 'Lào Cai' },
+  { thon: 'Thôn Bản Khoang',  xa: 'xã Bản Khoang',  tinh: 'Lào Cai' },
+  { thon: 'Thôn Mường Hum',   xa: 'xã Mường Hum',   tinh: 'Lào Cai' },
+  { thon: 'Thôn Phố Ràng',    xa: 'xã Bảo Yên',     tinh: 'Lào Cai' },
+  // Yên Bái (6)
+  { thon: 'Thôn Mù Cang Chải',xa: 'xã Chế Cu Nha',  tinh: 'Yên Bái' },
+  { thon: 'Thôn Nghĩa Lộ',    xa: 'xã Nghĩa Phúc',  tinh: 'Yên Bái' },
+  { thon: 'Thôn Văn Chấn',    xa: 'xã Sơn Thịnh',   tinh: 'Yên Bái' },
+  { thon: 'Thôn Lục Yên',     xa: 'xã Khánh Hòa',   tinh: 'Yên Bái' },
+  { thon: 'Thôn Trấn Yên',    xa: 'xã Việt Thành',  tinh: 'Yên Bái' },
+  { thon: 'Thôn Văn Yên',     xa: 'xã Đại Phác',    tinh: 'Yên Bái' },
+  // Thái Nguyên (6)
+  { thon: 'Thôn Định Hóa',    xa: 'xã Phú Đình',    tinh: 'Thái Nguyên' },
+  { thon: 'Thôn Phú Lương',   xa: 'xã Yên Ninh',    tinh: 'Thái Nguyên' },
+  { thon: 'Thôn Đại Từ',      xa: 'xã Phú Thịnh',   tinh: 'Thái Nguyên' },
+  { thon: 'Thôn Võ Nhai',     xa: 'xã Tràng Xá',    tinh: 'Thái Nguyên' },
+  { thon: 'Thôn Đồng Hỷ',     xa: 'xã Nam Hòa',     tinh: 'Thái Nguyên' },
+  { thon: 'Thôn Phổ Yên',     xa: 'xã Tân Phú',     tinh: 'Thái Nguyên' },
+  // Bắc Giang (6)
+  { thon: 'Thôn Sơn Động',    xa: 'xã An Lạc',      tinh: 'Bắc Giang' },
+  { thon: 'Thôn Lục Ngạn',    xa: 'xã Giáp Sơn',    tinh: 'Bắc Giang' },
+  { thon: 'Thôn Yên Thế',     xa: 'xã Tam Tiến',    tinh: 'Bắc Giang' },
+  { thon: 'Thôn Lạng Giang',  xa: 'xã Tân Thanh',   tinh: 'Bắc Giang' },
+  { thon: 'Thôn Hiệp Hòa',    xa: 'xã Hợp Thịnh',   tinh: 'Bắc Giang' },
+  { thon: 'Thôn Việt Yên',    xa: 'xã Tự Lạn',      tinh: 'Bắc Giang' },
+  // Quảng Ninh (6)
+  { thon: 'Thôn Hải Sơn',     xa: 'xã Đầm Hà',      tinh: 'Quảng Ninh' },
+  { thon: 'Thôn Long Châu',   xa: 'xã Vân Đồn',     tinh: 'Quảng Ninh' },
+  { thon: 'Thôn Bắc Sơn',     xa: 'xã Bình Liêu',   tinh: 'Quảng Ninh' },
+  { thon: 'Thôn Đông Triều',  xa: 'xã Đông Triều',  tinh: 'Quảng Ninh' },
+  { thon: 'Thôn Cẩm Phả',     xa: 'xã Cộng Hòa',    tinh: 'Quảng Ninh' },
+  { thon: 'Thôn Tiên Yên',    xa: 'xã Hà Lâu',      tinh: 'Quảng Ninh' },
+  // Hải Phòng (5)
+  { thon: 'Thôn Đông Hải',    xa: 'xã An Lão',      tinh: 'Hải Phòng' },
+  { thon: 'Thôn Tân Phong',   xa: 'xã Tiên Lãng',   tinh: 'Hải Phòng' },
+  { thon: 'Thôn Quang Trung', xa: 'xã Vĩnh Bảo',    tinh: 'Hải Phòng' },
+  { thon: 'Thôn Đại Hợp',     xa: 'xã Kiến Thụy',   tinh: 'Hải Phòng' },
+  { thon: 'Thôn Ngũ Lão',     xa: 'xã Thủy Nguyên', tinh: 'Hải Phòng' },
+  // Hưng Yên (5)
+  { thon: 'Thôn Phù Cừ',      xa: 'xã Tiên Tiến',   tinh: 'Hưng Yên' },
+  { thon: 'Thôn Khoái Châu',  xa: 'xã Tân Châu',    tinh: 'Hưng Yên' },
+  { thon: 'Thôn Ân Thi',      xa: 'xã Hồng Quang',  tinh: 'Hưng Yên' },
+  { thon: 'Thôn Yên Mỹ',      xa: 'xã Nghĩa Hiệp',  tinh: 'Hưng Yên' },
+  { thon: 'Thôn Văn Giang',   xa: 'xã Xuân Quan',   tinh: 'Hưng Yên' },
+  // Thái Bình (5)
+  { thon: 'Thôn Quỳnh Phụ',   xa: 'xã An Khê',      tinh: 'Thái Bình' },
+  { thon: 'Thôn Đông Hưng',   xa: 'xã Đô Lương',    tinh: 'Thái Bình' },
+  { thon: 'Thôn Tiền Hải',    xa: 'xã Tây Phong',   tinh: 'Thái Bình' },
+  { thon: 'Thôn Kiến Xương',  xa: 'xã Trà Giang',   tinh: 'Thái Bình' },
+  { thon: 'Thôn Vũ Thư',      xa: 'xã Hòa Bình',    tinh: 'Thái Bình' },
+  // Nam Định (5)
+  { thon: 'Thôn Hải Hậu',     xa: 'xã Hải Phúc',    tinh: 'Nam Định' },
+  { thon: 'Thôn Giao Thủy',   xa: 'xã Giao Long',   tinh: 'Nam Định' },
+  { thon: 'Thôn Ý Yên',       xa: 'xã Yên Phúc',    tinh: 'Nam Định' },
+  { thon: 'Thôn Vụ Bản',      xa: 'xã Liên Minh',   tinh: 'Nam Định' },
+  { thon: 'Thôn Xuân Trường', xa: 'xã Xuân Hùng',   tinh: 'Nam Định' },
+  // Ninh Bình (5)
+  { thon: 'Thôn Hoa Lư',      xa: 'xã Ninh Hải',    tinh: 'Ninh Bình' },
+  { thon: 'Thôn Kim Sơn',     xa: 'xã Cồn Thoi',    tinh: 'Ninh Bình' },
+  { thon: 'Thôn Nho Quan',    xa: 'xã Quảng Lạc',   tinh: 'Ninh Bình' },
+  { thon: 'Thôn Yên Mô',      xa: 'xã Yên Thắng',   tinh: 'Ninh Bình' },
+  { thon: 'Thôn Gia Viễn',    xa: 'xã Gia Hưng',    tinh: 'Ninh Bình' },
+  // Thanh Hóa (6)
+  { thon: 'Thôn Quan Hóa',    xa: 'xã Phú Thanh',   tinh: 'Thanh Hóa' },
+  { thon: 'Thôn Bá Thước',    xa: 'xã Điền Quang',  tinh: 'Thanh Hóa' },
+  { thon: 'Thôn Lang Chánh',  xa: 'xã Trí Nang',    tinh: 'Thanh Hóa' },
+  { thon: 'Thôn Như Xuân',    xa: 'xã Xuân Bình',   tinh: 'Thanh Hóa' },
+  { thon: 'Thôn Thường Xuân', xa: 'xã Xuân Thắng',  tinh: 'Thanh Hóa' },
+  { thon: 'Thôn Tĩnh Gia',    xa: 'xã Hải Bình',    tinh: 'Thanh Hóa' },
+  // Nghệ An (6)
+  { thon: 'Thôn Trung Sơn',   xa: 'xã Diễn Châu',   tinh: 'Nghệ An' },
+  { thon: 'Thôn Hưng Lộc',    xa: 'xã Nghi Lộc',    tinh: 'Nghệ An' },
+  { thon: 'Thôn Con Cuông',   xa: 'xã Môn Sơn',     tinh: 'Nghệ An' },
+  { thon: 'Thôn Quỳnh Lưu',   xa: 'xã Quỳnh Thắng', tinh: 'Nghệ An' },
+  { thon: 'Thôn Anh Sơn',     xa: 'xã Thành Sơn',   tinh: 'Nghệ An' },
+  { thon: 'Thôn Kỳ Sơn',      xa: 'xã Mường Lống',  tinh: 'Nghệ An' },
+  // Hà Tĩnh (5)
+  { thon: 'Thôn Bình Minh',   xa: 'xã Kỳ Anh',      tinh: 'Hà Tĩnh' },
+  { thon: 'Thôn Ngọc Sơn',    xa: 'xã Nghi Xuân',   tinh: 'Hà Tĩnh' },
+  { thon: 'Thôn Hồng Phúc',   xa: 'xã Hương Khê',   tinh: 'Hà Tĩnh' },
+  { thon: 'Thôn Xuân Hòa',    xa: 'xã Vũ Quang',    tinh: 'Hà Tĩnh' },
+  { thon: 'Thôn Bình Thuận',  xa: 'xã Cẩm Xuyên',   tinh: 'Hà Tĩnh' },
+  // Quảng Bình (5)
+  { thon: 'Thôn Minh Hóa',    xa: 'xã Tân Hóa',     tinh: 'Quảng Bình' },
+  { thon: 'Thôn Bố Trạch',    xa: 'xã Phúc Trạch',  tinh: 'Quảng Bình' },
+  { thon: 'Thôn Quảng Ninh',  xa: 'xã Hàm Ninh',    tinh: 'Quảng Bình' },
+  { thon: 'Thôn Lệ Thủy',     xa: 'xã Mỹ Thủy',     tinh: 'Quảng Bình' },
+  { thon: 'Thôn Tuyên Hóa',   xa: 'xã Đồng Hóa',    tinh: 'Quảng Bình' },
+  // Quảng Trị (5)
+  { thon: 'Thôn Hướng Hóa',   xa: 'xã Hướng Phùng', tinh: 'Quảng Trị' },
+  { thon: 'Thôn Đakrông',     xa: 'xã Tà Rụt',      tinh: 'Quảng Trị' },
+  { thon: 'Thôn Gio Linh',    xa: 'xã Gio An',       tinh: 'Quảng Trị' },
+  { thon: 'Thôn Cam Lộ',      xa: 'xã Cam Chính',   tinh: 'Quảng Trị' },
+  { thon: 'Thôn Triệu Phong', xa: 'xã Triệu Giang',  tinh: 'Quảng Trị' },
+  // Thừa Thiên Huế (5)
+  { thon: 'Thôn A Lưới',      xa: 'xã Hồng Thủy',   tinh: 'Thừa Thiên Huế' },
+  { thon: 'Thôn Nam Đông',    xa: 'xã Hương Phú',   tinh: 'Thừa Thiên Huế' },
+  { thon: 'Thôn Phong Điền',  xa: 'xã Phong Sơn',   tinh: 'Thừa Thiên Huế' },
+  { thon: 'Thôn Phú Lộc',     xa: 'xã Lộc Thủy',    tinh: 'Thừa Thiên Huế' },
+  { thon: 'Thôn Quảng Điền',  xa: 'xã Quảng Lợi',   tinh: 'Thừa Thiên Huế' },
+  // Quảng Nam (5)
+  { thon: 'Thôn Nam Giang',   xa: 'xã Cà Dy',        tinh: 'Quảng Nam' },
+  { thon: 'Thôn Phước Sơn',   xa: 'xã Phước Hiệp',  tinh: 'Quảng Nam' },
+  { thon: 'Thôn Tiên Phước',  xa: 'xã Tiên Thọ',    tinh: 'Quảng Nam' },
+  { thon: 'Thôn Núi Thành',   xa: 'xã Tam Hải',     tinh: 'Quảng Nam' },
+  { thon: 'Thôn Đại Lộc',     xa: 'xã Đại Nghĩa',   tinh: 'Quảng Nam' },
+  // Quảng Ngãi (5)
+  { thon: 'Thôn Sơn Hà',      xa: 'xã Sơn Nham',    tinh: 'Quảng Ngãi' },
+  { thon: 'Thôn Ba Tơ',       xa: 'xã Ba Nam',       tinh: 'Quảng Ngãi' },
+  { thon: 'Thôn Tư Nghĩa',    xa: 'xã Nghĩa Kỳ',    tinh: 'Quảng Ngãi' },
+  { thon: 'Thôn Bình Sơn',    xa: 'xã Bình Hải',    tinh: 'Quảng Ngãi' },
+  { thon: 'Thôn Mộ Đức',      xa: 'xã Đức Nhuận',   tinh: 'Quảng Ngãi' },
+  // Bình Định (5)
+  { thon: 'Thôn An Lão',      xa: 'xã An Hưng',     tinh: 'Bình Định' },
+  { thon: 'Thôn Vĩnh Thạnh',  xa: 'xã Vĩnh Sơn',    tinh: 'Bình Định' },
+  { thon: 'Thôn Tây Sơn',     xa: 'xã Bình Tường',  tinh: 'Bình Định' },
+  { thon: 'Thôn Hoài Ân',     xa: 'xã Ân Tín',       tinh: 'Bình Định' },
+  { thon: 'Thôn Phù Mỹ',      xa: 'xã Mỹ Thắng',    tinh: 'Bình Định' },
+  // Phú Yên (5)
+  { thon: 'Thôn Sông Hinh',   xa: 'xã Ea Bar',       tinh: 'Phú Yên' },
+  { thon: 'Thôn Đồng Xuân',   xa: 'xã Phú Mỡ',      tinh: 'Phú Yên' },
+  { thon: 'Thôn Sơn Hòa',     xa: 'xã Suối Trai',   tinh: 'Phú Yên' },
+  { thon: 'Thôn Tuy An',      xa: 'xã An Thọ',       tinh: 'Phú Yên' },
+  { thon: 'Thôn Tây Hòa',     xa: 'xã Hòa Thịnh',   tinh: 'Phú Yên' },
+  // Gia Lai (5)
+  { thon: 'Thôn Kbang',       xa: 'xã Đắk Rong',    tinh: 'Gia Lai' },
+  { thon: 'Thôn Mang Yang',   xa: 'xã Đắk Jơ Ta',   tinh: 'Gia Lai' },
+  { thon: 'Thôn Chư Pah',     xa: 'xã Ia Nhin',     tinh: 'Gia Lai' },
+  { thon: 'Thôn Đak Đoa',     xa: 'xã Đak Sơmei',   tinh: 'Gia Lai' },
+  { thon: 'Thôn Ia Grai',     xa: 'xã Ia Chía',     tinh: 'Gia Lai' },
+  // Đắk Lắk (5)
+  { thon: 'Thôn Ea Súp',      xa: 'xã Ea Rốk',      tinh: 'Đắk Lắk' },
+  { thon: 'Thôn Buôn Đôn',    xa: 'xã Krông Na',    tinh: 'Đắk Lắk' },
+  { thon: 'Thôn Lắk',         xa: 'xã Bông Krang',   tinh: 'Đắk Lắk' },
+  { thon: 'Thôn Krông Bông',  xa: 'xã Cư Pui',      tinh: 'Đắk Lắk' },
+  { thon: 'Thôn Ea H\'leo',   xa: 'xã Ea Sol',       tinh: 'Đắk Lắk' },
+  // Đắk Nông (5)
+  { thon: 'Thôn Đắk Glong',   xa: 'xã Quảng Khê',   tinh: 'Đắk Nông' },
+  { thon: 'Thôn Tuy Đức',     xa: 'xã Đắk Búk So',  tinh: 'Đắk Nông' },
+  { thon: 'Thôn Krông Nô',    xa: 'xã Đức Xuyên',   tinh: 'Đắk Nông' },
+  { thon: 'Thôn Đắk Song',    xa: 'xã Đắk Hòa',     tinh: 'Đắk Nông' },
+  { thon: 'Thôn Đắk R\'lấp',  xa: 'xã Đắk Wer',     tinh: 'Đắk Nông' },
+  // Lâm Đồng (5)
+  { thon: 'Thôn Lạc Dương',   xa: 'xã Đạ Sar',       tinh: 'Lâm Đồng' },
+  { thon: 'Thôn Đam Rông',    xa: 'xã Đạ Long',      tinh: 'Lâm Đồng' },
+  { thon: 'Thôn Cát Tiên',    xa: 'xã Tiên Hoàng',  tinh: 'Lâm Đồng' },
+  { thon: 'Thôn Bảo Lâm',     xa: 'xã Lộc Bảo',     tinh: 'Lâm Đồng' },
+  { thon: 'Thôn Di Linh',     xa: 'xã Đinh Lạc',    tinh: 'Lâm Đồng' },
+  // Bình Phước (5)
+  { thon: 'Thôn Bù Gia Mập',  xa: 'xã Bù Gia Mập',  tinh: 'Bình Phước' },
+  { thon: 'Thôn Phú Riềng',   xa: 'xã Phú Riềng',   tinh: 'Bình Phước' },
+  { thon: 'Thôn Bù Đăng',     xa: 'xã Thống Nhất',  tinh: 'Bình Phước' },
+  { thon: 'Thôn Đồng Phú',    xa: 'xã Tân Phước',   tinh: 'Bình Phước' },
+  { thon: 'Thôn Chơn Thành',  xa: 'xã Minh Thành',  tinh: 'Bình Phước' },
+  // Đồng Nai (5)
+  { thon: 'Thôn Tân Hòa',     xa: 'xã Long Thành',  tinh: 'Đồng Nai' },
+  { thon: 'Thôn Phước Lợi',   xa: 'xã Trảng Bom',   tinh: 'Đồng Nai' },
+  { thon: 'Thôn Vĩnh Cửu',    xa: 'xã Thiện Tân',   tinh: 'Đồng Nai' },
+  { thon: 'Thôn Định Quán',   xa: 'xã Phú Ngọc',    tinh: 'Đồng Nai' },
+  { thon: 'Thôn Xuân Lộc',    xa: 'xã Xuân Tâm',    tinh: 'Đồng Nai' },
+  // Tây Ninh (5)
+  { thon: 'Thôn Tân Biên',    xa: 'xã Thạnh Bắc',   tinh: 'Tây Ninh' },
+  { thon: 'Thôn Tân Châu',    xa: 'xã Tân Thành',   tinh: 'Tây Ninh' },
+  { thon: 'Thôn Dương Minh Châu', xa: 'xã Phước Minh', tinh: 'Tây Ninh' },
+  { thon: 'Thôn Châu Thành',  xa: 'xã Đồng Khởi',   tinh: 'Tây Ninh' },
+  { thon: 'Thôn Bến Cầu',     xa: 'xã Long Thuận',  tinh: 'Tây Ninh' },
+  // Long An (5)
+  { thon: 'Thôn Đức Hòa',     xa: 'xã Đức Lập Hạ',  tinh: 'Long An' },
+  { thon: 'Thôn Thạnh Hóa',   xa: 'xã Thủy Đông',   tinh: 'Long An' },
+  { thon: 'Thôn Mộc Hóa',     xa: 'xã Tuyên Thạnh', tinh: 'Long An' },
+  { thon: 'Thôn Tân Hưng',    xa: 'xã Hưng Điền',   tinh: 'Long An' },
+  { thon: 'Thôn Vĩnh Hưng',   xa: 'xã Vĩnh Trị',    tinh: 'Long An' },
+  // Tiền Giang (4)
+  { thon: 'Thôn Tân Phước',   xa: 'xã Tân Hòa Đông',tinh: 'Tiền Giang' },
+  { thon: 'Thôn Cai Lậy',     xa: 'xã Mỹ Thành Bắc',tinh: 'Tiền Giang' },
+  { thon: 'Thôn Gò Công Tây', xa: 'xã Long Vĩnh',   tinh: 'Tiền Giang' },
+  { thon: 'Thôn Tân Phú Đông',xa: 'xã Phú Đông',    tinh: 'Tiền Giang' },
+  // Bến Tre (4)
+  { thon: 'Thôn Thạnh Phú',   xa: 'xã Thạnh Hải',   tinh: 'Bến Tre' },
+  { thon: 'Thôn Ba Tri',      xa: 'xã An Ngãi Tây', tinh: 'Bến Tre' },
+  { thon: 'Thôn Mỏ Cày Nam',  xa: 'xã Thành Thới A',tinh: 'Bến Tre' },
+  { thon: 'Thôn Giồng Trôm',  xa: 'xã Lương Quới',  tinh: 'Bến Tre' },
+  // Vĩnh Long (4)
+  { thon: 'Thôn Tam Bình',    xa: 'xã Mỹ Thạnh Trung', tinh: 'Vĩnh Long' },
+  { thon: 'Thôn Bình Tân',    xa: 'xã Thành Đông',  tinh: 'Vĩnh Long' },
+  { thon: 'Thôn Trà Ôn',      xa: 'xã Hựu Thành',   tinh: 'Vĩnh Long' },
+  { thon: 'Thôn Vũng Liêm',   xa: 'xã Trung Ngãi',  tinh: 'Vĩnh Long' },
+  // Trà Vinh (4)
+  { thon: 'Thôn Cầu Kè',      xa: 'xã Phong Phú',   tinh: 'Trà Vinh' },
+  { thon: 'Thôn Tiểu Cần',    xa: 'xã Tập Ngãi',    tinh: 'Trà Vinh' },
+  { thon: 'Thôn Duyên Hải',   xa: 'xã Long Khánh',  tinh: 'Trà Vinh' },
+  { thon: 'Thôn Châu Thành',  xa: 'xã Lương Hòa',   tinh: 'Trà Vinh' },
+  // Sóc Trăng (4)
+  { thon: 'Thôn Ngã Năm',     xa: 'xã Mỹ Quới',     tinh: 'Sóc Trăng' },
+  { thon: 'Thôn Thạnh Trị',   xa: 'xã Thạnh Trị',   tinh: 'Sóc Trăng' },
+  { thon: 'Thôn Mỹ Tú',       xa: 'xã Mỹ Phước',    tinh: 'Sóc Trăng' },
+  { thon: 'Thôn Cù Lao Dung', xa: 'xã An Thạnh Nam', tinh: 'Sóc Trăng' },
+  // Bạc Liêu (4)
+  { thon: 'Thôn Hồng Dân',    xa: 'xã Vĩnh Lộc',    tinh: 'Bạc Liêu' },
+  { thon: 'Thôn Phước Long',  xa: 'xã Vĩnh Phú Đông',tinh: 'Bạc Liêu' },
+  { thon: 'Thôn Giá Rai',     xa: 'xã Tân Phong',   tinh: 'Bạc Liêu' },
+  { thon: 'Thôn Đông Hải',    xa: 'xã Long Điền Đông',tinh:'Bạc Liêu' },
+  // Cà Mau (4)
+  { thon: 'Thôn Ngọc Hiển',   xa: 'xã Viên An',     tinh: 'Cà Mau' },
+  { thon: 'Thôn Năm Căn',     xa: 'xã Hàng Vịnh',   tinh: 'Cà Mau' },
+  { thon: 'Thôn Đầm Dơi',     xa: 'xã Nguyễn Huân', tinh: 'Cà Mau' },
+  { thon: 'Thôn U Minh',      xa: 'xã Khánh Thuận', tinh: 'Cà Mau' },
+];
+
+// ══ PARSE FILENAME → META ══
+// Cấu trúc: MS009-2T-MN-MT(5-7.5m)
+// MN = mái nhật | MT (một mình) = mái thái | HĐ/HD = hiện đại
+// Không có xT → nhà cấp 4
+// Diện tích: 1 sàn = 120m², 2T × 2.1–2.5, 3T × 3.1–3.5 (dùng giá trị giữa)
+function parseFilename(filename) {
+  const raw  = filename.replace(/\.[^.]+$/, '').trim();
+  const up   = raw.toUpperCase();
+
+  // ── 1. Số tầng ──
+  let loai = 'cap4';
+  const tangMatch = up.match(/(\d(?:[.,]\d)?)\s*T[+]?(?!\w)/);
+  if (tangMatch) {
+    const t = parseFloat(tangMatch[1].replace(',', '.'));
+    if      (t <= 1)   loai = 'cap4';
+    else if (t <= 1.9) loai = '1.5tang';
+    else if (t <= 2.4) loai = '2tang';
+    else if (t <= 2.9) loai = '2.5tang';
+    else if (t <= 3.4) loai = '3tang';
+    else               loai = 'tren3tang';
+  }
+  // Chuẩn hóa loai cho sheet (sheet chỉ có 4 giá trị)
+  const loaiSheet = { cap4:'cap4', '1.5tang':'2tang', '2tang':'2tang', '2.5tang':'3tang', '3tang':'3tang', 'tren3tang':'tren3tang' }[loai] || 'cap4';
+
+  // ── 2. Kiểu mái ──
+  // Thứ tự ưu tiên: MN → HĐ/HD → MT đứng một mình → mặc định mái thái
+  let mainha = 'mai-thai';
+  if (/(?:^|[-_])MN(?:[-_(]|$)/.test(up) || up.includes('-MN') || up.includes('_MN') || /\bMN\b/.test(up)) {
+    mainha = 'mai-nhat';
+  } else if (/H[ĐD]|HD|HIEN[-_\s]?DAI|HIENĐAI/.test(up)) {
+    mainha = 'hien-dai';
+  }
+  // Tên đầy đủ override
+  if (/MAI[-_\s]?NHAT|MAINHAT/.test(up))     mainha = 'mai-nhat';
+  if (/MAI[-_\s]?THAI|MAITHAI/.test(up))     mainha = 'mai-thai';
+  if (/HIEN[-_\s]?DAI|HIENĐAI/.test(up))     mainha = 'hien-dai';
+
+  // ── 3. Mặt tiền ──
+  let matienmin = '', matienmax = '';
+  // Thứ tự ưu tiên: MT(5-7.5m) → MT(5m) → MT5-7.5 → MT5 → 5-7.5m → 5x7.5m
+  const mtMatch =
+    // Dạng MT(5-7.5) hoặc MT(5-7.5m) — có ngoặc, có dấu phân cách
+    raw.match(/MT\s*\(\s*(\d+(?:[.,]\d+)?)\s*[-–x×]\s*(\d+(?:[.,]\d+)?)\s*m?\s*\)/i) ||
+    // Dạng (5m-7.5m) — không có MT, có ngoặc
+    raw.match(/\(\s*(\d+(?:[.,]\d+)?)\s*m?\s*[-–]\s*(\d+(?:[.,]\d+)?)\s*m\s*\)/i) ||
+    // Dạng MT(5m) — có ngoặc, 1 giá trị
+    raw.match(/MT\s*\(\s*(\d+(?:[.,]\d+)?)\s*m?\s*\)/i) ||
+    // Dạng MT5-7.5 hoặc MT5x7.5 — KHÔNG có ngoặc, có dấu phân cách
+    raw.match(/MT\s*(\d+(?:[.,]\d+)?)\s*[-–x×]\s*(\d+(?:[.,]\d+)?)/i) ||
+    // Dạng MT5 hoặc MT5m — KHÔNG có ngoặc, 1 giá trị
+    raw.match(/MT\s*(\d+(?:[.,]\d+)?)\s*m?(?:[^0-9]|$)/i);
+  if (mtMatch) {
+    matienmin = String(parseFloat(mtMatch[1].replace(',', '.')));
+    matienmax = mtMatch[2] ? String(parseFloat(mtMatch[2].replace(',', '.'))) : matienmin;
+  } else {
+    // Fallback: dạng 5-7.5m hoặc 5x7.5m ở bất kỳ đâu trong tên file
+    const simpleMatch = raw.match(/(\d+(?:[.,]\d+)?)\s*[-–x×]\s*(\d+(?:[.,]\d+)?)\s*m\b/i);
+    if (simpleMatch) {
+      matienmin = String(parseFloat(simpleMatch[1].replace(',', '.')));
+      matienmax = String(parseFloat(simpleMatch[2].replace(',', '.')));
+    }
+  }
+
+  // ── 4. Diện tích ──
+  // 1 sàn tối thiểu 120m². Hệ số: 1.5tang×1.5, 2tang×2.3, 2.5tang×2.8, 3tang×3.3, tren3tang×4
+  const BASE = 120;
+  const heSo = { cap4:1, '1.5tang':1.5, '2tang':2.3, '2.5tang':2.8, '3tang':3.3, 'tren3tang':4 };
+  const dientich = Math.round(BASE * (heSo[loai] || 1));
+
+  // ── 5. Số phòng ngủ ──
+  const sophong = { cap4:2, '1.5tang':3, '2tang':3, '2.5tang':4, '3tang':4, 'tren3tang':5 }[loai] || 2;
+
+  // ── 6. Chi phí ──
+  const chiphi = {
+    cap4:'400-900', '1.5tang':'550-1100', '2tang':'700-1800',
+    '2.5tang':'1000-2000', '3tang':'1200-2800', 'tren3tang':'2000-5000'
+  }[loai] || '400-900';
+
+  // ── 7. Tên hiển thị ──
+  const LOAI_LABEL = { cap4:'Nhà cấp 4', '1.5tang':'Nhà 1.5 tầng', '2tang':'Nhà 2 tầng', '2.5tang':'Nhà 2.5 tầng', '3tang':'Nhà 3 tầng', 'tren3tang':'Biệt thự' };
+  const MAI_LABEL  = { 'mai-thai':'mái thái', 'mai-nhat':'mái nhật', 'hien-dai':'hiện đại', 'mai-bang':'mái bằng' };
+
+  const maMatch = raw.match(/^([A-Z]{1,3}\d{2,4}[A-Z]?)/i);
+  const ma      = maMatch ? maMatch[1].toUpperCase() : raw.slice(0,6).toUpperCase();
+  const ten     = `${LOAI_LABEL[loai] || 'Nhà'} ${MAI_LABEL[mainha] || ''} ${ma}`.trim();
+
+  // ── 8. Mô tả ──
+  const dd        = DIA_DANH[Math.floor(Math.random() * DIA_DANH.length)];
+  const loaiLabel = LOAI_LABEL[loai] || 'Nhà';
+  const maiLabel  = MAI_LABEL[mainha] || '';
+  const desc      = (MOTA_TEMPLATES[loai] || MOTA_TEMPLATES['cap4'])[mainha]
+                 || MOTA_TEMPLATES['cap4']['mai-thai'];
+  const mota = `Mẫu nhà ${maiLabel} ${loaiLabel.replace('Nhà ','').replace('Biệt thự','biệt thự')} đẹp tại ${dd.thon}, ${dd.xa}, ${dd.tinh}. ${desc}`;
+
+  return { ma, ten, loai: loaiSheet, mainha, matienmin, matienmax, dientich, sophong, chiphi, mota };
+}
+
 // ══ MOBILE MENU ══
 function toggleMob() {
   document.getElementById('mobMenu').classList.toggle('open');
@@ -796,9 +1214,9 @@ async function apiGet() {
 async function apiPost(body) {
   const payload = adminToken ? { ...body, _token: adminToken } : body;
 
-  // uploadImage và scanFolder cần timeout dài hơn vì xử lý file/Drive nặng
+  // uploadImage cần timeout dài hơn vì xử lý file nặng
   const controller = new AbortController();
-  const timeout = (body.action === 'uploadImage' || body.action === 'scanFolder') ? 120000 : 15000;
+  const timeout = body.action === 'uploadImage' ? 60000 : 15000;
   const timer = setTimeout(() => controller.abort(), timeout);
 
   try {
@@ -860,7 +1278,7 @@ function applyUpdate() {
 // ══ FILTER STATE ══
 let fLoai = 'all', fMai = 'all', fMtMin = null, fMtMax = null;
 // ══ SORT STATE ══
-let currentSort = 'default';
+let currentSort = 'newest';
 
 // ══ SORT ══
 function toggleSortPanel() {
@@ -1006,7 +1424,7 @@ function renderGallery() {
   const gallery  = document.getElementById('gallery');
   const isAdmin  = effectiveRole === 'admin';
   const isCtv    = effectiveRole === 'ctv';
-  const ph       = 'https://via.placeholder.com/400x300/EAEAE6/5A6B56?text=Chưa+có+ảnh';
+  const ph       = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23EAEAE6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%235A6B56'%3EChưa có ảnh%3C/text%3E%3C/svg%3E";
 
   if (!sorted.length) {
     gallery.innerHTML = '<div class="grid"><div class="empty"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><p>Không tìm thấy mẫu nhà phù hợp</p></div></div>';
@@ -1042,7 +1460,7 @@ function renderGallery() {
         <div class="cdesc">${escHtml(h.mota||'')}</div>
       </div>
       <div class="cfoot" onclick="openView('${escHtml(h.id)}')">
-        <div class="cprice">Dự kiến <strong>${escHtml(String(h.chiphi||'—'))}</strong> tr</div>
+        <div class="cprice">Dự kiến <strong>${escHtml(String(h.chiphi||'—'))}</strong>${h.chiphi?' triệu đồng':''}</div>
         <div class="ccta">Xem →</div>
       </div>
     </div>`;
@@ -1119,7 +1537,7 @@ let viewingId = null;
 function openView(id) {
   viewingId = id;
   const h  = allHouses.find(x=>x.id===id); if (!h) return;
-  const ph = 'https://via.placeholder.com/800x450/EAEAE6/5A6B56?text=Chưa+có+ảnh';
+  const ph = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%23EAEAE6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' fill='%235A6B56'%3EChưa có ảnh%3C/text%3E%3C/svg%3E";
   const imgs = document.getElementById('vImgs');
   if (h.anh2) {
     imgs.className = 'mo-imgs-2';
@@ -1132,7 +1550,7 @@ function openView(id) {
   document.getElementById('vTitle').textContent = h.ten;
   document.getElementById('vDT').textContent    = h.dientich||'—';
   document.getElementById('vPN').textContent    = h.sophong||'—';
-  document.getElementById('vCP').textContent    = (h.chiphi||'—')+(h.chiphi?' tr':'');
+  document.getElementById('vCP').textContent    = (h.chiphi||'—');
   document.getElementById('vDesc').textContent  = h.mota||'';
   // Mặt tiền
   const mtSpec = document.getElementById('vMTSpec');
@@ -1170,7 +1588,8 @@ function openEdit(id) {
   document.getElementById('eDT').value=h.dientich||''; document.getElementById('ePN').value=h.sophong||'';
   document.getElementById('eCP').value=h.chiphi||''; document.getElementById('eMota').value=h.mota||'';
   document.getElementById('eLoai').value=h.loai||'cap4'; document.getElementById('eMai').value=h.mainha||'mai-thai';
-  document.getElementById('eMtMin').value=h.matienmin||''; document.getElementById('eMtMax').value=h.matienmax||'';
+  document.getElementById('eMtMin').value = (h.matienmin !== undefined && h.matienmin !== null && h.matienmin !== '') ? parseFloat(h.matienmin) || '' : '';
+  document.getElementById('eMtMax').value = (h.matienmax !== undefined && h.matienmax !== null && h.matienmax !== '') ? parseFloat(h.matienmax) || '' : '';
   img1Data=h.anh1||null; img2Data=h.anh2||null; setImgUI(1,img1Data); setImgUI(2,img2Data);
   document.getElementById('editModal').classList.add('open'); document.body.style.overflow='hidden';
 }
@@ -1208,7 +1627,7 @@ async function saveHouse() {
   const ten=document.getElementById('eTen').value.trim();
   if(!ten){showToast('⚠ Vui lòng nhập tên mẫu nhà');return;}
   const isNew=!document.getElementById('eId').value;
-  if (!isNew && effectiveRole === 'member') { showToast('⚠ Bạn không có quyền chỉnh sửa'); return; }
+  if (!isNew && effectiveRole === 'guest') { showToast('⚠ Bạn không có quyền chỉnh sửa'); return; }
   const id=document.getElementById('eId').value||('U'+Date.now());
   const obj={id,ten,loai:document.getElementById('eLoai').value,mainha:document.getElementById('eMai').value,
     dientich:parseInt(document.getElementById('eDT').value)||0,sophong:parseInt(document.getElementById('ePN').value)||0,
@@ -1246,7 +1665,7 @@ async function saveHouse() {
 function openReviewModal() {
   const pendingList = allHouses.filter(h => h.status === 'pending');
   if (!pendingList.length) { showToast('Không có bản chờ duyệt'); return; }
-  const ph = 'https://via.placeholder.com/200x150/EAEAE6/5A6B56?text=Ảnh';
+  const ph = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'%3E%3Crect width='200' height='150' fill='%23EAEAE6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%235A6B56'%3EẢnh%3C/text%3E%3C/svg%3E";
   document.getElementById('reviewList').innerHTML = pendingList.map(h => `
     <div style="background:#fff;border:1px solid var(--bd);border-radius:var(--radius);padding:16px;margin-bottom:12px">
       <div style="display:flex;gap:12px;align-items:flex-start">
@@ -1315,72 +1734,299 @@ async function deleteHouse(id) {
   } catch(e) { showToast('⚠ Lỗi khi xoá. Vui lòng thử lại.'); }
 }
 
-// ══ IMPORT FROM DRIVE ══
-function extractFolderId(input) {
-  input = input.trim();
-  // Link dạng https://drive.google.com/drive/folders/FOLDER_ID
-  const m = input.match(/folders\/([a-zA-Z0-9_-]+)/);
-  if (m) return m[1];
-  // Nếu là ID thuần (không có slash, không có dấu cách)
-  if (/^[a-zA-Z0-9_-]{10,}$/.test(input)) return input;
-  return null;
-}
+
+// ══ IMPORT MODAL ══════════════════════════════════════════
 function openImportModal() {
-  document.getElementById('importFolderId').value = '';
-  document.getElementById('importStatus').style.display = 'none';
-  document.getElementById('btnImport').disabled = false;
-  document.getElementById('btnImport').textContent = '📥 Bắt đầu Import';
   document.getElementById('importModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  backToStep1();
 }
+
 function closeImportModal() {
   document.getElementById('importModal').classList.remove('open');
-  document.body.style.overflow = '';
+  scannedFiles = [];
 }
-async function runImport() {
-  const raw = document.getElementById('importFolderId').value.trim();
-  const folderId = extractFolderId(raw);
-  if (!folderId) { showToast('⚠ Folder ID không hợp lệ'); return; }
 
+function backToStep1() {
+  document.getElementById('importStep1').style.display = '';
+  document.getElementById('importStep2').style.display = 'none';
+  document.getElementById('importFolderId').value = '';
+  document.getElementById('scanProgressWrap').style.display = 'none';
+  document.getElementById('scanProgressBar').style.width = '0%';
+  document.getElementById('scanProgressLabel').textContent = '⏳ Đang quét folder...';
+  document.getElementById('importPreviewList').innerHTML = '';
+  document.getElementById('importProgressWrap').style.display = 'none';
+  document.getElementById('importStatus2').style.display = 'none';
   const btn = document.getElementById('btnImport');
-  const status = document.getElementById('importStatus');
-  btn.disabled = true; btn.textContent = '⏳ Đang quét...';
-  status.style.display = 'block';
-  status.style.background = '#EAF4E7'; status.style.color = '#3D6B34';
-  status.textContent = '⏳ Đang quét ảnh trong folder, có thể mất 30–60 giây...';
+  if (btn) { btn.disabled = false; btn.textContent = '📥 Import ảnh đã chọn'; }
+  scannedFiles = [];
+}
 
-  // Tiến trình động để user biết đang xử lý
-  let dots = 0;
-  const ticker = setInterval(() => {
-    dots = (dots + 1) % 4;
-    status.textContent = '⏳ Đang xử lý' + '.'.repeat(dots) + ' (có thể mất 30–60 giây)';
-  }, 800);
+async function runScan() {
+  let raw = document.getElementById('importFolderId').value.trim();
+  if (!raw) { showToast('⚠ Vui lòng nhập Folder ID hoặc link folder'); return; }
+
+  // Trích folder ID từ link nếu người dùng dán link đầy đủ
+  const m = raw.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  if (m) raw = m[1];
+  // Hoặc dạng ?id=...
+  const m2 = raw.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m2) raw = m2[1];
+
+  const folderId = raw;
+
+  const btnScan = document.getElementById('btnScan');
+  const progWrap = document.getElementById('scanProgressWrap');
+  const progBar  = document.getElementById('scanProgressBar');
+  const progLbl  = document.getElementById('scanProgressLabel');
+
+  btnScan.disabled = true;
+  progWrap.style.display = '';
+  progLbl.textContent = '⏳ Đang quét folder...';
+  progBar.style.width = '30%';
 
   try {
-    const res = await apiPost({ action: 'scanFolder', folderId });
-    clearInterval(ticker);
-    if (res.ok) {
-      status.style.background = '#EAF4E7'; status.style.color = '#3D6B34';
-      status.textContent = '✓ Đã import ' + res.count + ' mẫu nhà mới' + (res.skipped ? ' (bỏ qua ' + res.skipped + ' ảnh đã có)' : '');
-      await loadData();
-      setTimeout(closeImportModal, 1500);
-    } else {
-      status.style.background = '#FEF2F2'; status.style.color = '#c03030';
-      status.textContent = '⚠ Lỗi: ' + (res.error || 'Không xác định');
+    const res = await apiPost({ action: 'listFolder', folderId });
+    if (!res.ok) throw new Error(res.error || 'Lỗi quét folder');
+
+    const files = res.files || [];
+    if (!files.length) {
+      showToast('⚠ Folder trống hoặc không có ảnh nào');
+      btnScan.disabled = false;
+      progWrap.style.display = 'none';
+      return;
     }
+
+    progBar.style.width = '100%';
+    progLbl.textContent = `✓ Tìm thấy ${files.length} ảnh`;
+
+    // Lưu vào scannedFiles
+    scannedFiles = files.map(f => ({
+      id:         f.id,
+      name:       f.name,
+      duplicate:  f.duplicate || false,
+      existingId: f.existingId || null,
+      meta:       null
+    }));
+
+    showPreviewStep(scannedFiles);
   } catch(e) {
-    clearInterval(ticker);
-    status.style.background = '#FEF2F2'; status.style.color = '#c03030';
-    if (e.name === 'AbortError') {
-      status.textContent = '⚠ Quá thời gian chờ. Folder quá lớn hoặc mạng chậm — hãy thử lại.';
-    } else {
-      status.textContent = '⚠ Lỗi kết nối: ' + e.message;
-    }
+    showToast('❌ ' + e.message);
+    progWrap.style.display = 'none';
   } finally {
-    btn.disabled = false; btn.textContent = '📥 Bắt đầu Import';
+    btnScan.disabled = false;
   }
 }
 
+// ══ IMPORT FROM DRIVE ══
+let scannedFiles = []; // [{id, name, thumbUrl}]
+// ── Hiển thị bước 2: Preview danh sách ảnh (không gọi AI — AI chạy nền sau)
+function showPreviewStep(files) {
+  document.getElementById('importStep1').style.display = 'none';
+  document.getElementById('importStep2').style.display = '';
+  document.getElementById('totalScanned').textContent = files.length;
+
+  const list = document.getElementById('importPreviewList');
+  list.innerHTML = files.map((f, i) => {
+    const isDup = f.duplicate;
+    const dupBadge = isDup
+      ? `<span style="display:inline-flex;align-items:center;gap:3px;background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;font-size:10px;font-weight:700;color:#92400E;padding:2px 7px;margin-left:4px">&#9888; Trùng</span>`
+      : '';
+    const dupNote = isDup
+      ? `<div style="margin-top:4px;display:flex;gap:5px;align-items:center">
+          <span style="font-size:10px;color:#92400E;font-weight:600">Xử lý:</span>
+          <label style="font-size:11px;color:var(--text);cursor:pointer"><input type="radio" name="dup_${i}" value="keep" checked onchange="updateSelectedCount()" style="accent-color:var(--green)"> Giữ nguyên</label>
+          <label style="font-size:11px;color:var(--text);cursor:pointer"><input type="radio" name="dup_${i}" value="replace" onchange="updateSelectedCount()" style="accent-color:#F59E0B"> Ghi đè</label>
+         </div>`
+      : '';
+    return `<div id="prow_${i}" style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-bottom:1px solid var(--cream2);${isDup?'background:#FFFBEB;':''}">
+      <input type="checkbox" checked id="chk_${i}" onchange="updateSelectedCount()" style="margin-top:14px;width:16px;height:16px;flex-shrink:0;accent-color:var(--green)">
+      <img src="https://drive.google.com/thumbnail?id=${f.id}&sz=w120" style="width:72px;height:54px;object-fit:cover;border-radius:4px;flex-shrink:0;background:var(--cream2)" onerror="this.style.background='#e0e0e0'">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;word-break:break-all">${escHtml(f.name)}${dupBadge}</div>
+        <div style="font-size:11px;color:var(--muted)">Thông tin sẽ được tự động điền từ tên file khi import</div>
+        ${dupNote}
+      </div>
+    </div>`;
+  }).join('');
+
+  updateSelectedCount();
+}
+
+
+function updateSelectedCount() {
+  const total = scannedFiles.length;
+  let selected = 0;
+  let dupCount = 0;
+  for (let i = 0; i < total; i++) {
+    if (document.getElementById('chk_' + i)?.checked) selected++;
+    if (scannedFiles[i] && scannedFiles[i].duplicate) dupCount++;
+  }
+  document.getElementById('selectedCount').textContent = selected;
+  document.getElementById('btnImport').disabled = selected === 0;
+  // Hiện nút bulk dup nếu có file trùng
+  const showDup = dupCount > 0;
+  const br = document.getElementById('btnBulkReplace');
+  const bk = document.getElementById('btnBulkKeep');
+  if (br) br.style.display = showDup ? '' : 'none';
+  if (bk) bk.style.display = showDup ? '' : 'none';
+}
+
+// Áp dụng hành động hàng loạt cho tất cả file trùng
+function bulkDupAction(action) {
+  for (let i = 0; i < scannedFiles.length; i++) {
+    if (!scannedFiles[i].duplicate) continue;
+    const radio = document.querySelector(`input[name="dup_${i}"][value="${action}"]`);
+    if (radio) radio.checked = true;
+  }
+  updateSelectedCount();
+  showToast(action === 'replace' ? '⚠ Đã chọn Ghi đè tất cả file trùng' : '✓ Đã chọn Giữ nguyên tất cả file trùng');
+}
+
+function toggleSelectAll(state) {
+  for (let i = 0; i < scannedFiles.length; i++) {
+    const chk = document.getElementById('chk_' + i);
+    if (chk) chk.checked = state;
+  }
+  updateSelectedCount();
+}
+
+// ── BƯỚC 2: Thực hiện import (tối ưu: batchAddImported + batchEdit — ít request nhất)
+async function runImport() {
+  const selected = scannedFiles.map((f, i) => {
+    const chk = document.getElementById('chk_' + i);
+    if (!chk || !chk.checked) return null;
+    let dupAction = 'add';
+    if (f.duplicate) {
+      const rep = document.querySelector(`input[name="dup_${i}"]:checked`);
+      dupAction = rep ? rep.value : 'keep';
+    }
+    return { id: f.id, name: f.name, duplicate: f.duplicate, existingId: f.existingId, meta: f.meta || null, dupAction };
+  }).filter(Boolean);
+
+  if (!selected.length) { showToast('\u26A0 Chưa chọn ảnh nào'); return; }
+
+  const toImport  = selected.filter(f => !(f.duplicate && f.dupAction === 'keep'));
+  const keptCount = selected.length - toImport.length; // FIX: đúng scope, không bị ReferenceError
+
+  if (!toImport.length) {
+    showToast('\u2713 Đã giữ nguyên ' + keptCount + ' ảnh trùng, không có gì để import');
+    return;
+  }
+
+  const btn          = document.getElementById('btnImport');
+  const progressWrap = document.getElementById('importProgressWrap');
+  const progressBar  = document.getElementById('importProgressBar');
+  const progressLbl  = document.getElementById('importProgressLabel');
+  const progressDtl  = document.getElementById('importProgressDetail');
+  const status2      = document.getElementById('importStatus2');
+
+  btn.disabled = true;
+  btn.textContent = '\u23F3 Đang import...';
+  progressWrap.style.display = 'block';
+  status2.style.display = 'none';
+
+  const total = toImport.length;
+  let successCount = 0, replaceCount = 0, failCount = 0;
+
+  // FIX: progress bar đúng — cập nhật ngay từ 0%, không lệch 1 ảnh
+  function updateProgress(done, label, detail) {
+    progressBar.style.width = Math.round(done / total * 100) + '%';
+    progressLbl.textContent = label;
+    if (detail !== undefined) progressDtl.textContent = detail;
+  }
+  updateProgress(0, '\uD83D\uDCE5 Chuẩn bị import ' + total + ' ảnh...', '');
+
+  function makeHouse(f, useReplace) {
+    const meta = parseFilename(f.name);
+    return {
+      id:        useReplace ? f.existingId : ('U' + Date.now() + '_' + Math.random().toString(36).slice(2,6)),
+      ten:       meta.ten       || f.name.replace(/\.[^.]+$/, ''),
+      loai:      meta.loai      || 'cap4',
+      mainha:    meta.mainha    || 'mai-thai',
+      dientich:  parseInt(meta.dientich) || 0,
+      sophong:   parseInt(meta.sophong)  || 0,
+      chiphi:    meta.chiphi    || '\u2014',
+      mota:      meta.mota      || '',
+      matienmin: meta.matienmin !== '' ? parseFloat(meta.matienmin) || '' : '',
+      matienmax: meta.matienmax !== '' ? parseFloat(meta.matienmax) || '' : '',
+      anh1:      'https://drive.google.com/thumbnail?id=' + f.id + '&sz=w1000',
+      anh2:      ''
+    };
+  }
+
+  const toAdd     = toImport.filter(f => !(f.duplicate && f.dupAction === 'replace' && f.existingId));
+  const toReplace = toImport.filter(f =>   f.duplicate && f.dupAction === 'replace' && f.existingId);
+
+  // ── 1. BATCH ADD: gom 10 ảnh/request → giảm từ N request xuống N/10 ──
+  const BATCH = 10;
+  let done = 0;
+  for (let b = 0; b < toAdd.length; b += BATCH) {
+    const chunk  = toAdd.slice(b, b + BATCH);
+    const houses = chunk.map(f => makeHouse(f, false));
+    const end    = Math.min(b + BATCH, toAdd.length);
+    updateProgress(done, '\uD83D\uDCE5 Thêm mới ảnh ' + (b+1) + '\u2013' + end + '/' + toAdd.length + '...', chunk.map(f=>f.name).join(', ').slice(0,60));
+    try {
+      const res = await apiPost({ action: 'batchAddImported', houses });
+      if (res?.ok && res.ids) {
+        houses.forEach((h, i) => { allHouses.push({ ...h, id: res.ids[i] || h.id }); successCount++; });
+      } else {
+        // Fallback: từng cái
+        for (let ci = 0; ci < chunk.length; ci++) {
+          try {
+            const r2 = await apiPost({ action: 'addImported', house: houses[ci], driveFileId: chunk[ci].id });
+            if (r2?.ok) { allHouses.push({ ...houses[ci], id: r2.id || houses[ci].id }); successCount++; }
+            else failCount++;
+          } catch(e2) { failCount++; }
+        }
+      }
+    } catch(e) { console.error('Batch add lỗi:', e.message); failCount += chunk.length; }
+    done += chunk.length;
+    updateProgress(done, '\u2713 Đã thêm ' + done + '/' + total, '');
+  }
+
+  // ── 2. BATCH REPLACE: gom tất cả → 1 request duy nhất ──
+  if (toReplace.length) {
+    const houses = toReplace.map(f => makeHouse(f, true));
+    updateProgress(done, '\uD83D\uDD04 Ghi đè ' + toReplace.length + ' ảnh trùng...', '');
+    try {
+      const res = await apiPost({ action: 'batchEdit', houses });
+      if (res?.ok) {
+        houses.forEach(h => { const idx = allHouses.findIndex(x => x.id === h.id); if (idx >= 0) allHouses[idx] = h; else allHouses.push(h); replaceCount++; });
+      } else {
+        for (const h of houses) {
+          try {
+            const r2 = await apiPost({ action: 'edit', house: h });
+            if (r2?.ok) { const idx = allHouses.findIndex(x => x.id === h.id); if (idx >= 0) allHouses[idx] = h; else allHouses.push(h); replaceCount++; }
+            else failCount++;
+          } catch(e2) { failCount++; }
+        }
+      }
+    } catch(e) { console.error('Batch replace lỗi:', e.message); failCount += toReplace.length; }
+    done += toReplace.length;
+  }
+
+  updateProgress(total, '\u2713 Hoàn tất ' + total + '/' + total + ' ảnh', '');
+  setCache(allHouses);
+  renderGallery();
+
+  const parts = [];
+  if (successCount) parts.push(successCount + ' thêm mới');
+  if (replaceCount) parts.push(replaceCount + ' ghi đè');
+  if (keptCount)    parts.push(keptCount + ' giữ nguyên');
+  if (failCount)    parts.push(failCount + ' lỗi');
+
+  status2.style.display = 'block';
+  if (failCount === 0) {
+    status2.style.background = '#EAF4E7'; status2.style.color = '#3D6B34';
+    status2.textContent = '\u2713 Import xong: ' + parts.join(', ');
+    setTimeout(closeImportModal, 2200);
+  } else {
+    status2.style.background = '#FEF2F2'; status2.style.color = '#c03030';
+    status2.textContent = '\u26A0 Kết quả: ' + parts.join(', ');
+  }
+  btn.disabled = false;
+  btn.textContent = '\uD83D\uDCE5 Import lại';
+}
 // ══ TOAST ══
 let toastTimer;
 function showToast(msg) {
@@ -1408,7 +2054,9 @@ if('serviceWorker' in navigator){
 
 
 
+
 // ══ INIT ══
+
 loadData();
 </script>
 </body>
