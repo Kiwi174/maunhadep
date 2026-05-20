@@ -414,7 +414,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         Thêm mẫu nhà
       </button>
       <button id="importBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:6px;padding:9px 14px;font-size:11px;letter-spacing:1px" onclick="openImportModal()">
-        📥 Import từ Drive
+        📥 Import từ Driver
       </button>
 
     </div>
@@ -1214,9 +1214,13 @@ async function apiGet() {
 async function apiPost(body) {
   const payload = adminToken ? { ...body, _token: adminToken } : body;
 
-  // uploadImage cần timeout dài hơn vì xử lý file nặng
+  // Timeout theo loại action
   const controller = new AbortController();
-  const timeout = body.action === 'uploadImage' ? 60000 : 15000;
+  const timeout = body.action === 'uploadImage'       ? 60000
+                : body.action === 'batchAddImported'  ? 60000
+                : body.action === 'batchEdit'         ? 60000
+                : body.action === 'listFolder'        ? 30000
+                : 15000;
   const timer = setTimeout(() => controller.abort(), timeout);
 
   try {
@@ -1958,7 +1962,7 @@ async function runImport() {
   const toReplace = toImport.filter(f =>   f.duplicate && f.dupAction === 'replace' && f.existingId);
 
   // ── 1. BATCH ADD: gom 10 ảnh/request → giảm từ N request xuống N/10 ──
-  const BATCH = 10;
+  const BATCH = 5;
   let done = 0;
   for (let b = 0; b < toAdd.length; b += BATCH) {
     const chunk  = toAdd.slice(b, b + BATCH);
@@ -1979,7 +1983,17 @@ async function runImport() {
           } catch(e2) { failCount++; }
         }
       }
-    } catch(e) { console.error('Batch add lỗi:', e.message); failCount += chunk.length; }
+    } catch(e) {
+      console.error('Batch add lỗi:', e.message);
+      // Nếu timeout → thử fallback từng cái
+      for (let ci = 0; ci < chunk.length; ci++) {
+        try {
+          const r2 = await apiPost({ action: 'addImported', house: houses[ci], driveFileId: chunk[ci].id });
+          if (r2?.ok) { allHouses.push({ ...houses[ci], id: r2.id || houses[ci].id }); successCount++; }
+          else failCount++;
+        } catch(e2) { console.error('Fallback lỗi:', e2.message); failCount++; }
+      }
+    }
     done += chunk.length;
     updateProgress(done, '\u2713 Đã thêm ' + done + '/' + total, '');
   }
