@@ -227,6 +227,35 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .mo-img-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s;flex-shrink:0}
 .mo-img-dot.active{background:#fff;transform:scale(1.25)}
 .mo-img-count{position:absolute;bottom:10px;right:10px;background:rgba(20,25,22,.7);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(4px)}
+/* Nút mở fullscreen */
+.mo-img-fullscreen-btn{position:absolute;bottom:10px;right:10px;z-index:6;width:34px;height:34px;border-radius:50%;background:rgba(20,25,22,.62);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s;backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent}
+.mo-img-fullscreen-btn:hover{background:rgba(20,25,22,.9)}
+
+/* ── LIGHTBOX FULLSCREEN ── */
+.lb{display:none;position:fixed;inset:0;z-index:900;background:#000;flex-direction:column;touch-action:none}
+.lb.open{display:flex}
+/* Thanh trên */
+.lb-bar{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:env(safe-area-inset-top,0px) 12px 0;height:calc(52px + env(safe-area-inset-top,0px));background:linear-gradient(to bottom,rgba(0,0,0,.7) 0%,transparent 100%)}
+.lb-counter{color:rgba(255,255,255,.85);font-size:13px;font-weight:600}
+.lb-close{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .18s}
+.lb-close:hover,.lb-close:active{background:rgba(255,255,255,.25)}
+/* Khu vực ảnh */
+.lb-track{flex:1;display:flex;overflow:hidden;position:relative;width:100%}
+.lb-slider{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.4,0,.2,1);will-change:transform}
+.lb-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+/* Ảnh vừa màn hình, hiển thị đủ */
+.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto}
+.lb-slide img.zoomed{cursor:default}
+/* Mũi tên trái/phải */
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent;transition:background .18s,opacity .2s}
+.lb-arrow:hover,.lb-arrow:active{background:rgba(255,255,255,.28)}
+.lb-arrow.hidden{opacity:0;pointer-events:none}
+.lb-arrow-l{left:10px}
+.lb-arrow-r{right:10px}
+/* Dots dưới */
+.lb-dots{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;z-index:10}
+.lb-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s}
+.lb-dot.active{background:#fff;transform:scale(1.3)}
 
 .mo-body{padding:20px 24px 24px}
 .mo-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
@@ -234,7 +263,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .mo-tag-phong{background:#EAF4E7;color:#3D6B34}
 .mo-tag-phong-cach{background:var(--gold-light);color:#8B6020}
 .mo-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px}
-.mo-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.mo-specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:14px}
 .spec{background:#fff;border:1px solid var(--bd);padding:11px 13px;border-radius:var(--radius)}
 .spec-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-weight:700}
 .spec-val{font-size:16px;font-weight:700;color:var(--text)}
@@ -297,6 +326,19 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 /* ── TOAST ── */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .25s;z-index:600;white-space:nowrap}
 .toast.show{opacity:1}
+
+/* ── SYNC CONFIRM DIALOG ── */
+.sync-cfm-overlay{display:none;position:fixed;inset:0;z-index:700;background:rgba(20,25,22,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:16px}
+.sync-cfm-overlay.open{display:flex;animation:fbg .2s ease}
+.sync-cfm-box{background:#fff;border-radius:10px;padding:24px 24px 20px;width:100%;max-width:360px;box-shadow:var(--shadow-lg);animation:sup .2s ease}
+.sync-cfm-icon{font-size:28px;margin-bottom:10px;text-align:center}
+.sync-cfm-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;text-align:center}
+.sync-cfm-msg{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;text-align:center}
+.sync-cfm-actions{display:flex;gap:8px}
+.sync-cfm-cancel{flex:1;padding:10px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s}
+.sync-cfm-cancel:hover{border-color:var(--dark)}
+.sync-cfm-ok{flex:1;padding:10px;background:var(--green);border:none;font-family:inherit;font-size:13px;font-weight:700;color:#fff;cursor:pointer;border-radius:var(--radius);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.sync-cfm-ok:hover{background:#2f5228}
 
 /* ── REVIEW BAR ── */
 .review-bar{background:#FBF6EE;border-bottom:1px solid rgba(201,169,110,.4);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -402,14 +444,6 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .hero p{font-size:12px}
   .stats{gap:16px}
   .stat-num{font-size:19px}
-
-  /* HERO — nhóm nút admin (Thêm / Import / Sync) */
-  .hero-actions{display:flex;flex-wrap:wrap;gap:8px;width:100%}
-  .hero-actions .nb{
-    flex:1 1 auto;min-width:calc(50% - 4px);justify-content:center;
-    font-size:11px;padding:9px 10px;text-align:center;
-  }
-  #syncSheetBtn{white-space:nowrap}
 
   /* TONE BAR desktop → ẩn, dùng FAB */
   .tone-bar{display:none}
@@ -527,7 +561,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div><div class="stat-num" id="showCount">—</div><div class="stat-lbl">Đang hiển thị</div></div>
       </div>
     </div>
-    <div class="hero-actions">
+    <div style="display:flex;gap:8px;align-items:center">
       <button id="addBtn" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         Thêm mẫu nội thất
@@ -747,11 +781,12 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div class="spec"><div class="spec-lbl">Loại phòng</div><div class="spec-val" id="vPhong" style="font-size:13px"></div><div class="spec-unit"></div></div>
         <div class="spec"><div class="spec-lbl">Phong cách</div><div class="spec-val" id="vStyle" style="font-size:13px"></div><div class="spec-unit"></div></div>
         <div class="spec"><div class="spec-lbl">Diện tích</div><div class="spec-val" id="vDT"></div><div class="spec-unit">m²</div></div>
+        <div class="spec" id="vCPSpec" style="display:none"><div class="spec-lbl">Chi phí dự kiến</div><div class="spec-val" id="vCP" style="font-size:14px;color:var(--green)"></div><div class="spec-unit">triệu</div></div>
       </div>
       <div class="mo-desc" id="vDesc"></div>
       <div class="mo-actions">
         <button class="btn-pri" onclick="location.href='tel:0947017495'">📞 Liên hệ tư vấn</button>
-        <button class="btn-edit-mo" id="btnEditMo" onclick="editFromView()">✏ Chỉnh sửa</button>
+        <button class="btn-edit-mo" id="btnEditMo" onclick="editFromView(event)">✏ Chỉnh sửa</button>
         <button class="btn-sec" onclick="closeView()">Đóng</button>
       </div>
     </div>
@@ -939,6 +974,36 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <button id="btnDriveImport" onclick="runDriveImport()" disabled style="flex:1;min-width:180px;padding:10px;background:var(--green);border:none;color:#fff;font-family:inherit;font-size:13px;font-weight:700;border-radius:var(--radius);cursor:pointer;transition:.2s">📥 Import mẫu đã chọn</button>
       </div>
       <div id="driveImportStatus" style="display:none;padding:10px 24px;font-size:13px;font-weight:600;border-top:1px solid var(--bd)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX FULLSCREEN -->
+<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Xem ảnh toàn màn hình">
+  <div class="lb-bar">
+    <span class="lb-counter" id="lbCounter"></span>
+    <button class="lb-close" onclick="closeLightbox()" aria-label="Đóng">&#x2715;</button>
+  </div>
+  <div class="lb-track" id="lbTrack">
+    <div class="lb-slider" id="lbSlider"></div>
+  </div>
+  <button class="lb-arrow lb-arrow-l hidden" id="lbArrowL" onclick="lbSlide(-1)" aria-label="Ảnh trước">&#8592;</button>
+  <button class="lb-arrow lb-arrow-r hidden" id="lbArrowR" onclick="lbSlide(1)" aria-label="Ảnh sau">&#8594;</button>
+  <div class="lb-dots" id="lbDots"></div>
+</div>
+
+<!-- SYNC CONFIRM DIALOG -->
+<div class="sync-cfm-overlay" id="syncConfirmOverlay">
+  <div class="sync-cfm-box">
+    <div class="sync-cfm-icon">🔄</div>
+    <div class="sync-cfm-title">Đồng bộ dữ liệu</div>
+    <div class="sync-cfm-msg">Xoá cache và tải lại toàn bộ dữ liệu mới nhất từ Google Sheet?</div>
+    <div class="sync-cfm-actions">
+      <button class="sync-cfm-cancel" onclick="closeSyncConfirm()">Huỷ</button>
+      <button class="sync-cfm-ok" onclick="confirmSync()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.13-3.36L23 10M1 14l5.36 5.36A9 9 0 0020.49 15"/></svg>
+        Đồng bộ ngay
+      </button>
     </div>
   </div>
 </div>
@@ -1137,7 +1202,15 @@ function applyUpdate(){
 }
 
 // Xoá cache và tải lại từ sheet (dùng khi sheet bị sửa trực tiếp)
-async function forceReload(){
+function forceReload(){
+  // Hiện dialog xác nhận thay vì chạy thẳng
+  document.getElementById('syncConfirmOverlay').classList.add('open');
+}
+function closeSyncConfirm(){
+  document.getElementById('syncConfirmOverlay').classList.remove('open');
+}
+async function confirmSync(){
+  closeSyncConfirm();
   try{localStorage.removeItem(CACHE_KEY);}catch{}
   allItems=[];
   pendingData=null;
@@ -1154,6 +1227,11 @@ async function forceReload(){
     showToast('⚠ Lỗi kết nối: '+e.message);
   }
 }
+// Đóng dialog khi click ngoài
+document.addEventListener('click',function(e){
+  const overlay=document.getElementById('syncConfirmOverlay');
+  if(overlay&&overlay.classList.contains('open')&&e.target===overlay)closeSyncConfirm();
+});
 
 // ══ FILTER STATE ══
 let fPhong='all', fStyle='all', currentSort='newest';
@@ -1390,6 +1468,13 @@ function openView(id){
   document.getElementById('vStyle').textContent=styleLbl;
   document.getElementById('vDT').textContent=it.dientich||'—';
   document.getElementById('vDesc').textContent=it.mota||'';
+  // Chi phí
+  if(it.chiphi){
+    document.getElementById('vCP').textContent=it.chiphi;
+    document.getElementById('vCPSpec').style.display='';
+  }else{
+    document.getElementById('vCPSpec').style.display='none';
+  }
   document.getElementById('viewModal').classList.add('open');
 }
 
@@ -1401,7 +1486,7 @@ function renderSlide(){
     return;
   }
   // Slider track
-  const slides=_slideImgs.map((src,i)=>`<div class="mo-img-slide"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}"></div>`).join('');
+  const slides=_slideImgs.map((src,i)=>`<div class="mo-img-slide" onclick="openLightbox(${i})" style="cursor:zoom-in"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" style="pointer-events:none"></div>`).join('');
   // Arrows (ẩn nếu chỉ 1 ảnh)
   const arrowL=n>1?`<button class="mo-img-arrow mo-img-arrow-l${_slideIdx===0?' hidden':''}" onclick="slideImg(-1)" aria-label="Ảnh trước">&#8592;</button>`:'';
   const arrowR=n>1?`<button class="mo-img-arrow mo-img-arrow-r${_slideIdx===n-1?' hidden':''}" onclick="slideImg(1)" aria-label="Ảnh sau">&#8594;</button>`:'';
@@ -1410,7 +1495,7 @@ function renderSlide(){
   // Counter
   const counter=n>1?`<span class="mo-img-count">${_slideIdx+1} / ${n}</span>`:'';
 
-  wrap.innerHTML=`<div class="mo-img-slider" id="imgSlider" style="transform:translateX(-${_slideIdx*100}%)">${slides}</div>${arrowL}${arrowR}${dots}${counter}`;
+  wrap.innerHTML=`<div class="mo-img-slider" id="imgSlider" style="transform:translateX(-${_slideIdx*100}%)">${slides}</div>${arrowL}${arrowR}${dots}${counter}<button class="mo-img-fullscreen-btn" onclick="openLightbox(${_slideIdx})" aria-label="Xem toàn màn hình" title="Xem toàn màn hình"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>`;
 
   // Touch swipe
   wrap.ontouchstart=e=>{_touchStartX=e.touches[0].clientX;};
@@ -1432,6 +1517,97 @@ function goSlide(i){
 function closeView(){
   document.getElementById('viewModal').classList.remove('open');
   currentViewId=null;
+}
+
+// ══ LIGHTBOX FULLSCREEN ══
+let _lbIdx=0;
+let _lbImgs=[];
+let _lbTouchStartX=0,_lbTouchStartY=0;
+let _lbPinchStartDist=0;
+
+function openLightbox(startIdx){
+  _lbImgs=[..._slideImgs];
+  _lbIdx=startIdx||0;
+  _renderLightbox();
+  const lb=document.getElementById('lightbox');
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+  // Khoá orientation nếu hỗ trợ
+  if(screen.orientation&&screen.orientation.lock){
+    screen.orientation.lock('any').catch(()=>{});
+  }
+  _lbBindEvents();
+}
+function closeLightbox(){
+  const lb=document.getElementById('lightbox');
+  lb.classList.remove('open');
+  document.body.style.overflow='';
+  _lbUnbindEvents();
+  if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock();
+}
+function _renderLightbox(){
+  const n=_lbImgs.length;
+  // Slider
+  document.getElementById('lbSlider').innerHTML=_lbImgs.map((src,i)=>
+    `<div class="lb-slide" id="lbSlide${i}"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" ondblclick="lbToggleZoom(this)"></div>`
+  ).join('');
+  document.getElementById('lbSlider').style.transform=`translateX(-${_lbIdx*100}%)`;
+  // Counter
+  document.getElementById('lbCounter').textContent=n>1?`${_lbIdx+1} / ${n}`:'';
+  // Arrows
+  const al=document.getElementById('lbArrowL'),ar=document.getElementById('lbArrowR');
+  if(n>1){al.classList.toggle('hidden',_lbIdx===0);ar.classList.toggle('hidden',_lbIdx===n-1);}
+  else{al.classList.add('hidden');ar.classList.add('hidden');}
+  // Dots
+  const dots=document.getElementById('lbDots');
+  dots.innerHTML=n>1?_lbImgs.map((_,i)=>`<button class="lb-dot${i===_lbIdx?' active':''}" onclick="lbGoSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join(''):'';
+}
+function lbSlide(dir){
+  const n=_lbImgs.length;
+  _lbIdx=Math.max(0,Math.min(n-1,_lbIdx+dir));
+  // Reset zoom của slide cũ
+  document.querySelectorAll('.lb-slide img').forEach(img=>img.classList.remove('zoomed'));
+  _renderLightbox();
+}
+function lbGoSlide(i){_lbIdx=i;_renderLightbox();}
+function lbToggleZoom(img){
+  img.classList.toggle('zoomed');
+}
+
+// ── Bind touch & key events cho lightbox ──
+function _lbBindEvents(){
+  document.addEventListener('keydown',_lbKeyHandler);
+  const track=document.getElementById('lbTrack');
+  track.addEventListener('touchstart',_lbTouchStart,{passive:true});
+  track.addEventListener('touchend',_lbTouchEnd,{passive:true});
+}
+function _lbUnbindEvents(){
+  document.removeEventListener('keydown',_lbKeyHandler);
+  const track=document.getElementById('lbTrack');
+  track.removeEventListener('touchstart',_lbTouchStart);
+  track.removeEventListener('touchend',_lbTouchEnd);
+}
+function _lbKeyHandler(e){
+  if(!document.getElementById('lightbox').classList.contains('open'))return;
+  if(e.key==='Escape')closeLightbox();
+  else if(e.key==='ArrowLeft')lbSlide(-1);
+  else if(e.key==='ArrowRight')lbSlide(1);
+}
+function _lbTouchStart(e){
+  if(e.touches.length===1){
+    _lbTouchStartX=e.touches[0].clientX;
+    _lbTouchStartY=e.touches[0].clientY;
+  }
+}
+function _lbTouchEnd(e){
+  if(e.changedTouches.length===1){
+    const dx=e.changedTouches[0].clientX-_lbTouchStartX;
+    const dy=e.changedTouches[0].clientY-_lbTouchStartY;
+    // Chỉ swipe ngang khi dx đủ lớn và lớn hơn dy
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){
+      lbSlide(dx<0?1:-1);
+    }
+  }
 }
 
 // ══ EDIT / THÊM ══
@@ -1472,10 +1648,12 @@ function openEdit(id){
   });
   document.getElementById('editModal').classList.add('open');
 }
-function editFromView(){
+function editFromView(e){
+  if(e)e.stopPropagation();
   const id=currentViewId;
+  if(!id)return;
   closeView();
-  if(id)setTimeout(()=>openEdit(id),200);
+  setTimeout(()=>openEdit(id),200);
 }
 function closeEdit(){
   document.getElementById('editModal').classList.remove('open');

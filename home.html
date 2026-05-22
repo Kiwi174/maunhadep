@@ -191,7 +191,30 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .mo-img-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center}
 .mo-img-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s;flex-shrink:0}
 .mo-img-dot.active{background:#fff;transform:scale(1.25)}
-.mo-img-count{position:absolute;bottom:10px;right:10px;background:rgba(20,25,22,.7);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(4px)}
+.mo-img-count{position:absolute;bottom:10px;right:48px;background:rgba(20,25,22,.7);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(4px)}
+/* Nút mở fullscreen */
+.mo-img-fullscreen-btn{position:absolute;bottom:10px;right:10px;z-index:6;width:34px;height:34px;border-radius:50%;background:rgba(20,25,22,.62);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s;backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent}
+.mo-img-fullscreen-btn:hover{background:rgba(20,25,22,.9)}
+
+/* ── LIGHTBOX FULLSCREEN ── */
+.lb{display:none;position:fixed;inset:0;z-index:900;background:#000;flex-direction:column;touch-action:none}
+.lb.open{display:flex}
+.lb-bar{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:env(safe-area-inset-top,0px) 12px 0;height:calc(52px + env(safe-area-inset-top,0px));background:linear-gradient(to bottom,rgba(0,0,0,.7) 0%,transparent 100%)}
+.lb-counter{color:rgba(255,255,255,.85);font-size:13px;font-weight:600}
+.lb-close{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .18s}
+.lb-close:hover,.lb-close:active{background:rgba(255,255,255,.25)}
+.lb-track{flex:1;display:flex;overflow:hidden;position:relative;width:100%}
+.lb-slider{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.4,0,.2,1);will-change:transform}
+.lb-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto}
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent;transition:background .18s,opacity .2s}
+.lb-arrow:hover,.lb-arrow:active{background:rgba(255,255,255,.28)}
+.lb-arrow.hidden{opacity:0;pointer-events:none}
+.lb-arrow-l{left:10px}
+.lb-arrow-r{right:10px}
+.lb-dots{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;z-index:10}
+.lb-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s}
+.lb-dot.active{background:#fff;transform:scale(1.3)}
 .mo-body{padding:20px 24px 24px}
 .mo-badge{display:inline-block;background:var(--gl);color:var(--green2);font-size:10px;padding:3px 11px;letter-spacing:2px;text-transform:uppercase;border-radius:3px;margin-bottom:8px;font-weight:700}
 .mo-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px}
@@ -579,6 +602,20 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       </div>
     </div>
   </div>
+</div>
+
+<!-- LIGHTBOX FULLSCREEN -->
+<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Xem ảnh toàn màn hình">
+  <div class="lb-bar">
+    <span class="lb-counter" id="lbCounter"></span>
+    <button class="lb-close" onclick="closeLightbox()" aria-label="Đóng">&#x2715;</button>
+  </div>
+  <div class="lb-track" id="lbTrack">
+    <div class="lb-slider" id="lbSlider"></div>
+  </div>
+  <button class="lb-arrow lb-arrow-l hidden" id="lbArrowL" onclick="lbSlide(-1)" aria-label="Ảnh trước">&#8592;</button>
+  <button class="lb-arrow lb-arrow-r hidden" id="lbArrowR" onclick="lbSlide(1)" aria-label="Ảnh sau">&#8594;</button>
+  <div class="lb-dots" id="lbDots"></div>
 </div>
 
 <!-- MODAL EDIT / THÊM MỚI -->
@@ -1599,13 +1636,14 @@ function renderSlide(ph) {
   const wrap = document.getElementById('vImgs');
   const n = _slideImgs.length;
   const slides = _slideImgs.map((src, i) =>
-    `<div class="mo-img-slide"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" onerror="this.src='${ph||''}'"></div>`
+    `<div class="mo-img-slide" onclick="openLightbox(${i})" style="cursor:zoom-in"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" onerror="this.src='${ph||''}'" style="pointer-events:none"></div>`
   ).join('');
   const arrowL = n > 1 ? `<button class="mo-img-arrow mo-img-arrow-l${_slideIdx===0?' hidden':''}" onclick="slideImg(-1)" aria-label="Ảnh trước">&#8592;</button>` : '';
   const arrowR = n > 1 ? `<button class="mo-img-arrow mo-img-arrow-r${_slideIdx===n-1?' hidden':''}" onclick="slideImg(1)" aria-label="Ảnh sau">&#8594;</button>` : '';
   const dots   = n > 1 ? `<div class="mo-img-dots">${_slideImgs.map((_,i) => `<button class="mo-img-dot${i===_slideIdx?' active':''}" onclick="goSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join('')}</div>` : '';
   const counter= n > 1 ? `<span class="mo-img-count">${_slideIdx+1} / ${n}</span>` : '';
-  wrap.innerHTML = `<div class="mo-img-slider" style="transform:translateX(-${_slideIdx*100}%)">${slides}</div>${arrowL}${arrowR}${dots}${counter}`;
+  const fsBtn  = `<button class="mo-img-fullscreen-btn" onclick="openLightbox(${_slideIdx})" aria-label="Xem toàn màn hình" title="Xem toàn màn hình"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>`;
+  wrap.innerHTML = `<div class="mo-img-slider" style="transform:translateX(-${_slideIdx*100}%)">${slides}</div>${arrowL}${arrowR}${dots}${counter}${fsBtn}`;
   wrap.ontouchstart = e => { _touchStartX = e.touches[0].clientX; };
   wrap.ontouchend   = e => { const dx = e.changedTouches[0].clientX - _touchStartX; if (Math.abs(dx) > 40) slideImg(dx < 0 ? 1 : -1); };
 }
@@ -1614,6 +1652,76 @@ function slideImg(dir) {
   renderSlide();
 }
 function goSlide(i) { _slideIdx = i; renderSlide(); }
+
+// ══ LIGHTBOX FULLSCREEN ══
+let _lbIdx = 0, _lbImgs = [], _lbTouchStartX = 0, _lbTouchStartY = 0;
+
+function openLightbox(startIdx) {
+  _lbImgs = [..._slideImgs];
+  _lbIdx  = startIdx || 0;
+  _renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('any').catch(() => {});
+  }
+  _lbBindEvents();
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+  _lbUnbindEvents();
+  if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+}
+function _renderLightbox() {
+  const n = _lbImgs.length;
+  document.getElementById('lbSlider').innerHTML = _lbImgs.map((src, i) =>
+    `<div class="lb-slide" id="lbSlide${i}"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}"></div>`
+  ).join('');
+  document.getElementById('lbSlider').style.transform = `translateX(-${_lbIdx*100}%)`;
+  document.getElementById('lbCounter').textContent = n > 1 ? `${_lbIdx+1} / ${n}` : '';
+  const al = document.getElementById('lbArrowL'), ar = document.getElementById('lbArrowR');
+  if (n > 1) { al.classList.toggle('hidden', _lbIdx === 0); ar.classList.toggle('hidden', _lbIdx === n-1); }
+  else { al.classList.add('hidden'); ar.classList.add('hidden'); }
+  const dots = document.getElementById('lbDots');
+  dots.innerHTML = n > 1 ? _lbImgs.map((_, i) => `<button class="lb-dot${i===_lbIdx?' active':''}" onclick="lbGoSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join('') : '';
+}
+function lbSlide(dir) {
+  _lbIdx = Math.max(0, Math.min(_lbImgs.length - 1, _lbIdx + dir));
+  _renderLightbox();
+}
+function lbGoSlide(i) { _lbIdx = i; _renderLightbox(); }
+
+function _lbBindEvents() {
+  document.addEventListener('keydown', _lbKeyHandler);
+  const track = document.getElementById('lbTrack');
+  track.addEventListener('touchstart', _lbTouchStart, {passive: true});
+  track.addEventListener('touchend',   _lbTouchEnd,   {passive: true});
+}
+function _lbUnbindEvents() {
+  document.removeEventListener('keydown', _lbKeyHandler);
+  const track = document.getElementById('lbTrack');
+  if (track) {
+    track.removeEventListener('touchstart', _lbTouchStart);
+    track.removeEventListener('touchend',   _lbTouchEnd);
+  }
+}
+function _lbKeyHandler(e) {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowLeft')  lbSlide(-1);
+  else if (e.key === 'ArrowRight') lbSlide(1);
+}
+function _lbTouchStart(e) {
+  if (e.touches.length === 1) { _lbTouchStartX = e.touches[0].clientX; _lbTouchStartY = e.touches[0].clientY; }
+}
+function _lbTouchEnd(e) {
+  if (e.changedTouches.length === 1) {
+    const dx = e.changedTouches[0].clientX - _lbTouchStartX;
+    const dy = e.changedTouches[0].clientY - _lbTouchStartY;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) lbSlide(dx < 0 ? 1 : -1);
+  }
+}
 
 function closeView() { document.getElementById('viewModal').classList.remove('open'); document.body.style.overflow=''; }
 document.getElementById('viewModal').addEventListener('click', e=>{ if(e.target===document.getElementById('viewModal')) closeView(); });
@@ -2100,6 +2208,7 @@ function showToast(msg) {
 // ══ ESC ══
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
+    if(document.getElementById('lightbox').classList.contains('open')){ closeLightbox(); return; }
     closeView();closeEdit();
     document.getElementById('mobMenu').classList.remove('open');
     // Huỷ confirm nếu đang mở
