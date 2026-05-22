@@ -129,7 +129,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .filter-clear{background:none;border:none;font-family:inherit;font-size:11px;color:var(--muted);cursor:pointer;padding:4px 6px;font-weight:600;text-decoration:underline;-webkit-tap-highlight-color:transparent}
 .filter-clear:hover{color:var(--text)}
 .fpanel-wrap{position:relative}
-.fpanel{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:95;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--shadow-lg);padding:16px 18px;min-width:340px;animation:sup .2s ease}
+.fpanel{display:none;position:fixed;z-index:9999;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:16px 18px;min-width:320px;max-width:calc(100vw - 24px);max-height:80vh;overflow-y:auto;animation:sup .2s ease}
 .fpanel.open{display:block}
 .fpanel-section{margin-bottom:14px}
 .fpanel-section:last-child{margin-bottom:0}
@@ -151,7 +151,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .sort-wrap{margin-left:auto;position:relative}
 .sort-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s;white-space:nowrap}
 .sort-btn:hover{border-color:var(--green);color:var(--green)}
-.sort-panel{display:none;position:absolute;top:calc(100% + 4px);right:0;background:#fff;border:1px solid var(--bd);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:95;min-width:160px;overflow:hidden;animation:sup .15s ease}
+.sort-panel{display:none;position:fixed;z-index:9999;background:#fff;border:1px solid var(--bd);border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,.15);min-width:160px;overflow:hidden;animation:sup .15s ease}
 .sort-panel.open{display:block}
 @keyframes sup{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .sort-opt{display:flex;align-items:center;gap:8px;padding:9px 14px;background:none;border:none;font-family:inherit;font-size:12px;color:var(--text);cursor:pointer;width:100%;text-align:left;font-weight:500;transition:.15s}
@@ -408,7 +408,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .filter-btn{font-size:11px;padding:6px 10px;flex-shrink:0}
   .g-count{font-size:11px;white-space:nowrap;flex-shrink:0}
   .sort-btn{font-size:11px;padding:5px 9px;flex-shrink:0}
-  .fpanel{left:0;right:0;min-width:unset;width:calc(100vw - 24px)}
+  /* fpanel vị trí tính động qua JS */
 
   /* GALLERY */
   .gw{padding:12px 12px 100px}
@@ -1021,17 +1021,35 @@ let fPhong='all', fStyle='all', currentSort='newest';
 function toggleFilterPanel(){
   const panel=document.getElementById('filterPanel');
   const btn=document.getElementById('filterToggleBtn');
-  const isOpen=panel.classList.toggle('open');
-  btn.classList.toggle('open',isOpen);
+  const isOpen=!panel.classList.contains('open');
+  if(isOpen){
+    const r=btn.getBoundingClientRect();
+    const vw=window.innerWidth;
+    let left=r.left;
+    const pw=Math.min(340, vw-24);
+    if(left+pw>vw-12) left=Math.max(12, vw-pw-12);
+    panel.style.top=(r.bottom+6)+'px';
+    panel.style.left=left+'px';
+    panel.style.width=pw+'px';
+    panel.classList.add('open');
+    btn.classList.add('open');
+  } else {
+    panel.classList.remove('open');
+    btn.classList.remove('open');
+  }
 }
 document.addEventListener('click',e=>{
-  const wrap=document.getElementById('fpanelWrap');
-  if(wrap&&!wrap.contains(e.target)){
-    document.getElementById('filterPanel').classList.remove('open');
-    document.getElementById('filterToggleBtn').classList.remove('open');
+  const filterPanel=document.getElementById('filterPanel');
+  const filterBtn=document.getElementById('filterToggleBtn');
+  const sortPanel=document.getElementById('sortPanel');
+  const sortBtn=document.getElementById('sortBtn');
+  if(filterPanel.classList.contains('open')&&!filterPanel.contains(e.target)&&!filterBtn.contains(e.target)){
+    filterPanel.classList.remove('open');
+    filterBtn.classList.remove('open');
   }
-  const sw=document.getElementById('sortWrap');
-  if(sw&&!sw.contains(e.target))document.getElementById('sortPanel').classList.remove('open');
+  if(sortPanel.classList.contains('open')&&!sortPanel.contains(e.target)&&!sortBtn.contains(e.target)){
+    sortPanel.classList.remove('open');
+  }
 });
 
 // Chọn option trong panel
@@ -1095,7 +1113,22 @@ function setSort(val,label){
   renderGallery();
 }
 function toggleSortPanel(){
-  document.getElementById('sortPanel').classList.toggle('open');
+  const panel=document.getElementById('sortPanel');
+  const btn=document.getElementById('sortBtn');
+  const isOpen=!panel.classList.contains('open');
+  if(isOpen){
+    const r=btn.getBoundingClientRect();
+    const pw=180;
+    const vw=window.innerWidth;
+    let left=r.right-pw;
+    if(left<12) left=12;
+    panel.style.top=(r.bottom+4)+'px';
+    panel.style.left=left+'px';
+    panel.style.width=pw+'px';
+    panel.classList.add('open');
+  } else {
+    panel.classList.remove('open');
+  }
 }
 
 // ══ RENDER ══
