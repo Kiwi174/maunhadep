@@ -306,40 +306,104 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 .f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
 .f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right;font-weight:500}
 
-/* ── FAB TONE (mobile floating button) ── */
-.fab-tone{display:none;position:fixed;right:14px;bottom:80px;z-index:150;background:var(--gold);color:var(--dark);border:none;border-radius:50px;padding:10px 15px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.2);align-items:center;gap:6px;-webkit-tap-highlight-color:transparent;transition:transform .15s,box-shadow .15s}
-.fab-tone:active{transform:scale(.94)}
-.fab-tone svg{flex-shrink:0}
+/* ══════════════════════════════════════
+   FAB TONE MÀU HỢP TUỔI (mobile only)
+══════════════════════════════════════ */
+.fab-tone{
+  display:none;position:fixed;right:14px;bottom:24px;z-index:150;
+  background:var(--gold);color:var(--dark);border:none;
+  border-radius:50px;padding:11px 16px 11px 13px;
+  font-family:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.22);
+  align-items:center;gap:7px;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .15s,box-shadow .15s;
+  white-space:nowrap;
+}
+.fab-tone:active{transform:scale(.93);box-shadow:0 2px 8px rgba(0,0,0,.18)}
 
-/* ── MOBILE TONE DRAWER ── */
-.tone-drawer{display:none;position:fixed;left:0;right:0;bottom:0;z-index:260;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.18);padding:0 0 env(safe-area-inset-bottom,0);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1)}
-.tone-drawer.open{transform:translateY(0)}
-.tone-drawer-overlay{display:none;position:fixed;inset:0;z-index:255;background:rgba(20,25,22,.5);backdrop-filter:blur(2px)}
-.tone-drawer-overlay.open{display:block}
-.tone-drawer-handle{width:36px;height:4px;border-radius:2px;background:var(--bd);margin:12px auto 0}
-.tone-drawer-head{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--cream2)}
-.tone-drawer-head h3{font-size:15px;font-weight:700;color:var(--text)}
-.tone-drawer-close{background:none;border:none;font-size:20px;line-height:1;color:var(--muted);cursor:pointer;padding:4px 8px;-webkit-tap-highlight-color:transparent}
-.tone-drawer-body{padding:16px 18px 24px}
-.tone-drawer-form{display:flex;gap:8px;align-items:center;margin-bottom:16px}
-.tone-drawer-form input{flex:1;padding:10px 12px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:14px;color:var(--text);outline:none;background:var(--cream)}
-.tone-drawer-form input:focus{border-color:var(--gold);background:#fff}
-.tone-drawer-form button{padding:10px 18px;background:var(--gold);border:none;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dark);cursor:pointer;border-radius:var(--radius);white-space:nowrap}
-.tone-drawer-result{display:none}
-.tone-drawer-result.show{display:block}
-.tone-drawer-menh{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:var(--gold-light);border:1px solid rgba(201,169,110,.4);font-size:13px;font-weight:700;color:#7A5A20;margin-bottom:14px}
-.tone-drawer-groups{display:flex;flex-direction:column;gap:14px}
-.tone-drawer-group-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:7px}
-.tone-drawer-group-lbl.hop{color:#2A7A2A}
-.tone-drawer-group-lbl.trung{color:#8B7020}
-.tone-drawer-group-lbl.tranh{color:#9A2020}
-.tone-drawer-swatches{display:flex;gap:6px;flex-wrap:wrap}
-.tone-drawer-swatch{width:36px;height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:transform .15s}
-.tone-drawer-swatch:active{transform:scale(1.2)}
-.tone-drawer-swatch.tranh{border-color:rgba(180,40,40,.35);opacity:.8}
-.tone-drawer-swatch.trung{border-color:rgba(180,150,40,.3)}
+/* Bottom Sheet Overlay */
+.tone-overlay{
+  display:none;position:fixed;inset:0;z-index:250;
+  background:rgba(20,25,22,.55);backdrop-filter:blur(3px);
+  -webkit-tap-highlight-color:transparent;
+}
+.tone-overlay.open{display:block}
 
-/* ── RESPONSIVE ── */
+/* Bottom Sheet Drawer */
+.tone-sheet{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:251;
+  background:#fff;border-radius:20px 20px 0 0;
+  box-shadow:0 -6px 40px rgba(0,0,0,.18);
+  padding-bottom:env(safe-area-inset-bottom,16px);
+  max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  transform:translateY(100%);
+  transition:transform .32s cubic-bezier(.32,.72,0,1);
+}
+.tone-sheet.open{display:block;transform:translateY(0)}
+
+.tone-sheet-handle{width:40px;height:4px;border-radius:2px;background:var(--bd);margin:12px auto 0}
+.tone-sheet-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px 10px;border-bottom:1px solid var(--cream2);
+}
+.tone-sheet-head h3{font-size:15px;font-weight:700;color:var(--text)}
+.tone-sheet-close{
+  background:none;border:none;font-size:22px;line-height:1;
+  color:var(--muted);cursor:pointer;padding:2px 8px;
+  -webkit-tap-highlight-color:transparent;
+}
+.tone-sheet-body{padding:16px 18px 20px}
+.tone-sheet-form{display:flex;gap:8px;margin-bottom:16px}
+.tone-sheet-form input{
+  flex:1;padding:11px 14px;border:1.5px solid var(--bd);
+  border-radius:var(--radius);font-family:inherit;font-size:15px;
+  color:var(--text);outline:none;background:var(--cream);
+  -webkit-appearance:none;
+}
+.tone-sheet-form input:focus{border-color:var(--gold);background:#fff}
+.tone-sheet-form button{
+  padding:11px 18px;background:var(--gold);border:none;
+  font-family:inherit;font-size:13px;font-weight:700;
+  letter-spacing:.5px;color:var(--dark);cursor:pointer;
+  border-radius:var(--radius);white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s;
+}
+.tone-sheet-form button:active{background:#b8935a}
+.tone-sheet-result{display:none}
+.tone-sheet-result.show{display:block}
+.tone-sheet-menh{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:20px;
+  background:var(--gold-light);border:1px solid rgba(201,169,110,.4);
+  font-size:13px;font-weight:700;color:#7A5A20;margin-bottom:16px;
+}
+.tone-sheet-groups{display:flex;flex-direction:column;gap:16px}
+.tone-sheet-glbl{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px}
+.tone-sheet-glbl.hop{color:#2A7A2A}
+.tone-sheet-glbl.trung{color:#8B7020}
+.tone-sheet-glbl.tranh{color:#9A2020}
+.tone-sheet-swatches{display:flex;gap:8px;flex-wrap:wrap}
+.tone-sheet-sw{
+  width:40px;height:40px;border-radius:8px;cursor:pointer;
+  border:2px solid transparent;flex-shrink:0;
+  transition:transform .15s;-webkit-tap-highlight-color:transparent;
+  position:relative;
+}
+.tone-sheet-sw:active{transform:scale(1.18)}
+.tone-sheet-sw.tranh{border-color:rgba(180,40,40,.35);opacity:.8}
+.tone-sheet-sw.trung{border-color:rgba(180,150,40,.3)}
+.tone-sheet-sw-name{
+  font-size:10px;color:var(--muted);text-align:center;
+  margin-top:3px;font-weight:500;line-height:1.2;
+  max-width:40px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.tone-sheet-sw-wrap{display:flex;flex-direction:column;align-items:center}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — TABLET 900px
+══════════════════════════════════════ */
 @media(max-width:900px){
   .nav{padding:0 16px}
   .hero{padding:20px 16px 16px}
@@ -348,23 +412,93 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .tone-bar{padding:0 16px}
   .review-bar{padding:10px 16px}
   footer{padding:16px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
 }
+
+/* ══════════════════════════════════════
+   MOBILE — 700px (hamburger breakpoint)
+══════════════════════════════════════ */
 @media(max-width:700px){
+  /* NAV */
   .mob-toggle{display:block}
-  .nav-r>.nav-user,.nav-r>.nav-phone,.nav-r>#navLoginBtn,.nav-r>#navLogoutBtn{display:none!important}
-  .tone-avoid{display:none}
-  .tone-result-label{display:none}
-  .tone-result-info{font-size:11px}
-  .mo-specs{grid-template-columns:1fr 1fr}
-  .mo-img-grid3{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
-  .mo-img-grid3 img:first-child{grid-row:auto}
-  /* Ẩn tone-bar desktop trên mobile, dùng FAB thay thế */
+  .nav-r .nb,.nav-r .nav-phone,.nav-r .nav-user,
+  #navLoginBtn,#navLogoutBtn{display:none!important}
+
+  /* HERO */
+  .hero-inner{flex-direction:column;align-items:flex-start;gap:12px}
+  .hero h1{font-size:clamp(18px,5vw,24px)}
+  .stats{gap:18px}
+  .stat-num{font-size:20px}
+
+  /* TONE BAR — ẩn hẳn trên mobile, dùng FAB */
   .tone-bar{display:none}
   .fab-tone{display:flex}
+
+  /* TOOLBAR */
+  .toolbar{padding:0 12px}
+  .search-row{gap:6px}
+  .sw{max-width:100%}
+  .filter-bar{gap:6px;padding:6px 0;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+  .filter-bar::-webkit-scrollbar{display:none}
+  .filter-btn{font-size:11px;padding:6px 10px;flex-shrink:0}
+  .g-count{font-size:11px;white-space:nowrap;flex-shrink:0}
+  .sort-btn{font-size:11px;padding:5px 9px;flex-shrink:0}
+
+  /* FILTER PANEL — full width trên mobile */
+  .fpanel{left:0;right:0;min-width:unset;width:calc(100vw - 24px)}
+
+  /* GALLERY */
+  .gw{padding:12px 12px 100px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card:hover{transform:none;box-shadow:none}
+  .card:active{transform:scale(.97)}
+  .cbody{padding:9px 10px 7px}
+  .ctitle{font-size:13px}
+  .cdesc{display:none}
+
+  /* MODAL XEM CHI TIẾT */
+  .mb{padding:0;align-items:flex-end}
+  .mo{border-radius:16px 16px 0 0;max-height:92vh;max-width:100%}
+  .mo-close{top:10px;right:10px}
+  .mo-specs{grid-template-columns:1fr 1fr}
+  .mo-title{font-size:18px}
+  .mo-body{padding:16px 16px 24px}
+  .mo-actions{flex-direction:column}
+  .btn-pri,.btn-sec,.btn-edit-mo{min-width:unset;width:100%;text-align:center}
+
+  /* MODAL GRID ẢNH */
+  .mo-img-grid3{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;max-height:280px}
+  .mo-img-grid3 img:first-child{grid-row:auto}
+
+  /* EDIT MODAL */
+  .eb{padding:0;align-items:flex-end}
+  .em{border-radius:16px 16px 0 0;max-height:94vh;padding:20px 16px 24px}
+
+  /* FOOTER */
+  footer{flex-direction:column;align-items:flex-start;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0))}
+  .f-r a,.f-r p{text-align:left}
+
+  /* TOAST — lên cao hơn để tránh FAB */
+  .toast{bottom:80px}
+
+  /* REVIEW BAR */
+  .review-bar{flex-wrap:wrap;gap:8px;padding:10px 12px}
 }
+
+/* ══════════════════════════════════════
+   MOBILE NHỎ — 480px
+══════════════════════════════════════ */
 @media(max-width:480px){
-  .tone-form-lbl{display:none}
-  .hero h1{font-size:20px}
+  .hero h1{font-size:18px}
+  .hero p{font-size:12px}
+  .stats{gap:14px}
+  .stat-num{font-size:18px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .ctitle{font-size:12px}
+  .ctag{font-size:9px;padding:2px 6px}
+  .cmi{font-size:10px}
+  .cprice strong{font-size:12px}
+  .gw{padding:10px 10px 100px}
 }
 </style>
 </head>
@@ -466,41 +600,41 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   </div>
 </div>
 
-<!-- FAB TONE MÀU (chỉ hiện trên mobile) -->
-<button class="fab-tone" id="fabToneBtn" onclick="openToneDrawer()">
-  <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
-  🎨 Xem màu hợp tuổi
+<!-- FAB TONE MÀU — chỉ hiện trên mobile -->
+<button class="fab-tone" id="fabToneBtn" onclick="openToneSheet()" aria-label="Xem màu hợp tuổi">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+  🎨 Màu hợp tuổi
 </button>
 
 <!-- OVERLAY -->
-<div class="tone-drawer-overlay" id="toneDrawerOverlay" onclick="closeToneDrawer()"></div>
+<div class="tone-overlay" id="toneOverlay" onclick="closeToneSheet()"></div>
 
-<!-- DRAWER TONE MÀU MOBILE -->
-<div class="tone-drawer" id="toneDrawer">
-  <div class="tone-drawer-handle"></div>
-  <div class="tone-drawer-head">
+<!-- BOTTOM SHEET TONE MÀU -->
+<div class="tone-sheet" id="toneSheet">
+  <div class="tone-sheet-handle"></div>
+  <div class="tone-sheet-head">
     <h3>🎨 Màu nội thất hợp tuổi</h3>
-    <button class="tone-drawer-close" onclick="closeToneDrawer()">✕</button>
+    <button class="tone-sheet-close" onclick="closeToneSheet()" aria-label="Đóng">✕</button>
   </div>
-  <div class="tone-drawer-body">
-    <div class="tone-drawer-form">
-      <input type="number" id="toneNamSinhMob" placeholder="Nhập năm sinh..." min="1900" max="2030">
-      <button onclick="calcToneMob()">Xem màu</button>
+  <div class="tone-sheet-body">
+    <div class="tone-sheet-form">
+      <input type="number" id="sheetNamSinh" placeholder="Nhập năm sinh (VD: 1990)" min="1900" max="2030" inputmode="numeric">
+      <button onclick="calcToneSheet()">Xem màu</button>
     </div>
-    <div class="tone-drawer-result" id="toneDrawerResult">
-      <div class="tone-drawer-menh" id="toneDrawerMenh">Mệnh —</div>
-      <div class="tone-drawer-groups">
+    <div class="tone-sheet-result" id="sheetResult">
+      <div class="tone-sheet-menh" id="sheetMenh">Mệnh —</div>
+      <div class="tone-sheet-groups">
         <div>
-          <div class="tone-drawer-group-lbl hop">✦ Màu hợp nhất</div>
-          <div class="tone-drawer-swatches" id="toneDrawerSwatches"></div>
+          <div class="tone-sheet-glbl hop">✦ Màu hợp nhất — bấm để copy</div>
+          <div class="tone-sheet-swatches" id="sheetSwatches"></div>
         </div>
         <div>
-          <div class="tone-drawer-group-lbl trung">◎ Màu trung tính</div>
-          <div class="tone-drawer-swatches" id="toneDrawerTrungSwatches"></div>
+          <div class="tone-sheet-glbl trung">◎ Màu trung tính</div>
+          <div class="tone-sheet-swatches" id="sheetTrungSwatches"></div>
         </div>
         <div>
-          <div class="tone-drawer-group-lbl tranh">✕ Nên tránh</div>
-          <div class="tone-drawer-swatches" id="toneDrawerAvoidSwatches"></div>
+          <div class="tone-sheet-glbl tranh">✕ Nên tránh</div>
+          <div class="tone-sheet-swatches" id="sheetAvoidSwatches"></div>
         </div>
       </div>
     </div>
@@ -1507,39 +1641,52 @@ document.getElementById('toneNamSinh').addEventListener('change',()=>{
   }));
 });
 
-// ── TONE DRAWER MOBILE ──
-function openToneDrawer(){
-  document.getElementById('toneDrawer').classList.add('open');
-  document.getElementById('toneDrawerOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+// ══ TONE SHEET MOBILE ══
+function openToneSheet(){
+  const sheet=document.getElementById('toneSheet');
+  const overlay=document.getElementById('toneOverlay');
+  // Sync năm sinh nếu đã nhập trên desktop bar
   const desktopVal=document.getElementById('toneNamSinh').value;
-  if(desktopVal) document.getElementById('toneNamSinhMob').value=desktopVal;
-  setTimeout(()=>document.getElementById('toneNamSinhMob').focus(),350);
+  if(desktopVal)document.getElementById('sheetNamSinh').value=desktopVal;
+  overlay.classList.add('open');
+  sheet.style.display='block';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>sheet.classList.add('open')));
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('sheetNamSinh').focus(),400);
 }
-function closeToneDrawer(){
-  document.getElementById('toneDrawer').classList.remove('open');
-  document.getElementById('toneDrawerOverlay').classList.remove('open');
+function closeToneSheet(){
+  const sheet=document.getElementById('toneSheet');
+  const overlay=document.getElementById('toneOverlay');
+  sheet.classList.remove('open');
+  overlay.classList.remove('open');
   document.body.style.overflow='';
+  setTimeout(()=>{sheet.style.display='none'},350);
 }
-function calcToneMob(){
-  const yr=parseInt(document.getElementById('toneNamSinhMob').value);
-  if(!yr||yr<1900||yr>2030){showToast('⚠ Vui lòng nhập năm sinh hợp lệ (1900–2030)');return;}
+function calcToneSheet(){
+  const yr=parseInt(document.getElementById('sheetNamSinh').value);
+  if(!yr||yr<1900||yr>2030){showToast('⚠ Nhập năm sinh hợp lệ (1900–2030)');return;}
   const hanh=getNapAm(yr);
   const data=HANH_DATA[hanh];
   if(!data)return;
-  document.getElementById('toneDrawerMenh').textContent='Mệnh '+data.ten;
-  document.getElementById('toneDrawerSwatches').innerHTML=data.colors.map((c,i)=>
-    `<div class="tone-drawer-swatch" style="background:${c};border-color:rgba(0,0,0,.12)" title="${data.colorNames[i]}" onclick="copyHex('${c}')"></div>`).join('');
-  document.getElementById('toneDrawerTrungSwatches').innerHTML=data.neutral.map((c,i)=>
-    `<div class="tone-drawer-swatch trung" style="background:${c}" title="${data.neutralNames[i]}" onclick="copyHex('${c}')"></div>`).join('');
-  document.getElementById('toneDrawerAvoidSwatches').innerHTML=data.avoid.map((c,i)=>
-    `<div class="tone-drawer-swatch tranh" style="background:${c}" title="Tránh: ${data.avoidNames[i]}"></div>`).join('');
-  document.getElementById('toneDrawerResult').classList.add('show');
+  document.getElementById('sheetMenh').textContent='Mệnh '+data.ten;
+  const mkSwatch=(c,name,cls='')=>`
+    <div class="tone-sheet-sw-wrap">
+      <div class="tone-sheet-sw ${cls}" style="background:${c}" onclick="copyHex('${c}')" title="${name}"></div>
+      <div class="tone-sheet-sw-name">${name}</div>
+    </div>`;
+  document.getElementById('sheetSwatches').innerHTML=
+    data.colors.map((c,i)=>mkSwatch(c,data.colorNames[i])).join('');
+  document.getElementById('sheetTrungSwatches').innerHTML=
+    data.neutral.map((c,i)=>mkSwatch(c,data.neutralNames[i],'trung')).join('');
+  document.getElementById('sheetAvoidSwatches').innerHTML=
+    data.avoid.map((c,i)=>mkSwatch(c,data.avoidNames[i],'tranh')).join('');
+  document.getElementById('sheetResult').classList.add('show');
+  // Sync lại desktop
   document.getElementById('toneNamSinh').value=yr;
 }
 document.addEventListener('DOMContentLoaded',()=>{
-  const inp=document.getElementById('toneNamSinhMob');
-  if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter')calcToneMob();});
+  const inp=document.getElementById('sheetNamSinh');
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')calcToneSheet();});
 });
 
 loadData().then(()=>checkPendingReview());
