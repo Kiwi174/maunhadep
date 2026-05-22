@@ -403,6 +403,14 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .stats{gap:16px}
   .stat-num{font-size:19px}
 
+  /* HERO — nhóm nút admin (Thêm / Import / Sync) */
+  .hero-actions{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+  .hero-actions .nb{
+    flex:1 1 auto;min-width:calc(50% - 4px);justify-content:center;
+    font-size:11px;padding:9px 10px;text-align:center;
+  }
+  #syncSheetBtn{white-space:nowrap}
+
   /* TONE BAR desktop → ẩn, dùng FAB */
   .tone-bar{display:none}
   .fab-tone{display:flex}
@@ -519,7 +527,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div><div class="stat-num" id="showCount">—</div><div class="stat-lbl">Đang hiển thị</div></div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
+    <div class="hero-actions">
       <button id="addBtn" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         Thêm mẫu nội thất
