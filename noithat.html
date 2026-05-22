@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3D6B34">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Hùng Lê Design Studio — Tư vấn nội thất</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="dns-prefetch" href="https://script.google.com">
+<link rel="dns-prefetch" href="https://drive.google.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;
+  --dark:#141916;
+  --cream:#F4F3F0;--cream2:#EAEAE6;
+  --text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;
+  --gold:#C9A96E;--gold-light:#FBF6EE;
+  --radius:6px;
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --nav-h:60px;
+}
+html{scroll-behavior:smooth}
+body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ── CACHE BANNER ── */
+#cacheBanner{display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:500;background:var(--dark);color:#fff;padding:10px 18px 10px 16px;border-radius:30px;font-size:13px;font-weight:500;align-items:center;gap:10px;border:1px solid rgba(90,158,74,.4);box-shadow:var(--shadow-lg);white-space:nowrap}
+#cacheBanner.show{display:flex;animation:slideUp .3s ease}
+#cacheBanner button{background:var(--green2);border:none;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+@keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-logo img{height:40px}
+.nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.nav-r{display:flex;gap:6px;align-items:center}
+.nav-user{font-size:12px;color:var(--muted);margin-right:4px;font-weight:500}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+.nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap}
+.nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
+.nb-ghost:hover{background:var(--green);color:#fff}
+.nb-login{background:var(--green);color:#fff;border:none}
+.nb-login:hover{background:#2f5228}
+.nb-green{background:var(--green);color:#fff}
+.nb-green:hover{background:#2f5228}
+
+/* ── HAMBURGER ── */
+.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);-webkit-tap-highlight-color:transparent}
+.mob-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:#fff;z-index:99;flex-direction:column;padding:16px;gap:8px;border-top:1px solid var(--bd);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.mob-menu.open{display:flex;animation:fadeDown .2s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.mob-item{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:var(--radius);font-size:14px;font-weight:600;color:var(--text);background:var(--cream);border:none;cursor:pointer;font-family:inherit;text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent}
+.mob-item:active{background:var(--gl)}
+.mob-item.active-page{background:var(--gl);color:var(--green)}
+.mob-sep{height:1px;background:var(--bd);margin:2px 0}
+.mob-label{font-size:12px;color:var(--muted);font-weight:600;padding:4px 16px}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#EEF6EB 0%,#F4F3F0 100%);padding:28px 32px 22px;position:relative;overflow:hidden;border-bottom:1px solid var(--bd)}
+.hero::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(90,158,74,.1) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hero h1{font-size:clamp(22px,3.5vw,32px);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-.5px}
+.hero h1 span{color:var(--green2)}
+.hero p{color:var(--muted);margin-top:5px;font-size:13px;font-weight:400}
+.stats{display:flex;gap:22px;margin-top:14px}
+.stat-num{font-size:22px;color:var(--green2);font-weight:700;line-height:1}
+.stat-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-top:2px}
+
+/* ── TONE MÀU WIDGET (bar dưới hero) ── */
+.tone-bar{background:#fff;border-bottom:1px solid var(--bd);padding:0 32px}
+.tone-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+.tone-form{display:flex;align-items:center;gap:10px;padding:10px 0;flex-wrap:wrap;flex:1}
+.tone-form-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tone-input-wrap{display:flex;align-items:center;gap:6px}
+.tone-input{width:90px;padding:7px 10px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;background:var(--cream);transition:border-color .2s}
+.tone-input:focus{border-color:var(--gold);background:#fff}
+.tone-select{padding:7px 10px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;background:var(--cream);transition:border-color .2s;cursor:pointer}
+.tone-select:focus{border-color:var(--gold);background:#fff}
+.tone-btn{padding:7px 16px;background:var(--gold);border:none;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dark);cursor:pointer;border-radius:var(--radius);transition:.2s;white-space:nowrap}
+.tone-btn:hover{background:#B8935A}
+
+/* TONE RESULT — mở rộng 3 nhóm, hiện dưới dạng panel */
+.tone-result-wrap{width:100%;padding:12px 0;border-top:1px solid var(--bd);margin-top:0;display:flex;align-items:flex-start;gap:0;transition:opacity .3s;flex-wrap:wrap}
+.tone-result-wrap.hidden{display:none}
+.tone-menh-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:var(--gold-light);border:1px solid rgba(201,169,110,.4);font-size:12px;font-weight:700;color:#7A5A20;white-space:nowrap;margin-right:18px;flex-shrink:0;align-self:center}
+.tone-groups{display:flex;gap:14px;flex-wrap:wrap;flex:1}
+.tone-group{display:flex;flex-direction:column;gap:5px;min-width:0}
+.tone-group-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;white-space:nowrap}
+.tone-group-lbl.hop{color:#2A7A2A}
+.tone-group-lbl.trung{color:#8B7020}
+.tone-group-lbl.tranh{color:#9A2020}
+.tone-swatches{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.tone-swatch{width:26px;height:26px;border-radius:4px;cursor:pointer;position:relative;transition:transform .2s;flex-shrink:0;border:2px solid transparent}
+.tone-swatch:hover{transform:scale(1.25);z-index:5}
+.tone-swatch:hover::after{content:attr(data-name);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;font-size:10px;padding:3px 7px;border-radius:3px;white-space:nowrap;font-family:inherit;font-weight:500;pointer-events:none}
+.tone-swatch.tranh{border-color:rgba(180,40,40,.35);opacity:.8}
+.tone-swatch.trung{border-color:rgba(180,150,40,.3)}
+
+/* ── TOOLBAR ── */
+.toolbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 32px;position:sticky;top:var(--nav-h);z-index:90}
+.toolbar-inner{max-width:1200px;margin:0 auto}
+.search-row{padding:10px 0 0;display:flex;align-items:center;gap:8px}
+.sw{position:relative;flex:1;max-width:360px}
+.sw svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted)}
+.si{width:100%;padding:9px 11px 9px 34px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;background:var(--cream);transition:border-color .2s}
+.si:focus{border-color:var(--green);background:#fff}
+.si::placeholder{color:#B0BAA8}
+.btn-add{display:none;align-items:center;gap:6px;padding:9px 14px;background:var(--green);border:none;font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);font-weight:700;transition:.2s}
+.btn-add:hover{background:#2f5228}
+
+/* FILTER PANEL (dropdown như home.html) */
+.filter-btn{display:flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.filter-btn:hover{border-color:var(--green);color:var(--green)}
+.filter-btn.has-filter{border-color:var(--green);background:var(--gl);color:var(--green)}
+.filter-btn svg{transition:transform .2s}
+.filter-btn.open svg.chev{transform:rotate(180deg)}
+.filter-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gl);border:1px solid rgba(90,158,74,.35);border-radius:20px;font-size:11px;font-weight:600;color:var(--green)}
+.filter-chip button{background:none;border:none;cursor:pointer;color:var(--green);font-size:13px;line-height:1;padding:0 2px}
+.filter-clear{background:none;border:none;font-family:inherit;font-size:11px;color:var(--muted);cursor:pointer;padding:4px 6px;font-weight:600;text-decoration:underline;-webkit-tap-highlight-color:transparent}
+.filter-clear:hover{color:var(--text)}
+.fpanel-wrap{position:relative}
+.fpanel{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:95;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--shadow-lg);padding:16px 18px;min-width:340px;animation:sup .2s ease}
+.fpanel.open{display:block}
+.fpanel-section{margin-bottom:14px}
+.fpanel-section:last-child{margin-bottom:0}
+.fpanel-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.fpanel-options{display:flex;flex-wrap:wrap;gap:6px}
+.fopt{padding:5px 12px;border:1px solid var(--bd);border-radius:20px;background:#fff;font-family:inherit;font-size:12px;font-weight:500;color:var(--text);cursor:pointer;transition:.15s;-webkit-tap-highlight-color:transparent}
+.fopt:hover{border-color:var(--green);color:var(--green)}
+.fopt.active{background:var(--green);border-color:var(--green);color:#fff;font-weight:700}
+.fpanel-actions{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--cream2)}
+.fpanel-apply{flex:1;padding:9px;background:var(--green);border:none;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);transition:.2s}
+.fpanel-apply:hover{background:#2f5228}
+.fpanel-reset{padding:9px 14px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s}
+.fpanel-reset:hover{border-color:var(--dark)}
+
+/* COUNT + SORT */
+.filter-bar{display:flex;align-items:center;gap:8px;padding:7px 0;flex-wrap:wrap}
+.g-count{font-size:13px;color:var(--muted);font-weight:500}
+.g-count span{color:var(--text);font-weight:700}
+.sort-wrap{margin-left:auto;position:relative}
+.sort-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s;white-space:nowrap}
+.sort-btn:hover{border-color:var(--green);color:var(--green)}
+.sort-panel{display:none;position:absolute;top:calc(100% + 4px);right:0;background:#fff;border:1px solid var(--bd);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:95;min-width:160px;overflow:hidden;animation:sup .15s ease}
+.sort-panel.open{display:block}
+@keyframes sup{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.sort-opt{display:flex;align-items:center;gap:8px;padding:9px 14px;background:none;border:none;font-family:inherit;font-size:12px;color:var(--text);cursor:pointer;width:100%;text-align:left;font-weight:500;transition:.15s}
+.sort-opt:hover{background:var(--gl);color:var(--green)}
+.sort-opt.active{color:var(--green);font-weight:700}
+
+/* ── GALLERY ── */
+.gw{padding:20px 32px 56px;max-width:1400px;margin:0 auto;width:100%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+
+/* SKELETON */
+.skel-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.skel-card{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden}
+.skel-img{aspect-ratio:4/3;background:linear-gradient(90deg,#f0ede8 25%,#e5e2dd 50%,#f0ede8 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+.skel-body{padding:12px 14px}
+.skel-line{height:12px;border-radius:4px;background:linear-gradient(90deg,#f0ede8 25%,#e5e2dd 50%,#f0ede8 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;margin-bottom:8px}
+.skel-line.s{width:60%}.skel-line.xs{width:40%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* CARD */
+.card{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s;animation:fadeUp .35s ease both;-webkit-tap-highlight-color:transparent}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card:active{transform:scale(.98)}
+.cimg{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--cream2)}
+.cimg img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;background:var(--cream2);-webkit-user-drag:none;user-drag:none;pointer-events:none}
+.card:hover .cimg img{transform:scale(1.04)}
+.admin-btns{display:none;position:absolute;top:10px;right:10px;gap:6px}
+.admin-btns.on{display:flex}
+.abtn{padding:5px 10px;border:none;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.ab-edit{background:rgba(255,255,255,.92);color:var(--dark)}
+.ab-edit:hover{background:#fff}
+.ab-del{background:rgba(210,40,40,.88);color:#fff}
+.ab-del:hover{background:#c02020}
+.cbody{padding:12px 14px 9px}
+.ctitle{font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;line-height:1.3}
+.ctags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.ctag{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.3px}
+.ctag-phong{background:#EAF4E7;color:#3D6B34}
+.ctag-phong-cach{background:var(--gold-light);color:#8B6020}
+.cmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.cmi{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted);font-weight:500}
+.cdesc{font-size:12px;color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cfoot{padding:9px 14px;border-top:1px solid var(--cream2);display:flex;align-items:center;justify-content:space-between}
+.cprice{font-size:12px;color:var(--muted);font-weight:500}
+.cprice strong{color:var(--green);font-size:13px;font-weight:700}
+.ccta{font-size:11px;color:var(--green);text-transform:uppercase;font-weight:700;letter-spacing:.5px}
+.empty{text-align:center;padding:64px 20px;color:var(--muted)}
+.empty p{font-size:14px;margin-top:10px;font-weight:500}
+
+/* ── MODAL XEM CHI TIẾT ── */
+.mb{display:none;position:fixed;inset:0;z-index:200;background:rgba(20,25,22,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px}
+.mb.open{display:flex;animation:fbg .2s ease}
+@keyframes fbg{from{opacity:0}to{opacity:1}}
+.mo{background:var(--cream);border-radius:var(--radius);width:100%;max-width:820px;max-height:92vh;overflow-y:auto;position:relative;animation:sup .25s ease;-webkit-overflow-scrolling:touch}
+.mo-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(20,25,22,.75);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.mo-close:hover{background:var(--dark)}
+
+/* Ảnh modal — hỗ trợ 1, 2, 3 ảnh */
+.mo-img-single{width:100%;max-height:480px;object-fit:cover;display:block;background:#f5f5f5}
+.mo-img-grid2{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.mo-img-grid2 img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
+.mo-img-grid3{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:380px}
+.mo-img-grid3 img:first-child{grid-row:1/3;width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
+.mo-img-grid3 img:not(:first-child){width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
+/* Image counter badge */
+.mo-img-wrap{position:relative}
+.mo-img-count{position:absolute;bottom:10px;right:10px;background:rgba(20,25,22,.7);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(4px)}
+
+.mo-body{padding:20px 24px 24px}
+.mo-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.mo-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.mo-tag-phong{background:#EAF4E7;color:#3D6B34}
+.mo-tag-phong-cach{background:var(--gold-light);color:#8B6020}
+.mo-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px}
+.mo-specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.spec{background:#fff;border:1px solid var(--bd);padding:11px 13px;border-radius:var(--radius)}
+.spec-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-weight:700}
+.spec-val{font-size:16px;font-weight:700;color:var(--text)}
+.spec-unit{font-size:11px;color:var(--muted);font-weight:500}
+.mo-desc{font-size:13px;color:var(--muted);line-height:1.8;font-weight:400;margin-bottom:18px}
+.mo-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-pri{flex:1;min-width:160px;padding:12px;background:var(--green);border:none;font-family:inherit;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);font-weight:700;transition:.2s}
+.btn-pri:hover{background:#2f5228}
+.btn-sec{padding:12px 16px;background:transparent;border:1px solid var(--bd);font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s;font-weight:600}
+.btn-sec:hover{border-color:var(--dark)}
+.btn-edit-mo{display:none;padding:12px 16px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s;font-weight:600}
+.btn-edit-mo.on{display:block}
+.btn-edit-mo:hover{border-color:var(--green);color:var(--green)}
+
+/* ── EDIT / THÊM MODAL ── */
+.eb{display:none;position:fixed;inset:0;z-index:300;background:rgba(20,25,22,.93);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:16px}
+.eb.open{display:flex}
+.em{background:var(--cream);border-radius:var(--radius);width:100%;max-width:600px;max-height:94vh;overflow-y:auto;padding:24px 28px;-webkit-overflow-scrolling:touch}
+.em h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:20px}
+.ef{margin-bottom:13px}
+.ef label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:700}
+.ef input,.ef textarea,.ef select{width:100%;padding:10px 12px;border:1px solid var(--bd);background:#fff;border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;transition:border-color .2s}
+.ef input:focus,.ef textarea:focus,.ef select:focus{border-color:var(--green)}
+.ef textarea{resize:vertical;min-height:80px;line-height:1.5}
+.ef-r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.img-box{border:1.5px dashed var(--bd);border-radius:var(--radius);padding:12px;background:#fff;transition:border-color .2s}
+.img-box:hover{border-color:var(--green)}
+.img-box-preview{width:100%;max-height:140px;object-fit:cover;border-radius:3px;display:none;margin-bottom:10px}
+.img-box-preview.on{display:block}
+.img-box-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.img-url-input{flex:1;min-width:120px;padding:8px 10px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:12px;color:var(--text);outline:none}
+.img-url-input:focus{border-color:var(--green)}
+.img-url-input::placeholder{color:#B0BAA8}
+.img-clear{padding:5px 8px;background:transparent;border:1px solid #ddd;border-radius:3px;font-size:11px;cursor:pointer;color:var(--muted);transition:.15s;font-family:inherit}
+.img-clear:hover{border-color:#c03030;color:#c03030}
+.img-hint{font-size:11px;color:var(--muted);margin-top:5px;font-weight:500}
+.edit-actions{display:flex;gap:8px;margin-top:16px}
+.btn-save{flex:1;padding:13px;background:var(--green);border:none;font-family:inherit;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#fff;cursor:pointer;border-radius:var(--radius);font-weight:700;transition:.2s}
+.btn-save:hover{background:#2f5228}
+.btn-save:disabled{background:#aaa;cursor:not-allowed}
+.btn-cancel{padding:13px 18px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s;font-weight:600}
+.btn-cancel:hover{border-color:var(--dark)}
+/* Trạng thái chờ duyệt (CTV) */
+.ctv-pending{background:var(--gold-light);border:1px solid rgba(201,169,110,.4);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:#7A5010;margin-top:10px;font-weight:500;display:none}
+.ctv-pending.show{display:block}
+
+/* ── CONFIRM MODAL ── */
+.cfm{display:none;position:fixed;inset:0;z-index:400;background:rgba(20,25,22,.7);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:16px}
+.cfm.open{display:flex;animation:fbg .18s ease}
+.cfm-box{background:#fff;border-radius:var(--radius);padding:24px 26px;max-width:340px;width:100%;box-shadow:var(--shadow-lg);animation:sup .2s ease}
+.cfm-icon{width:44px;height:44px;border-radius:50%;background:#FEF2F2;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.cfm-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+.cfm-msg{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.cfm-actions{display:flex;gap:8px}
+.cfm-cancel{flex:1;padding:10px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;border-radius:var(--radius);transition:.2s}
+.cfm-cancel:hover{border-color:var(--dark)}
+.cfm-ok{flex:1;padding:10px;background:#DC2626;border:none;font-family:inherit;font-size:12px;font-weight:700;color:#fff;cursor:pointer;border-radius:var(--radius);transition:.2s}
+.cfm-ok:hover{background:#B91C1C}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .25s;z-index:600;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* ── REVIEW BAR ── */
+.review-bar{background:#FBF6EE;border-bottom:1px solid rgba(201,169,110,.4);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.review-bar-info{display:flex;align-items:center;gap:8px;font-size:13px;color:#7A5010;font-weight:500}
+.review-btn{padding:7px 14px;border:none;border-radius:var(--radius);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase}
+.review-btn-ok{background:var(--gold);color:var(--dark)}
+.review-btn-ok:hover{background:#B8935A}
+
+/* ── FOOTER ── */
+footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{height:32px}
+.f-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.3px}
+.f-sub{font-size:10px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
+.f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right;font-weight:500}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .nav{padding:0 16px}
+  .hero{padding:20px 16px 16px}
+  .toolbar{padding:0 16px}
+  .gw{padding:16px 16px 48px}
+  .tone-bar{padding:0 16px}
+  .review-bar{padding:10px 16px}
+  footer{padding:16px}
+}
+@media(max-width:700px){
+  .mob-toggle{display:block}
+  .nav-r>.nav-user,.nav-r>.nav-phone,.nav-r>#navLoginBtn,.nav-r>#navLogoutBtn{display:none!important}
+  .tone-avoid{display:none}
+  .tone-result-label{display:none}
+  .tone-result-info{font-size:11px}
+  .mo-specs{grid-template-columns:1fr 1fr}
+  .mo-img-grid3{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .mo-img-grid3 img:first-child{grid-row:auto}
+}
+@media(max-width:480px){
+  .tone-form-lbl{display:none}
+  .hero h1{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="home.html">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" width="40" height="40" loading="eager">
+    <div>
+      <div class="nl-name">Hùng Lê Design</div>
+      <div class="nl-sub">Studio</div>
+    </div>
+  </a>
+  <div class="nav-r">
+    <span class="nav-user" id="userLabel"></span>
+    <a class="nav-phone" href="tel:0947017495">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      0947.017.495
+    </a>
+    <a class="nb nb-ghost" href="home.html" style="text-decoration:none">🏠 Thư viện</a>
+    <button class="nb nb-green" onclick="location.href='noithat.html'">🛋 Nội thất</button>
+    <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">Dự toán</button>
+    <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
+    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
+    <button class="nb nb-ghost" id="navLogoutBtn" style="display:none" onclick="logout()">Đăng xuất</button>
+    <a class="nb nb-ghost" href="index.html" id="navLoginBtn" style="display:none;text-decoration:none">Đăng nhập</a>
+  </div>
+  <button class="mob-toggle" id="mobToggle" onclick="toggleMob()" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-label" id="mobUser"></div>
+  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
+  <a href="noithat.html" class="mob-item active-page">🛋 Tư vấn nội thất</a>
+  <div class="mob-sep"></div>
+  <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
+  <a href="estimate.html" class="mob-item">📊 Dự toán chi phí xây dựng</a>
+  <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
+  <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
+  <div class="mob-sep"></div>
+  <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
+  <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>Thư viện <span>mẫu nội thất</span></h1>
+      <p>Khám phá thiết kế nội thất theo từng không gian — từ phong cách tối giản đến tân cổ điển</p>
+      <div class="stats">
+        <div><div class="stat-num" id="totalCount">—</div><div class="stat-lbl">Mẫu nội thất</div></div>
+        <div><div class="stat-num" id="showCount">—</div><div class="stat-lbl">Đang hiển thị</div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button id="addBtn" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Thêm mẫu nội thất
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TONE MÀU HỢP TUỔI BAR -->
+<div class="tone-bar">
+  <div class="tone-inner">
+    <div class="tone-form">
+      <span class="tone-form-lbl">🎨 Tone màu hợp tuổi</span>
+      <div class="tone-input-wrap">
+        <input class="tone-input" type="number" id="toneNamSinh" placeholder="Năm sinh" min="1900" max="2030" style="width:110px">
+        <button class="tone-btn" onclick="calcTone()">Xem màu</button>
+      </div>
+    </div>
+    <!-- TONE RESULT — 3 nhóm màu -->
+    <div class="tone-result-wrap hidden" id="toneResult">
+      <div class="tone-menh-badge" id="toneMenhInfo">Mệnh —</div>
+      <div class="tone-groups">
+        <div class="tone-group">
+          <div class="tone-group-lbl hop">✦ Màu hợp nhất</div>
+          <div class="tone-swatches" id="toneSwatches"></div>
+        </div>
+        <div class="tone-group">
+          <div class="tone-group-lbl trung">◎ Màu trung tính</div>
+          <div class="tone-swatches" id="toneTrungSwatches"></div>
+        </div>
+        <div class="tone-group">
+          <div class="tone-group-lbl tranh">✕ Nên tránh</div>
+          <div class="tone-swatches" id="toneAvoidSwatches"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW BAR (admin only) -->
+<div class="review-bar" id="reviewBar" style="display:none">
+  <div class="review-bar-info">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+    <span id="reviewBarText">Có bản nội thất chờ duyệt từ CTV</span>
+  </div>
+  <button class="review-btn review-btn-ok" onclick="openReviewModal()">📋 Xem & Duyệt</button>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="mb" id="reviewModal">
+  <div class="mo" style="max-width:680px">
+    <button class="mo-close" onclick="document.getElementById('reviewModal').classList.remove('open')">✕</button>
+    <div class="mo-body">
+      <div class="mo-title" style="font-size:18px;margin-bottom:16px">📋 Duyệt mẫu nội thất từ CTV</div>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbarEl">
+  <div class="toolbar-inner">
+    <div class="search-row">
+      <div class="sw">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="si" id="searchInput" placeholder="Tìm kiếm mẫu nội thất..." oninput="renderGallery()">
+      </div>
+    </div>
+    <!-- Filter panel — Loại phòng & Phong cách (dropdown) -->
+    <div class="filter-bar" id="filterBarEl" style="padding:7px 0;border-top:1px solid var(--cream2);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <div class="fpanel-wrap" id="fpanelWrap">
+        <button class="filter-btn" id="filterToggleBtn" onclick="toggleFilterPanel()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          Lọc nội thất
+          <svg class="chev" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="fpanel" id="filterPanel">
+          <div class="fpanel-section">
+            <div class="fpanel-lbl">Loại phòng</div>
+            <div class="fpanel-options">
+              <button class="fopt active" data-fl="phong" data-fv="all">Tất cả</button>
+              <button class="fopt" data-fl="phong" data-fv="phong-khach">🛋 Phòng khách</button>
+              <button class="fopt" data-fl="phong" data-fv="phong-ngu">🛏 Phòng ngủ</button>
+              <button class="fopt" data-fl="phong" data-fv="master-bedroom">🛏 Master</button>
+              <button class="fopt" data-fl="phong" data-fv="bep-an">🍳 Bếp - Ăn</button>
+              <button class="fopt" data-fl="phong" data-fv="wc">🚿 WC</button>
+              <button class="fopt" data-fl="phong" data-fv="phong-tho">🪔 Phòng thờ</button>
+              <button class="fopt" data-fl="phong" data-fv="phong-thay-do">👔 Thay đồ</button>
+              <button class="fopt" data-fl="phong" data-fv="phong-lam-viec">💼 Làm việc</button>
+            </div>
+          </div>
+          <div class="fpanel-section">
+            <div class="fpanel-lbl">Phong cách</div>
+            <div class="fpanel-options">
+              <button class="fopt active" data-fl="style" data-fv="all">Tất cả</button>
+              <button class="fopt" data-fl="style" data-fv="toi-gian">Tối giản</button>
+              <button class="fopt" data-fl="style" data-fv="hien-dai">Hiện đại</button>
+              <button class="fopt" data-fl="style" data-fv="tan-co-dien">Tân cổ điển</button>
+              <button class="fopt" data-fl="style" data-fv="indochine">Indochine</button>
+              <button class="fopt" data-fl="style" data-fv="japandi">Japandi</button>
+              <button class="fopt" data-fl="style" data-fv="scandinavian">Scandinavian</button>
+              <button class="fopt" data-fl="style" data-fv="tropical">Tropical</button>
+              <button class="fopt" data-fl="style" data-fv="wabi-sabi">Wabi-sabi</button>
+            </div>
+          </div>
+          <div class="fpanel-actions">
+            <button class="fpanel-reset" onclick="resetFilters()">Đặt lại</button>
+            <button class="fpanel-apply" onclick="applyFilters()">Áp dụng</button>
+          </div>
+        </div>
+      </div>
+      <div id="activeChips"></div>
+      <button class="filter-clear" id="filterClearAll" style="display:none" onclick="resetFilters()">✕ Xoá bộ lọc</button>
+      <!-- Count + sort -->
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div class="g-count">Hiển thị <span id="showCount2">0</span> / <span id="totalCount2">0</span> mẫu</div>
+      <div class="sort-wrap" id="sortWrap">
+        <button class="sort-btn" id="sortBtn" onclick="toggleSortPanel()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M9 18h6"/></svg>
+          <span id="sortLabel">Mới nhất</span>
+          <svg class="chev" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sort-panel" id="sortPanel">
+          <button class="sort-opt active" data-sort="newest" onclick="setSort('newest','Mới nhất')">🆕 Mới nhất</button>
+          <button class="sort-opt" data-sort="az" onclick="setSort('az','Tên A → Z')">🔤 Tên A → Z</button>
+          <button class="sort-opt" data-sort="oldest" onclick="setSort('oldest','Cũ nhất')">🕰 Cũ nhất</button>
+        </div>
+      </div>
+      </div><!-- /margin-left:auto -->
+    </div><!-- /filter-bar -->
+  </div><!-- /toolbar-inner -->
+</div><!-- /toolbar -->
+
+<!-- GALLERY -->
+<div class="gw">
+  <div id="gallery">
+    <div class="skel-wrap" id="skelGrid">
+      <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
+      <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
+      <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
+      <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
+      <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
+      <div class="skel-card"><div class="skel-img"></div><div class="skel-body"><div class="skel-line"></div><div class="skel-line s"></div><div class="skel-line xs"></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" loading="lazy" width="32" height="32">
+    <div>
+      <div class="f-name">Hùng Lê Design Studio</div>
+      <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </div>
+  <div class="f-r">
+    <a href="tel:0947017495">📞 0947.017.495</a>
+    <p>© <span id="footerYear"></span> Hùng Lê Design Studio</p>
+  </div>
+</footer>
+
+<!-- MODAL XEM CHI TIẾT -->
+<div class="mb" id="viewModal">
+  <div class="mo">
+    <button class="mo-close" onclick="closeView()">✕</button>
+    <div id="vImgs" class="mo-img-wrap"></div>
+    <div class="mo-body">
+      <div class="mo-tags" id="vTags"></div>
+      <div class="mo-title" id="vTitle"></div>
+      <div class="mo-specs" id="vSpecs">
+        <div class="spec"><div class="spec-lbl">Loại phòng</div><div class="spec-val" id="vPhong" style="font-size:13px"></div><div class="spec-unit"></div></div>
+        <div class="spec"><div class="spec-lbl">Phong cách</div><div class="spec-val" id="vStyle" style="font-size:13px"></div><div class="spec-unit"></div></div>
+        <div class="spec"><div class="spec-lbl">Diện tích</div><div class="spec-val" id="vDT"></div><div class="spec-unit">m²</div></div>
+      </div>
+      <div class="mo-desc" id="vDesc"></div>
+      <div class="mo-actions">
+        <button class="btn-pri" onclick="location.href='tel:0947017495'">📞 Liên hệ tư vấn</button>
+        <button class="btn-edit-mo" id="btnEditMo" onclick="editFromView()">✏ Chỉnh sửa</button>
+        <button class="btn-sec" onclick="closeView()">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT / THÊM MỚI MODAL -->
+<div class="eb" id="editModal">
+  <div class="em">
+    <h3 id="editTitle">Thêm mẫu nội thất mới</h3>
+    <input type="hidden" id="eId">
+    <div class="ef">
+      <label>Tên mẫu nội thất *</label>
+      <input type="text" id="eTen" placeholder="VD: Phòng khách Indochine tone trầm">
+    </div>
+    <div class="ef-r2">
+      <div class="ef">
+        <label>Loại phòng *</label>
+        <select id="ePhong">
+          <option value="phong-khach">Phòng khách</option>
+          <option value="phong-ngu">Phòng ngủ</option>
+          <option value="master-bedroom">Phòng ngủ Master</option>
+          <option value="bep-an">Bếp - Ăn</option>
+          <option value="wc">WC / Nhà tắm</option>
+          <option value="phong-tho">Phòng thờ</option>
+          <option value="phong-thay-do">Phòng thay đồ</option>
+          <option value="phong-lam-viec">Phòng làm việc</option>
+        </select>
+      </div>
+      <div class="ef">
+        <label>Phong cách *</label>
+        <select id="eStyle">
+          <option value="toi-gian">Tối giản</option>
+          <option value="hien-dai">Hiện đại</option>
+          <option value="tan-co-dien">Tân cổ điển</option>
+          <option value="indochine">Indochine</option>
+          <option value="japandi">Japandi</option>
+          <option value="scandinavian">Scandinavian</option>
+          <option value="tropical">Tropical</option>
+          <option value="wabi-sabi">Wabi-sabi</option>
+        </select>
+      </div>
+    </div>
+    <div class="ef-r2">
+      <div class="ef">
+        <label>Diện tích (m²)</label>
+        <input type="number" id="eDT" placeholder="25" min="0">
+      </div>
+      <div class="ef">
+        <label>Chi phí dự kiến (triệu)</label>
+        <input type="text" id="eCP" placeholder="VD: 150–200">
+      </div>
+    </div>
+    <div class="ef">
+      <label>Mô tả</label>
+      <textarea id="eMota" placeholder="Mô tả ngắn về mẫu nội thất..."></textarea>
+    </div>
+    <!-- ẢNH CHÍNH -->
+    <div class="ef">
+      <label>Ảnh chính *</label>
+      <div class="img-box">
+        <img id="prev1" class="img-box-preview" alt="">
+        <div class="img-box-actions">
+          <input class="img-url-input" id="eUrl1" placeholder="Dán link Google Drive hoặc URL ảnh..." oninput="onUrlInput(1)" onpaste="setTimeout(()=>onUrlInput(1),0)">
+          <button class="img-clear" onclick="clearImg(1)">✕</button>
+        </div>
+        <div class="img-hint">Upload ảnh lên Drive → Nhấp phải → Lấy link → Dán vào đây</div>
+      </div>
+    </div>
+    <!-- ẢNH PHỤ 2 -->
+    <div class="ef">
+      <label>Ảnh phụ 2 <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(tuỳ chọn)</span></label>
+      <div class="img-box">
+        <img id="prev2" class="img-box-preview" alt="">
+        <div class="img-box-actions">
+          <input class="img-url-input" id="eUrl2" placeholder="Link ảnh phụ..." oninput="onUrlInput(2)" onpaste="setTimeout(()=>onUrlInput(2),0)">
+          <button class="img-clear" onclick="clearImg(2)">✕</button>
+        </div>
+      </div>
+    </div>
+    <!-- ẢNH PHỤ 3 -->
+    <div class="ef">
+      <label>Ảnh phụ 3 <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(tuỳ chọn)</span></label>
+      <div class="img-box">
+        <img id="prev3" class="img-box-preview" alt="">
+        <div class="img-box-actions">
+          <input class="img-url-input" id="eUrl3" placeholder="Link ảnh phụ..." oninput="onUrlInput(3)" onpaste="setTimeout(()=>onUrlInput(3),0)">
+          <button class="img-clear" onclick="clearImg(3)">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="ctv-pending" id="ctvPendingNote">⏳ Mẫu nội thất này sẽ được gửi cho admin duyệt trước khi hiển thị.</div>
+    <div class="edit-actions">
+      <button class="btn-save" id="btnSave" onclick="saveItem()">💾 Lưu mẫu nội thất</button>
+      <button class="btn-cancel" onclick="closeEdit()">Huỷ</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="cfm" id="confirmModal">
+  <div class="cfm-box">
+    <div class="cfm-icon">
+      <svg width="20" height="20" fill="none" stroke="#DC2626" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+    </div>
+    <div class="cfm-title">Xác nhận xoá</div>
+    <div class="cfm-msg" id="confirmMsg">Bạn có chắc muốn xoá mẫu nội thất này? Hành động này không thể hoàn tác.</div>
+    <div class="cfm-actions">
+      <button class="cfm-cancel" id="confirmCancel">Huỷ</button>
+      <button class="cfm-ok" id="confirmOk">Xoá</button>
+    </div>
+  </div>
+</div>
+
+<!-- CACHE BANNER -->
+<div id="cacheBanner">
+  🔄 Có dữ liệu mới
+  <button onclick="applyUpdate()">Cập nhật</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ FOOTER YEAR ══
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+// ══ ESCAPE HTML ══
+function escHtml(s){
+  if(!s)return'';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ══ CONFIRM ══
+let _confirmResolve=null;
+function showConfirm(msg){
+  return new Promise(resolve=>{
+    _confirmResolve=resolve;
+    document.getElementById('confirmMsg').textContent=msg||'Bạn có chắc không?';
+    document.getElementById('confirmModal').classList.add('open');
+  });
+}
+document.getElementById('confirmOk').addEventListener('click',()=>{
+  document.getElementById('confirmModal').classList.remove('open');
+  if(_confirmResolve){_confirmResolve(true);_confirmResolve=null;}
+});
+document.getElementById('confirmCancel').addEventListener('click',()=>{
+  document.getElementById('confirmModal').classList.remove('open');
+  if(_confirmResolve){_confirmResolve(false);_confirmResolve=null;}
+});
+
+// ══ CẤU HÌNH — cùng GAS với home.html ══
+const _a='https://script.google.com/macros/s/';
+const _b='AKfycbwdH-OVryjHOLoUcGKIC542uOPDqVpdUA6CvPftXVJotWinOpeHuBVCNdzd8bDV-Md1';
+const API_URL   = _a+_b+'/exec';
+const CACHE_KEY = 'nhadep_noithat_v2';   // cache riêng cho nội thất (tách biệt home)
+const CACHE_TTL = 5*60*1000;
+
+// ══ AUTH ══
+const role       = sessionStorage.getItem('nhadep_role');
+const user       = sessionStorage.getItem('nhadep_user');
+const adminToken = sessionStorage.getItem('nhadep_token');
+
+if(!role||role==='guest'){location.href='index.html?require=login';}
+
+const effectiveRole=(()=>{
+  if(role==='admin'&&adminToken)return'admin';
+  if(role==='ctv'  &&adminToken)return'ctv';
+  return'member';
+})();
+
+if(user){
+  const label=role==='ctv'?('CTV: '+user):('Xin chào, '+user);
+  document.getElementById('userLabel').textContent=label;
+  document.getElementById('mobUser').textContent=label;
+}
+document.getElementById('navLoginBtn').style.display='none';
+document.getElementById('navLogoutBtn').style.display='';
+document.getElementById('mobLoginBtn').style.display='none';
+document.getElementById('mobLogoutBtn').style.display='';
+
+if(effectiveRole==='admin'||effectiveRole==='ctv'){
+  document.getElementById('addBtn').style.display='inline-flex';
+  document.getElementById('btnEditMo').classList.add('on');
+  if(effectiveRole==='ctv'){
+    document.getElementById('ctvPendingNote').classList.add('show');
+  }
+}
+
+function logout(){sessionStorage.clear();location.href='index.html';}
+
+// ══ MAPS NHÃN ══
+const PHONG_LABEL={
+  'phong-khach':'Phòng khách','phong-ngu':'Phòng ngủ','master-bedroom':'Phòng ngủ Master',
+  'bep-an':'Bếp - Ăn','wc':'WC / Nhà tắm','phong-tho':'Phòng thờ',
+  'phong-thay-do':'Phòng thay đồ','phong-lam-viec':'Phòng làm việc'
+};
+const STYLE_LABEL={
+  'toi-gian':'Tối giản','hien-dai':'Hiện đại','tan-co-dien':'Tân cổ điển',
+  'indochine':'Indochine','japandi':'Japandi','scandinavian':'Scandinavian',
+  'tropical':'Tropical','wabi-sabi':'Wabi-sabi'
+};
+const PHONG_ICON={
+  'phong-khach':'🛋','phong-ngu':'🛏','master-bedroom':'🛏',
+  'bep-an':'🍳','wc':'🚿','phong-tho':'🪔','phong-thay-do':'👔','phong-lam-viec':'💼'
+};
+
+// ══ DRIVE URL → thumbnail ══
+function normDriveUrl(url){
+  if(!url)return'';
+  // https://drive.google.com/file/d/ID/view → thumbnail
+  let m=url.match(/\/d\/([\w-]+)/);
+  if(!m)m=url.match(/id=([\w-]+)/);
+  if(m)return'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w800';
+  return url;
+}
+
+// ══ CACHE ══
+let allItems=[];
+let pendingData=null;
+
+function getCached(){
+  try{const r=localStorage.getItem(CACHE_KEY);return r?JSON.parse(r):null;}
+  catch{return null;}
+}
+function setCache(data){
+  try{localStorage.setItem(CACHE_KEY,JSON.stringify({data,ts:Date.now()}));}
+  catch{try{localStorage.removeItem(CACHE_KEY);}catch{}}
+}
+
+// ══ API ══
+async function apiGet(){
+  // action=getNoithat — GAS trả sheet "NoiThat", field data[]
+  const res=await fetch(API_URL+'?action=getNoithat&sheet=NoiThat&t='+Date.now());
+  const json=await res.json();
+  // GAS có thể trả data hoặc items — chỉ nhận mảng, không nhận nhầm mẫu nhà
+  const raw=json.data||json.items||[];
+  // Lọc phòng ban cho chắc: chỉ giữ row có loaiphong hoặc phongcach (đặc trưng nội thất)
+  return raw.filter(it=>it && (it.loaiphong||it.phongcach));
+}
+async function apiPost(body){
+  const payload=adminToken?{...body,_token:adminToken}:body;
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),15000);
+  try{
+    const res=await fetch(API_URL,{
+      method:'POST',headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify(payload),redirect:'follow',signal:controller.signal
+    });
+    clearTimeout(timer);
+    return res.json();
+  }catch(err){clearTimeout(timer);throw err;}
+}
+
+// ══ LOAD ══
+async function loadData(){
+  const cached=getCached();
+  if(cached?.data?.length){
+    allItems=cached.data;
+    renderGallery();
+    if(Date.now()-(cached.ts||0)<CACHE_TTL)return;
+  }
+  try{
+    const fresh=await apiGet();
+    const changed=JSON.stringify(fresh)!==JSON.stringify(allItems);
+    setCache(fresh);
+    if(changed){
+      if(!allItems.length){allItems=fresh;renderGallery();}
+      else{pendingData=fresh;document.getElementById('cacheBanner').classList.add('show');}
+    }
+  }catch(e){
+    if(!cached?.data?.length){
+      document.getElementById('gallery').innerHTML=
+        '<div class="empty"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>'+
+        '<p>⚠ Không thể tải dữ liệu. Vui lòng kiểm tra kết nối mạng.</p></div>';
+    }
+  }
+}
+function applyUpdate(){
+  if(pendingData){allItems=pendingData;pendingData=null;renderGallery();showToast('✓ Đã cập nhật');}
+  document.getElementById('cacheBanner').classList.remove('show');
+}
+
+// ══ FILTER STATE ══
+let fPhong='all', fStyle='all', currentSort='newest';
+
+// ══ FILTER PANEL ══
+function toggleFilterPanel(){
+  const panel=document.getElementById('filterPanel');
+  const btn=document.getElementById('filterToggleBtn');
+  const isOpen=panel.classList.toggle('open');
+  btn.classList.toggle('open',isOpen);
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('fpanelWrap');
+  if(wrap&&!wrap.contains(e.target)){
+    document.getElementById('filterPanel').classList.remove('open');
+    document.getElementById('filterToggleBtn').classList.remove('open');
+  }
+  const sw=document.getElementById('sortWrap');
+  if(sw&&!sw.contains(e.target))document.getElementById('sortPanel').classList.remove('open');
+});
+
+// Chọn option trong panel
+document.addEventListener('click',e=>{
+  const opt=e.target.closest('.fopt');
+  if(!opt)return;
+  const fl=opt.dataset.fl;
+  const fv=opt.dataset.fv;
+  // Single select per group
+  document.querySelectorAll(`.fopt[data-fl="${fl}"]`).forEach(b=>b.classList.remove('active'));
+  opt.classList.add('active');
+});
+
+function applyFilters(){
+  const phongOpt=document.querySelector('.fopt[data-fl="phong"].active');
+  const styleOpt=document.querySelector('.fopt[data-fl="style"].active');
+  fPhong=phongOpt?phongOpt.dataset.fv:'all';
+  fStyle=styleOpt?styleOpt.dataset.fv:'all';
+
+  // Update chips
+  updateFilterChips();
+  document.getElementById('filterPanel').classList.remove('open');
+  document.getElementById('filterToggleBtn').classList.remove('open');
+  // Update button highlight
+  const hasFilter=fPhong!=='all'||fStyle!=='all';
+  document.getElementById('filterToggleBtn').classList.toggle('has-filter',hasFilter);
+  renderGallery();
+}
+
+function resetFilters(){
+  fPhong='all';fStyle='all';
+  document.querySelectorAll('.fopt').forEach(b=>b.classList.toggle('active',b.dataset.fv==='all'));
+  document.getElementById('activeChips').innerHTML='';
+  document.getElementById('filterClearAll').style.display='none';
+  document.getElementById('filterToggleBtn').classList.remove('has-filter');
+  renderGallery();
+}
+
+function updateFilterChips(){
+  const PHONG_ICON_MAP={'phong-khach':'🛋','phong-ngu':'🛏','master-bedroom':'🛏','bep-an':'🍳','wc':'🚿','phong-tho':'🪔','phong-thay-do':'👔','phong-lam-viec':'💼'};
+  let html='';
+  if(fPhong!=='all')html+=`<span class="filter-chip">${PHONG_ICON_MAP[fPhong]||''} ${PHONG_LABEL[fPhong]||fPhong}<button onclick="clearChip('phong')">×</button></span>`;
+  if(fStyle!=='all')html+=`<span class="filter-chip">✦ ${STYLE_LABEL[fStyle]||fStyle}<button onclick="clearChip('style')">×</button></span>`;
+  document.getElementById('activeChips').innerHTML=html;
+  const hasClear=fPhong!=='all'||fStyle!=='all';
+  document.getElementById('filterClearAll').style.display=hasClear?'':'none';
+}
+function clearChip(type){
+  if(type==='phong'){fPhong='all';document.querySelectorAll('.fopt[data-fl="phong"]').forEach(b=>b.classList.toggle('active',b.dataset.fv==='all'));}
+  else{fStyle='all';document.querySelectorAll('.fopt[data-fl="style"]').forEach(b=>b.classList.toggle('active',b.dataset.fv==='all'));}
+  updateFilterChips();
+  const hasFilter=fPhong!=='all'||fStyle!=='all';
+  document.getElementById('filterToggleBtn').classList.toggle('has-filter',hasFilter);
+  renderGallery();
+}
+function setSort(val,label){
+  currentSort=val;
+  document.getElementById('sortLabel').textContent=label;
+  document.getElementById('sortPanel').classList.remove('open');
+  document.querySelectorAll('.sort-opt').forEach(b=>b.classList.toggle('active',b.dataset.sort===val));
+  renderGallery();
+}
+function toggleSortPanel(){
+  document.getElementById('sortPanel').classList.toggle('open');
+}
+
+// ══ RENDER ══
+function renderGallery(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  let list=allItems.filter(it=>{
+    // Chỉ hiển thị mục đã duyệt (status!='pending') hoặc admin xem tất cả
+    if(it.status==='pending'&&effectiveRole!=='admin')return false;
+    if(fPhong!=='all'&&it.loaiphong!==fPhong)return false;
+    if(fStyle!=='all'&&it.phongcach!==fStyle)return false;
+    if(q&&!(
+      (it.ten||'').toLowerCase().includes(q)||
+      (it.mota||'').toLowerCase().includes(q)||
+      (PHONG_LABEL[it.loaiphong]||'').toLowerCase().includes(q)||
+      (STYLE_LABEL[it.phongcach]||'').toLowerCase().includes(q)
+    ))return false;
+    return true;
+  });
+
+  // Sort
+  if(currentSort==='az')list.sort((a,b)=>(a.ten||'').localeCompare(b.ten||'','vi'));
+  else if(currentSort==='oldest')list.sort((a,b)=>((a.id||'')>(b.id||''))?1:-1);
+  else list.sort((a,b)=>((a.id||'')<(b.id||''))?1:-1); // newest
+
+  // Update counts
+  document.getElementById('totalCount').textContent=allItems.filter(it=>it.status!=='pending'||effectiveRole==='admin').length;
+  document.getElementById('showCount').textContent=list.length;
+  document.getElementById('showCount2').textContent=list.length;
+  document.getElementById('totalCount2').textContent=allItems.filter(it=>it.status!=='pending'||effectiveRole==='admin').length;
+
+  if(!list.length){
+    document.getElementById('gallery').innerHTML=
+      '<div class="empty">'+
+      '<svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>'+
+      '<p>Chưa có mẫu nội thất nào phù hợp.<br><span style="font-size:12px">Thử thay đổi bộ lọc hoặc tìm kiếm khác.</span></p>'+
+      '</div>';
+    return;
+  }
+
+  const isAdminCtv=(effectiveRole==='admin'||effectiveRole==='ctv');
+  let html='<div class="grid">';
+  list.forEach((it,i)=>{
+    const img=normDriveUrl(it.anh1)||'';
+    const phongLbl=PHONG_LABEL[it.loaiphong]||it.loaiphong||'—';
+    const styleLbl=STYLE_LABEL[it.phongcach]||it.phongcach||'—';
+    const phongIcon=PHONG_ICON[it.loaiphong]||'🏠';
+    const isPending=it.status==='pending';
+    html+=`
+    <div class="card" style="animation-delay:${Math.min(i*0.04,0.4)}s" onclick="openView('${escHtml(it.id)}')">
+      <div class="cimg">
+        ${img?`<img src="${escHtml(img)}" alt="${escHtml(it.ten)}" loading="lazy">`:'<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;background:var(--cream2)">🛋</div>'}
+        ${isPending?'<div class="cbadge" style="background:rgba(201,169,110,.9)">⏳ Chờ duyệt</div>':''}
+        <div class="admin-btns ${isAdminCtv?'on':''}">
+          <button class="abtn ab-edit" onclick="event.stopPropagation();openEdit('${escHtml(it.id)}')">✏</button>
+          ${effectiveRole==='admin'?`<button class="abtn ab-del" onclick="event.stopPropagation();deleteItem('${escHtml(it.id)}')">🗑</button>`:''}
+        </div>
+      </div>
+      <div class="cbody">
+        <div class="ctitle">${escHtml(it.ten||'Mẫu nội thất')}</div>
+        <div class="ctags">
+          <span class="ctag ctag-phong">${phongIcon} ${escHtml(phongLbl)}</span>
+          <span class="ctag ctag-phong-cach">✦ ${escHtml(styleLbl)}</span>
+        </div>
+        <div class="cmeta">
+          ${it.dientich?`<span class="cmi"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>${escHtml(String(it.dientich))} m²</span>`:''}
+          ${it.chiphi?`<span class="cmi">💰 ${escHtml(it.chiphi)} tr</span>`:''}
+        </div>
+        ${it.mota?`<div class="cdesc">${escHtml(it.mota)}</div>`:''}
+      </div>
+      <div class="cfoot">
+        <span class="cprice">${it.chiphi?`Chi phí: <strong>${escHtml(it.chiphi)}tr</strong>`:'&nbsp;'}</span>
+        <span class="ccta">Xem chi tiết →</span>
+      </div>
+    </div>`;
+  });
+  html+='</div>';
+  document.getElementById('gallery').innerHTML=html;
+}
+
+// ══ XEM CHI TIẾT ══
+let currentViewId=null;
+function openView(id){
+  const it=allItems.find(x=>x.id===id);
+  if(!it)return;
+  currentViewId=id;
+
+  // Ảnh — hỗ trợ 1, 2, hoặc 3 ảnh
+  const imgs=[it.anh1,it.anh2,it.anh3].filter(Boolean).map(normDriveUrl).filter(Boolean);
+  let imgHtml='';
+  if(imgs.length===0){
+    imgHtml='<div style="height:200px;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--cream2)">🛋</div>';
+  } else if(imgs.length===1){
+    imgHtml=`<img class="mo-img-single" src="${escHtml(imgs[0])}" alt="${escHtml(it.ten)}">`;
+  } else if(imgs.length===2){
+    imgHtml=`<div class="mo-img-grid2"><img src="${escHtml(imgs[0])}" alt=""><img src="${escHtml(imgs[1])}" alt=""></div>`;
+  } else {
+    imgHtml=`<div class="mo-img-grid3"><img src="${escHtml(imgs[0])}" alt=""><img src="${escHtml(imgs[1])}" alt=""><img src="${escHtml(imgs[2])}" alt=""></div>`;
+  }
+  if(imgs.length>1){
+    imgHtml+=`<span class="mo-img-count">${imgs.length} ảnh</span>`;
+  }
+  document.getElementById('vImgs').innerHTML=imgHtml;
+
+  // Tags
+  const phongLbl=PHONG_LABEL[it.loaiphong]||it.loaiphong||'—';
+  const styleLbl=STYLE_LABEL[it.phongcach]||it.phongcach||'—';
+  const phongIcon=PHONG_ICON[it.loaiphong]||'🏠';
+  document.getElementById('vTags').innerHTML=
+    `<span class="mo-tag mo-tag-phong">${phongIcon} ${escHtml(phongLbl)}</span>`+
+    `<span class="mo-tag mo-tag-phong-cach">✦ ${escHtml(styleLbl)}</span>`;
+
+  document.getElementById('vTitle').textContent=it.ten||'Mẫu nội thất';
+  document.getElementById('vPhong').textContent=phongLbl;
+  document.getElementById('vStyle').textContent=styleLbl;
+  document.getElementById('vDT').textContent=it.dientich||'—';
+  document.getElementById('vDesc').textContent=it.mota||'';
+  document.getElementById('viewModal').classList.add('open');
+}
+function closeView(){
+  document.getElementById('viewModal').classList.remove('open');
+  currentViewId=null;
+}
+
+// ══ EDIT / THÊM ══
+function openAdd(){
+  document.getElementById('editTitle').textContent='Thêm mẫu nội thất mới';
+  document.getElementById('eId').value='';
+  document.getElementById('eTen').value='';
+  document.getElementById('ePhong').value='phong-khach';
+  document.getElementById('eStyle').value='hien-dai';
+  document.getElementById('eDT').value='';
+  document.getElementById('eCP').value='';
+  document.getElementById('eMota').value='';
+  [1,2,3].forEach(n=>{
+    document.getElementById('eUrl'+n).value='';
+    const p=document.getElementById('prev'+n);p.src='';p.classList.remove('on');
+  });
+  document.getElementById('editModal').classList.add('open');
+}
+function openEdit(id){
+  const it=allItems.find(x=>x.id===id);
+  if(!it)return;
+  document.getElementById('editTitle').textContent='Chỉnh sửa mẫu nội thất';
+  document.getElementById('eId').value=it.id||'';
+  document.getElementById('eTen').value=it.ten||'';
+  document.getElementById('ePhong').value=it.loaiphong||'phong-khach';
+  document.getElementById('eStyle').value=it.phongcach||'hien-dai';
+  document.getElementById('eDT').value=it.dientich||'';
+  document.getElementById('eCP').value=it.chiphi||'';
+  document.getElementById('eMota').value=it.mota||'';
+  // Ảnh
+  const anhs=[it.anh1,it.anh2,it.anh3];
+  [1,2,3].forEach(n=>{
+    const url=anhs[n-1]||'';
+    document.getElementById('eUrl'+n).value=url;
+    const p=document.getElementById('prev'+n);
+    if(url){p.src=normDriveUrl(url);p.classList.add('on');}
+    else{p.src='';p.classList.remove('on');}
+  });
+  document.getElementById('editModal').classList.add('open');
+}
+function editFromView(){
+  closeView();
+  if(currentViewId)setTimeout(()=>openEdit(currentViewId),200);
+}
+function closeEdit(){
+  document.getElementById('editModal').classList.remove('open');
+}
+
+// Preview ảnh khi nhập URL
+function onUrlInput(n){
+  const url=document.getElementById('eUrl'+n).value.trim();
+  const p=document.getElementById('prev'+n);
+  if(url){
+    const thumb=normDriveUrl(url);
+    p.src=thumb;p.classList.add('on');
+    p.onerror=()=>{p.src=url;};
+  }else{p.src='';p.classList.remove('on');}
+}
+function clearImg(n){
+  document.getElementById('eUrl'+n).value='';
+  const p=document.getElementById('prev'+n);p.src='';p.classList.remove('on');
+}
+
+// ══ LƯU (add / edit) ══
+async function saveItem(){
+  const id   =document.getElementById('eId').value.trim();
+  const ten  =document.getElementById('eTen').value.trim();
+  const phong=document.getElementById('ePhong').value;
+  const style=document.getElementById('eStyle').value;
+  const dt   =document.getElementById('eDT').value;
+  const cp   =document.getElementById('eCP').value.trim();
+  const mota =document.getElementById('eMota').value.trim();
+  const anh1 =document.getElementById('eUrl1').value.trim();
+  const anh2 =document.getElementById('eUrl2').value.trim();
+  const anh3 =document.getElementById('eUrl3').value.trim();
+
+  if(!ten){showToast('⚠ Vui lòng nhập tên mẫu nội thất');return;}
+  if(!anh1){showToast('⚠ Vui lòng nhập link ảnh chính');return;}
+
+  const btn=document.getElementById('btnSave');
+  btn.disabled=true;btn.textContent='Đang lưu...';
+
+  const item={
+    ten,loaiphong:phong,phongcach:style,dientich:parseInt(dt)||0,
+    chiphi:cp,mota,anh1,anh2,anh3,
+    // CTV gửi → status pending; admin lưu thẳng
+    status:effectiveRole==='ctv'?'pending':'active'
+  };
+
+  try{
+    let res;
+    if(id){
+      res=await apiPost({action:'editNoithat',item:{...item,id}});
+    }else{
+      res=await apiPost({action:'addNoithat',item});
+    }
+    if(res?.ok){
+      if(id){
+        const idx=allItems.findIndex(x=>x.id===id);
+        if(idx>=0)allItems[idx]={...allItems[idx],...item};
+      }else{
+        allItems.unshift({...item,id:res.id||('nt_'+Date.now())});
+      }
+      setCache(allItems);
+      renderGallery();
+      closeEdit();
+      showToast(effectiveRole==='ctv'?'✓ Đã gửi admin duyệt':'✓ Đã lưu thành công');
+    }else{
+      showToast('⚠ Lỗi lưu dữ liệu: '+(res?.msg||'Thử lại sau'));
+    }
+  }catch(e){
+    showToast('⚠ Lỗi kết nối. Vui lòng thử lại.');
+  }
+  btn.disabled=false;btn.textContent='💾 Lưu mẫu nội thất';
+}
+
+// ══ XOÁ (admin only) ══
+async function deleteItem(id){
+  if(effectiveRole!=='admin'){showToast('⛔ Chỉ admin mới có quyền xoá');return;}
+  const ok=await showConfirm('Bạn có chắc muốn xoá mẫu nội thất này?');
+  if(!ok)return;
+  try{
+    const res=await apiPost({action:'deleteNoithat',id});
+    if(res?.ok){
+      allItems=allItems.filter(x=>x.id!==id);
+      setCache(allItems);
+      renderGallery();
+      showToast('✓ Đã xoá');
+    }else{showToast('⚠ Xoá thất bại');}
+  }catch{showToast('⚠ Lỗi kết nối');}
+}
+
+// ══ REVIEW (admin duyệt pending của CTV) ══
+async function openReviewModal(){
+  const pending=allItems.filter(it=>it.status==='pending');
+  if(!pending.length){showToast('Không có bản chờ duyệt');return;}
+  let html='';
+  pending.forEach(it=>{
+    const img=normDriveUrl(it.anh1);
+    html+=`<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--bd)">
+      ${img?`<img src="${escHtml(img)}" style="width:80px;height:60px;object-fit:cover;border-radius:4px;flex-shrink:0">`:'<div style="width:80px;height:60px;background:var(--cream2);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center">🛋</div>'}
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700;font-size:13px;margin-bottom:3px">${escHtml(it.ten)}</div>
+        <div style="font-size:11px;color:var(--muted)">${PHONG_LABEL[it.loaiphong]||''} · ${STYLE_LABEL[it.phongcach]||''}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${escHtml((it.mota||'').slice(0,80))}...</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <button onclick="approveItem('${escHtml(it.id)}')" style="padding:6px 11px;background:var(--green);border:none;color:#fff;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✓ Duyệt</button>
+        <button onclick="rejectItem('${escHtml(it.id)}')" style="padding:6px 11px;background:#DC2626;border:none;color:#fff;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">✕ Từ chối</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('reviewList').innerHTML=html;
+  document.getElementById('reviewModal').classList.add('open');
+}
+async function approveItem(id){
+  try{
+    const res=await apiPost({action:'approveNoithat',id});
+    if(res?.ok){
+      const idx=allItems.findIndex(x=>x.id===id);
+      if(idx>=0)allItems[idx].status='active';
+      setCache(allItems);
+      renderGallery();
+      openReviewModal();
+      showToast('✓ Đã duyệt');
+    }
+  }catch{showToast('⚠ Lỗi kết nối');}
+}
+async function rejectItem(id){
+  const ok=await showConfirm('Xác nhận từ chối và xoá mẫu nội thất này?');
+  if(!ok)return;
+  await deleteItem(id);
+  openReviewModal();
+}
+// Kiểm tra pending để hiện review bar
+function checkPendingReview(){
+  if(effectiveRole!=='admin')return;
+  const cnt=allItems.filter(it=>it.status==='pending').length;
+  const bar=document.getElementById('reviewBar');
+  if(cnt>0){
+    document.getElementById('reviewBarText').textContent=`Có ${cnt} mẫu nội thất chờ duyệt từ CTV`;
+    bar.style.display='flex';
+  }else{bar.style.display='none';}
+}
+
+// ══ MOBILE MENU ══
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open');}
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('mobMenu');
+  const toggle=document.getElementById('mobToggle');
+  if(menu.classList.contains('open')&&!menu.contains(e.target)&&!toggle.contains(e.target))
+    menu.classList.remove('open');
+});
+
+// ══ TOAST ══
+let _toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(_toastTimer);_toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ══ ESC ══
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeView();closeEdit();
+    document.getElementById('mobMenu').classList.remove('open');
+    document.getElementById('reviewModal').classList.remove('open');
+    const cfm=document.getElementById('confirmModal');
+    if(cfm.classList.contains('open')){cfm.classList.remove('open');if(_confirmResolve){_confirmResolve(false);_confirmResolve=null;}}
+  }
+});
+
+// ════════════════════════════════════════════════════
+//  🎨  TONE MÀU HỢP TUỔI — Ngũ hành Nạp âm (chuẩn VN)
+//  VD: 1994-1995 (Giáp Tuất / Ất Hợi) = Sơn đầu Hoả ✓
+// ════════════════════════════════════════════════════
+
+// Bảng Nạp âm 60 năm — anchor Giáp Tý 1924 (idx=0)
+// Mỗi cặp 2 năm liền cùng hành
+const NAP_AM_60=[
+  'Kim','Kim',    // Giáp Tý, Ất Sửu     1924-25 / 1984-85
+  'Hoả','Hoả',   // Bính Dần, Đinh Mão   1926-27 / 1986-87
+  'Mộc','Mộc',   // Mậu Thìn, Kỷ Tỵ     1928-29 / 1988-89
+  'Thổ','Thổ',   // Canh Ngọ, Tân Mùi    1930-31 / 1990-91
+  'Kim','Kim',   // Nhâm Thân, Quý Dậu   1932-33 / 1992-93
+  'Hoả','Hoả',   // Giáp Tuất, Ất Hợi    1934-35 / 1994-95 ← mệnh Hoả
+  'Thuỷ','Thuỷ', // Bính Tý, Đinh Sửu    1936-37 / 1996-97
+  'Thổ','Thổ',   // Mậu Dần, Kỷ Mão      1938-39 / 1998-99
+  'Kim','Kim',   // Canh Thìn, Tân Tỵ    1940-41 / 2000-01
+  'Mộc','Mộc',   // Nhâm Ngọ, Quý Mùi    1942-43 / 2002-03
+  'Thuỷ','Thuỷ', // Giáp Thân, Ất Dậu    1944-45 / 2004-05
+  'Thổ','Thổ',   // Bính Tuất, Đinh Hợi  1946-47 / 2006-07
+  'Mộc','Mộc',   // Mậu Tý, Kỷ Sửu       1948-49 / 2008-09
+  'Kim','Kim',   // Canh Dần, Tân Mão     1950-51 / 2010-11
+  'Thuỷ','Thuỷ', // Nhâm Thìn, Quý Tỵ    1952-53 / 2012-13
+  'Hoả','Hoả',   // Giáp Ngọ, Ất Mùi      1954-55 / 2014-15
+  'Thổ','Thổ',   // Bính Thân, Đinh Dậu   1956-57 / 2016-17
+  'Mộc','Mộc',   // Mậu Tuất, Kỷ Hợi      1958-59 / 2018-19
+  'Kim','Kim',   // Canh Tý, Tân Sửu       1960-61 / 2020-21
+  'Thuỷ','Thuỷ', // Nhâm Dần, Quý Mão     1962-63 / 2022-23
+  'Hoả','Hoả',   // Giáp Thìn, Ất Tỵ      1964-65 / 2024-25
+  'Mộc','Mộc',   // Bính Ngọ, Đinh Mùi    1966-67 / 2026-27
+  'Thổ','Thổ',   // Mậu Thân, Kỷ Dậu      1968-69 / 2028-29
+  'Kim','Kim',   // Canh Tuất, Tân Hợi     1970-71 / 2030-31
+  'Mộc','Mộc',   // Nhâm Tý, Quý Sửu      1972-73
+  'Hoả','Hoả',   // Giáp Dần, Ất Mão       1974-75
+  'Thổ','Thổ',   // Bính Thìn, Đinh Tỵ     1976-77
+  'Mộc','Mộc',   // Mậu Ngọ, Kỷ Mùi        1978-79
+  'Kim','Kim',   // Canh Thân, Tân Dậu      1980-81
+  'Thuỷ','Thuỷ', // Nhâm Tuất, Quý Hợi      1982-83
+];
+
+function getNapAm(year){
+  let idx=(year-1924)%60;
+  if(idx<0)idx+=60;
+  return NAP_AM_60[idx]||'Kim';
+}
+
+// Màu sắc + màu trung tính + màu tránh theo hành Nạp âm
+const HANH_DATA={
+  'Kim':{
+    ten:'Kim ⚙️',
+    // Kim (trắng/xám) + Thổ sinh Kim (vàng/nâu)
+    colors:['#D4D0C4','#C0BBA8','#B8B49A','#E0DCD0','#A8A498','#C8A050','#D8BC80','#B89048'],
+    colorNames:['Trắng bạc','Trắng ngà','Xám bạc','Trắng kem','Xám nhạt','Vàng nâu','Vàng cát','Nâu vàng'],
+    // Trung tính: Kim sinh Thuỷ → xanh navy/đen (không khắc không hại)
+    neutral:['#1A3A5C','#2E5E8A','#141414'],neutralNames:['Xanh navy đậm','Xanh navy','Đen'],
+    avoid:['#C03030','#E04040','#D45040'],avoidNames:['Đỏ','Đỏ cam','Đỏ san hô'],
+    avoidNote:'Hoả khắc Kim — tránh tông đỏ, cam nóng'
+  },
+  'Hoả':{
+    ten:'Hoả 🔥',
+    // Hoả (đỏ/cam) + Mộc sinh Hoả (xanh lá)
+    colors:['#8B2020','#C0302A','#D45040','#E06050','#A02828','#2D8A45','#5A9E4A','#3D7A30'],
+    colorNames:['Đỏ đậm','Đỏ son','Đỏ san hô','Đỏ hồng','Đỏ nâu','Xanh lá','Xanh sáng','Xanh rừng'],
+    // Trung tính: Hoả sinh Thổ → vàng/nâu
+    neutral:['#C8A050','#D8BC80','#B89048'],neutralNames:['Vàng nâu','Vàng cát','Nâu vàng'],
+    avoid:['#141414','#2A2A2A','#1A3A5C'],avoidNames:['Đen','Đen xám','Xanh navy đậm'],
+    avoidNote:'Thuỷ khắc Hoả — tránh tông đen, xanh navy đậm'
+  },
+  'Mộc':{
+    ten:'Mộc 🌿',
+    // Mộc (xanh lá) + Thuỷ sinh Mộc (xanh navy/đen)
+    colors:['#1E5C2E','#2D8A45','#5A9E4A','#3D7A30','#4A8A3A','#1A3A5C','#2E5E8A','#141414'],
+    colorNames:['Xanh lá đậm','Xanh lá','Xanh sáng','Xanh rừng','Xanh cây','Xanh navy','Xanh dương','Đen'],
+    // Trung tính: Mộc sinh Hoả → đỏ/cam
+    neutral:['#C0302A','#D45040','#E06050'],neutralNames:['Đỏ son','Đỏ san hô','Đỏ hồng'],
+    avoid:['#D4D0C4','#C0BBA8','#E0DCD0'],avoidNames:['Trắng bạc','Trắng ngà','Trắng kem'],
+    avoidNote:'Kim khắc Mộc — tránh tông trắng bạc, xám bạc'
+  },
+  'Thổ':{
+    ten:'Thổ 🪨',
+    // Thổ (vàng/nâu) + Hoả sinh Thổ (đỏ/cam)
+    colors:['#A07830','#C8A050','#D8BC80','#B89048','#8B6820','#C0302A','#D45040','#8B2020'],
+    colorNames:['Vàng đất','Vàng nâu','Vàng cát','Nâu vàng','Nâu đất','Đỏ son','Đỏ san hô','Đỏ đậm'],
+    // Trung tính: Thổ sinh Kim → trắng/xám
+    neutral:['#D4D0C4','#C0BBA8','#A8A498'],neutralNames:['Trắng bạc','Trắng ngà','Xám nhạt'],
+    avoid:['#1E5C2E','#3D7A30','#2D8A45'],avoidNames:['Xanh lá đậm','Xanh rừng','Xanh lá'],
+    avoidNote:'Mộc khắc Thổ — tránh tông xanh lá'
+  },
+  'Thuỷ':{
+    ten:'Thuỷ 💧',
+    // Thuỷ (xanh navy/đen) + Kim sinh Thuỷ (trắng/xám)
+    colors:['#1A3A5C','#2E5E8A','#4A7FA0','#1C6B8A','#3A7090','#D4D0C4','#C0BBA8','#141414'],
+    colorNames:['Xanh navy đậm','Xanh navy','Xanh dương','Xanh biển','Xanh teal','Trắng bạc','Trắng ngà','Đen'],
+    // Trung tính: Thuỷ sinh Mộc → xanh lá
+    neutral:['#2D8A45','#5A9E4A','#3D7A30'],neutralNames:['Xanh lá','Xanh sáng','Xanh rừng'],
+    avoid:['#C8A050','#A07830','#D8BC80'],avoidNames:['Vàng nâu','Vàng đất','Vàng cát'],
+    avoidNote:'Thổ khắc Thuỷ — tránh tông vàng đất, nâu vàng'
+  }
+};
+
+function calcTone(){
+  const yr=parseInt(document.getElementById('toneNamSinh').value);
+  if(!yr||yr<1900||yr>2030){showToast('⚠ Vui lòng nhập năm sinh hợp lệ (1900–2030)');return;}
+
+  const hanh=getNapAm(yr);
+  const data=HANH_DATA[hanh];
+  if(!data)return;
+
+  document.getElementById('toneMenhInfo').textContent=`Mệnh ${data.ten}`;
+
+  // Nhóm 1: Màu hợp nhất
+  const swatchHtml=data.colors.map((c,i)=>`
+    <div class="tone-swatch" style="background:${c};border-color:rgba(0,0,0,.12)"
+      data-hex="${c}" data-name="${data.colorNames[i]}"
+      title="${data.colorNames[i]} — ${c}"
+      onclick="copyHex('${c}')"
+    ></div>
+  `).join('');
+  document.getElementById('toneSwatches').innerHTML=swatchHtml;
+
+  // Nhóm 2: Màu trung tính
+  const trungHtml=data.neutral.map((c,i)=>`
+    <div class="tone-swatch trung" style="background:${c}"
+      data-hex="${c}" data-name="${data.neutralNames[i]}"
+      title="${data.neutralNames[i]} — ${c}"
+      onclick="copyHex('${c}')"
+    ></div>
+  `).join('');
+  document.getElementById('toneTrungSwatches').innerHTML=trungHtml;
+
+  // Nhóm 3: Màu nên tránh
+  const avoidHtml=data.avoid.map((c,i)=>`
+    <div class="tone-swatch tranh" style="background:${c}"
+      data-hex="${c}" data-name="${data.avoidNames[i]}"
+      title="Tránh: ${data.avoidNames[i]} — ${data.avoidNote}">
+    </div>
+  `).join('');
+  document.getElementById('toneAvoidSwatches').innerHTML=avoidHtml;
+
+  document.getElementById('toneResult').classList.remove('hidden');
+}
+function copyHex(hex){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(hex).then(()=>showToast('✓ Đã copy mã màu '+hex));
+  }else{showToast(hex);}
+}
+
+// ══ INIT ══
+// Đọc lại tone nếu đã lưu session
+const savedTone=sessionStorage.getItem('noithat_tone');
+if(savedTone){
+  try{
+    const t=JSON.parse(savedTone);
+    document.getElementById('toneNamSinh').value=t.year||'';
+    if(t.year)setTimeout(calcTone,100);
+  }catch{}
+}
+document.getElementById('toneNamSinh').addEventListener('change',()=>{
+  sessionStorage.setItem('noithat_tone',JSON.stringify({
+    year:document.getElementById('toneNamSinh').value
+  }));
+});
+
+loadData().then(()=>checkPendingReview());
+
+// ── SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
