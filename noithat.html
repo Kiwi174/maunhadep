@@ -306,6 +306,39 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 .f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none;display:block;text-align:right}
 .f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right;font-weight:500}
 
+/* ── FAB TONE (mobile floating button) ── */
+.fab-tone{display:none;position:fixed;right:14px;bottom:80px;z-index:150;background:var(--gold);color:var(--dark);border:none;border-radius:50px;padding:10px 15px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.2);align-items:center;gap:6px;-webkit-tap-highlight-color:transparent;transition:transform .15s,box-shadow .15s}
+.fab-tone:active{transform:scale(.94)}
+.fab-tone svg{flex-shrink:0}
+
+/* ── MOBILE TONE DRAWER ── */
+.tone-drawer{display:none;position:fixed;left:0;right:0;bottom:0;z-index:260;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.18);padding:0 0 env(safe-area-inset-bottom,0);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1)}
+.tone-drawer.open{transform:translateY(0)}
+.tone-drawer-overlay{display:none;position:fixed;inset:0;z-index:255;background:rgba(20,25,22,.5);backdrop-filter:blur(2px)}
+.tone-drawer-overlay.open{display:block}
+.tone-drawer-handle{width:36px;height:4px;border-radius:2px;background:var(--bd);margin:12px auto 0}
+.tone-drawer-head{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--cream2)}
+.tone-drawer-head h3{font-size:15px;font-weight:700;color:var(--text)}
+.tone-drawer-close{background:none;border:none;font-size:20px;line-height:1;color:var(--muted);cursor:pointer;padding:4px 8px;-webkit-tap-highlight-color:transparent}
+.tone-drawer-body{padding:16px 18px 24px}
+.tone-drawer-form{display:flex;gap:8px;align-items:center;margin-bottom:16px}
+.tone-drawer-form input{flex:1;padding:10px 12px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:14px;color:var(--text);outline:none;background:var(--cream)}
+.tone-drawer-form input:focus{border-color:var(--gold);background:#fff}
+.tone-drawer-form button{padding:10px 18px;background:var(--gold);border:none;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--dark);cursor:pointer;border-radius:var(--radius);white-space:nowrap}
+.tone-drawer-result{display:none}
+.tone-drawer-result.show{display:block}
+.tone-drawer-menh{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:var(--gold-light);border:1px solid rgba(201,169,110,.4);font-size:13px;font-weight:700;color:#7A5A20;margin-bottom:14px}
+.tone-drawer-groups{display:flex;flex-direction:column;gap:14px}
+.tone-drawer-group-lbl{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:7px}
+.tone-drawer-group-lbl.hop{color:#2A7A2A}
+.tone-drawer-group-lbl.trung{color:#8B7020}
+.tone-drawer-group-lbl.tranh{color:#9A2020}
+.tone-drawer-swatches{display:flex;gap:6px;flex-wrap:wrap}
+.tone-drawer-swatch{width:36px;height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:transform .15s}
+.tone-drawer-swatch:active{transform:scale(1.2)}
+.tone-drawer-swatch.tranh{border-color:rgba(180,40,40,.35);opacity:.8}
+.tone-drawer-swatch.trung{border-color:rgba(180,150,40,.3)}
+
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .nav{padding:0 16px}
@@ -325,6 +358,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .mo-specs{grid-template-columns:1fr 1fr}
   .mo-img-grid3{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
   .mo-img-grid3 img:first-child{grid-row:auto}
+  /* Ẩn tone-bar desktop trên mobile, dùng FAB thay thế */
+  .tone-bar{display:none}
+  .fab-tone{display:flex}
 }
 @media(max-width:480px){
   .tone-form-lbl{display:none}
@@ -424,6 +460,47 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div class="tone-group">
           <div class="tone-group-lbl tranh">✕ Nên tránh</div>
           <div class="tone-swatches" id="toneAvoidSwatches"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAB TONE MÀU (chỉ hiện trên mobile) -->
+<button class="fab-tone" id="fabToneBtn" onclick="openToneDrawer()">
+  <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+  🎨 Xem màu hợp tuổi
+</button>
+
+<!-- OVERLAY -->
+<div class="tone-drawer-overlay" id="toneDrawerOverlay" onclick="closeToneDrawer()"></div>
+
+<!-- DRAWER TONE MÀU MOBILE -->
+<div class="tone-drawer" id="toneDrawer">
+  <div class="tone-drawer-handle"></div>
+  <div class="tone-drawer-head">
+    <h3>🎨 Màu nội thất hợp tuổi</h3>
+    <button class="tone-drawer-close" onclick="closeToneDrawer()">✕</button>
+  </div>
+  <div class="tone-drawer-body">
+    <div class="tone-drawer-form">
+      <input type="number" id="toneNamSinhMob" placeholder="Nhập năm sinh..." min="1900" max="2030">
+      <button onclick="calcToneMob()">Xem màu</button>
+    </div>
+    <div class="tone-drawer-result" id="toneDrawerResult">
+      <div class="tone-drawer-menh" id="toneDrawerMenh">Mệnh —</div>
+      <div class="tone-drawer-groups">
+        <div>
+          <div class="tone-drawer-group-lbl hop">✦ Màu hợp nhất</div>
+          <div class="tone-drawer-swatches" id="toneDrawerSwatches"></div>
+        </div>
+        <div>
+          <div class="tone-drawer-group-lbl trung">◎ Màu trung tính</div>
+          <div class="tone-drawer-swatches" id="toneDrawerTrungSwatches"></div>
+        </div>
+        <div>
+          <div class="tone-drawer-group-lbl tranh">✕ Nên tránh</div>
+          <div class="tone-drawer-swatches" id="toneDrawerAvoidSwatches"></div>
         </div>
       </div>
     </div>
@@ -1428,6 +1505,41 @@ document.getElementById('toneNamSinh').addEventListener('change',()=>{
   sessionStorage.setItem('noithat_tone',JSON.stringify({
     year:document.getElementById('toneNamSinh').value
   }));
+});
+
+// ── TONE DRAWER MOBILE ──
+function openToneDrawer(){
+  document.getElementById('toneDrawer').classList.add('open');
+  document.getElementById('toneDrawerOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  const desktopVal=document.getElementById('toneNamSinh').value;
+  if(desktopVal) document.getElementById('toneNamSinhMob').value=desktopVal;
+  setTimeout(()=>document.getElementById('toneNamSinhMob').focus(),350);
+}
+function closeToneDrawer(){
+  document.getElementById('toneDrawer').classList.remove('open');
+  document.getElementById('toneDrawerOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function calcToneMob(){
+  const yr=parseInt(document.getElementById('toneNamSinhMob').value);
+  if(!yr||yr<1900||yr>2030){showToast('⚠ Vui lòng nhập năm sinh hợp lệ (1900–2030)');return;}
+  const hanh=getNapAm(yr);
+  const data=HANH_DATA[hanh];
+  if(!data)return;
+  document.getElementById('toneDrawerMenh').textContent='Mệnh '+data.ten;
+  document.getElementById('toneDrawerSwatches').innerHTML=data.colors.map((c,i)=>
+    `<div class="tone-drawer-swatch" style="background:${c};border-color:rgba(0,0,0,.12)" title="${data.colorNames[i]}" onclick="copyHex('${c}')"></div>`).join('');
+  document.getElementById('toneDrawerTrungSwatches').innerHTML=data.neutral.map((c,i)=>
+    `<div class="tone-drawer-swatch trung" style="background:${c}" title="${data.neutralNames[i]}" onclick="copyHex('${c}')"></div>`).join('');
+  document.getElementById('toneDrawerAvoidSwatches').innerHTML=data.avoid.map((c,i)=>
+    `<div class="tone-drawer-swatch tranh" style="background:${c}" title="Tránh: ${data.avoidNames[i]}"></div>`).join('');
+  document.getElementById('toneDrawerResult').classList.add('show');
+  document.getElementById('toneNamSinh').value=yr;
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const inp=document.getElementById('toneNamSinhMob');
+  if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter')calcToneMob();});
 });
 
 loadData().then(()=>checkPendingReview());
