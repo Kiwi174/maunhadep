@@ -178,9 +178,20 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 @keyframes sup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .mo-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(20,25,22,.75);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
 .mo-close:hover{background:var(--dark)}
-.mo-imgs{width:100%;max-height:480px;object-fit:contain;display:block;background:#f5f5f5}
-.mo-imgs-2{display:grid;grid-template-columns:1fr 1fr;gap:2px}
-.mo-imgs-2 img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+/* Ảnh modal — slideshow */
+.mo-img-wrap{position:relative;background:#111;overflow:hidden;user-select:none}
+.mo-img-slider{display:flex;transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
+.mo-img-slide{flex:0 0 100%;width:100%}
+.mo-img-slide img{width:100%;max-height:480px;object-fit:cover;display:block;background:#1a1a1a;-webkit-user-drag:none;pointer-events:none}
+.mo-img-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:38px;height:38px;border-radius:50%;background:rgba(20,25,22,.62);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s,opacity .18s;backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent}
+.mo-img-arrow:hover{background:rgba(20,25,22,.88)}
+.mo-img-arrow.hidden{opacity:0;pointer-events:none}
+.mo-img-arrow-l{left:10px}
+.mo-img-arrow-r{right:10px}
+.mo-img-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center}
+.mo-img-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s;flex-shrink:0}
+.mo-img-dot.active{background:#fff;transform:scale(1.25)}
+.mo-img-count{position:absolute;bottom:10px;right:10px;background:rgba(20,25,22,.7);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(4px)}
 .mo-body{padding:20px 24px 24px}
 .mo-badge{display:inline-block;background:var(--gl);color:var(--green2);font-size:10px;padding:3px 11px;letter-spacing:2px;text-transform:uppercase;border-radius:3px;margin-bottom:8px;font-weight:700}
 .mo-title{font-size:22px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:14px}
@@ -549,7 +560,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 <div class="mb" id="viewModal">
   <div class="mo">
     <button class="mo-close" onclick="closeView()">✕</button>
-    <div id="vImgs"></div>
+    <div id="vImgs" class="mo-img-wrap"></div>
     <div class="mo-body">
       <div class="mo-badge" id="vBadge"></div>
       <div class="mo-title" id="vTitle"></div>
@@ -638,12 +649,22 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       </div>
     </div>
     <div class="ef">
-      <label>Ảnh phụ <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(tuỳ chọn)</span></label>
+      <label>Ảnh phụ 2 <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(tuỳ chọn)</span></label>
       <div class="img-box">
-        <img id="prev2" class="img-box-preview" alt="preview ảnh phụ">
+        <img id="prev2" class="img-box-preview" alt="preview ảnh phụ 2">
         <div class="img-box-actions">
           <input class="img-url-input" id="eUrl2" placeholder="Dán link Google Drive hoặc URL ảnh..." oninput="onUrlInput(2)" onpaste="setTimeout(()=>onUrlInput(2),0)">
           <button class="img-clear" onclick="clearImg(2)">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="ef">
+      <label>Ảnh phụ 3 <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(tuỳ chọn)</span></label>
+      <div class="img-box">
+        <img id="prev3" class="img-box-preview" alt="preview ảnh phụ 3">
+        <div class="img-box-actions">
+          <input class="img-url-input" id="eUrl3" placeholder="Dán link Google Drive hoặc URL ảnh..." oninput="onUrlInput(3)" onpaste="setTimeout(()=>onUrlInput(3),0)">
+          <button class="img-clear" onclick="clearImg(3)">✕</button>
         </div>
       </div>
     </div>
@@ -1538,27 +1559,26 @@ function goPage(p) {
 
 // ══ FILTER EVENTS (handled by panel above) ══
 
-// ══ MODAL XEM ══
+// ══ MODAL XEM — SLIDESHOW ══
 let viewingId = null;
+let _slideIdx = 0, _slideImgs = [], _touchStartX = 0;
+
 function openView(id) {
   viewingId = id;
   const h  = allHouses.find(x=>x.id===id); if (!h) return;
   const ph = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%23EAEAE6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' fill='%235A6B56'%3EChưa có ảnh%3C/text%3E%3C/svg%3E";
-  const imgs = document.getElementById('vImgs');
-  if (h.anh2) {
-    imgs.className = 'mo-imgs-2';
-    imgs.innerHTML = `<img src="${h.anh1||ph}" onerror="this.src='${ph}'" alt="" loading="lazy"><img src="${h.anh2}" onerror="this.src='${ph}'" alt="" loading="lazy">`;
-  } else {
-    imgs.className = '';
-    imgs.innerHTML = `<img class="mo-imgs" src="${h.anh1||ph}" onerror="this.src='${ph}'" alt="" loading="lazy">`;
-  }
+
+  _slideImgs = [h.anh1, h.anh2, h.anh3].filter(Boolean);
+  if (!_slideImgs.length) _slideImgs = [ph];
+  _slideIdx = 0;
+  renderSlide(ph);
+
   document.getElementById('vBadge').textContent = (LOAI[h.loai]||h.loai)+' • '+(MAI[h.mainha]||h.mainha);
   document.getElementById('vTitle').textContent = h.ten;
   document.getElementById('vDT').textContent    = h.dientich||'—';
   document.getElementById('vPN').textContent    = h.sophong||'—';
   document.getElementById('vCP').textContent    = (h.chiphi||'—');
   document.getElementById('vDesc').textContent  = h.mota||'';
-  // Mặt tiền
   const mtSpec = document.getElementById('vMTSpec');
   const mtVal  = document.getElementById('vMT');
   const mtSpecs = document.getElementById('vSpecs');
@@ -1574,17 +1594,38 @@ function openView(id) {
   document.getElementById('viewModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+
+function renderSlide(ph) {
+  const wrap = document.getElementById('vImgs');
+  const n = _slideImgs.length;
+  const slides = _slideImgs.map((src, i) =>
+    `<div class="mo-img-slide"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" onerror="this.src='${ph||''}'"></div>`
+  ).join('');
+  const arrowL = n > 1 ? `<button class="mo-img-arrow mo-img-arrow-l${_slideIdx===0?' hidden':''}" onclick="slideImg(-1)" aria-label="Ảnh trước">&#8592;</button>` : '';
+  const arrowR = n > 1 ? `<button class="mo-img-arrow mo-img-arrow-r${_slideIdx===n-1?' hidden':''}" onclick="slideImg(1)" aria-label="Ảnh sau">&#8594;</button>` : '';
+  const dots   = n > 1 ? `<div class="mo-img-dots">${_slideImgs.map((_,i) => `<button class="mo-img-dot${i===_slideIdx?' active':''}" onclick="goSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join('')}</div>` : '';
+  const counter= n > 1 ? `<span class="mo-img-count">${_slideIdx+1} / ${n}</span>` : '';
+  wrap.innerHTML = `<div class="mo-img-slider" style="transform:translateX(-${_slideIdx*100}%)">${slides}</div>${arrowL}${arrowR}${dots}${counter}`;
+  wrap.ontouchstart = e => { _touchStartX = e.touches[0].clientX; };
+  wrap.ontouchend   = e => { const dx = e.changedTouches[0].clientX - _touchStartX; if (Math.abs(dx) > 40) slideImg(dx < 0 ? 1 : -1); };
+}
+function slideImg(dir) {
+  _slideIdx = Math.max(0, Math.min(_slideImgs.length - 1, _slideIdx + dir));
+  renderSlide();
+}
+function goSlide(i) { _slideIdx = i; renderSlide(); }
+
 function closeView() { document.getElementById('viewModal').classList.remove('open'); document.body.style.overflow=''; }
 document.getElementById('viewModal').addEventListener('click', e=>{ if(e.target===document.getElementById('viewModal')) closeView(); });
 function editFromView() { closeView(); openEdit(viewingId); }
 
 // ══ MODAL EDIT ══
-let img1Data=null, img2Data=null;
+let img1Data=null, img2Data=null, img3Data=null;
 function openAdd() {
   document.getElementById('editTitle').textContent = 'Thêm mẫu nhà mới';
   ['eId','eTen','eDT','ePN','eCP','eMota','eMtMin','eMtMax'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('eLoai').value='cap4'; document.getElementById('eMai').value='mai-thai';
-  img1Data=null; img2Data=null; resetImgUI(1); resetImgUI(2);
+  img1Data=null; img2Data=null; img3Data=null; resetImgUI(1); resetImgUI(2); resetImgUI(3);
   document.getElementById('editModal').classList.add('open'); document.body.style.overflow='hidden';
 }
 function openEdit(id) {
@@ -1596,7 +1637,8 @@ function openEdit(id) {
   document.getElementById('eLoai').value=h.loai||'cap4'; document.getElementById('eMai').value=h.mainha||'mai-thai';
   document.getElementById('eMtMin').value = (h.matienmin !== undefined && h.matienmin !== null && h.matienmin !== '') ? parseFloat(h.matienmin) || '' : '';
   document.getElementById('eMtMax').value = (h.matienmax !== undefined && h.matienmax !== null && h.matienmax !== '') ? parseFloat(h.matienmax) || '' : '';
-  img1Data=h.anh1||null; img2Data=h.anh2||null; setImgUI(1,img1Data); setImgUI(2,img2Data);
+  img1Data=h.anh1||null; img2Data=h.anh2||null; img3Data=h.anh3||null;
+  setImgUI(1,img1Data); setImgUI(2,img2Data); setImgUI(3,img3Data);
   document.getElementById('editModal').classList.add('open'); document.body.style.overflow='hidden';
 }
 function closeEdit() {
@@ -1604,14 +1646,19 @@ function closeEdit() {
 }
 function setImgUI(n,src) {
   const urlEl=document.getElementById('eUrl'+n), prev=document.getElementById('prev'+n);
+  if (!urlEl || !prev) return;
   urlEl.value=(src&&!src.startsWith('data:'))?src:'';
   if(src){prev.src=src;prev.classList.add('on');}else{prev.src='';prev.classList.remove('on');}
 }
 function resetImgUI(n) {
-  document.getElementById('eUrl'+n).value='';
-  const prev=document.getElementById('prev'+n); prev.src=''; prev.classList.remove('on');
+  const urlEl=document.getElementById('eUrl'+n), prev=document.getElementById('prev'+n);
+  if (!urlEl || !prev) return;
+  urlEl.value=''; prev.src=''; prev.classList.remove('on');
 }
-function clearImg(n) { if(n===1) img1Data=null; else img2Data=null; resetImgUI(n); }
+function clearImg(n) {
+  if(n===1) img1Data=null; else if(n===2) img2Data=null; else img3Data=null;
+  resetImgUI(n);
+}
 function convertGDriveUrl(url) {
   let m=url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
   if(m) return 'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w1000';
@@ -1623,7 +1670,7 @@ function onUrlInput(n) {
   const inputEl=document.getElementById('eUrl'+n), raw=inputEl.value.trim();
   const val=raw?convertGDriveUrl(raw):'';
   if(val&&val!==raw) inputEl.value=val;
-  if(n===1) img1Data=val||null; else img2Data=val||null;
+  if(n===1) img1Data=val||null; else if(n===2) img2Data=val||null; else img3Data=val||null;
   const prev=document.getElementById('prev'+n);
   if(val){prev.src=val;prev.classList.add('on');prev.onerror=()=>{prev.classList.remove('on');prev.src='';};}
   else{prev.src='';prev.classList.remove('on');}
@@ -1640,7 +1687,7 @@ async function saveHouse() {
     chiphi:document.getElementById('eCP').value.trim()||'—',mota:document.getElementById('eMota').value.trim(),
     matienmin:document.getElementById('eMtMin').value.trim()||'',
     matienmax:document.getElementById('eMtMax').value.trim()||'',
-    anh1:img1Data||'',anh2:img2Data||''};
+    anh1:img1Data||'',anh2:img2Data||'',anh3:img3Data||''};
 
   // CTV → gửi chờ duyệt; Admin → lưu trực tiếp
   const isCTV = effectiveRole === 'ctv';
@@ -2058,6 +2105,10 @@ document.addEventListener('keydown',e=>{
     // Huỷ confirm nếu đang mở
     const cfm=document.getElementById('confirmModal');
     if(cfm.classList.contains('open')){cfm.classList.remove('open');if(_confirmResolve){_confirmResolve(false);_confirmResolve=null;}}
+  }
+  if(document.getElementById('viewModal').classList.contains('open')){
+    if(e.key==='ArrowLeft') slideImg(-1);
+    else if(e.key==='ArrowRight') slideImg(1);
   }
 });
 
