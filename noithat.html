@@ -34,6 +34,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 #cacheBanner.show{display:flex;animation:slideUp .3s ease}
 #cacheBanner button{background:var(--green2);border:none;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
 @keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
 
 /* ── NAV ── */
 .nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
@@ -210,15 +211,21 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .mo-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(20,25,22,.75);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
 .mo-close:hover{background:var(--dark)}
 
-/* Ảnh modal — hỗ trợ 1, 2, 3 ảnh */
-.mo-img-single{width:100%;max-height:480px;object-fit:cover;display:block;background:#f5f5f5}
-.mo-img-grid2{display:grid;grid-template-columns:1fr 1fr;gap:2px}
-.mo-img-grid2 img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
-.mo-img-grid3{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:2px;max-height:380px}
-.mo-img-grid3 img:first-child{grid-row:1/3;width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
-.mo-img-grid3 img:not(:first-child){width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;pointer-events:none}
-/* Image counter badge */
-.mo-img-wrap{position:relative}
+/* Ảnh modal — slideshow */
+.mo-img-wrap{position:relative;background:#111;overflow:hidden;user-select:none}
+.mo-img-slider{display:flex;transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
+.mo-img-slide{flex:0 0 100%;width:100%}
+.mo-img-slide img{width:100%;max-height:480px;object-fit:cover;display:block;background:#1a1a1a;-webkit-user-drag:none;pointer-events:none}
+/* Mũi tên */
+.mo-img-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:38px;height:38px;border-radius:50%;background:rgba(20,25,22,.62);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s,opacity .18s;backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent}
+.mo-img-arrow:hover{background:rgba(20,25,22,.88)}
+.mo-img-arrow.hidden{opacity:0;pointer-events:none}
+.mo-img-arrow-l{left:10px}
+.mo-img-arrow-r{right:10px}
+/* Dots */
+.mo-img-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;align-items:center}
+.mo-img-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s;flex-shrink:0}
+.mo-img-dot.active{background:#fff;transform:scale(1.25)}
 .mo-img-count{position:absolute;bottom:10px;right:10px;background:rgba(20,25,22,.7);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;backdrop-filter:blur(4px)}
 
 .mo-body{padding:20px 24px 24px}
@@ -428,9 +435,6 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .mo-actions{flex-direction:column}
   .btn-pri,.btn-sec,.btn-edit-mo{width:100%;min-width:unset;text-align:center}
 
-  .mo-img-grid3{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;max-height:260px}
-  .mo-img-grid3 img:first-child{grid-row:auto}
-
   /* EDIT modal — bottom sheet */
   .eb{padding:0;align-items:flex-end}
   .em{border-radius:16px 16px 0 0;max-height:94vh;padding:20px 16px 24px}
@@ -519,6 +523,14 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <button id="addBtn" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         Thêm mẫu nội thất
+      </button>
+      <button id="importDriveBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:6px" onclick="openImportDriveModal()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Import từ Drive
+      </button>
+      <button id="syncSheetBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:5px" onclick="forceReload()" title="Xoá cache, tải lại dữ liệu thực từ Google Sheet">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        Sync sheet
       </button>
     </div>
   </div>
@@ -831,6 +843,98 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   </div>
 </div>
 
+<!-- IMPORT TỪ DRIVE MODAL -->
+<div class="mb" id="importDriveModal" style="z-index:200">
+  <div class="mo" style="max-width:760px;max-height:92vh;display:flex;flex-direction:column">
+    <button class="mo-close" onclick="closeImportDriveModal()">✕</button>
+
+    <!-- STEP 1 -->
+    <div id="driveStep1" class="mo-body" style="overflow-y:auto">
+      <div class="mo-title" style="font-size:17px;margin-bottom:6px">📥 Import nội thất từ Google Drive</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Dán link thư mục Drive chứa <strong>các thư mục con theo phong cách</strong>. Mỗi thư mục con = 1 phong cách, ảnh bên trong được đặt tên theo phòng — web tự nhận diện.</p>
+
+      <div style="background:var(--gl);border:1px solid rgba(90,158,74,.28);border-radius:8px;padding:14px 16px;margin-bottom:18px;font-size:12px;line-height:1.85">
+        <strong style="color:var(--green);font-size:12px">📁 Cấu trúc thư mục:</strong><br>
+        📂 <em style="color:var(--text)">Thư mục cha</em> <span style="color:var(--muted)">← dán link vào đây</span><br>
+        &nbsp;&nbsp;├─ 📂 <strong style="color:var(--text)">Nội thất Hiện đại</strong> <span style="color:var(--muted)">← tên = phong cách</span><br>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span style="color:#3D6B34">bếp+ăn.jpg</span> → Bếp – Ăn<br>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span style="color:#3D6B34">pn_master.jpg</span> → Master Bedroom<br>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span style="color:#3D6B34">phòng khách.jpg</span> → Phòng khách<br>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├─ <span style="color:#3D6B34">phòng ngủ 1.jpg</span>, <span style="color:#3D6B34">wc_chung.jpg</span>...<br>
+        &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└─ <span style="color:#7A5A20">Bia nội thất.jpg</span> <span style="color:var(--muted)">(file bìa — bỏ qua)</span><br>
+        &nbsp;&nbsp;└─ 📂 <strong style="color:var(--text)">Nội thất Indochine</strong><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ phòng khách.jpg, thờ.jpg...
+      </div>
+
+      <div style="margin-bottom:14px">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px">Link hoặc ID thư mục Drive cha *</label>
+        <input type="text" id="driveFolderInput" class="si" style="max-width:100%;padding:10px 12px" placeholder="https://drive.google.com/drive/folders/... hoặc ID">
+      </div>
+
+      <div id="driveScanProgress" style="display:none;margin-bottom:14px">
+        <div style="background:var(--cream2);border-radius:6px;height:6px;overflow:hidden;margin-bottom:7px">
+          <div id="driveScanBar" style="background:var(--green2);height:100%;width:0%;transition:width .5s ease;border-radius:6px"></div>
+        </div>
+        <div id="driveScanLabel" style="font-size:12px;color:var(--muted)">⏳ Đang quét...</div>
+      </div>
+
+      <button onclick="runDriveScan()" id="btnDriveScan" style="padding:10px 24px;background:var(--green);border:none;color:#fff;font-family:inherit;font-size:13px;font-weight:700;border-radius:var(--radius);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:7px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Quét thư mục
+      </button>
+    </div>
+
+    <!-- STEP 2: Preview từng ảnh theo phong cách -->
+    <div id="driveStep2" style="display:none;flex:1;min-height:0;flex-direction:column">
+
+      <!-- Header sticky -->
+      <div style="padding:16px 24px 12px;border-bottom:1px solid var(--bd);flex-shrink:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:var(--text)">📋 Xem trước & chỉnh sửa</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Mỗi ảnh = 1 mẫu nội thất. Phong cách lấy từ tên thư mục, loại phòng từ tên ảnh.</div>
+          </div>
+          <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+            <span style="font-size:12px;color:var(--muted)">Đã chọn <strong id="driveSelectedCount">0</strong>/<span id="driveTotalCount">0</span></span>
+            <button onclick="driveToggleAll(true)" style="padding:5px 11px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:#fff;cursor:pointer;font-family:inherit;font-weight:600">✓ Tất cả</button>
+            <button onclick="driveToggleAll(false)" style="padding:5px 11px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:#fff;cursor:pointer;font-family:inherit;font-weight:600">✕ Bỏ chọn</button>
+            <button id="btnBulkReplace" onclick="driveBulkDup('replace')" style="display:none;padding:5px 11px;font-size:11px;border:1px solid #F59E0B;border-radius:4px;background:#FEF3C7;color:#92400E;cursor:pointer;font-family:inherit;font-weight:700">⚠ Ghi đè tất cả trùng</button>
+            <button id="btnBulkKeep"    onclick="driveBulkDup('keep')"    style="display:none;padding:5px 11px;font-size:11px;border:1px solid var(--bd);border-radius:4px;background:#fff;cursor:pointer;font-family:inherit;font-weight:600">🔒 Giữ nguyên tất cả trùng</button>
+          </div>
+        </div>
+
+        <!-- AI indicator -->
+        <div id="driveAiProgress" style="display:none;margin-top:10px;background:linear-gradient(90deg,#EAF4E7,#F4F3F0);border:1px solid rgba(90,158,74,.3);border-radius:7px;padding:10px 14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="width:7px;height:7px;border-radius:50%;background:var(--green2);animation:pulse 1.2s infinite;flex-shrink:0"></div>
+            <span style="font-size:12px;font-weight:600;color:var(--green)" id="driveAiLabel">🤖 AI đang phân tích...</span>
+          </div>
+          <div style="background:rgba(0,0,0,.08);border-radius:4px;height:4px;overflow:hidden">
+            <div id="driveAiBar" style="background:var(--green2);height:100%;width:0%;transition:width .5s ease;border-radius:4px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Danh sách preview (scrollable) -->
+      <div id="drivePreviewList" style="flex:1;overflow-y:auto;padding:0 24px 12px"></div>
+
+      <!-- Footer actions -->
+      <div style="padding:12px 24px;border-top:1px solid var(--bd);display:flex;gap:10px;background:#fff;flex-shrink:0;flex-wrap:wrap">
+        <button onclick="backToDriveStep1()" style="padding:9px 16px;border:1px solid var(--bd);background:#fff;font-family:inherit;font-size:12px;font-weight:600;border-radius:var(--radius);cursor:pointer">← Quay lại</button>
+        <button onclick="testGasConnection()" style="padding:9px 14px;border:1px solid var(--bd);background:#fff;font-family:inherit;font-size:11px;font-weight:600;border-radius:var(--radius);cursor:pointer;color:var(--muted)" title="Kiểm tra GAS có hoạt động không">🔌 Test GAS</button>
+        <div id="driveImportProgress" style="display:none;flex:1;min-width:160px">
+          <div style="background:var(--cream2);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px">
+            <div id="driveImportBar" style="background:var(--green2);height:100%;width:0%;transition:width .4s;border-radius:4px"></div>
+          </div>
+          <div id="driveImportLabel" style="font-size:11px;color:var(--muted)">Đang import...</div>
+        </div>
+        <button id="btnDriveImport" onclick="runDriveImport()" disabled style="flex:1;min-width:180px;padding:10px;background:var(--green);border:none;color:#fff;font-family:inherit;font-size:13px;font-weight:700;border-radius:var(--radius);cursor:pointer;transition:.2s">📥 Import mẫu đã chọn</button>
+      </div>
+      <div id="driveImportStatus" style="display:none;padding:10px 24px;font-size:13px;font-weight:600;border-top:1px solid var(--bd)"></div>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM MODAL -->
 <div class="cfm" id="confirmModal">
   <div class="cfm-box">
@@ -850,6 +954,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 <div id="cacheBanner">
   🔄 Có dữ liệu mới
   <button onclick="applyUpdate()">Cập nhật</button>
+  <button onclick="forceReload()" style="background:#555;margin-left:4px">↺ Tải lại từ sheet</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -914,6 +1019,8 @@ document.getElementById('mobLogoutBtn').style.display='';
 
 if(effectiveRole==='admin'||effectiveRole==='ctv'){
   document.getElementById('addBtn').style.display='inline-flex';
+  document.getElementById('importDriveBtn').style.display='inline-flex';
+  document.getElementById('syncSheetBtn').style.display='inline-flex';
   document.getElementById('btnEditMo').classList.add('on');
   if(effectiveRole==='ctv'){
     document.getElementById('ctvPendingNote').classList.add('show');
@@ -968,8 +1075,8 @@ async function apiGet(){
   const json=await res.json();
   // GAS có thể trả data hoặc items — chỉ nhận mảng, không nhận nhầm mẫu nhà
   const raw=json.data||json.items||[];
-  // Lọc phòng ban cho chắc: chỉ giữ row có loaiphong hoặc phongcach (đặc trưng nội thất)
-  return raw.filter(it=>it && (it.loaiphong||it.phongcach));
+  // Giữ lại row có ít nhất 1 trong các trường chính (không filter chặt loaiphong/phongcach vì có thể trống sau import)
+  return raw.filter(it=>it && (it.ten||it.anh1||it.loaiphong||it.phongcach));
 }
 async function apiPost(body){
   const payload=adminToken?{...body,_token:adminToken}:body;
@@ -995,6 +1102,13 @@ async function loadData(){
   }
   try{
     const fresh=await apiGet();
+    // Nếu sheet trả về rỗng → xoá cache và render lại ngay (không đợi user bấm banner)
+    if(fresh.length===0 && allItems.length>0){
+      allItems=[];
+      setCache([]);
+      renderGallery();
+      return;
+    }
     const changed=JSON.stringify(fresh)!==JSON.stringify(allItems);
     setCache(fresh);
     if(changed){
@@ -1014,30 +1128,69 @@ function applyUpdate(){
   document.getElementById('cacheBanner').classList.remove('show');
 }
 
+// Xoá cache và tải lại từ sheet (dùng khi sheet bị sửa trực tiếp)
+async function forceReload(){
+  try{localStorage.removeItem(CACHE_KEY);}catch{}
+  allItems=[];
+  pendingData=null;
+  document.getElementById('cacheBanner').classList.remove('show');
+  renderGallery();
+  showToast('🔄 Đang tải lại từ sheet...');
+  try{
+    const fresh=await apiGet();
+    allItems=fresh;
+    setCache(fresh);
+    renderGallery();
+    showToast(fresh.length?`✓ Đã tải ${fresh.length} mẫu từ sheet`:'ℹ Sheet đang trống');
+  }catch(e){
+    showToast('⚠ Lỗi kết nối: '+e.message);
+  }
+}
+
 // ══ FILTER STATE ══
 let fPhong='all', fStyle='all', currentSort='newest';
 
 // ══ FILTER PANEL ══
-function toggleFilterPanel(){
-  const panel=document.getElementById('filterPanel');
-  const btn=document.getElementById('filterToggleBtn');
-  const isOpen=!panel.classList.contains('open');
-  if(isOpen){
-    const r=btn.getBoundingClientRect();
-    const vw=window.innerWidth;
-    let left=r.left;
-    const pw=Math.min(340, vw-24);
-    if(left+pw>vw-12) left=Math.max(12, vw-pw-12);
-    panel.style.top=(r.bottom+6)+'px';
-    panel.style.left=left+'px';
-    panel.style.width=pw+'px';
-    panel.classList.add('open');
-    btn.classList.add('open');
+// ── Anchor helper: tính vị trí dropdown từ button ──
+function positionDropdown(panel, btn, minW, alignRight) {
+  const r   = btn.getBoundingClientRect();
+  const vw  = window.innerWidth;
+  const vh  = window.innerHeight;
+  const pw  = Math.max(minW, Math.min(minW + 60, vw - 24));
+  const top = r.bottom + 6;
+  let left;
+  if (alignRight) {
+    left = r.right - pw;
+    if (left < 12) left = 12;
   } else {
+    left = r.left;
+    if (left + pw > vw - 12) left = Math.max(12, vw - pw - 12);
+  }
+  panel.style.top   = top + 'px';
+  panel.style.left  = left + 'px';
+  panel.style.width = pw + 'px';
+}
+
+function toggleFilterPanel(){
+  const panel = document.getElementById('filterPanel');
+  const btn   = document.getElementById('filterToggleBtn');
+  if (panel.classList.contains('open')) {
     panel.classList.remove('open');
     btn.classList.remove('open');
+  } else {
+    positionDropdown(panel, btn, 340, false);
+    panel.classList.add('open');
+    btn.classList.add('open');
   }
 }
+
+// Đóng cả 2 panel khi scroll (tránh lệch vị trí)
+window.addEventListener('scroll', () => {
+  document.getElementById('filterPanel').classList.remove('open');
+  document.getElementById('filterToggleBtn').classList.remove('open');
+  document.getElementById('sortPanel').classList.remove('open');
+}, { passive: true });
+
 document.addEventListener('click',e=>{
   const filterPanel=document.getElementById('filterPanel');
   const filterBtn=document.getElementById('filterToggleBtn');
@@ -1113,21 +1266,13 @@ function setSort(val,label){
   renderGallery();
 }
 function toggleSortPanel(){
-  const panel=document.getElementById('sortPanel');
-  const btn=document.getElementById('sortBtn');
-  const isOpen=!panel.classList.contains('open');
-  if(isOpen){
-    const r=btn.getBoundingClientRect();
-    const pw=180;
-    const vw=window.innerWidth;
-    let left=r.right-pw;
-    if(left<12) left=12;
-    panel.style.top=(r.bottom+4)+'px';
-    panel.style.left=left+'px';
-    panel.style.width=pw+'px';
-    panel.classList.add('open');
-  } else {
+  const panel = document.getElementById('sortPanel');
+  const btn   = document.getElementById('sortBtn');
+  if (panel.classList.contains('open')) {
     panel.classList.remove('open');
+  } else {
+    positionDropdown(panel, btn, 180, true);
+    panel.classList.add('open');
   }
 }
 
@@ -1210,27 +1355,19 @@ function renderGallery(){
 
 // ══ XEM CHI TIẾT ══
 let currentViewId=null;
+let _slideIdx=0;
+let _slideImgs=[];
+let _touchStartX=0;
+
 function openView(id){
   const it=allItems.find(x=>x.id===id);
   if(!it)return;
   currentViewId=id;
 
-  // Ảnh — hỗ trợ 1, 2, hoặc 3 ảnh
-  const imgs=[it.anh1,it.anh2,it.anh3].filter(Boolean).map(normDriveUrl).filter(Boolean);
-  let imgHtml='';
-  if(imgs.length===0){
-    imgHtml='<div style="height:200px;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--cream2)">🛋</div>';
-  } else if(imgs.length===1){
-    imgHtml=`<img class="mo-img-single" src="${escHtml(imgs[0])}" alt="${escHtml(it.ten)}">`;
-  } else if(imgs.length===2){
-    imgHtml=`<div class="mo-img-grid2"><img src="${escHtml(imgs[0])}" alt=""><img src="${escHtml(imgs[1])}" alt=""></div>`;
-  } else {
-    imgHtml=`<div class="mo-img-grid3"><img src="${escHtml(imgs[0])}" alt=""><img src="${escHtml(imgs[1])}" alt=""><img src="${escHtml(imgs[2])}" alt=""></div>`;
-  }
-  if(imgs.length>1){
-    imgHtml+=`<span class="mo-img-count">${imgs.length} ảnh</span>`;
-  }
-  document.getElementById('vImgs').innerHTML=imgHtml;
+  // Ảnh — slideshow
+  _slideImgs=[it.anh1,it.anh2,it.anh3].filter(Boolean).map(normDriveUrl).filter(Boolean);
+  _slideIdx=0;
+  renderSlide();
 
   // Tags
   const phongLbl=PHONG_LABEL[it.loaiphong]||it.loaiphong||'—';
@@ -1246,6 +1383,43 @@ function openView(id){
   document.getElementById('vDT').textContent=it.dientich||'—';
   document.getElementById('vDesc').textContent=it.mota||'';
   document.getElementById('viewModal').classList.add('open');
+}
+
+function renderSlide(){
+  const wrap=document.getElementById('vImgs');
+  const n=_slideImgs.length;
+  if(n===0){
+    wrap.innerHTML='<div style="height:220px;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--cream2)">🛋</div>';
+    return;
+  }
+  // Slider track
+  const slides=_slideImgs.map((src,i)=>`<div class="mo-img-slide"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}"></div>`).join('');
+  // Arrows (ẩn nếu chỉ 1 ảnh)
+  const arrowL=n>1?`<button class="mo-img-arrow mo-img-arrow-l${_slideIdx===0?' hidden':''}" onclick="slideImg(-1)" aria-label="Ảnh trước">&#8592;</button>`:'';
+  const arrowR=n>1?`<button class="mo-img-arrow mo-img-arrow-r${_slideIdx===n-1?' hidden':''}" onclick="slideImg(1)" aria-label="Ảnh sau">&#8594;</button>`:'';
+  // Dots (chỉ khi >1 ảnh)
+  const dots=n>1?`<div class="mo-img-dots">${_slideImgs.map((_,i)=>`<button class="mo-img-dot${i===_slideIdx?' active':''}" onclick="goSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join('')}</div>`:'';
+  // Counter
+  const counter=n>1?`<span class="mo-img-count">${_slideIdx+1} / ${n}</span>`:'';
+
+  wrap.innerHTML=`<div class="mo-img-slider" id="imgSlider" style="transform:translateX(-${_slideIdx*100}%)">${slides}</div>${arrowL}${arrowR}${dots}${counter}`;
+
+  // Touch swipe
+  wrap.ontouchstart=e=>{_touchStartX=e.touches[0].clientX;};
+  wrap.ontouchend=e=>{
+    const dx=e.changedTouches[0].clientX-_touchStartX;
+    if(Math.abs(dx)>40){slideImg(dx<0?1:-1);}
+  };
+}
+
+function slideImg(dir){
+  const n=_slideImgs.length;
+  _slideIdx=Math.max(0,Math.min(n-1,_slideIdx+dir));
+  renderSlide();
+}
+function goSlide(i){
+  _slideIdx=i;
+  renderSlide();
 }
 function closeView(){
   document.getElementById('viewModal').classList.remove('open');
@@ -1291,8 +1465,9 @@ function openEdit(id){
   document.getElementById('editModal').classList.add('open');
 }
 function editFromView(){
+  const id=currentViewId;
   closeView();
-  if(currentViewId)setTimeout(()=>openEdit(currentViewId),200);
+  if(id)setTimeout(()=>openEdit(id),200);
 }
 function closeEdit(){
   document.getElementById('editModal').classList.remove('open');
@@ -1460,6 +1635,687 @@ document.addEventListener('keydown',e=>{
     const cfm=document.getElementById('confirmModal');
     if(cfm.classList.contains('open')){cfm.classList.remove('open');if(_confirmResolve){_confirmResolve(false);_confirmResolve=null;}}
   }
+  // Điều hướng slide bằng bàn phím khi modal đang mở
+  if(document.getElementById('viewModal').classList.contains('open')){
+    if(e.key==='ArrowLeft')slideImg(-1);
+    else if(e.key==='ArrowRight')slideImg(1);
+  }
+});
+
+// ════════════════════════════════════════════════════
+// 📥  IMPORT TỪ GOOGLE DRIVE — AI auto-fill
+// Cấu trúc: Thư mục cha → các thư mục con (mỗi thư mục = 1 bộ nội thất)
+// Tên thư mục con chứa tên phòng + phong cách (VD: "Phòng khách Hiện đại")
+// Web tự động:  phòng, phong cách, diện tích, giá, mô tả
+// ════════════════════════════════════════════════════
+
+// ════════════════════════════════════════════════════
+// 📥  IMPORT TỪ GOOGLE DRIVE
+//
+// CẤU TRÚC THỰC TẾ:
+//   📂 Thư mục cha
+//     └─ 📂 Nội thất Hiện đại   ← tên thư mục = PHONG CÁCH
+//           ├─ bếp+ăn.jpg       ← tên file = LOẠI PHÒNG
+//           ├─ pn_master.jpg
+//           ├─ phòng khách.jpg
+//           ├─ phòng ngủ 1.jpg
+//           └─ wc_chung.jpg
+//
+// Logic: mỗi ảnh → 1 record nội thất riêng
+//   - phongcach   ← tên thư mục cha
+//   - loaiphong   ← tên file ảnh (AI parse)
+//   - dientich    ← heuristic theo phòng
+//   - chiphi      ← heuristic theo phòng
+//   - mota        ← ngân hàng mô tả (phòng × phong cách)
+//   - anh1        ← thumbnail Drive của file đó
+// ════════════════════════════════════════════════════
+
+// ── Ngân hàng mô tả ──
+const MOTA_BANK = {
+  'phong-khach-toi-gian': 'Phòng khách phong cách tối giản hướng đến vẻ đẹp tinh tế thông qua sự gọn gàng và hài hòa trong từng chi tiết. Không gian thường sử dụng các gam màu trung tính như trắng, be, xám hoặc nâu nhạt để tạo cảm giác nhẹ nhàng và rộng rãi hơn. Sofa đơn giản, bàn trà nhỏ gọn cùng hệ tủ âm tường giúp căn phòng luôn thoáng đãng và sạch sẽ.',
+  'phong-khach-hien-dai': 'Phòng khách phong cách hiện đại mang đến vẻ đẹp trẻ trung, sang trọng và đầy tiện nghi. Thiết kế chú trọng đường nét mạnh mẽ, hình khối rõ ràng, kết hợp vật liệu kính, đá và kim loại tạo nên không gian ấn tượng và thời thượng.',
+  'phong-khach-tan-co-dien': 'Phòng khách tân cổ điển là sự kết hợp hài hòa giữa nét đẹp cổ điển sang trọng và tiện nghi hiện đại. Đường phào chỉ mềm mại, nội thất đối xứng, sofa bọc nhung và đèn chùm pha lê tạo nên vẻ đẳng cấp riêng biệt.',
+  'phong-khach-indochine': 'Phòng khách Indochine mang vẻ đẹp hoài cổ Đông Dương với gỗ, mây tre đan, gạch bông và ánh sáng vàng dịu. Không gian giao thoa tinh tế giữa kiến trúc Pháp và văn hóa Á Đông truyền thống.',
+  'phong-khach-japandi': 'Phòng khách Japandi giao thoa tối giản Nhật Bản với ấm áp Bắc Âu. Nội thất thấp, đường nét mềm mại, chất liệu gỗ và vải linen tự nhiên tạo nên không gian bình yên và tinh tế.',
+  'phong-khach-scandinavian': 'Phòng khách Scandinavian nhẹ nhàng, hiện đại với tone trắng chủ đạo kết hợp gỗ sáng màu. Không gian tràn ngập ánh sáng tự nhiên, nội thất tinh tế ưu tiên sự tiện nghi và thoải mái.',
+  'phong-khach-tropical': 'Phòng khách Tropical mang hơi thở thiên nhiên nhiệt đới tươi mát. Cây xanh, chất liệu mây tre, gam màu xanh lá và vàng cát tạo cảm giác như đang nghỉ dưỡng tại resort cao cấp.',
+  'phong-khach-wabi-sabi': 'Phòng khách Wabi-sabi hướng đến vẻ đẹp mộc mạc, tự nhiên với gỗ thô, đá, gốm thủ công. Tone trầm ấm như nâu đất, xám, be mang lại cảm giác bình yên và sâu lắng.',
+  'bep-an-toi-gian': 'Bếp – Ăn tối giản gọn gàng, tiện nghi với hệ tủ phẳng hiện đại, tone trắng hoặc be nhạt. Thiết kế tối ưu công năng nấu nướng, ánh sáng tự nhiên dồi dào qua cửa sổ lớn.',
+  'bep-an-hien-dai': 'Bếp – Ăn hiện đại với đảo bếp tiện lợi, hệ tủ thông minh và thiết bị cao cấp. Không gian mở kết nối bếp với khu ăn uống, đèn thả trần tạo điểm nhấn sang trọng.',
+  'bep-an-tan-co-dien': 'Bếp – Ăn tân cổ điển quý phái với tủ bếp kiểu dáng cổ điển, mặt bàn đá và bàn ăn sang trọng. Đường phào chỉ tinh tế kết hợp đèn treo tạo không gian ấm cúng và đẳng cấp.',
+  'bep-an-indochine': 'Bếp – Ăn Indochine ấm cúng với gỗ tự nhiên, gạch bông truyền thống và mây tre đan. Không gian gợi nhớ căn bếp Đông Dương xưa đậm chất văn hóa Việt.',
+  'bep-an-japandi': 'Bếp – Ăn Japandi tinh tế với tủ bếp gỗ sáng, mặt đá tự nhiên và phụ kiện thủ công. Không gian nấu nướng vừa hiệu quả vừa đẹp mắt theo phong cách tối giản có chiều sâu.',
+  'phong-ngu-toi-gian': 'Phòng ngủ tối giản tạo cảm giác thư thái với giường ngủ thấp, hệ tủ âm tường gọn gàng. Tone trung tính và ánh sáng mềm mại qua rèm mỏng tạo nên không gian nghỉ ngơi yên bình.',
+  'phong-ngu-hien-dai': 'Phòng ngủ hiện đại sang trọng với nội thất đồng bộ, hệ đèn LED âm trần. Vật liệu gỗ công nghiệp cao cấp, kim loại và kính tạo tổng thể thời thượng và đầy đủ tiện nghi.',
+  'phong-ngu-tan-co-dien': 'Phòng ngủ tân cổ điển quý phái với đường phào chỉ mềm mại, đèn chùm tinh tế. Gỗ sang trọng, rèm vải mềm và chất liệu cao cấp tạo không gian nghỉ ngơi đẳng cấp.',
+  'phong-ngu-indochine': 'Phòng ngủ Indochine hoài cổ với gỗ, mây tre, gạch bông và ánh sáng vàng dịu. Quạt trần cổ điển, rèm họa tiết truyền thống tạo nên không gian đầy cảm xúc và nghệ thuật.',
+  'phong-ngu-japandi': 'Phòng ngủ Japandi bình yên với giường thấp, chất liệu gỗ và linen. Ánh sáng tự nhiên tối đa, tông màu trung tính nhẹ nhàng tạo cảm giác cân bằng và thư giãn sau ngày dài.',
+  'phong-ngu-scandinavian': 'Phòng ngủ Scandinavian ấm cúng với tone trắng, gỗ sáng màu và vải mềm mại. Tối giản trong thiết kế nhưng đầy đủ tiện nghi, không gian thoáng đãng và dễ chịu.',
+  'master-bedroom-toi-gian': 'Phòng ngủ Master tối giản rộng rãi, thư thái với giường ngủ lớn, tủ âm tường và bàn trang điểm nhỏ gọn. Tone trung tính cùng ánh sáng tự nhiên tạo nên không gian nghỉ ngơi sang trọng mà tinh tế.',
+  'master-bedroom-hien-dai': 'Phòng ngủ Master hiện đại với giường king-size, tủ âm tường toàn diện, bàn trang điểm hiện đại. Hệ đèn LED gián tiếp và vật liệu cao cấp tạo không gian nghỉ ngơi đẳng cấp và tiện nghi.',
+  'master-bedroom-tan-co-dien': 'Phòng ngủ Master tân cổ điển xa hoa với giường bọc nệm cao cấp, đèn chùm pha lê, rèm vải mềm. Đá marble, kim loại ánh vàng và gỗ tự nhiên tạo nên không gian quý phái và tinh tế.',
+  'master-bedroom-indochine': 'Phòng ngủ Master Indochine hoài cổ với gỗ, mây tre, gạch bông và ánh vàng dịu. Từng chi tiết trang trí thể hiện nét văn hóa Á Đông đặc sắc trong không gian nghỉ ngơi cao cấp.',
+  'master-bedroom-japandi': 'Phòng ngủ Master Japandi tối giản và bình yên với nội thất thấp, gỗ tự nhiên và linen. Không gian cân bằng hoàn hảo giữa thẩm mỹ Nhật Bản và sự ấm áp của phong cách Bắc Âu.',
+  'wc-toi-gian': 'WC tối giản sạch sẽ, gọn gàng với tone trắng và xám nhạt. Đường nét đơn giản, thiết bị vệ sinh hiện đại tạo nên không gian nhà tắm tiện nghi và dễ chịu.',
+  'wc-hien-dai': 'WC hiện đại với thiết bị cao cấp, kính cường lực, đá và gạch nhập khẩu. Không gian sang trọng, thoáng mát với hệ thống chiếu sáng thông minh tạo cảm giác spa tại nhà.',
+  'wc-tan-co-dien': 'WC tân cổ điển sang trọng với đá marble, gương khung vàng và đèn treo cổ điển. Sự kết hợp giữa thiết kế quý phái và thiết bị hiện đại tạo nên không gian nhà tắm đẳng cấp.',
+  'wc-indochine': 'WC Indochine đặc trưng với gạch bông, gỗ tự nhiên và phụ kiện đồng thau cổ điển. Không gian nhà tắm mang đậm hơi thở văn hóa Đông Dương ấm cúng và nghệ thuật.',
+  'phong-tho-tan-co-dien': 'Phòng thờ tân cổ điển uy nghi với đường phào chỉ mềm mại, chạm khắc tinh xảo và gỗ cao cấp. Tone nâu trầm, vàng đồng tạo không gian thiêng liêng, trang nghiêm và thể hiện lòng kính trọng tổ tiên.',
+  'phong-tho-indochine': 'Phòng thờ Indochine đậm chất văn hóa Việt với gỗ, mây tre, gạch bông truyền thống. Ánh sáng vàng dịu và hương gỗ tự nhiên tạo cảm giác thanh tịnh và tôn nghiêm.',
+  'phong-tho-hien-dai': 'Phòng thờ hiện đại kết hợp thiết kế đương đại với giá trị tâm linh truyền thống. Đường nét sạch sẽ, vật liệu cao cấp và ánh sáng được tính toán kỹ lưỡng tạo không gian thờ cúng trang trọng.',
+  'phong-thay-do-hien-dai': 'Phòng thay đồ hiện đại với tủ âm tường thông minh, đèn gương LED và khu ngồi tiện nghi. Thiết kế tối ưu lưu trữ giúp việc chọn trang phục trở nên dễ dàng và thẩm mỹ như showroom.',
+  'phong-thay-do-tan-co-dien': 'Phòng thay đồ tân cổ điển sang trọng với tủ gỗ cao cấp, gương khung vàng và đèn trang trí. Không gian thay đồ mang cảm giác boutique thời trang cao cấp ngay trong ngôi nhà.',
+};
+
+// ── Nhận diện PHONG CÁCH từ tên thư mục ──
+function parseStyleFromFolder(folderName) {
+  const n = folderName.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g,'d');
+  if (/toi.?gian|minimal/i.test(n))             return 'toi-gian';
+  if (/tan.?co.?dien|neoclassic/i.test(n))      return 'tan-co-dien';
+  if (/indochine|dong.?duong/i.test(n))          return 'indochine';
+  if (/japandi/i.test(n))                        return 'japandi';
+  if (/scandinavian|bac.?au|nordic/i.test(n))   return 'scandinavian';
+  if (/tropical|nhiet.?doi/i.test(n))            return 'tropical';
+  if (/wabi.?sabi/i.test(n))                     return 'wabi-sabi';
+  if (/hien.?dai|modern/i.test(n))               return 'hien-dai';
+  return 'hien-dai'; // fallback
+}
+
+// ── Nhận diện LOẠI PHÒNG từ tên file ảnh ──
+// Khớp với tên thực tế: "bếp+ăn.jpg", "pn_master.jpg", "phòng khách.jpg",
+// "phòng ngủ 1.jpg", "wc_chung.jpg", "thờ.jpg", "phòng thay đồ.jpg"
+function parseRoomFromFilename(filename) {
+  const raw = filename.replace(/\.[^.]+$/, ''); // bỏ extension
+  const n = raw.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g,'d');
+
+  // Master phải kiểm tra trước phong-ngu
+  if (/master|pn.?master|phong.?ngu.?master/i.test(n)) return 'master-bedroom';
+  if (/bep|an\+|kitchen|dining/i.test(n))               return 'bep-an';
+  if (/wc|toilet|bath|nha.?tam/i.test(n))               return 'wc';
+  if (/tho\b|altar|ban.?tho/i.test(n))                  return 'phong-tho';
+  if (/thay.?do|wardrobe|tu.?quan/i.test(n))            return 'phong-thay-do';
+  if (/lam.?viec|office|study/i.test(n))                return 'phong-lam-viec';
+  if (/phong.?ngu|pn[_\-\s\d]|bedroom/i.test(n))       return 'phong-ngu';
+  if (/phong.?khach|living|salon/i.test(n))             return 'phong-khach';
+  // Fallback: ảnh bìa, bia… bỏ qua
+  if (/bia|cover|thumb|logo|banner/i.test(n))           return null; // skip
+  return 'phong-khach'; // default nếu không nhận ra
+}
+
+// ── Tạo tên mẫu đẹp ──
+// Nếu tên thư mục có số cuối (VD: "Nội thất Hiện đại 2", "Hiện đại 3")
+// thì thêm hậu tố số vào tên mẫu để phân biệt: "Phòng ngủ Hiện đại #2"
+function makeItemName(loaiphong, phongcach, folderName) {
+  const phongLabel = PHONG_LABEL[loaiphong] || loaiphong;
+  const styleLabel = STYLE_LABEL[phongcach] || phongcach;
+  // Tìm số cuối trong tên thư mục: "Hiện đại 2" → 2, "hien dai 3" → 3
+  const numMatch = (folderName || '').match(/\b(\d+)\s*$/);
+  const suffix = numMatch ? ` #${numMatch[1]}` : '';
+  return `${phongLabel} ${styleLabel}${suffix}`;
+}
+
+// ── Heuristic diện tích & giá theo phòng ──
+function getRoomDefaults(loaiphong) {
+  return ({
+    'phong-khach':    { dt: 25, cp: '80–150' },
+    'bep-an':         { dt: 18, cp: '60–120' },
+    'master-bedroom': { dt: 22, cp: '80–160' },
+    'phong-ngu':      { dt: 16, cp: '50–100' },
+    'wc':             { dt:  8, cp: '30–70'  },
+    'phong-tho':      { dt: 10, cp: '40–90'  },
+    'phong-thay-do':  { dt: 12, cp: '60–130' },
+    'phong-lam-viec': { dt: 15, cp: '50–100' },
+  })[loaiphong] || { dt: 20, cp: '60–120' };
+}
+
+// ── Lấy mô tả từ bank ──
+function getMotaFromBank(loaiphong, phongcach) {
+  const key = `${loaiphong}-${phongcach}`;
+  if (MOTA_BANK[key]) return MOTA_BANK[key];
+  for (const k of Object.keys(MOTA_BANK)) {
+    if (k.startsWith(loaiphong + '-')) return MOTA_BANK[k];
+  }
+  for (const k of Object.keys(MOTA_BANK)) {
+    if (k.endsWith('-' + phongcach)) return MOTA_BANK[k];
+  }
+  return `Mẫu nội thất ${STYLE_LABEL[phongcach]||phongcach} — ${PHONG_LABEL[loaiphong]||loaiphong}. Thiết kế chuyên nghiệp, tối ưu thẩm mỹ và công năng cho không gian sống Việt Nam.`;
+}
+
+// ── Extract folder ID từ link Drive ──
+function extractDriveFolderId(raw) {
+  const m = raw.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  if (m) return m[1];
+  if (/^[a-zA-Z0-9_-]{20,}$/.test(raw.trim())) return raw.trim();
+  return null;
+}
+
+// ── State ──
+// driveScannedItems: mảng phẳng, mỗi item = 1 ảnh
+// { fileId, fileName, folderName, phongcach, loaiphong, thumbUrl, skip }
+let driveScannedItems = [];
+
+function openImportDriveModal() {
+  document.getElementById('importDriveModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  backToDriveStep1();
+}
+function closeImportDriveModal() {
+  document.getElementById('importDriveModal').classList.remove('open');
+  document.body.style.overflow = '';
+  driveScannedItems = [];
+}
+function backToDriveStep1() {
+  document.getElementById('driveStep1').style.display = '';
+  document.getElementById('driveStep2').style.cssText = 'display:none;flex:1;min-height:0;flex-direction:column';
+  document.getElementById('driveScanProgress').style.display = 'none';
+  document.getElementById('driveScanBar').style.width = '0%';
+  document.getElementById('drivePreviewList').innerHTML = '';
+  document.getElementById('driveImportProgress').style.display = 'none';
+  document.getElementById('driveImportStatus').style.display = 'none';
+  document.getElementById('btnDriveImport').disabled = true;
+  driveScannedItems = [];
+}
+
+// ── Test kết nối GAS ──
+async function testGasConnection() {
+  const stat = document.getElementById('driveImportStatus');
+  stat.style.display = 'block';
+  stat.style.background = '#EFF6FF'; stat.style.color = '#1D4ED8';
+  stat.textContent = '🔌 Đang kiểm tra kết nối GAS...';
+  try {
+    // Thử addNoithat với item test (sẽ tạo 1 record rác, xoá ngay sau)
+    const testItem = { ten: '__GAS_TEST__', loaiphong: 'test', phongcach: 'test', status: 'test_delete' };
+    const r = await apiPost({ action: 'addNoithat', item: testItem });
+    if (r?.ok && r.id) {
+      // Xoá ngay record test
+      await apiPost({ action: 'deleteNoithat', id: r.id });
+      stat.style.background = '#EAF4E7'; stat.style.color = '#3D6B34';
+      stat.textContent = '✅ GAS hoạt động bình thường! Nếu import vẫn lỗi, kiểm tra quyền chia sẻ thư mục Drive.';
+    } else {
+      stat.style.background = '#FEF2F2'; stat.style.color = '#c03030';
+      stat.innerHTML = `❌ GAS lỗi: <strong>${r?.error || r?.msg || 'Không phản hồi'}</strong>.<br>→ Vào Apps Script → Deploy → Manage deployments → Edit → <strong>Version: New version</strong> → Deploy lại.`;
+    }
+  } catch(e) {
+    stat.style.background = '#FEF2F2'; stat.style.color = '#c03030';
+    stat.innerHTML = `❌ Không thể kết nối GAS: <strong>${e.message}</strong>.<br>→ Kiểm tra URL API trong file và deploy lại GAS.`;
+  }
+}
+
+// ── Bước 1: Quét thư mục ──
+async function runDriveScan() {
+  const raw = document.getElementById('driveFolderInput').value.trim();
+  const folderId = extractDriveFolderId(raw);
+  if (!folderId) { showToast('⚠ Nhập link hoặc ID thư mục hợp lệ'); return; }
+
+  const btn  = document.getElementById('btnDriveScan');
+  const prog = document.getElementById('driveScanProgress');
+  const bar  = document.getElementById('driveScanBar');
+  const lbl  = document.getElementById('driveScanLabel');
+
+  btn.disabled = true; prog.style.display = ''; bar.style.width = '10%';
+  lbl.textContent = '⏳ Đồng bộ dữ liệu từ sheet...';
+
+  // Luôn lấy data mới nhất từ sheet trước khi quét (tránh detect trùng sai từ cache cũ)
+  try {
+    const freshItems = await apiGet();
+    allItems = freshItems;
+    setCache(freshItems);
+    renderGallery();
+  } catch(e) { /* nếu lỗi vẫn dùng allItems hiện tại */ }
+
+  lbl.textContent = '⏳ Đang kiểm tra thư mục...';
+
+  try {
+    // ── BƯỚC 1: Lấy thông tin thư mục và thử listSubfolders ──
+    bar.style.width = '25%';
+    lbl.textContent = '📂 Đọc cấu trúc thư mục...';
+
+    const r1 = await apiPost({ action: 'listSubfolders', folderId });
+    if (!r1?.ok) throw new Error(r1?.error || 'Không đọc được thư mục. Kiểm tra quyền chia sẻ.');
+
+    const subfolders = r1.subfolders || [];
+
+    // ── Xác định mode: ──
+    // MODE A — nhập link thư mục PHONG CÁCH trực tiếp (không có subfolders)
+    //          VD: link "Nội thất Hiện đại" → đọc ảnh trực tiếp trong đó
+    // MODE B — nhập link thư mục CHA (có subfolders = các phong cách)
+    //          VD: link "Nội thất" → duyệt từng thư mục con
+
+    let styleFolders = []; // [{id, name}]
+
+    if (!subfolders.length) {
+      // MODE A: thư mục hiện tại chứa ảnh trực tiếp
+      // Lấy tên thư mục từ metadata nếu có, fallback dùng "Nội thất"
+      const folderName = r1.folderName || r1.name || 'Nội thất';
+      lbl.textContent = `📸 Chế độ thư mục phong cách: "${folderName}"`;
+      styleFolders = [{ id: folderId, name: folderName }];
+    } else {
+      // MODE B: thư mục cha → các thư mục con
+      lbl.textContent = `📂 Tìm thấy ${subfolders.length} thư mục phong cách`;
+      styleFolders = subfolders;
+    }
+
+    // ── BƯỚC 2: Với mỗi thư mục phong cách, đọc và GOM ảnh theo loại phòng ──
+    driveScannedItems = [];
+
+    for (let si = 0; si < styleFolders.length; si++) {
+      const sf = styleFolders[si];
+      const pct = 30 + Math.round(65 * si / styleFolders.length);
+      bar.style.width = pct + '%';
+      lbl.textContent = `📁 Đọc "${sf.name}" (${si+1}/${styleFolders.length})...`;
+
+      try {
+        const r2 = await apiPost({ action: 'listFolder', folderId: sf.id });
+        const allFiles = (r2?.files || []).filter(f => f.mimeType?.startsWith('image/'));
+        const phongcach = parseStyleFromFolder(sf.name);
+
+        // ── GOM ảnh cùng loại phòng → 1 mẫu (tối đa 3 ảnh) ──
+        // Key = loaiphong, value = [files...]
+        const roomGroups = {}; // { 'phong-ngu': [file1, file2, file3], ... }
+
+        for (const file of allFiles) {
+          const loaiphong = parseRoomFromFilename(file.name);
+          if (!loaiphong) continue; // bỏ qua bìa, cover
+          if (!roomGroups[loaiphong]) roomGroups[loaiphong] = [];
+          roomGroups[loaiphong].push(file);
+        }
+
+        // ── Mỗi nhóm phòng → 1 driveScannedItem ──
+        for (const [loaiphong, files] of Object.entries(roomGroups)) {
+          // Lấy tối đa 3 ảnh
+          const img1 = files[0] || null;
+          const img2 = files[1] || null;
+          const img3 = files[2] || null;
+
+          // Tên mẫu: "Phòng ngủ Hiện đại"
+          const itemName = makeItemName(loaiphong, phongcach, sf.name);
+
+          // ── Kiểm tra trùng 2 lớp ──
+          // Lớp 1 (CỨNG): cùng fileId ảnh → chắc chắn trùng, cần xử lý ghi đè hoặc bỏ qua
+          const hardDupItem = allItems.find(it =>
+            img1 && (
+              (it.anh1 && it.anh1.includes(img1.id)) ||
+              (it.anh2 && it.anh2.includes(img1.id)) ||
+              (it.anh3 && it.anh3.includes(img1.id))
+            )
+          );
+          // Lớp 2 (MỀM): cùng phong cách + loại phòng, ảnh khác (VD: Hiện đại 2, Hiện đại 3)
+          // → KHÔNG phải trùng, vẫn import bình thường nhưng thêm ghi chú
+          const softDupItem = !hardDupItem && allItems.find(it =>
+            it.phongcach === phongcach && it.loaiphong === loaiphong && it.status !== 'pending'
+          );
+          const isDuplicate = !!hardDupItem; // chỉ cờ cứng mới block
+
+          driveScannedItems.push({
+            // Ảnh (tối đa 3)
+            fileId:    img1?.id || '',
+            fileName:  img1?.name || '',
+            fileId2:   img2?.id || '',
+            fileId3:   img3?.id || '',
+            allFiles:  files, // tất cả ảnh gốc của phòng này
+            folderName: sf.name,
+            phongcach,
+            loaiphong,
+            itemName,
+            thumbUrl:  img1 ? `https://drive.google.com/thumbnail?id=${img1.id}&sz=w200` : '',
+            fullUrl:   img1 ? `https://drive.google.com/thumbnail?id=${img1.id}&sz=w1000` : '',
+            fullUrl2:  img2 ? `https://drive.google.com/thumbnail?id=${img2.id}&sz=w1000` : '',
+            fullUrl3:  img3 ? `https://drive.google.com/thumbnail?id=${img3.id}&sz=w1000` : '',
+            imgCount:  files.length,
+            duplicate:  isDuplicate,              // chỉ true khi trùng fileId ảnh
+            existingId: hardDupItem?.id || null,
+            softDup:    !!softDupItem,            // cùng loại phòng+phong cách, ảnh khác
+            softDupCount: softDupItem             // để hiện số mẫu cùng loại đã có
+              ? allItems.filter(it => it.phongcach === phongcach && it.loaiphong === loaiphong && it.status !== 'pending').length
+              : 0,
+          });
+        }
+      } catch(e) { /* skip folder lỗi */ }
+    }
+
+    bar.style.width = '100%';
+    const totalImgs = driveScannedItems.reduce((s, it) => s + it.imgCount, 0);
+    lbl.textContent = `✓ Tìm thấy ${driveScannedItems.length} mẫu nội thất (${totalImgs} ảnh) từ ${styleFolders.length} bộ phong cách`;
+
+    if (!driveScannedItems.length) {
+      showToast('⚠ Không tìm thấy ảnh nào. Kiểm tra tên file ảnh (VD: phòng ngủ 1.jpg, bếp+ăn.jpg...)');
+      btn.disabled = false; prog.style.display = 'none'; return;
+    }
+
+    showDrivePreview();
+
+  } catch(e) {
+    showToast('❌ ' + e.message);
+    prog.style.display = 'none';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── Bước 2: Render preview — mỗi item = 1 row ──
+function showDrivePreview() {
+  document.getElementById('driveStep1').style.display = 'none';
+  document.getElementById('driveStep2').style.cssText = 'display:flex;flex:1;min-height:0;flex-direction:column';
+  document.getElementById('driveTotalCount').textContent = driveScannedItems.length;
+
+  let lastFolder = null;
+  const rows = driveScannedItems.map((item, i) => {
+    const def  = getRoomDefaults(item.loaiphong);
+    const mota = getMotaFromBank(item.loaiphong, item.phongcach);
+
+    // ── Header nhóm phong cách ──
+    let groupHeader = '';
+    if (item.folderName !== lastFolder) {
+      lastFolder = item.folderName;
+      groupHeader = `
+        <div style="padding:10px 0 6px;margin-top:${i===0?'12px':'10px'};display:flex;align-items:center;gap:8px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">📁 ${escHtml(item.folderName)}</span>
+          <span style="background:var(--gl);border:1px solid rgba(90,158,74,.3);border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;color:var(--green)">✦ ${escHtml(STYLE_LABEL[item.phongcach]||item.phongcach)}</span>
+          <div style="flex:1;height:1px;background:var(--bd)"></div>
+        </div>`;
+    }
+
+    const isDup = item.duplicate;      // trùng file ảnh cứng
+    const isSoftDup = item.softDup;   // cùng loại phòng, ảnh khác (Hiện đại 2, 3...)
+
+    // Badge trùng cứng (file ảnh giống hệt)
+    const dupBadge = isDup
+      ? `<span style="display:inline-flex;align-items:center;gap:3px;background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;font-size:10px;font-weight:700;color:#92400E;padding:2px 7px;margin-left:5px">⚠ Trùng ảnh</span>`
+      : '';
+    // Badge mềm (cùng loại phòng + phong cách, ảnh mới — Hiện đại 2, 3...)
+    const softBadge = (!isDup && isSoftDup)
+      ? `<span style="display:inline-flex;align-items:center;gap:3px;background:#EFF6FF;border:1px solid #93C5FD;border-radius:10px;font-size:10px;font-weight:700;color:#1D4ED8;padding:2px 7px;margin-left:5px">ℹ️ Đã có ${item.softDupCount} mẫu cùng loại</span>`
+      : '';
+
+    // Chỉ hiện xử lý trùng khi là trùng cứng
+    const dupNote  = isDup ? `<div style="margin-top:5px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span style="font-size:10px;color:#92400E;font-weight:700">Xử lý trùng:</span>
+      <label style="font-size:11px;cursor:pointer;display:flex;align-items:center;gap:3px"><input type="radio" name="drdup_${i}" value="keep" checked style="accent-color:var(--green)"> Giữ nguyên</label>
+      <label style="font-size:11px;cursor:pointer;display:flex;align-items:center;gap:3px"><input type="radio" name="drdup_${i}" value="replace" style="accent-color:#F59E0B"> Ghi đè</label>
+    </div>` : '';
+
+    // ── Thumbnails (tất cả ảnh, highlight 3 ảnh đầu sẽ được dùng) ──
+    const thumbs = (item.allFiles || []).slice(0, 6).map((f, fi) => {
+      const isUsed = fi < 3;
+      return `<div style="position:relative;flex-shrink:0">
+        <img src="https://drive.google.com/thumbnail?id=${f.id}&sz=w120"
+          style="width:58px;height:44px;object-fit:cover;border-radius:4px;background:var(--cream2);
+                 ${isUsed ? 'border:2px solid var(--green)' : 'opacity:.45;border:1px dashed #ccc'}"
+          title="${escHtml(f.name)}" onerror="this.style.background='#e0e0e0'">
+        ${isUsed ? `<span style="position:absolute;bottom:1px;right:2px;background:rgba(61,107,52,.85);color:#fff;font-size:8px;font-weight:700;padding:1px 3px;border-radius:2px">ảnh ${fi+1}</span>` : ''}
+      </div>`;
+    }).join('');
+    const moreCount = (item.imgCount || 0) > 6 ? item.imgCount - 6 : 0;
+
+    // ── Danh sách tên file ──
+    const fileNames = (item.allFiles || []).slice(0, 3).map(f =>
+      `<span style="font-family:monospace;font-size:9px;background:var(--cream2);padding:1px 5px;border-radius:2px;color:var(--muted)">${escHtml(f.name)}</span>`
+    ).join(' ');
+
+    return `${groupHeader}
+    <div id="drow_${i}" style="border:1px solid ${isDup?'#F59E0B':isSoftDup?'#93C5FD':'var(--bd)'};border-radius:8px;padding:12px;margin-bottom:8px;background:${isDup?'#FFFBEB':isSoftDup?'#F0F7FF':'#fff'}">
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <input type="checkbox" checked id="drchk_${i}" onchange="updateDriveSelectedCount()" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:var(--green)">
+
+        <div style="flex:1;min-width:0">
+          <!-- Thumbnails hàng ngang -->
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px;align-items:flex-end">
+            ${thumbs}
+            ${moreCount > 0 ? `<div style="width:58px;height:44px;border-radius:4px;background:var(--cream2);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);font-weight:700">+${moreCount}</div>` : ''}
+            <div style="margin-left:4px">
+              <div style="font-size:9px;color:var(--green);font-weight:700">${item.imgCount || 1} ảnh → ${Math.min(item.imgCount||1,3)} ảnh dùng</div>
+              <div style="margin-top:3px;display:flex;flex-wrap:wrap;gap:3px">${fileNames}${dupBadge}${softBadge}</div>
+              ${dupNote}
+            </div>
+          </div>
+
+          <!-- Tên mẫu -->
+          <div style="margin-bottom:7px">
+            <input type="text" id="dten_${i}" value="${escHtml(item.itemName)}"
+              style="width:100%;padding:6px 9px;border:1px solid var(--bd);border-radius:4px;font-size:12px;font-family:inherit;font-weight:600">
+          </div>
+
+          <!-- Fields nhỏ -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:6px">
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Loại phòng</div>
+              <select id="dphong_${i}" onchange="onDrivePhongChange(${i})"
+                style="width:100%;padding:5px 7px;border:1px solid var(--bd);border-radius:4px;font-size:11px;font-family:inherit">
+                <option value="phong-khach"    ${item.loaiphong==='phong-khach'   ?'selected':''}>🛋 Phòng khách</option>
+                <option value="phong-ngu"      ${item.loaiphong==='phong-ngu'     ?'selected':''}>🛏 Phòng ngủ</option>
+                <option value="master-bedroom" ${item.loaiphong==='master-bedroom'?'selected':''}>🛏 Master</option>
+                <option value="bep-an"         ${item.loaiphong==='bep-an'        ?'selected':''}>🍳 Bếp – Ăn</option>
+                <option value="wc"             ${item.loaiphong==='wc'            ?'selected':''}>🚿 WC</option>
+                <option value="phong-tho"      ${item.loaiphong==='phong-tho'     ?'selected':''}>🪔 Phòng thờ</option>
+                <option value="phong-thay-do"  ${item.loaiphong==='phong-thay-do' ?'selected':''}>👔 Thay đồ</option>
+                <option value="phong-lam-viec" ${item.loaiphong==='phong-lam-viec'?'selected':''}>💼 Làm việc</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Phong cách</div>
+              <select id="dstyle_${i}" onchange="onDriveStyleChange(${i})"
+                style="width:100%;padding:5px 7px;border:1px solid var(--bd);border-radius:4px;font-size:11px;font-family:inherit">
+                <option value="toi-gian"     ${item.phongcach==='toi-gian'    ?'selected':''}>Tối giản</option>
+                <option value="hien-dai"     ${item.phongcach==='hien-dai'    ?'selected':''}>Hiện đại</option>
+                <option value="tan-co-dien"  ${item.phongcach==='tan-co-dien' ?'selected':''}>Tân cổ điển</option>
+                <option value="indochine"    ${item.phongcach==='indochine'   ?'selected':''}>Indochine</option>
+                <option value="japandi"      ${item.phongcach==='japandi'     ?'selected':''}>Japandi</option>
+                <option value="scandinavian" ${item.phongcach==='scandinavian'?'selected':''}>Scandinavian</option>
+                <option value="tropical"     ${item.phongcach==='tropical'    ?'selected':''}>Tropical</option>
+                <option value="wabi-sabi"    ${item.phongcach==='wabi-sabi'   ?'selected':''}>Wabi-sabi</option>
+              </select>
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Diện tích (m²)</div>
+              <input type="number" id="ddt_${i}" value="${def.dt}" min="0"
+                style="width:100%;padding:5px 7px;border:1px solid var(--bd);border-radius:4px;font-size:11px;font-family:inherit">
+            </div>
+            <div>
+              <div style="font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Chi phí (triệu)</div>
+              <input type="text" id="dcp_${i}" value="${def.cp}"
+                style="width:100%;padding:5px 7px;border:1px solid var(--bd);border-radius:4px;font-size:11px;font-family:inherit">
+            </div>
+          </div>
+
+          <!-- Mô tả -->
+          <div style="margin-top:7px">
+            <div style="font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">
+              Mô tả <span style="font-size:9px;color:var(--green);font-weight:500;letter-spacing:0;text-transform:none">(tự động)</span>
+            </div>
+            <textarea id="dmota_${i}" rows="2"
+              style="width:100%;padding:6px 9px;border:1px solid var(--bd);border-radius:4px;font-size:11px;font-family:inherit;resize:vertical;line-height:1.5">${escHtml(mota)}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('drivePreviewList').innerHTML = rows;
+  updateDriveSelectedCount();
+}
+
+// Khi đổi phòng hoặc phong cách → cập nhật tên + mô tả tự động
+function onDrivePhongChange(i) {
+  const phong = document.getElementById('dphong_' + i).value;
+  const style = document.getElementById('dstyle_' + i).value;
+  const folderName = driveScannedItems[i]?.folderName || '';
+  document.getElementById('dten_'  + i).value  = makeItemName(phong, style, folderName);
+  document.getElementById('dmota_' + i).value  = getMotaFromBank(phong, style);
+  const def = getRoomDefaults(phong);
+  document.getElementById('ddt_' + i).value = def.dt;
+  document.getElementById('dcp_' + i).value = def.cp;
+}
+function onDriveStyleChange(i) {
+  const phong = document.getElementById('dphong_' + i).value;
+  const style = document.getElementById('dstyle_' + i).value;
+  const folderName = driveScannedItems[i]?.folderName || '';
+  document.getElementById('dten_'  + i).value  = makeItemName(phong, style, folderName);
+  document.getElementById('dmota_' + i).value  = getMotaFromBank(phong, style);
+}
+
+function updateDriveSelectedCount() {
+  let n = 0, dupCount = 0;
+  for (let i = 0; i < driveScannedItems.length; i++) {
+    if (document.getElementById('drchk_' + i)?.checked) n++;
+    if (driveScannedItems[i]?.duplicate) dupCount++;
+  }
+  document.getElementById('driveSelectedCount').textContent = n;
+  document.getElementById('btnDriveImport').disabled = n === 0;
+  // Hiện nút bulk dup
+  const br = document.getElementById('btnBulkReplace');
+  const bk = document.getElementById('btnBulkKeep');
+  if (br) br.style.display = dupCount > 0 ? '' : 'none';
+  if (bk) bk.style.display = dupCount > 0 ? '' : 'none';
+}
+
+function driveBulkDup(action) {
+  for (let i = 0; i < driveScannedItems.length; i++) {
+    if (!driveScannedItems[i].duplicate) continue;
+    const radio = document.querySelector(`input[name="drdup_${i}"][value="${action}"]`);
+    if (radio) radio.checked = true;
+  }
+  showToast(action === 'replace' ? '⚠ Đã chọn Ghi đè tất cả file trùng' : '✓ Đã chọn Giữ nguyên tất cả file trùng');
+}
+function driveToggleAll(state) {
+  for (let i = 0; i < driveScannedItems.length; i++) {
+    const c = document.getElementById('drchk_' + i);
+    if (c) c.checked = state;
+  }
+  updateDriveSelectedCount();
+}
+
+// ── Import (có xử lý trùng: giữ nguyên hoặc ghi đè) ──
+async function runDriveImport() {
+  const selected = driveScannedItems
+    .map((item, i) => {
+      if (!document.getElementById('drchk_' + i)?.checked) return null;
+      let dupAction = 'add';
+      if (item.duplicate) {
+        const radioVal = document.querySelector(`input[name="drdup_${i}"]:checked`)?.value;
+        dupAction = radioVal || 'keep';
+      }
+      return {
+        ten:       document.getElementById('dten_'  + i).value.trim() || makeItemName(item.loaiphong, item.phongcach, item.folderName),
+        loaiphong: document.getElementById('dphong_'+ i).value,
+        phongcach: document.getElementById('dstyle_'+ i).value,
+        dientich:  parseInt(document.getElementById('ddt_'  + i).value) || 0,
+        chiphi:    document.getElementById('dcp_'  + i).value.trim(),
+        mota:      document.getElementById('dmota_'+ i).value.trim(),
+        anh1: item.fullUrl, anh2: item.fullUrl2||'', anh3: item.fullUrl3||'',
+        status: 'active',
+        duplicate: item.duplicate, existingId: item.existingId, dupAction,
+      };
+    })
+    .filter(Boolean);
+
+  if (!selected.length) { showToast('⚠ Chưa chọn mẫu nào'); return; }
+
+  const toKeep    = selected.filter(f => f.duplicate && f.dupAction === 'keep');
+  const toImport  = selected.filter(f => !(f.duplicate && f.dupAction === 'keep'));
+  const toReplace = toImport.filter(f => f.duplicate && f.dupAction === 'replace' && f.existingId);
+  const toAdd     = toImport.filter(f => !(f.duplicate && f.dupAction === 'replace' && f.existingId));
+
+  if (toKeep.length && !toImport.length) {
+    showToast(`✓ Đã giữ nguyên ${toKeep.length} ảnh trùng, không có gì thêm mới`);
+    return;
+  }
+
+  const btn   = document.getElementById('btnDriveImport');
+  const pWrap = document.getElementById('driveImportProgress');
+  const pBar  = document.getElementById('driveImportBar');
+  const pLbl  = document.getElementById('driveImportLabel');
+  const stat  = document.getElementById('driveImportStatus');
+
+  btn.disabled = true; btn.textContent = '⏳ Đang import...';
+  pWrap.style.display = 'block'; stat.style.display = 'none';
+
+  let ok = 0, fail = 0;
+
+  // ── Thêm mới (batch) ──
+  if (toAdd.length) {
+    pBar.style.width = '20%';
+    pLbl.textContent = `📥 Thêm ${toAdd.length} mẫu mới...`;
+    const BATCH = 5;
+    for (let b = 0; b < toAdd.length; b += BATCH) {
+      const chunk = toAdd.slice(b, b + BATCH);
+      pBar.style.width = (20 + Math.round(55 * b / toAdd.length)) + '%';
+      try {
+        const res = await apiPost({ action: 'batchAddNoithat', items: chunk.map(f => ({
+          ten: f.ten, loaiphong: f.loaiphong, phongcach: f.phongcach,
+          dientich: f.dientich, chiphi: f.chiphi, mota: f.mota,
+          anh1: f.anh1, anh2: f.anh2||'', anh3: f.anh3||'', status: f.status,
+        }))});
+        if (res?.ok && res.ids) {
+          chunk.forEach((item, ci) => { allItems.unshift({ ...item, id: res.ids[ci] || ('nt_drv_' + Date.now() + ci) }); ok++; });
+        } else {
+          for (const item of chunk) {
+            try { const r = await apiPost({ action: 'addNoithat', item }); if (r?.ok) { allItems.unshift({ ...item, id: r.id || ('nt_drv_' + Date.now()) }); ok++; } else fail++; } catch { fail++; }
+          }
+        }
+      } catch {
+        for (const item of chunk) {
+          try { const r = await apiPost({ action: 'addNoithat', item }); if (r?.ok) { allItems.unshift({ ...item, id: r.id || ('nt_drv_' + Date.now()) }); ok++; } else fail++; } catch { fail++; }
+        }
+      }
+    }
+  }
+
+  // ── Ghi đè ──
+  if (toReplace.length) {
+    pBar.style.width = '78%';
+    pLbl.textContent = `🔄 Ghi đè ${toReplace.length} mẫu trùng...`;
+    for (const item of toReplace) {
+      try {
+        const upd = { id: item.existingId, ten: item.ten, loaiphong: item.loaiphong, phongcach: item.phongcach, dientich: item.dientich, chiphi: item.chiphi, mota: item.mota, anh1: item.anh1, anh2: item.anh2||'', anh3: item.anh3||'', status: item.status };
+        const r = await apiPost({ action: 'editNoithat', item: upd });
+        if (r?.ok) {
+          // Ghi đè thành công
+          const idx = allItems.findIndex(x => x.id === item.existingId);
+          if (idx >= 0) allItems[idx] = { ...upd, id: item.existingId };
+          ok++;
+        } else if (r?.error === 'not_found' || !item.existingId) {
+          // existingId không còn trong sheet (đã bị xoá hoặc ID lệch) → thêm mới
+          const fallback = { ...upd }; delete fallback.id;
+          const r2 = await apiPost({ action: 'addNoithat', item: fallback });
+          if (r2?.ok) {
+            allItems.unshift({ ...fallback, id: r2.id || ('nt_drv_' + Date.now()) });
+            ok++;
+          } else { fail++; }
+        } else {
+          fail++;
+        }
+      } catch { fail++; }
+    }
+  }
+
+  pBar.style.width = '100%';
+  pLbl.textContent = `✓ Xong ${ok}/${toImport.length}`;
+  setCache(allItems); renderGallery();
+
+  stat.style.display = 'block';
+  const keepMsg = toKeep.length ? ` (${toKeep.length} giữ nguyên)` : '';
+  if (fail === 0) {
+    stat.style.background = '#EAF4E7'; stat.style.color = '#3D6B34';
+    const repMsg = toReplace.length ? `, ghi đè ${toReplace.length}` : '';
+    stat.textContent = `✓ Thêm mới ${toAdd.length}${repMsg}${keepMsg} mẫu nội thất!`;
+    setTimeout(closeImportDriveModal, 2400);
+  } else if (ok === 0) {
+    stat.style.background = '#FEF2F2'; stat.style.color = '#c03030';
+    stat.innerHTML = `⚠ Lỗi toàn bộ ${fail} mẫu. Có thể GAS chưa được <strong>Deploy lại</strong> sau khi cập nhật Code.gs — vào Apps Script → Deploy → Manage deployments → chọn deployment → Edit → Version: New version → Deploy.`;
+    btn.disabled = false; btn.textContent = '📥 Import mẫu đã chọn';
+  } else {
+    stat.style.background = '#FEF2F2'; stat.style.color = '#c03030';
+    stat.textContent = `⚠ Thành công ${ok}${keepMsg}, lỗi ${fail}. Vui lòng thử lại.`;
+    btn.disabled = false; btn.textContent = '📥 Import mẫu đã chọn';
+  }
+}
+
+document.getElementById('importDriveModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('importDriveModal')) closeImportDriveModal();
 });
 
 // ════════════════════════════════════════════════════
