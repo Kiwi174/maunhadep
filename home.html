@@ -368,6 +368,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .nav-r .nb,.nav-r .nav-phone,.nav-r .nav-user{display:none}
   .nl-sub{display:none}
   .mob-toggle{display:flex;align-items:center;justify-content:center}
+  #syncSheetBtn,#importBtn,#addBtnTop{display:none!important}
   .hero{padding:16px 14px 14px}
   .toolbar{padding:0 12px;top:56px}
   .search-row{padding:8px 0 0}
@@ -443,6 +444,8 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
+  <button class="mob-item" id="mobAddBtnMob" style="display:none;color:var(--green)" onclick="toggleMob();openAdd()">➕ Thêm mẫu nhà</button>
+  <button class="mob-item" id="mobImportBtnMob" style="display:none;color:var(--green)" onclick="toggleMob();openImportModal()">📥 Import từ Drive</button>
   <button class="mob-item" id="mobSyncBtn" style="display:none;color:var(--green)" onclick="toggleMob();forceReload()">🔄 Sync sheet (tải lại dữ liệu)</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
@@ -470,6 +473,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
         Sync sheet
       </button>
+    </div>
   </div>
 </div>
 
@@ -882,11 +886,13 @@ document.getElementById('mobLogoutBtn').style.display = '';
 if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
   document.getElementById('addBtnTop').style.display = 'inline-flex';
   document.getElementById('btnEditMo').classList.add('on');
+  document.getElementById('mobAddBtnMob').style.display = '';
 }
 if (effectiveRole === 'admin') {
   document.getElementById('importBtn').style.display = 'inline-flex';
   document.getElementById('syncSheetBtn').style.display = 'inline-flex';
   document.getElementById('mobSyncBtn').style.display = '';
+  document.getElementById('mobImportBtnMob').style.display = '';
 }
 
 function logout() { sessionStorage.clear(); location.href = 'index.html'; }
