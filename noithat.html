@@ -256,6 +256,9 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .lb-dots{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;z-index:10}
 .lb-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);border:none;padding:0;cursor:pointer;transition:background .18s,transform .18s}
 .lb-dot.active{background:#fff;transform:scale(1.3)}
+/* Zoom hint */
+.lb-hint{position:absolute;bottom:calc(56px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:12;background:rgba(0,0,0,.55);color:rgba(255,255,255,.88);font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;white-space:nowrap;pointer-events:none;backdrop-filter:blur(4px);animation:lbHintFade 2.8s ease forwards}
+@keyframes lbHintFade{0%{opacity:0;transform:translateX(-50%) translateY(6px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}75%{opacity:1}100%{opacity:0}}
 
 .mo-body{padding:20px 24px 24px}
 .mo-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
@@ -547,6 +550,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
+  <button class="mob-item" id="mobImportDriveBtn" style="display:none;color:var(--green)" onclick="toggleMob();openImportDriveModal()">📥 Import từ Drive</button>
   <button class="mob-item" id="mobSyncBtn" style="display:none;color:var(--green)" onclick="toggleMob();forceReload()">🔄 Sync sheet (tải lại dữ liệu)</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
@@ -1095,6 +1099,7 @@ if(effectiveRole==='admin'||effectiveRole==='ctv'){
   document.getElementById('addBtn').style.display='inline-flex';
   document.getElementById('importDriveBtn').style.display='inline-flex';
   document.getElementById('syncSheetBtn').style.display='inline-flex';
+  document.getElementById('mobImportDriveBtn').style.display='';
   document.getElementById('mobSyncBtn').style.display='';
   document.getElementById('btnEditMo').classList.add('on');
   if(effectiveRole==='ctv'){
@@ -1563,12 +1568,22 @@ function openLightbox(startIdx){
   _lbImgs=[..._slideImgs];
   _lbIdx=startIdx||0;
   _lbResetZoom();
+  _lbLastTap=0;
   _renderLightbox();
   const lb=document.getElementById('lightbox');
   lb.classList.add('open');
   document.body.style.overflow='hidden';
   if(screen.orientation&&screen.orientation.lock){
     screen.orientation.lock('any').catch(()=>{});
+  }
+  // Zoom hint on mobile (chỉ hiện lần đầu)
+  if('ontouchstart' in window && !sessionStorage.getItem('lb_hint_shown')){
+    sessionStorage.setItem('lb_hint_shown','1');
+    const hint=document.createElement('div');
+    hint.className='lb-hint';
+    hint.textContent='Chụm 2 ngón để zoom · Chạm 2 lần để phóng to';
+    lb.appendChild(hint);
+    setTimeout(()=>hint.remove(),3000);
   }
   _lbBindEvents();
 }
@@ -1659,6 +1674,9 @@ function _lbZoomBy(factor,cx,cy){
   else _lbClampPan();
 }
 
+// ── Double-tap state ──
+let _lbLastTap=0,_lbLastTapX=0,_lbLastTapY=0;
+
 // ── Touch: phân biệt pinch-zoom và swipe/pan ──
 function _lbTouchStart(e){
   if(e.touches.length===2){
@@ -1712,10 +1730,25 @@ function _lbTouchEnd(e){
     return;
   }
   if(_lbIsPanning){_lbIsPanning=false;return;}
-  if(e.changedTouches.length===1&&_lbZoom<=1){
-    const dx=e.changedTouches[0].clientX-_lbTouchStartX;
-    const dy=e.changedTouches[0].clientY-_lbTouchStartY;
-    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){lbSlide(dx<0?1:-1);}
+  if(e.changedTouches.length===1){
+    const tx=e.changedTouches[0].clientX;
+    const ty=e.changedTouches[0].clientY;
+    const dx=tx-_lbTouchStartX;
+    const dy=ty-_lbTouchStartY;
+    const moved=Math.hypot(dx,dy);
+    // Double-tap to zoom
+    const now=Date.now();
+    if(moved<12&&now-_lbLastTap<320&&Math.hypot(tx-_lbLastTapX,ty-_lbLastTapY)<40){
+      e.preventDefault();
+      if(_lbZoom>1){_lbResetZoom();}
+      else{_lbZoomBy(2.5,tx,ty);_lbApplyTransform();}
+      _lbLastTap=0;
+      return;
+    }
+    if(moved<12){_lbLastTap=now;_lbLastTapX=tx;_lbLastTapY=ty;}
+    else{_lbLastTap=0;}
+    // Swipe to change slide
+    if(_lbZoom<=1&&Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){lbSlide(dx<0?1:-1);}
   }
 }
 
