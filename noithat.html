@@ -437,6 +437,8 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .mob-toggle{display:block}
   .nav-r .nb,.nav-r .nav-phone,.nav-r .nav-user,
   #navLoginBtn,#navLogoutBtn{display:none!important}
+  /* Hero admin buttons — ẩn trên mobile, dùng mob-menu thay */
+  #syncSheetBtn,#importDriveBtn,#addBtn{display:none!important}
 
   /* HERO */
   .hero-inner{flex-direction:column;align-items:flex-start;gap:10px}
@@ -547,6 +549,8 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
+  <button class="mob-item" id="mobAddBtnMob" style="display:none;color:var(--green)" onclick="toggleMob();openAdd()">➕ Thêm mẫu nội thất</button>
+  <button class="mob-item" id="mobImportBtnMob" style="display:none;color:var(--green)" onclick="toggleMob();openImportDriveModal()">📥 Import từ Drive</button>
   <button class="mob-item" id="mobSyncBtn" style="display:none;color:var(--green)" onclick="toggleMob();forceReload()">🔄 Sync sheet (tải lại dữ liệu)</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
@@ -1096,6 +1100,8 @@ if(effectiveRole==='admin'||effectiveRole==='ctv'){
   document.getElementById('importDriveBtn').style.display='inline-flex';
   document.getElementById('syncSheetBtn').style.display='inline-flex';
   document.getElementById('mobSyncBtn').style.display='';
+  document.getElementById('mobAddBtnMob').style.display='';
+  document.getElementById('mobImportBtnMob').style.display='';
   document.getElementById('btnEditMo').classList.add('on');
   if(effectiveRole==='ctv'){
     document.getElementById('ctvPendingNote').classList.add('show');
