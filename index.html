@@ -216,24 +216,58 @@ body{min-height:100vh;display:flex;font-family:'Be Vietnam Pro',sans-serif;backg
 </div>
 
 <script>
-// ── CẤU HÌNH — chỉ có SCRIPT_URL, không có mật khẩu ──
-// Tách 2 phần để tránh scraper đơn giản (giống home.html)
 const _a = 'https://script.google.com/macros/s/';
 const _b = 'AKfycbwdH-OVryjHOLoUcGKIC542uOPDqVpdUA6CvPftXVJotWinOpeHuBVCNdzd8bDV-Md1';
 const SCRIPT_URL = _a + _b + '/exec';
 
-// ── Nếu đã login rồi thì vào thẳng home ──
+/* ── Nếu đã login rồi thì vào thẳng home ── */
 const _r = sessionStorage.getItem('nhadep_role');
 if (_r && _r !== 'guest') location.href = 'home.html';
 
-// ── Nếu bị redirect về do chưa đăng nhập ──
+/* ── Nếu bị redirect về do chưa đăng nhập ── */
 if (new URLSearchParams(location.search).get('require') === 'login') {
   const errEl = document.getElementById('errMsg');
   errEl.textContent = '🔐 Vui lòng đăng nhập để sử dụng tính năng này';
   errEl.classList.add('show');
 }
 
-// ── LOGIN qua Apps Script ──
+/* ── WARMUP PING: đánh thức Apps Script ngay khi trang load ── */
+let warmedUp = false;
+function warmup() {
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'ping' }),
+    keepalive: true,
+  })
+  .then(() => { warmedUp = true; })
+  .catch(() => {});
+}
+warmup();
+
+/* ── LOADING STEPS ── */
+const LOADING_STEPS = [
+  'Đang kết nối máy chủ...',
+  'Đang xác thực tài khoản...',
+  'Đang tải dữ liệu...',
+];
+let stepTimer = null;
+
+function startLoadingSteps() {
+  const loadingText = document.querySelector('.loading-text');
+  let step = 0;
+  loadingText.textContent = LOADING_STEPS[0];
+  stepTimer = setInterval(() => {
+    step = Math.min(step + 1, LOADING_STEPS.length - 1);
+    loadingText.textContent = LOADING_STEPS[step];
+  }, 2500);
+}
+
+function stopLoadingSteps() {
+  if (stepTimer) { clearInterval(stepTimer); stepTimer = null; }
+}
+
+/* ── LOGIN qua Apps Script ── */
 async function doLogin() {
   const u = document.getElementById('username').value.trim();
   const p = document.getElementById('password').value.trim();
@@ -246,41 +280,55 @@ async function doLogin() {
     return;
   }
 
-  // Hiện loading
   const overlay = document.getElementById('loadingOverlay');
   const btn     = document.getElementById('btnLogin');
   overlay.classList.add('show');
   btn.disabled = true;
+  startLoadingSteps();
+
+  /* Timeout 12 giây */
+  const controller = new AbortController();
+  const timeoutId  = setTimeout(() => controller.abort(), 12000);
 
   try {
-    const res  = await fetch(SCRIPT_URL, {
+    const res = await fetch(SCRIPT_URL, {
       method:   'POST',
       headers:  { 'Content-Type': 'text/plain' },
       body:     JSON.stringify({ action: 'login', user: u, pass: p }),
-      redirect: 'follow'
+      redirect: 'follow',
+      signal:   controller.signal,
     });
+    clearTimeout(timeoutId);
     const data = await res.json();
 
     if (data.ok) {
+      stopLoadingSteps();
+      document.querySelector('.loading-text').textContent = 'Đăng nhập thành công!';
       sessionStorage.setItem('nhadep_role',  data.role);
       sessionStorage.setItem('nhadep_user',  u);
       sessionStorage.setItem('nhadep_token', data.token);
-      location.href = 'home.html';
+      setTimeout(() => { location.href = 'home.html'; }, 400);
     } else {
+      stopLoadingSteps();
       errEl.textContent = 'Tài khoản hoặc mật khẩu không đúng';
       errEl.classList.add('show');
       overlay.classList.remove('show');
       btn.disabled = false;
     }
   } catch (err) {
-    errEl.textContent = '⚠ Lỗi kết nối. Vui lòng thử lại.';
-    errEl.classList.add('show');
+    clearTimeout(timeoutId);
+    stopLoadingSteps();
     overlay.classList.remove('show');
     btn.disabled = false;
+    errEl.textContent = err.name === 'AbortError'
+      ? '⏱ Kết nối quá lâu. Vui lòng thử lại.'
+      : '⚠ Lỗi kết nối. Vui lòng thử lại.';
+    errEl.classList.add('show');
+    setTimeout(warmup, 1000);
   }
 }
 
-// ── ENTER để login ──
+/* ── ENTER để login ── */
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
