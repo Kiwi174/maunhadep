@@ -206,7 +206,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .lb-track{flex:1;display:flex;overflow:hidden;position:relative;width:100%}
 .lb-slider{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.4,0,.2,1);will-change:transform}
 .lb-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto}
+.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto;transform-origin:center center;will-change:transform;transition:transform .15s ease}
 .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent;transition:background .18s,opacity .2s}
 .lb-arrow:hover,.lb-arrow:active{background:rgba(255,255,255,.28)}
 .lb-arrow.hidden{opacity:0;pointer-events:none}
@@ -324,6 +324,18 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .toolbar-guest-hidden{border-bottom:none;padding:0}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:11px 22px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;transition:.3s;z-index:999;pointer-events:none;border:1px solid rgba(90,158,74,.3);white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ── SYNC CONFIRM DIALOG ── */
+.sync-cfm-overlay{display:none;position:fixed;inset:0;z-index:700;background:rgba(20,25,22,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:16px}
+.sync-cfm-overlay.open{display:flex;animation:fbg .2s ease}
+.sync-cfm-box{background:#fff;border-radius:10px;padding:24px 24px 20px;width:100%;max-width:360px;box-shadow:var(--shadow-lg);animation:sup .2s ease}
+.sync-cfm-icon{font-size:28px;margin-bottom:10px;text-align:center}
+.sync-cfm-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;text-align:center}
+.sync-cfm-msg{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;text-align:center}
+.sync-cfm-actions{display:flex;gap:8px}
+.sync-cfm-cancel{flex:1;padding:10px;background:#fff;border:1px solid var(--bd);font-family:inherit;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;border-radius:var(--radius);transition:.2s}
+.sync-cfm-cancel:hover{border-color:var(--dark)}
+.sync-cfm-ok{flex:1;padding:10px;background:var(--green);border:none;font-family:inherit;font-size:13px;font-weight:700;color:#fff;cursor:pointer;border-radius:var(--radius);transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.sync-cfm-ok:hover{background:#2f5228}
 
 /* ── FOOTER ── */
 footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
@@ -388,6 +400,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 <div id="cacheBanner">
   🔄 Có dữ liệu mới
   <button onclick="applyUpdate()">Cập nhật</button>
+  <button onclick="forceReload()" style="background:#555;margin-left:4px">↺ Tải lại từ sheet</button>
 </div>
 
 <!-- NAV -->
@@ -452,8 +465,10 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <button id="importBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:6px;padding:9px 14px;font-size:11px;letter-spacing:1px" onclick="openImportModal()">
         📥 Import từ Driver
       </button>
-
-    </div>
+      <button id="syncSheetBtn" class="nb nb-ghost" style="display:none;align-items:center;gap:5px" onclick="forceReload()" title="Xoá cache, tải lại dữ liệu thực từ Google Sheet">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        Sync sheet
+      </button>
   </div>
 </div>
 
@@ -782,6 +797,22 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 </div>
 
 
+<!-- SYNC CONFIRM DIALOG -->
+<div class="sync-cfm-overlay" id="syncConfirmOverlay">
+  <div class="sync-cfm-box">
+    <div class="sync-cfm-icon">🔄</div>
+    <div class="sync-cfm-title">Đồng bộ dữ liệu</div>
+    <div class="sync-cfm-msg">Xoá cache và tải lại toàn bộ dữ liệu mới nhất từ Google Sheet?</div>
+    <div class="sync-cfm-actions">
+      <button class="sync-cfm-cancel" onclick="closeSyncConfirm()">Huỷ</button>
+      <button class="sync-cfm-ok" onclick="confirmSync()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.13-3.36L23 10M1 14l5.36 5.36A9 9 0 0020.49 15"/></svg>
+        Đồng bộ ngay
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -853,6 +884,7 @@ if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
 }
 if (effectiveRole === 'admin') {
   document.getElementById('importBtn').style.display = 'inline-flex';
+  document.getElementById('syncSheetBtn').style.display = 'inline-flex';
 }
 
 function logout() { sessionStorage.clear(); location.href = 'index.html'; }
@@ -1339,6 +1371,36 @@ function applyUpdate() {
   document.getElementById('cacheBanner').classList.remove('show');
 }
 
+// Xoá cache và tải lại từ sheet (dùng khi sheet bị sửa trực tiếp)
+function forceReload() {
+  document.getElementById('syncConfirmOverlay').classList.add('open');
+}
+function closeSyncConfirm() {
+  document.getElementById('syncConfirmOverlay').classList.remove('open');
+}
+async function confirmSync() {
+  closeSyncConfirm();
+  try { localStorage.removeItem(CACHE_KEY); } catch {}
+  allHouses = [];
+  pendingData = null;
+  document.getElementById('cacheBanner').classList.remove('show');
+  renderGallery();
+  showToast('🔄 Đang tải lại từ sheet...');
+  try {
+    const fresh = await apiGet();
+    allHouses = fresh;
+    setCache(fresh);
+    renderGallery();
+    showToast(fresh.length ? `✓ Đã tải ${fresh.length} mẫu từ sheet` : 'ℹ Sheet đang trống');
+  } catch(e) {
+    showToast('⚠ Lỗi kết nối: ' + e.message);
+  }
+}
+document.addEventListener('click', function(e) {
+  const overlay = document.getElementById('syncConfirmOverlay');
+  if (overlay && overlay.classList.contains('open') && e.target === overlay) closeSyncConfirm();
+});
+
 // ══ FILTER STATE ══
 let fLoai = 'all', fMai = 'all', fMtMin = null, fMtMax = null;
 // ══ SORT STATE ══
@@ -1656,9 +1718,43 @@ function goSlide(i) { _slideIdx = i; renderSlide(); }
 // ══ LIGHTBOX FULLSCREEN ══
 let _lbIdx = 0, _lbImgs = [], _lbTouchStartX = 0, _lbTouchStartY = 0;
 
+// ── Zoom state ──
+let _lbZoom = 1, _lbPanX = 0, _lbPanY = 0;
+let _lbPinchStartDist = 0, _lbPinchStartZoom = 1;
+let _lbPanStartX = 0, _lbPanStartY = 0, _lbPanOriginX = 0, _lbPanOriginY = 0;
+let _lbIsPanning = false, _lbIsPinching = false;
+const LB_ZOOM_MIN = 1, LB_ZOOM_MAX = 5;
+
+function _lbGetCurrentImg() {
+  return document.querySelector(`#lbSlide${_lbIdx} img`);
+}
+function _lbApplyTransform() {
+  const img = _lbGetCurrentImg();
+  if (!img) return;
+  img.style.transform = `translate(${_lbPanX}px,${_lbPanY}px) scale(${_lbZoom})`;
+  img.style.transition = 'none';
+}
+function _lbResetZoom() {
+  _lbZoom = 1; _lbPanX = 0; _lbPanY = 0;
+  const img = _lbGetCurrentImg();
+  if (img) { img.style.transform = ''; img.style.transition = ''; }
+}
+function _lbClampPan() {
+  const img = _lbGetCurrentImg();
+  if (!img || _lbZoom <= 1) { _lbPanX = 0; _lbPanY = 0; return; }
+  const rect = img.getBoundingClientRect();
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const ow = rect.width / _lbZoom, oh = rect.height / _lbZoom;
+  const maxX = Math.max(0, (ow * _lbZoom - vw) / 2);
+  const maxY = Math.max(0, (oh * _lbZoom - vh) / 2);
+  _lbPanX = Math.max(-maxX, Math.min(maxX, _lbPanX));
+  _lbPanY = Math.max(-maxY, Math.min(maxY, _lbPanY));
+}
+
 function openLightbox(startIdx) {
   _lbImgs = [..._slideImgs];
   _lbIdx  = startIdx || 0;
+  _lbResetZoom();
   _renderLightbox();
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1676,7 +1772,7 @@ function closeLightbox() {
 function _renderLightbox() {
   const n = _lbImgs.length;
   document.getElementById('lbSlider').innerHTML = _lbImgs.map((src, i) =>
-    `<div class="lb-slide" id="lbSlide${i}"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}"></div>`
+    `<div class="lb-slide" id="lbSlide${i}"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" draggable="false"></div>`
   ).join('');
   document.getElementById('lbSlider').style.transform = `translateX(-${_lbIdx*100}%)`;
   document.getElementById('lbCounter').textContent = n > 1 ? `${_lbIdx+1} / ${n}` : '';
@@ -1687,36 +1783,139 @@ function _renderLightbox() {
   dots.innerHTML = n > 1 ? _lbImgs.map((_, i) => `<button class="lb-dot${i===_lbIdx?' active':''}" onclick="lbGoSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join('') : '';
 }
 function lbSlide(dir) {
+  if (_lbZoom > 1) return; // Không chuyển slide khi đang zoom
   _lbIdx = Math.max(0, Math.min(_lbImgs.length - 1, _lbIdx + dir));
+  _lbResetZoom();
   _renderLightbox();
 }
-function lbGoSlide(i) { _lbIdx = i; _renderLightbox(); }
+function lbGoSlide(i) {
+  _lbIdx = i;
+  _lbResetZoom();
+  _renderLightbox();
+}
 
 function _lbBindEvents() {
   document.addEventListener('keydown', _lbKeyHandler);
   const track = document.getElementById('lbTrack');
-  track.addEventListener('touchstart', _lbTouchStart, {passive: true});
-  track.addEventListener('touchend',   _lbTouchEnd,   {passive: true});
+  track.addEventListener('touchstart',  _lbTouchStart,  { passive: false });
+  track.addEventListener('touchmove',   _lbTouchMove,   { passive: false });
+  track.addEventListener('touchend',    _lbTouchEnd,    { passive: true  });
+  track.addEventListener('wheel',       _lbWheel,       { passive: false });
+  track.addEventListener('dblclick',    _lbDblClick);
 }
 function _lbUnbindEvents() {
   document.removeEventListener('keydown', _lbKeyHandler);
   const track = document.getElementById('lbTrack');
   if (track) {
     track.removeEventListener('touchstart', _lbTouchStart);
+    track.removeEventListener('touchmove',  _lbTouchMove);
     track.removeEventListener('touchend',   _lbTouchEnd);
+    track.removeEventListener('wheel',      _lbWheel);
+    track.removeEventListener('dblclick',   _lbDblClick);
   }
 }
 function _lbKeyHandler(e) {
   if (!document.getElementById('lightbox').classList.contains('open')) return;
-  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'Escape') { if (_lbZoom > 1) _lbResetZoom(); else closeLightbox(); }
   else if (e.key === 'ArrowLeft')  lbSlide(-1);
   else if (e.key === 'ArrowRight') lbSlide(1);
+  else if (e.key === '+') _lbZoomBy(1.25, window.innerWidth/2, window.innerHeight/2);
+  else if (e.key === '-') _lbZoomBy(0.8,  window.innerWidth/2, window.innerHeight/2);
 }
+
+// ── Double-click: toggle zoom 2× ──
+function _lbDblClick(e) {
+  e.preventDefault();
+  if (_lbZoom > 1) {
+    _lbResetZoom();
+  } else {
+    _lbZoomBy(2.5, e.clientX, e.clientY);
+    _lbApplyTransform();
+  }
+}
+
+// ── Mouse wheel zoom ──
+function _lbWheel(e) {
+  e.preventDefault();
+  const factor = e.deltaY < 0 ? 1.15 : 0.87;
+  _lbZoomBy(factor, e.clientX, e.clientY);
+  _lbApplyTransform();
+}
+
+// ── Zoom helper: zoom vào điểm (cx, cy) trên màn hình ──
+function _lbZoomBy(factor, cx, cy) {
+  const newZoom = Math.max(LB_ZOOM_MIN, Math.min(LB_ZOOM_MAX, _lbZoom * factor));
+  if (newZoom === _lbZoom) return;
+  // Điều chỉnh pan để giữ điểm (cx,cy) cố định
+  const scaleChange = newZoom / _lbZoom;
+  _lbPanX = cx - (cx - _lbPanX) * scaleChange - (cx - window.innerWidth  / 2) * (scaleChange - 1);
+  _lbPanY = cy - (cy - _lbPanY) * scaleChange - (cy - window.innerHeight / 2) * (scaleChange - 1);
+  _lbZoom = newZoom;
+  if (_lbZoom <= 1) { _lbPanX = 0; _lbPanY = 0; _lbZoom = 1; }
+  else _lbClampPan();
+}
+
+// ── Touch: phân biệt pinch-zoom và swipe/pan ──
 function _lbTouchStart(e) {
-  if (e.touches.length === 1) { _lbTouchStartX = e.touches[0].clientX; _lbTouchStartY = e.touches[0].clientY; }
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    _lbIsPinching = true;
+    _lbIsPanning  = false;
+    _lbPinchStartDist = Math.hypot(
+      e.touches[1].clientX - e.touches[0].clientX,
+      e.touches[1].clientY - e.touches[0].clientY
+    );
+    _lbPinchStartZoom = _lbZoom;
+    // Điểm giữa 2 ngón
+    _lbPanOriginX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    _lbPanOriginY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+  } else if (e.touches.length === 1) {
+    _lbIsPinching  = false;
+    _lbTouchStartX = e.touches[0].clientX;
+    _lbTouchStartY = e.touches[0].clientY;
+    if (_lbZoom > 1) {
+      _lbIsPanning  = true;
+      _lbPanStartX  = _lbPanX;
+      _lbPanStartY  = _lbPanY;
+    } else {
+      _lbIsPanning = false;
+    }
+  }
+}
+function _lbTouchMove(e) {
+  if (e.touches.length === 2 && _lbIsPinching) {
+    e.preventDefault();
+    const dist = Math.hypot(
+      e.touches[1].clientX - e.touches[0].clientX,
+      e.touches[1].clientY - e.touches[0].clientY
+    );
+    const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    const newZoom = Math.max(LB_ZOOM_MIN, Math.min(LB_ZOOM_MAX, _lbPinchStartZoom * (dist / _lbPinchStartDist)));
+    const scaleChange = newZoom / _lbZoom;
+    _lbPanX = cx - (cx - _lbPanX) * scaleChange;
+    _lbPanY = cy - (cy - _lbPanY) * scaleChange;
+    _lbZoom = newZoom;
+    if (_lbZoom <= 1) { _lbZoom = 1; _lbPanX = 0; _lbPanY = 0; }
+    else _lbClampPan();
+    _lbApplyTransform();
+  } else if (e.touches.length === 1 && _lbIsPanning) {
+    e.preventDefault();
+    _lbPanX = _lbPanStartX + (e.touches[0].clientX - _lbTouchStartX);
+    _lbPanY = _lbPanStartY + (e.touches[0].clientY - _lbTouchStartY);
+    _lbClampPan();
+    _lbApplyTransform();
+  }
 }
 function _lbTouchEnd(e) {
-  if (e.changedTouches.length === 1) {
+  if (_lbIsPinching && e.touches.length < 2) {
+    _lbIsPinching = false;
+    if (_lbZoom <= 1.05) { _lbZoom = 1; _lbPanX = 0; _lbPanY = 0; _lbResetZoom(); }
+    return;
+  }
+  if (_lbIsPanning) { _lbIsPanning = false; return; }
+  // Swipe để chuyển slide (chỉ khi không zoom)
+  if (e.changedTouches.length === 1 && _lbZoom <= 1) {
     const dx = e.changedTouches[0].clientX - _lbTouchStartX;
     const dy = e.changedTouches[0].clientY - _lbTouchStartY;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) lbSlide(dx < 0 ? 1 : -1);
