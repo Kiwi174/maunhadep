@@ -240,11 +240,11 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .lb-close{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background .18s}
 .lb-close:hover,.lb-close:active{background:rgba(255,255,255,.25)}
 /* Khu vực ảnh */
-.lb-track{flex:1;display:flex;overflow:hidden;position:relative;width:100%}
+.lb-track{flex:1;display:flex;overflow:hidden;position:relative;width:100%;touch-action:none}
 .lb-slider{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.4,0,.2,1);will-change:transform}
-.lb-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lb-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
 /* Ảnh vừa màn hình, hiển thị đủ */
-.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto;transform-origin:center center;will-change:transform;transition:transform .15s ease}
+.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto;transform-origin:center center;will-change:transform;touch-action:none;-webkit-user-select:none}
 .lb-slide img.zoomed{cursor:default}
 /* Mũi tên trái/phải */
 .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent;transition:background .18s,opacity .2s}
@@ -547,6 +547,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
+  <button class="mob-item" id="mobSyncBtn" style="display:none;color:var(--green)" onclick="toggleMob();forceReload()">🔄 Sync sheet (tải lại dữ liệu)</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
 
@@ -1094,6 +1095,7 @@ if(effectiveRole==='admin'||effectiveRole==='ctv'){
   document.getElementById('addBtn').style.display='inline-flex';
   document.getElementById('importDriveBtn').style.display='inline-flex';
   document.getElementById('syncSheetBtn').style.display='inline-flex';
+  document.getElementById('mobSyncBtn').style.display='';
   document.getElementById('btnEditMo').classList.add('on');
   if(effectiveRole==='ctv'){
     document.getElementById('ctvPendingNote').classList.add('show');
