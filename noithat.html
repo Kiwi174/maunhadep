@@ -244,7 +244,7 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .lb-slider{display:flex;width:100%;height:100%;transition:transform .3s cubic-bezier(.4,0,.2,1);will-change:transform}
 .lb-slide{flex:0 0 100%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}
 /* Ảnh vừa màn hình, hiển thị đủ */
-.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto}
+.lb-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;cursor:default;user-select:none;-webkit-user-drag:none;pointer-events:auto;transform-origin:center center;will-change:transform;transition:transform .15s ease}
 .lb-slide img.zoomed{cursor:default}
 /* Mũi tên trái/phải */
 .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent;transition:background .18s,opacity .2s}
@@ -1523,16 +1523,48 @@ function closeView(){
 let _lbIdx=0;
 let _lbImgs=[];
 let _lbTouchStartX=0,_lbTouchStartY=0;
-let _lbPinchStartDist=0;
+
+// ── Zoom state ──
+let _lbZoom=1, _lbPanX=0, _lbPanY=0;
+let _lbPinchStartDist=0, _lbPinchStartZoom=1;
+let _lbPanStartX=0, _lbPanStartY=0;
+let _lbIsPanning=false, _lbIsPinching=false;
+const LB_ZOOM_MIN=1, LB_ZOOM_MAX=5;
+
+function _lbGetCurrentImg(){
+  return document.querySelector(`#lbSlide${_lbIdx} img`);
+}
+function _lbApplyTransform(){
+  const img=_lbGetCurrentImg();
+  if(!img)return;
+  img.style.transform=`translate(${_lbPanX}px,${_lbPanY}px) scale(${_lbZoom})`;
+  img.style.transition='none';
+}
+function _lbResetZoom(){
+  _lbZoom=1;_lbPanX=0;_lbPanY=0;
+  const img=_lbGetCurrentImg();
+  if(img){img.style.transform='';img.style.transition='';}
+}
+function _lbClampPan(){
+  const img=_lbGetCurrentImg();
+  if(!img||_lbZoom<=1){_lbPanX=0;_lbPanY=0;return;}
+  const rect=img.getBoundingClientRect();
+  const vw=window.innerWidth,vh=window.innerHeight;
+  const ow=rect.width/_lbZoom,oh=rect.height/_lbZoom;
+  const maxX=Math.max(0,(ow*_lbZoom-vw)/2);
+  const maxY=Math.max(0,(oh*_lbZoom-vh)/2);
+  _lbPanX=Math.max(-maxX,Math.min(maxX,_lbPanX));
+  _lbPanY=Math.max(-maxY,Math.min(maxY,_lbPanY));
+}
 
 function openLightbox(startIdx){
   _lbImgs=[..._slideImgs];
   _lbIdx=startIdx||0;
+  _lbResetZoom();
   _renderLightbox();
   const lb=document.getElementById('lightbox');
   lb.classList.add('open');
   document.body.style.overflow='hidden';
-  // Khoá orientation nếu hỗ trợ
   if(screen.orientation&&screen.orientation.lock){
     screen.orientation.lock('any').catch(()=>{});
   }
@@ -1547,66 +1579,141 @@ function closeLightbox(){
 }
 function _renderLightbox(){
   const n=_lbImgs.length;
-  // Slider
   document.getElementById('lbSlider').innerHTML=_lbImgs.map((src,i)=>
-    `<div class="lb-slide" id="lbSlide${i}"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" ondblclick="lbToggleZoom(this)"></div>`
+    `<div class="lb-slide" id="lbSlide${i}"><img src="${escHtml(src)}" alt="Ảnh ${i+1}" loading="${i===0?'eager':'lazy'}" draggable="false"></div>`
   ).join('');
   document.getElementById('lbSlider').style.transform=`translateX(-${_lbIdx*100}%)`;
-  // Counter
   document.getElementById('lbCounter').textContent=n>1?`${_lbIdx+1} / ${n}`:'';
-  // Arrows
   const al=document.getElementById('lbArrowL'),ar=document.getElementById('lbArrowR');
   if(n>1){al.classList.toggle('hidden',_lbIdx===0);ar.classList.toggle('hidden',_lbIdx===n-1);}
   else{al.classList.add('hidden');ar.classList.add('hidden');}
-  // Dots
   const dots=document.getElementById('lbDots');
   dots.innerHTML=n>1?_lbImgs.map((_,i)=>`<button class="lb-dot${i===_lbIdx?' active':''}" onclick="lbGoSlide(${i})" aria-label="Ảnh ${i+1}"></button>`).join(''):'';
 }
 function lbSlide(dir){
-  const n=_lbImgs.length;
-  _lbIdx=Math.max(0,Math.min(n-1,_lbIdx+dir));
+  if(_lbZoom>1)return; // Không chuyển slide khi đang zoom
+  _lbIdx=Math.max(0,Math.min(_lbImgs.length-1,_lbIdx+dir));
   // Reset zoom của slide cũ
   document.querySelectorAll('.lb-slide img').forEach(img=>img.classList.remove('zoomed'));
+  _lbResetZoom();
   _renderLightbox();
 }
-function lbGoSlide(i){_lbIdx=i;_renderLightbox();}
-function lbToggleZoom(img){
-  img.classList.toggle('zoomed');
-}
+function lbGoSlide(i){_lbIdx=i;_lbResetZoom();_renderLightbox();}
 
 // ── Bind touch & key events cho lightbox ──
 function _lbBindEvents(){
   document.addEventListener('keydown',_lbKeyHandler);
   const track=document.getElementById('lbTrack');
-  track.addEventListener('touchstart',_lbTouchStart,{passive:true});
-  track.addEventListener('touchend',_lbTouchEnd,{passive:true});
+  track.addEventListener('touchstart', _lbTouchStart, {passive:false});
+  track.addEventListener('touchmove',  _lbTouchMove,  {passive:false});
+  track.addEventListener('touchend',   _lbTouchEnd,   {passive:true});
+  track.addEventListener('wheel',      _lbWheel,      {passive:false});
+  track.addEventListener('dblclick',   _lbDblClick);
 }
 function _lbUnbindEvents(){
   document.removeEventListener('keydown',_lbKeyHandler);
   const track=document.getElementById('lbTrack');
-  track.removeEventListener('touchstart',_lbTouchStart);
-  track.removeEventListener('touchend',_lbTouchEnd);
+  if(track){
+    track.removeEventListener('touchstart',_lbTouchStart);
+    track.removeEventListener('touchmove', _lbTouchMove);
+    track.removeEventListener('touchend',  _lbTouchEnd);
+    track.removeEventListener('wheel',     _lbWheel);
+    track.removeEventListener('dblclick',  _lbDblClick);
+  }
 }
 function _lbKeyHandler(e){
   if(!document.getElementById('lightbox').classList.contains('open'))return;
-  if(e.key==='Escape')closeLightbox();
+  if(e.key==='Escape'){if(_lbZoom>1)_lbResetZoom();else closeLightbox();}
   else if(e.key==='ArrowLeft')lbSlide(-1);
   else if(e.key==='ArrowRight')lbSlide(1);
+  else if(e.key==='+')_lbZoomBy(1.25,window.innerWidth/2,window.innerHeight/2);
+  else if(e.key==='-')_lbZoomBy(0.8,window.innerWidth/2,window.innerHeight/2);
 }
+
+// ── Double-click: toggle zoom 2.5× ──
+function _lbDblClick(e){
+  e.preventDefault();
+  if(_lbZoom>1){_lbResetZoom();}
+  else{_lbZoomBy(2.5,e.clientX,e.clientY);_lbApplyTransform();}
+}
+
+// ── Mouse wheel zoom ──
+function _lbWheel(e){
+  e.preventDefault();
+  const factor=e.deltaY<0?1.15:0.87;
+  _lbZoomBy(factor,e.clientX,e.clientY);
+  _lbApplyTransform();
+}
+
+// ── Zoom helper: zoom vào điểm (cx, cy) trên màn hình ──
+function _lbZoomBy(factor,cx,cy){
+  const newZoom=Math.max(LB_ZOOM_MIN,Math.min(LB_ZOOM_MAX,_lbZoom*factor));
+  if(newZoom===_lbZoom)return;
+  const scaleChange=newZoom/_lbZoom;
+  _lbPanX=cx-(cx-_lbPanX)*scaleChange-(cx-window.innerWidth/2)*(scaleChange-1);
+  _lbPanY=cy-(cy-_lbPanY)*scaleChange-(cy-window.innerHeight/2)*(scaleChange-1);
+  _lbZoom=newZoom;
+  if(_lbZoom<=1){_lbPanX=0;_lbPanY=0;_lbZoom=1;}
+  else _lbClampPan();
+}
+
+// ── Touch: phân biệt pinch-zoom và swipe/pan ──
 function _lbTouchStart(e){
-  if(e.touches.length===1){
+  if(e.touches.length===2){
+    e.preventDefault();
+    _lbIsPinching=true;_lbIsPanning=false;
+    _lbPinchStartDist=Math.hypot(
+      e.touches[1].clientX-e.touches[0].clientX,
+      e.touches[1].clientY-e.touches[0].clientY
+    );
+    _lbPinchStartZoom=_lbZoom;
+  }else if(e.touches.length===1){
+    _lbIsPinching=false;
     _lbTouchStartX=e.touches[0].clientX;
     _lbTouchStartY=e.touches[0].clientY;
+    if(_lbZoom>1){
+      _lbIsPanning=true;
+      _lbPanStartX=_lbPanX;
+      _lbPanStartY=_lbPanY;
+    }else{_lbIsPanning=false;}
+  }
+}
+function _lbTouchMove(e){
+  if(e.touches.length===2&&_lbIsPinching){
+    e.preventDefault();
+    const dist=Math.hypot(
+      e.touches[1].clientX-e.touches[0].clientX,
+      e.touches[1].clientY-e.touches[0].clientY
+    );
+    const cx=(e.touches[0].clientX+e.touches[1].clientX)/2;
+    const cy=(e.touches[0].clientY+e.touches[1].clientY)/2;
+    const newZoom=Math.max(LB_ZOOM_MIN,Math.min(LB_ZOOM_MAX,_lbPinchStartZoom*(dist/_lbPinchStartDist)));
+    const scaleChange=newZoom/_lbZoom;
+    _lbPanX=cx-(cx-_lbPanX)*scaleChange;
+    _lbPanY=cy-(cy-_lbPanY)*scaleChange;
+    _lbZoom=newZoom;
+    if(_lbZoom<=1){_lbZoom=1;_lbPanX=0;_lbPanY=0;}
+    else _lbClampPan();
+    _lbApplyTransform();
+  }else if(e.touches.length===1&&_lbIsPanning){
+    e.preventDefault();
+    _lbPanX=_lbPanStartX+(e.touches[0].clientX-_lbTouchStartX);
+    _lbPanY=_lbPanStartY+(e.touches[0].clientY-_lbTouchStartY);
+    _lbClampPan();
+    _lbApplyTransform();
   }
 }
 function _lbTouchEnd(e){
-  if(e.changedTouches.length===1){
+  if(_lbIsPinching&&e.touches.length<2){
+    _lbIsPinching=false;
+    if(_lbZoom<=1.05){_lbZoom=1;_lbPanX=0;_lbPanY=0;_lbResetZoom();}
+    return;
+  }
+  if(_lbIsPanning){_lbIsPanning=false;return;}
+  if(e.changedTouches.length===1&&_lbZoom<=1){
     const dx=e.changedTouches[0].clientX-_lbTouchStartX;
     const dy=e.changedTouches[0].clientY-_lbTouchStartY;
-    // Chỉ swipe ngang khi dx đủ lớn và lớn hơn dy
-    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){
-      lbSlide(dx<0?1:-1);
-    }
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){lbSlide(dx<0?1:-1);}
   }
 }
 
