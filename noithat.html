@@ -447,8 +447,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .hero p{font-size:12px}
   .stats{gap:16px}
   .stat-num{font-size:19px}
-  /* Ẩn nút hero trên mobile — đã có trong mobile menu */
-  #importDriveBtn,#syncSheetBtn,#addBtn{display:none!important}
+  /* Nút hero trên mobile: xếp dọc, full width */
+  .hero-btns{flex-direction:column!important;gap:8px;width:100%}
+  .hero-btns .nb{width:100%!important;justify-content:center;font-size:12px;padding:10px 12px;box-sizing:border-box}
 
   /* TONE BAR desktop → ẩn, dùng FAB */
   .tone-bar{display:none}
@@ -552,8 +553,6 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
-  <button class="mob-item" id="mobAddBtn" style="display:none;color:var(--green);font-weight:700" onclick="toggleMob();openAdd()">＋ Thêm mẫu nội thất</button>
-  <button class="mob-item" id="mobImportDriveBtn" style="display:none;color:var(--green)" onclick="toggleMob();openImportDriveModal()">📥 Import từ Drive</button>
   <button class="mob-item" id="mobSyncBtn" style="display:none;color:var(--green)" onclick="toggleMob();forceReload()">🔄 Sync sheet (tải lại dữ liệu)</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
@@ -569,7 +568,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div><div class="stat-num" id="showCount">—</div><div class="stat-lbl">Đang hiển thị</div></div>
       </div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
+    <div class="hero-btns" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <button id="addBtn" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         Thêm mẫu nội thất
@@ -1102,8 +1101,6 @@ if(effectiveRole==='admin'||effectiveRole==='ctv'){
   document.getElementById('addBtn').style.display='inline-flex';
   document.getElementById('importDriveBtn').style.display='inline-flex';
   document.getElementById('syncSheetBtn').style.display='inline-flex';
-  document.getElementById('mobAddBtn').style.display='';
-  document.getElementById('mobImportDriveBtn').style.display='';
   document.getElementById('mobSyncBtn').style.display='';
   document.getElementById('btnEditMo').classList.add('on');
   if(effectiveRole==='ctv'){
