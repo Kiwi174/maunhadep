@@ -480,9 +480,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .mo-actions{flex-direction:column}
   .btn-pri,.btn-sec,.btn-edit-mo{width:100%;min-width:unset;text-align:center}
 
-  /* EDIT modal — bottom sheet */
-  .eb{padding:0;align-items:flex-end}
-  .em{border-radius:16px 16px 0 0;max-height:94vh;padding:20px 16px 24px}
+  /* EDIT modal — centered */
+  .eb{padding:16px;align-items:center}
+  .em{border-radius:12px;max-height:92vh;padding:20px 16px 24px}
 
   /* FOOTER */
   footer{flex-direction:column;align-items:flex-start;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0))}
@@ -1684,7 +1684,7 @@ function _lbTouchStart(e){
       e.touches[1].clientX-e.touches[0].clientX,
       e.touches[1].clientY-e.touches[0].clientY
     );
-    _lbPinchStartZoom=_lbZoom;
+    _lbPinchStartZoom=_lbZoom; // luôn lấy zoom hiện tại làm gốc cho lần pinch này
   }else if(e.touches.length===1){
     _lbIsPinching=false;
     _lbTouchStartX=e.touches[0].clientX;
@@ -1724,7 +1724,13 @@ function _lbTouchMove(e){
 function _lbTouchEnd(e){
   if(_lbIsPinching&&e.touches.length<2){
     _lbIsPinching=false;
-    if(_lbZoom<=1.05){_lbZoom=1;_lbPanX=0;_lbPanY=0;_lbResetZoom();}
+    if(_lbZoom<=1.05){
+      _lbZoom=1;_lbPanX=0;_lbPanY=0;_lbResetZoom();
+    } else {
+      // Chốt zoom hiện tại — lần pinch tiếp theo sẽ tính từ đây
+      _lbPinchStartZoom=_lbZoom;
+      _lbApplyTransform();
+    }
     return;
   }
   if(_lbIsPanning){_lbIsPanning=false;return;}
