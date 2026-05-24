@@ -38,8 +38,8 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 
 /* ── NAV ── */
 .nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.nav-logo img{height:40px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;min-width:0}
+.nav-logo img{height:40px;width:40px;flex-shrink:0;border-radius:4px}
 .nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
 .nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
 .nav-r{display:flex;gap:6px;align-items:center}
@@ -447,9 +447,8 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   .hero p{font-size:12px}
   .stats{gap:16px}
   .stat-num{font-size:19px}
-  /* Nút hero trên mobile: xếp dọc, full width */
-  .hero-btns{flex-direction:column!important;gap:8px;width:100%}
-  .hero-btns .nb{width:100%!important;justify-content:center;font-size:12px;padding:10px 12px;box-sizing:border-box}
+  /* Ẩn nút hero trên mobile — đã có trong mobile menu */
+  #importDriveBtn,#syncSheetBtn,#addBtn{display:none!important}
 
   /* TONE BAR desktop → ẩn, dùng FAB */
   .tone-bar{display:none}
@@ -514,8 +513,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 <!-- NAV -->
 <nav class="nav">
   <a class="nav-logo" href="home.html">
-    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" width="40" height="40" loading="eager">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" width="40" height="40" loading="eager" decoding="async" onerror="this.style.display='none';this.nextElementSibling.querySelector('.nl-logo-fallback').style.display='flex'">
     <div>
+      <div class="nl-logo-fallback" style="display:none;width:40px;height:40px;background:var(--green);border-radius:6px;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">HL</div>
       <div class="nl-name">Hùng Lê Design</div>
       <div class="nl-sub">Studio</div>
     </div>
@@ -553,7 +553,8 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>
-  <button class="mob-item" id="mobSyncBtn" style="display:none;color:var(--green)" onclick="toggleMob();forceReload()">🔄 Sync sheet (tải lại dữ liệu)</button>
+  <button class="mob-item" id="mobAddBtn" style="display:none;color:var(--green);font-weight:700" onclick="toggleMob();openAdd()">＋ Thêm mẫu nội thất</button>
+  <button class="mob-item" id="mobImportDriveBtn" style="display:none;color:var(--green)" onclick="toggleMob();openImportDriveModal()">📥 Import từ Drive</button>
   <a href="index.html" class="mob-item" id="mobLoginBtn" style="display:none">🔑 Đăng nhập</a>
 </div>
 
@@ -568,7 +569,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
         <div><div class="stat-num" id="showCount">—</div><div class="stat-lbl">Đang hiển thị</div></div>
       </div>
     </div>
-    <div class="hero-btns" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <div style="display:flex;gap:8px;align-items:center">
       <button id="addBtn" class="btn-add nb nb-green" style="display:none" onclick="openAdd()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         Thêm mẫu nội thất
@@ -764,8 +765,9 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 <!-- FOOTER -->
 <footer>
   <div class="f-logo">
-    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" loading="lazy" width="32" height="32">
+    <img src="https://drive.google.com/thumbnail?id=12SUy7isjEaGHxuPjLcVx_GV_LJ7inQze&sz=w1000" alt="logo" loading="lazy" width="32" height="32" onerror="this.style.display='none';this.nextElementSibling.querySelector('.f-logo-fallback').style.display='flex'">
     <div>
+      <div class="f-logo-fallback" style="display:none;width:32px;height:32px;background:var(--green);border-radius:4px;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff">HL</div>
       <div class="f-name">Hùng Lê Design Studio</div>
       <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
     </div>
@@ -1101,7 +1103,8 @@ if(effectiveRole==='admin'||effectiveRole==='ctv'){
   document.getElementById('addBtn').style.display='inline-flex';
   document.getElementById('importDriveBtn').style.display='inline-flex';
   document.getElementById('syncSheetBtn').style.display='inline-flex';
-  document.getElementById('mobSyncBtn').style.display='';
+  document.getElementById('mobAddBtn').style.display='';
+  document.getElementById('mobImportDriveBtn').style.display='';
   document.getElementById('btnEditMo').classList.add('on');
   if(effectiveRole==='ctv'){
     document.getElementById('ctvPendingNote').classList.add('show');
