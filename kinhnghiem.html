@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#3D6B34">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Hùng Lê Design Studio — Kinh nghiệm xây nhà</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#3D6B34;--green2:#5A9E4A;--gl:#EAF4E7;
+  --dark:#141916;--dark2:#1E2420;
+  --cream:#F4F3F0;--cream2:#EAEAE6;
+  --text:#1A1F18;--muted:#5A6B56;--bd:#C8D0C4;
+  --radius:6px;--shadow:0 2px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.12);--nav-h:60px
+}
+html{scroll-behavior:smooth}
+body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;min-width:0}
+.nav-logo img{height:40px;width:40px;flex-shrink:0;border-radius:4px}
+.nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
+.nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.nav-r{display:flex;gap:6px;align-items:center}
+.nav-user{font-size:12px;color:var(--muted);margin-right:4px;font-weight:500}
+.nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
+.nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
+.nb{padding:7px 13px;border-radius:var(--radius);font-family:inherit;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:.2s;font-weight:600;white-space:nowrap}
+.nb-ghost{background:transparent;border:1px solid var(--green);color:var(--green)}
+.nb-ghost:hover{background:var(--green);color:#fff}
+.nb-active{background:var(--green);color:#fff;border:none}
+.nb-active:hover{background:#3A6330}
+.nb-green{background:var(--green);color:#fff;border:none;display:inline-flex;align-items:center;gap:5px}
+.nb-green:hover{background:#3A6330}
+
+/* ── MOBILE NAV ── */
+.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);-webkit-tap-highlight-color:transparent}
+.mob-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:#fff;z-index:99;flex-direction:column;padding:16px;gap:8px;border-top:1px solid var(--bd);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.mob-menu.open{display:flex;animation:fadeDown .2s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.mob-item{display:flex;align-items:center;gap:10px;padding:13px 16px;border-radius:var(--radius);font-size:14px;font-weight:600;color:var(--text);background:var(--cream);border:none;cursor:pointer;font-family:inherit;text-decoration:none;width:100%;-webkit-tap-highlight-color:transparent}
+.mob-item:active{background:var(--gl)}
+.mob-item.active{background:var(--gl);color:var(--green)}
+.mob-sep{height:1px;background:var(--bd);margin:2px 0}
+.mob-label{font-size:11px;color:var(--muted);font-weight:600;padding:4px 16px;letter-spacing:1px;text-transform:uppercase}
+.mob-user{font-size:13px;color:var(--muted);padding:8px 16px;font-weight:500}
+
+/* ── PAGE HEADER ── */
+.page-header{background:linear-gradient(135deg,#EEF6EB 0%,#F4F3F0 100%);padding:28px 32px 22px;border-bottom:1px solid var(--bd);position:relative;overflow:hidden}
+.page-header::before{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(90,158,74,.1) 0%,transparent 70%);pointer-events:none}
+.ph-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.page-header h1{font-size:clamp(20px,3.5vw,30px);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-.5px}
+.page-header h1 span{color:var(--green2)}
+.page-header p{color:var(--muted);margin-top:5px;font-size:13px}
+
+/* ── TOOLBAR ── */
+.toolbar{background:#fff;border-bottom:1px solid var(--bd);padding:0 32px;position:sticky;top:var(--nav-h);z-index:90}
+.toolbar-inner{max-width:1200px;margin:0 auto;padding:10px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sw{position:relative;flex:1;min-width:180px;max-width:360px}
+.sw svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted)}
+.si{width:100%;padding:9px 11px 9px 34px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;background:var(--cream);transition:border-color .2s}
+.si:focus{border-color:var(--green);background:#fff}
+.si::placeholder{color:#B0BAA8}
+.count-badge{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;margin-left:auto}
+
+/* ── FILTER DROPDOWN ── */
+.filter-wrap{position:relative}
+.filter-btn{display:flex;align-items:center;gap:6px;padding:9px 13px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:.2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.filter-btn:hover{border-color:var(--green);color:var(--green)}
+.filter-btn.active{background:var(--green);border-color:var(--green);color:#fff}
+.filter-btn .fbadge{background:rgba(255,255,255,.25);font-size:10px;padding:1px 6px;border-radius:8px;font-weight:700}
+.filter-btn:not(.active) .fbadge{background:var(--gl);color:var(--green)}
+.filter-drop{display:none;position:absolute;top:calc(100% + 6px);left:0;min-width:200px;background:#fff;border:1px solid var(--bd);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:95;overflow:hidden;animation:mUp .15s ease}
+.filter-drop.open{display:block}
+.fd-item{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);background:none;border:none;width:100%;text-align:left;cursor:pointer;transition:.12s;gap:8px}
+.fd-item:hover{background:var(--gl);color:var(--green)}
+.fd-item.sel{background:var(--gl);color:var(--green)}
+.fd-item .fd-cnt{font-size:10px;background:var(--cream2);color:var(--muted);padding:1px 7px;border-radius:8px;font-weight:700;margin-left:auto}
+.fd-item.sel .fd-cnt{background:var(--green);color:#fff}
+
+/* ── SECTION TABS ── */
+.section-nav{background:#fff;border-bottom:2px solid var(--bd);padding:0 32px;position:sticky;top:calc(var(--nav-h) + 53px);z-index:89;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.section-nav::-webkit-scrollbar{display:none}
+.section-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:0;min-width:max-content}
+.sec-tab{padding:12px 20px;font-family:inherit;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:.15s;white-space:nowrap;display:flex;align-items:center;gap:6px;-webkit-tap-highlight-color:transparent;margin-bottom:-2px}
+.sec-tab:hover{color:var(--green)}
+.sec-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.sec-tab .tab-count{font-size:10px;background:var(--gl);color:var(--green);padding:1px 7px;border-radius:10px;font-weight:700}
+.sec-tab.active .tab-count{background:var(--green);color:#fff}
+
+/* ── MAIN WRAP ── */
+.wrap{max-width:1200px;margin:0 auto;padding:24px 32px 60px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+
+/* ── ARTICLES GRID ── */
+.articles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+
+/* ── ARTICLE CARD ── */
+.art-card{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s,transform .2s;cursor:pointer;display:flex;flex-direction:column;position:relative}
+.art-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.art-card-img{height:176px;background:var(--cream2);overflow:hidden;position:relative;flex-shrink:0}
+.art-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.art-card:hover .art-card-img img{transform:scale(1.04)}
+.art-card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(135deg,var(--gl),var(--cream2))}
+.art-card-body{padding:15px 16px;flex:1;display:flex;flex-direction:column}
+.art-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.art-sec{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--gl);color:var(--green)}
+.art-date{font-size:11px;color:var(--muted);margin-left:auto}
+.art-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:7px}
+.art-excerpt{font-size:12px;color:var(--muted);line-height:1.65;flex:1}
+.art-footer{margin-top:10px;padding-top:9px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.art-tags{display:flex;gap:4px;flex-wrap:wrap}
+.art-tag{font-size:10px;color:var(--muted);background:var(--cream2);padding:2px 7px;border-radius:10px;border:1px solid var(--bd)}
+.art-read{font-size:11px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:4px;white-space:nowrap}
+
+/* ── FEATURED CARD ── */
+.art-card.featured{grid-column:1/-1}
+.art-card.featured .art-card-img{height:220px}
+.art-card.featured .art-title{font-size:16px}
+
+/* ── SIDEBAR ── */
+.sidebar-widget{background:#fff;border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.sidebar-widget:last-child{margin-bottom:0}
+.sw-head{padding:11px 15px;border-bottom:1px solid var(--bd);background:var(--cream2);display:flex;align-items:center;gap:8px}
+.sw-head-icon{width:22px;height:22px;background:var(--green);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.sw-head h3{font-size:13px;font-weight:700;color:var(--text)}
+.sw-body{padding:12px 14px}
+
+/* Popular list */
+.pop-list{display:flex;flex-direction:column;gap:8px}
+.pop-item{display:flex;gap:10px;cursor:pointer;padding:6px;border-radius:4px;transition:.15s}
+.pop-item:hover{background:var(--gl)}
+.pop-num{font-size:18px;font-weight:700;color:var(--bd);line-height:1;flex-shrink:0;width:24px;text-align:center}
+.pop-item.top .pop-num{color:var(--green2)}
+.pop-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.35}
+.pop-sec{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Tip box */
+.tip-box{padding:11px 13px;background:var(--gl);border-radius:4px;border-left:3px solid var(--green2)}
+.tip-box p{font-size:12px;color:var(--text);line-height:1.6}
+.tip-box strong{color:var(--green)}
+
+/* ── LOADING / EMPTY ── */
+.state-box{text-align:center;padding:56px 24px;color:var(--muted)}
+.state-box .ico{font-size:44px;margin-bottom:12px}
+.state-box p{font-size:14px;line-height:1.7}
+.spinner{width:34px;height:34px;border:3px solid rgba(61,107,52,.15);border-top-color:var(--green2);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(0);z-index:500;background:var(--dark);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1}
+
+/* ── MODAL chi tiết ── */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(20,25,22,.7);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:8px;max-width:760px;width:100%;box-shadow:var(--shadow-lg);animation:mUp .25s ease;position:relative}
+@keyframes mUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.modal-img{height:280px;background:var(--cream2);border-radius:8px 8px 0 0;overflow:hidden}
+.modal-img img{width:100%;height:100%;object-fit:cover}
+.modal-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;background:linear-gradient(135deg,var(--gl),var(--cream2))}
+.modal-body{padding:24px 28px 28px}
+.modal-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.modal-sec{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--gl);color:var(--green)}
+.modal-date{font-size:12px;color:var(--muted)}
+.modal-author{font-size:12px;color:var(--muted);margin-left:auto}
+.modal-title{font-size:clamp(18px,2.5vw,24px);font-weight:700;color:var(--text);line-height:1.3;margin-bottom:14px;letter-spacing:-.3px}
+.modal-content{font-size:14px;color:var(--text);line-height:1.85;white-space:pre-line}
+.modal-content strong{color:var(--green);font-weight:700}
+.modal-content img{max-width:100%;height:auto;border-radius:6px;margin:10px 0;display:block;cursor:pointer;transition:transform .2s}
+.modal-content img:hover{transform:scale(1.01)}
+.modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--bd)}
+.modal-tag{font-size:11px;color:var(--muted);background:var(--cream2);padding:3px 10px;border-radius:10px;border:1px solid var(--bd)}
+.modal-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.4);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:1;-webkit-tap-highlight-color:transparent}
+.modal-close:hover{background:rgba(0,0,0,.7)}
+.modal-link{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:10px 18px;background:var(--green);color:#fff;border-radius:var(--radius);font-size:13px;font-weight:700;text-decoration:none;transition:.2s}
+.modal-link:hover{background:#3A6330}
+/* Nút Sửa trong modal */
+.modal-edit-btn{display:none;align-items:center;gap:6px;padding:10px 18px;background:#fff;color:var(--green);border:1.5px solid var(--green);border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit}
+.modal-edit-btn:hover{background:var(--gl)}
+/* Nút Xoá trong modal */
+.modal-delete-btn{display:none;align-items:center;gap:6px;padding:10px 18px;background:#fff;color:#c05050;border:1.5px solid #e0b0b0;border-radius:var(--radius);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit}
+.modal-delete-btn:hover{background:#fff0f0;border-color:#c05050}
+/* Nút Sửa trên card */
+.card-edit-btn{display:none;position:absolute;top:8px;left:8px;z-index:2;padding:4px 10px;background:rgba(255,255,255,.93);border:1px solid var(--bd);border-radius:20px;font-size:11px;font-weight:700;color:var(--green);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent;line-height:1.4}
+.card-edit-btn:hover{background:var(--green);color:#fff;border-color:var(--green)}
+/* Nút Xoá trên card */
+.card-del-btn{display:none;position:absolute;top:8px;right:8px;z-index:2;padding:4px 9px;background:rgba(255,255,255,.93);border:1px solid #e0b0b0;border-radius:20px;font-size:11px;font-weight:700;color:#c05050;cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent;line-height:1.4}
+.card-del-btn:hover{background:#c05050;color:#fff;border-color:#c05050}
+/* Confirm xoá */
+.del-confirm-overlay{display:none;position:fixed;inset:0;z-index:600;background:rgba(20,25,22,.65);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:24px}
+.del-confirm-overlay.open{display:flex}
+.del-confirm-box{background:#fff;border-radius:10px;max-width:380px;width:100%;padding:28px 24px;box-shadow:var(--shadow-lg);text-align:center}
+.del-confirm-box .del-ico{font-size:38px;margin-bottom:12px}
+.del-confirm-box h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+.del-confirm-box p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.del-confirm-box .del-title-preview{font-weight:700;color:var(--text);display:block;margin-top:4px}
+.del-confirm-actions{display:flex;gap:10px;justify-content:center}
+.btn-del-confirm{padding:10px 22px;background:#c05050;color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-del-confirm:hover{background:#a03030}
+.btn-del-confirm:disabled{opacity:.6;pointer-events:none}
+/* Con trượt font size trong modal đọc bài */
+.modal-reader-bar{display:flex;align-items:center;gap:8px;padding:8px 28px;background:var(--cream2);border-bottom:1px solid var(--bd)}
+.reader-bar-label{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap}
+.reader-slider{-webkit-appearance:none;appearance:none;width:120px;height:4px;border-radius:2px;background:var(--bd);outline:none;cursor:pointer}
+.reader-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--green);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.reader-slider::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--green);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.reader-size-display{font-size:11px;color:var(--green);font-weight:700;min-width:28px}
+/* Image picker popup */
+.img-insert-popup{display:none;position:fixed;inset:0;z-index:600;background:rgba(20,25,22,.6);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:24px}
+.img-insert-popup.open{display:flex}
+.img-insert-box{background:#fff;border-radius:8px;padding:22px;max-width:480px;width:100%;box-shadow:var(--shadow-lg)}
+.img-insert-box h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px}
+.img-insert-box .img-count{font-size:11px;color:var(--muted);margin-bottom:12px}
+.img-url-row{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.img-url-row input{flex:1;padding:8px 11px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none}
+.img-url-row input:focus{border-color:var(--green)}
+.img-preview-thumb{width:48px;height:40px;object-fit:cover;border-radius:4px;border:1px solid var(--bd);display:none;flex-shrink:0}
+.img-preview-thumb.on{display:block}
+.img-row-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:4px 6px;border-radius:4px;flex-shrink:0;transition:.15s;line-height:1}
+.img-row-del:hover{background:#fee;color:#c05050}
+.img-add-row-btn{display:flex;align-items:center;gap:5px;padding:6px 12px;border:1px dashed var(--bd);border-radius:var(--radius);background:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--green);cursor:pointer;transition:.15s;margin-bottom:4px}
+.img-add-row-btn:hover{border-color:var(--green);background:var(--gl)}
+.img-insert-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+/* Lightbox */
+.lightbox{display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.92);align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox.open{display:flex}
+.lightbox img{max-width:92vw;max-height:88vh;border-radius:6px;object-fit:contain}
+
+/* ── RICH EDITOR ── */
+.rte-wrap{border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;transition:border-color .2s}
+.rte-wrap:focus-within{border-color:var(--green)}
+.rte-toolbar{display:flex;gap:2px;padding:5px 7px;background:var(--cream2);border-bottom:1px solid var(--bd);flex-wrap:wrap;align-items:center}
+.rte-btn{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:1px solid transparent;border-radius:4px;background:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);transition:.15s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.rte-btn:hover{background:#fff;border-color:var(--bd);color:var(--text)}
+.rte-btn.on{background:var(--gl);border-color:var(--green);color:var(--green)}
+.rte-btn-img{width:30px;color:var(--green2)}
+.rte-btn-img:hover{background:#fff;border-color:var(--green2);color:var(--green)}
+.rte-sep{width:1px;height:18px;background:var(--bd);margin:0 3px;flex-shrink:0}
+.rte-hint{font-size:10px;color:var(--muted);margin-left:auto;letter-spacing:.2px;white-space:nowrap}
+.rte-area{width:100%;padding:10px 12px;border:none;outline:none;font-family:'Bookerly',Georgia,serif;font-size:14px;color:var(--text);line-height:1.7;resize:vertical;min-height:220px;background:#fff}
+/* Color picker */
+.rte-color-wrap{position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer;width:22px;height:28px;justify-content:center;flex-shrink:0}
+.rte-color-label{font-size:12px;font-weight:700;color:var(--text);line-height:1;pointer-events:none;position:relative;z-index:1}
+.rte-color-input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:none;padding:0}
+.rte-color-bar{height:3px;width:18px;border-radius:2px;margin-top:1px;pointer-events:none}
+/* Font & size selects */
+.rte-select{height:28px;padding:0 6px;border:1px solid var(--bd);border-radius:4px;font-family:inherit;font-size:11px;font-weight:600;color:var(--text);background:#fff;cursor:pointer;outline:none;max-width:110px;transition:border-color .15s}
+.rte-select:focus{border-color:var(--green)}
+.rte-select-sm{max-width:48px;padding:0 4px}
+
+/* ── MODAL THÊM BÀI ── */
+.add-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(20,25,22,.7);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:32px 16px;overflow-y:auto}
+.add-overlay.open{display:flex}
+.add-modal{background:#fff;border-radius:10px;max-width:680px;width:100%;box-shadow:var(--shadow-lg);animation:mUp .25s ease;position:relative}
+.add-header{padding:18px 22px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.add-header h2{font-size:16px;font-weight:700;color:var(--text)}
+.add-header-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.add-body{padding:22px}
+.form-row{margin-bottom:16px}
+.form-row label{display:block;font-size:12px;font-weight:600;color:var(--text);margin-bottom:5px;letter-spacing:.3px}
+.form-row label span{color:#c05050;margin-left:2px}
+.fi{width:100%;padding:9px 12px;border:1px solid var(--bd);border-radius:var(--radius);font-family:inherit;font-size:13px;color:var(--text);outline:none;background:#fff;transition:border-color .2s}
+.fi:focus{border-color:var(--green)}
+.fi-ta{min-height:120px;resize:vertical;line-height:1.6}
+.fi-ta.tall{min-height:220px}
+select.fi{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6B56' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.add-footer{padding:14px 22px 18px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.btn-cancel{padding:9px 18px;border:1px solid var(--bd);border-radius:var(--radius);background:#fff;font-family:inherit;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
+.btn-cancel:hover{border-color:var(--text);color:var(--text)}
+.btn-save{padding:9px 20px;background:var(--green);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-save:hover{background:#3A6330}
+.btn-save:disabled{opacity:.6;pointer-events:none}
+.ctv-notice{background:#FFF8E7;border:1px solid #F0D070;border-radius:var(--radius);padding:10px 13px;font-size:12px;color:#7A5A00;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+.img-preview{width:100%;height:120px;border:1px solid var(--bd);border-radius:var(--radius);margin-top:6px;object-fit:cover;display:none;background:var(--cream2)}
+.img-preview.on{display:block}
+
+/* ── LIVE PREVIEW PANEL ── */
+.rte-preview-toggle{display:flex;align-items:center;gap:6px;padding:5px 10px;background:var(--cream2);border-top:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;user-select:none;transition:.15s}
+.rte-preview-toggle:hover{color:var(--green)}
+.rte-preview-toggle .preview-dot{width:8px;height:8px;border-radius:50%;background:var(--bd);flex-shrink:0;transition:.2s}
+.rte-preview-toggle.on{color:var(--green)}
+.rte-preview-toggle.on .preview-dot{background:var(--green2)}
+.rte-preview-panel{display:none;padding:10px 13px;background:#FAFCF9;border-top:1px solid var(--bd);min-height:60px;max-height:300px;overflow-y:auto;font-family:'Bookerly',Georgia,serif;font-size:14px;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.rte-preview-panel.on{display:block}
+.rte-preview-panel strong{color:var(--green);font-weight:700}
+.rte-preview-panel img{max-width:100%;height:auto;border-radius:4px;margin:6px 0;display:block}
+.rte-preview-empty{color:var(--muted);font-style:italic;font-size:12px;font-family:inherit}
+
+/* ── CACHE BANNER ── */
+#cacheBanner.show{display:flex!important;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* ── FOOTER ── */
+footer{background:#EBF4E8;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bd);flex-wrap:wrap;gap:10px}
+.f-logo{display:flex;align-items:center;gap:10px}
+.f-logo img{height:28px}
+.f-name{font-size:13px;font-weight:700;color:var(--text)}
+.f-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.f-r a{color:var(--green2);font-size:13px;font-weight:600;text-decoration:none}
+.f-r p{font-size:11px;color:var(--muted);margin-top:2px;text-align:right}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .wrap{grid-template-columns:1fr;padding:16px 20px 48px}
+  .sidebar{display:none}
+}
+@media(max-width:768px){
+  .nav{padding:0 16px}
+  .nl-sub{display:none}
+  .nav-r .nb,.nav-r .nav-phone,.nav-user{display:none}
+  .mob-toggle{display:flex;align-items:center;justify-content:center}
+  .toolbar{padding:0 14px}
+  .section-nav{padding:0 14px}
+  .sec-tab{padding:11px 14px;font-size:12px}
+  .page-header{padding:16px 16px 13px}
+  .articles-grid{grid-template-columns:1fr;gap:13px}
+  .art-card.featured{grid-column:auto}
+  .art-card-img{height:160px}
+  .modal-body{padding:16px 18px 20px}
+  .modal-img{height:220px}
+  .add-body{padding:16px}
+  .add-footer{padding:12px 16px 16px}
+  .form-2col{grid-template-columns:1fr}
+  footer{padding:12px 16px;flex-direction:column;align-items:flex-start;gap:6px}
+  .f-r p{text-align:left}
+}
+@media(max-width:480px){
+  .sw{min-width:0}
+  .count-badge{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="home.html" class="nav-logo">
+    <img src="/logo.png" alt="logo" width="40" height="40" loading="eager" onerror="this.style.display='none';this.nextElementSibling.querySelector('.nl-logo-fallback').style.display='flex'">
+    <div>
+      <div class="nl-logo-fallback" style="display:none;width:40px;height:40px;background:var(--green);border-radius:6px;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">HL</div>
+      <div class="nl-name">Hùng Lê Design Studio</div>
+      <div class="nl-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </a>
+  <div class="nav-r">
+    <span class="nav-user" id="userLabel"></span>
+    <a href="tel:0947017495" class="nav-phone">📞 0947.017.495</a>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">🏠 Thư viện</button>
+    <button class="nb nb-ghost" onclick="location.href='noithat.html'">🛋 Nội thất</button>
+    <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">Khái toán</button>
+    <button class="nb nb-active">📖 Kinh nghiệm</button>
+    <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Lỗ Ban</button>
+    <button class="nb nb-ghost" id="navLogoutBtn" onclick="logout()" style="display:none">Đăng xuất</button>
+  </div>
+  <button class="mob-toggle" id="mobToggle" onclick="toggleMobMenu()" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-user" id="mobUser"></div>
+  <div class="mob-sep"></div>
+  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
+  <a href="noithat.html" class="mob-item">🛋 Tư vấn nội thất</a>
+  <a href="estimate.html" class="mob-item">📊 Khái toán chi phí xây dựng</a>
+  <a href="kinhnghiem.html" class="mob-item active">📖 Kinh nghiệm xây nhà</a>
+  <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
+  <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
+  <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
+  <div class="mob-sep"></div>
+  <button class="mob-item" id="mobAddBtn" onclick="openAdd()" style="display:none;color:var(--green)">✏️ Thêm bài viết</button>
+  <button class="mob-item" onclick="logout()" style="color:#c05050">🚪 Đăng xuất</button>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="ph-inner">
+    <div>
+      <h1>Kinh nghiệm <span>xây nhà</span></h1>
+      <p>Tổng hợp kiến thức & bài học thực tế từ hàng trăm công trình — giúp bạn xây nhà đúng, đủ, đẹp</p>
+    </div>
+    <button class="nb nb-green" id="addBtnTop" onclick="openAdd()" style="display:none">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Thêm bài viết
+    </button>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <div class="sw">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="si" type="search" id="searchInput" placeholder="Tìm kiếm bài viết..." oninput="renderArticles()">
+    </div>
+    <!-- Nút lọc chủ đề -->
+    <div class="filter-wrap" id="filterWrap">
+      <button class="filter-btn" id="filterBtn" onclick="toggleFilterDrop(event)">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        <span id="filterBtnLabel">Lọc bài viết</span>
+        <span class="fbadge" id="filterBtnBadge" style="display:none"></span>
+      </button>
+      <div class="filter-drop" id="filterDrop"></div>
+    </div>
+    <span class="count-badge" id="countBadge"></span>
+  </div>
+</div>
+
+<!-- SECTION TABS -->
+<div class="section-nav">
+  <div class="section-nav-inner" id="sectionTabs"></div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+  <div class="articles-col">
+    <div id="articlesGrid" class="articles-grid">
+      <div class="state-box" style="grid-column:1/-1">
+        <div class="spinner"></div>
+        <p>Đang tải bài viết...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-widget">
+      <div class="sw-head">
+        <div class="sw-head-icon">🔥</div>
+        <h3>Bài viết nổi bật</h3>
+      </div>
+      <div class="sw-body">
+        <div class="pop-list" id="popularList"><div style="color:var(--muted);font-size:13px">Đang tải...</div></div>
+      </div>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sw-head">
+        <div class="sw-head-icon">💡</div>
+        <h3>Mẹo nhanh</h3>
+      </div>
+      <div class="sw-body">
+        <div class="tip-box" id="tipBox"><p>Đang tải...</p></div>
+      </div>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="sw-head">
+        <div class="sw-head-icon">📞</div>
+        <h3>Tư vấn miễn phí</h3>
+      </div>
+      <div class="sw-body">
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:11px">Có thắc mắc về xây dựng? Liên hệ ngay để được tư vấn miễn phí từ đội ngũ Hùng Lê Design Studio.</p>
+        <a href="tel:0947017495" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:9px;background:var(--green);color:#fff;border-radius:var(--radius);font-size:13px;font-weight:700;text-decoration:none">📞 0947.017.495</a>
+        <a href="https://zalo.me/0947017495" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:9px;background:#0068FF;color:#fff;border-radius:var(--radius);font-size:13px;font-weight:700;text-decoration:none;margin-top:8px">
+          <svg width="14" height="14" viewBox="0 0 32 32" fill="none"><path d="M16 4C9.373 4 4 9.149 4 15.5c0 3.48 1.607 6.593 4.145 8.71L7 28l4.02-1.98A12.4 12.4 0 0016 27c6.627 0 12-5.149 12-11.5S22.627 4 16 4z" fill="#fff" opacity=".25"/><path d="M22.5 18.8c-.2-.1-1.2-.6-1.4-.65-.2-.08-.34-.1-.48.1-.15.2-.57.65-.7.78-.12.14-.25.15-.46.05-.2-.1-.87-.32-1.65-.98-.61-.52-1.02-1.17-1.14-1.37-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.48-1.15-.66-1.57-.17-.41-.35-.35-.48-.36h-.41c-.14 0-.37.05-.56.26-.19.2-.74.72-.74 1.76s.76 2.04.86 2.18c.1.14 1.48 2.28 3.6 3.19.5.22.9.35 1.2.44.5.16.97.14 1.33.08.4-.06 1.24-.5 1.41-1 .18-.48.18-.9.12-1-.05-.08-.19-.13-.4-.23z" fill="#fff"/></svg>
+          Nhắn Zalo
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHI TIẾT -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <!-- Con trượt cỡ chữ -->
+    <div class="modal-reader-bar">
+      <span class="reader-bar-label">🔠 Cỡ chữ</span>
+      <input type="range" class="reader-slider" id="readerSlider" min="12" max="22" value="14" oninput="applyReaderFont(this.value)">
+      <span class="reader-size-display" id="readerSizeDisplay">14px</span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <span class="modal-sec" id="modalSec"></span>
+        <span class="modal-date" id="modalDate"></span>
+        <span class="modal-author" id="modalAuthor"></span>
+      </div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-content" id="modalContent"></div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:16px">
+        <a href="#" class="modal-link" id="modalLink" target="_blank" rel="noopener" style="display:none;margin-top:0">
+          Xem bài viết đầy đủ
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <button class="modal-edit-btn" id="modalEditBtn" onclick="editFromModal()" style="margin-top:0">
+          ✏️ Sửa bài viết
+        </button>
+        <button class="modal-delete-btn" id="modalDeleteBtn" onclick="deleteArticle()" style="display:none">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Xoá bài viết
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMAGE INSERT POPUP -->
+<div class="img-insert-popup" id="imgInsertPopup" onclick="if(event.target===this)closeImgPopup()">
+  <div class="img-insert-box">
+    <h3>
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:6px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Chèn ảnh vào nội dung
+    </h3>
+    <div id="imgUrlRows">
+      <div class="img-url-row">
+        <input type="url" placeholder="Dán URL ảnh vào đây..." oninput="previewInsertImg(this)" onpaste="setTimeout(()=>previewInsertImg(this),60)">
+        <img class="img-preview-thumb" alt="">
+        <button type="button" class="img-row-del" onclick="removeImgRow(this)" title="Xoá">✕</button>
+      </div>
+    </div>
+    <button type="button" class="img-add-row-btn" onclick="addImgRow()">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Thêm ảnh khác
+    </button>
+    <div class="img-insert-actions">
+      <button class="btn-cancel" onclick="closeImgPopup()">Huỷ</button>
+      <button class="btn-save" onclick="doInsertImages()" style="padding:9px 18px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Chèn ảnh
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM XOÁ BÀI -->
+<div class="del-confirm-overlay" id="delConfirmOverlay">
+  <div class="del-confirm-box">
+    <div class="del-ico">🗑️</div>
+    <h3>Xoá bài viết?</h3>
+    <p>Hành động này không thể hoàn tác.<span class="del-title-preview" id="delTitlePreview"></span></p>
+    <div class="del-confirm-actions">
+      <button class="btn-cancel" onclick="closeDelConfirm()">Huỷ</button>
+      <button class="btn-del-confirm" id="btnDelConfirm" onclick="confirmDelete()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        Xoá bài viết
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="document.getElementById('lightbox').classList.remove('open')">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- MODAL THÊM / SỬA BÀI ── -->
+<div class="add-overlay" id="addOverlay">
+  <div class="add-modal">
+    <div class="add-header">
+      <div>
+        <h2 id="addModalTitle">✏️ Thêm bài viết mới</h2>
+        <div class="add-header-sub" id="addModalSub">Bài viết sẽ được lưu vào Google Sheets</div>
+      </div>
+      <button onclick="closeAdd()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px;line-height:1">✕</button>
+    </div>
+    <div class="add-body">
+      <div class="ctv-notice" id="ctvNotice" style="display:none">
+        ⏳ <span>Bài viết của CTV sẽ được gửi để <strong>admin duyệt</strong> trước khi hiển thị công khai.</span>
+      </div>
+      <input type="hidden" id="editId">
+      <div class="form-row">
+        <label>Tiêu đề bài viết <span>*</span></label>
+        <input class="fi" type="text" id="fTieuDe" placeholder="VD: 5 sai lầm khi đổ móng cần tránh...">
+      </div>
+      <div class="form-2col">
+        <div class="form-row" style="margin-bottom:0">
+          <label>Phần / Chủ đề <span>*</span></label>
+          <select class="fi" id="fPhan">
+            <option value="">-- Chọn chủ đề --</option>
+            <option value="Phần móng">🏗 Phần móng</option>
+            <option value="Phần thân nhà">🧱 Phần thân nhà</option>
+            <option value="Phần mái">🏠 Phần mái</option>
+            <option value="Điện nước">⚡ Điện nước</option>
+            <option value="Hoàn thiện">🎨 Hoàn thiện</option>
+            <option value="Chi phí">💰 Chi phí</option>
+            <option value="Khác">📝 Khác</option>
+          </select>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label>URL ảnh đại diện</label>
+          <input class="fi" type="url" id="fAnhUrl" placeholder="https://..." oninput="previewImg()" onpaste="setTimeout(previewImg,50)">
+        </div>
+      </div>
+      <img class="img-preview" id="imgPreview" alt="Xem trước ảnh">
+      <div class="form-row" style="margin-top:14px">
+        <label>Tóm tắt <span>*</span></label>
+        <textarea class="fi fi-ta" id="fTomTat" placeholder="Tóm tắt ngắn gọn nội dung bài viết (2–4 câu)..." rows="3"></textarea>
+      </div>
+      <div class="form-row">
+        <label>Nội dung chi tiết <span>*</span></label>
+        <div class="rte-wrap">
+          <div class="rte-toolbar">
+            <button type="button" class="rte-btn" id="rteB" title="In đậm (Ctrl+B)" onclick="rteFormat('bold')"><b>B</b></button>
+            <button type="button" class="rte-btn" id="rteI" title="In nghiêng (Ctrl+I)" onclick="rteFormat('italic')"><i>I</i></button>
+            <button type="button" class="rte-btn" id="rteU" title="Gạch chân (Ctrl+U)" onclick="rteFormat('underline')"><u>U</u></button>
+            <div class="rte-sep"></div>
+            <!-- Màu chữ -->
+            <div class="rte-color-wrap" title="Màu chữ">
+              <span class="rte-color-label">A</span>
+              <input type="color" id="rteColor" class="rte-color-input" value="#1A1F18" onchange="rteApplyColor(this.value)">
+              <div class="rte-color-bar" id="rteColorBar" style="background:#1A1F18"></div>
+            </div>
+            <div class="rte-sep"></div>
+            <!-- Font family -->
+            <select class="rte-select" id="rteFont" title="Font chữ" onchange="rteApplyFont(this.value)">
+              <option value="Bookerly">Bookerly</option>
+              <option value="Be Vietnam Pro">Be Vietnam</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Arial">Arial</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Courier New">Courier New</option>
+            </select>
+            <!-- Cỡ chữ -->
+            <select class="rte-select rte-select-sm" id="rteFontSize" title="Cỡ chữ" onchange="rteApplyFontSize(this.value)">
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14" selected>14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="18">18</option>
+              <option value="20">20</option>
+              <option value="24">24</option>
+            </select>
+            <div class="rte-sep"></div>
+            <button type="button" class="rte-btn" title="✅ Checklist" onclick="rteInsert('✅ ')">✅</button>
+            <button type="button" class="rte-btn" title="⚠️ Cảnh báo" onclick="rteInsert('⚠️ ')">⚠️</button>
+            <button type="button" class="rte-btn" title="📌 Ghi chú" onclick="rteInsert('📌 ')">📌</button>
+            <button type="button" class="rte-btn" title="💡 Mẹo" onclick="rteInsert('💡 ')">💡</button>
+            <div class="rte-sep"></div>
+            <button type="button" class="rte-btn" title="Xuống dòng tiêu đề" onclick="rteInsert('\n\n')">¶</button>
+            <div class="rte-sep"></div>
+            <!-- Nút chèn ảnh — icon SVG đẹp hơn -->
+            <button type="button" class="rte-btn rte-btn-img" title="Chèn ảnh vào nội dung" onclick="openImgInsertPopup()">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </button>
+            
+          </div>
+          <textarea class="rte-area" id="fNoiDung" placeholder="Viết nội dung bài viết đầy đủ tại đây...&#10;&#10;Gợi ý:&#10;✅ Dùng icon để nổi bật điểm quan trọng&#10;**chữ đậm** hoặc bấm nút B&#10;_chữ nghiêng_ hoặc bấm nút I&#10;__gạch chân__ hoặc bấm nút U" style="font-family:'Bookerly',Georgia,serif;font-size:14px" oninput="updateRtePreview()"></textarea>
+          <!-- Live preview toggle -->
+          <div class="rte-preview-toggle" id="rtePreviewToggle" onclick="toggleRtePreview()">
+            <span class="preview-dot"></span>
+            <span>Xem trước định dạng</span>
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" style="margin-left:auto;transition:transform .2s" id="rtePreviewArrow"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="rte-preview-panel" id="rtePreviewPanel"></div>
+        </div>
+      </div>
+      <div class="form-2col">
+        <div class="form-row" style="margin-bottom:0">
+          <label>Tags (cách nhau bởi dấu phẩy)</label>
+          <input class="fi" type="text" id="fTags" placeholder="Móng, Bê tông, Kết cấu...">
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label>Tác giả</label>
+          <input class="fi" type="text" id="fTacGia" placeholder="Hùng Lê Design">
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:14px">
+        <label>Link bài viết gốc (nếu có)</label>
+        <input class="fi" type="url" id="fLink" placeholder="https://...">
+      </div>
+    </div>
+    <div class="add-footer">
+      <button class="btn-cancel" onclick="closeAdd()">Huỷ</button>
+      <button class="btn-save" id="btnSave" onclick="saveArticle()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Lưu bài viết
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CACHE UPDATE BANNER -->
+<div id="cacheBanner" style="display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:500;background:var(--dark);color:#fff;padding:10px 18px 10px 16px;border-radius:30px;font-size:13px;font-weight:500;align-items:center;gap:10px;border:1px solid rgba(90,158,74,.4);box-shadow:var(--shadow-lg);white-space:nowrap">
+  📬 Có bài viết mới
+  <button onclick="applyUpdate()" style="background:var(--green2);border:none;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">Cập nhật</button>
+  <button onclick="document.getElementById('cacheBanner').classList.remove('show')" style="background:none;border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;line-height:1;padding:0 2px">✕</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">
+    <img src="/logo.png" alt="logo" onerror="this.style.display='none'">
+    <div>
+      <div class="f-name">Hùng Lê Design Studio</div>
+      <div class="f-sub">Thiết kế từ tâm — Nâng tầm tiện ích</div>
+    </div>
+  </div>
+  <div class="f-r">
+    <a href="tel:0947017495">📞 0947.017.495</a>
+    <p>© <span id="footerYear"></span> Hùng Lê Design Studio</p>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────
+const API_URL   = 'https://script.google.com/macros/s/AKfycbwdH-OVryjHOLoUcGKIC542uOPDqVpdUA6CvPftXVJotWinOpeHuBVCNdzd8bDV-Md1/exec';
+const CACHE_KEY = 'nhadep_kinhnghiem_v1';
+const CACHE_TTL = 5 * 60 * 1000; // 5 phút
+
+// ── AUTH ────────────────────────────────────────────────────
+const role       = sessionStorage.getItem('nhadep_role');
+const user       = sessionStorage.getItem('nhadep_user');
+const adminToken = sessionStorage.getItem('nhadep_token');
+
+// Yêu cầu đăng nhập — redirect nếu chưa đăng nhập
+if (!role || role === 'guest') {
+  location.href = 'index.html?require=login';
+}
+
+const effectiveRole = (() => {
+  if (role === 'admin' && adminToken) return 'admin';
+  if (role === 'ctv'   && adminToken) return 'ctv';
+  return 'member';
+})();
+
+// Hiển thị thông tin user
+if (user) {
+  const label = role === 'ctv' ? ('CTV: ' + user) : ('Xin chào, ' + user);
+  document.getElementById('userLabel').textContent = label;
+  document.getElementById('mobUser').textContent   = label;
+}
+document.getElementById('navLogoutBtn').style.display = '';
+
+// Hiển thị nút thêm bài cho admin/ctv
+if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
+  document.getElementById('addBtnTop').style.display = 'inline-flex';
+  document.getElementById('mobAddBtn').style.display = '';
+}
+
+function logout() { sessionStorage.clear(); location.href = 'index.html'; }
+
+function toggleMobMenu() {
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const menu   = document.getElementById('mobMenu');
+  const toggle = document.getElementById('mobToggle');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target)) {
+    menu.classList.remove('open');
+  }
+});
+
+// ── PHÂN MỤC ───────────────────────────────────────────────
+const SECTIONS = [
+  { key: 'all',         label: 'Tất cả',        icon: '📋' },
+  { key: 'Phần móng',   label: 'Phần móng',      icon: '🏗' },
+  { key: 'Phần thân nhà',label: 'Phần thân nhà', icon: '🧱' },
+  { key: 'Phần mái',    label: 'Phần mái',        icon: '🏠' },
+  { key: 'Điện nước',   label: 'Điện nước',       icon: '⚡' },
+  { key: 'Hoàn thiện',  label: 'Hoàn thiện',      icon: '🎨' },
+  { key: 'Chi phí',     label: 'Chi phí',          icon: '💰' },
+  { key: 'Khác',        label: 'Khác',             icon: '📝' },
+];
+
+// ── STATE ────────────────────────────────────────────────────
+let allArticles  = [];
+let pendingData  = null;
+let activeSection = 'all';
+
+const QUICK_TIPS = [
+  '💡 <strong>Móng nhà:</strong> Luôn đầu tư vào móng — tiết kiệm ở đây dễ dẫn đến nứt tường sau này.',
+  '💡 <strong>Thép xây dựng:</strong> Chọn thép có tem, nhãn rõ ràng từ nhà máy uy tín.',
+  '💡 <strong>Mái nhà:</strong> Độ dốc mái tối thiểu 30° để thoát nước tốt, tránh dột lâu dài.',
+  '💡 <strong>Điện nước:</strong> Lắp ống nước âm tường bằng PPR, không dùng PVC cho nước nóng.',
+  '💡 <strong>Tô trát:</strong> Trát xi măng cần 7–14 ngày bảo dưỡng mới sơn để tránh nứt.',
+  '💡 <strong>Cửa sổ:</strong> Thiết kế đón gió chiều Nam và Đông Nam giúp nhà thoáng mát.',
+  '💡 <strong>Gạch ốp lát:</strong> Ngâm gạch đủ nước trước khi ốp để giảm hút nước, tránh bong.',
+];
+let tipIdx = Math.floor(Math.random() * QUICK_TIPS.length);
+
+// ── CACHE HELPERS ────────────────────────────────────────────
+function getCached() {
+  try { const r = localStorage.getItem(CACHE_KEY); return r ? JSON.parse(r) : null; }
+  catch { return null; }
+}
+function setCache(data) {
+  try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() })); }
+  catch { try { localStorage.removeItem(CACHE_KEY); } catch {} }
+}
+
+// ── FETCH ────────────────────────────────────────────────────
+async function apiGet() {
+  const res  = await fetch(API_URL + '?type=kinhnghiem&t=' + Date.now(), { redirect: 'follow' });
+  const json = await res.json();
+  const data = (json.ok ? json.data : json) || [];
+  return Array.isArray(data)
+    ? data.filter(a => a && (a.tieuDe || '').toString().trim() !== '')
+    : [];
+}
+
+// ── LOAD — CACHE-FIRST STRATEGY ──────────────────────────────
+async function loadArticles() {
+  const cached = getCached();
+
+  // 1. Hiển thị cache ngay lập tức
+  if (cached?.data?.length) {
+    allArticles = cached.data;
+    renderAll();
+    // Nếu cache còn mới (< 5 phút) → dừng, không fetch
+    if (Date.now() - (cached.ts || 0) < CACHE_TTL) return;
+  }
+
+  // 2. Fetch ngầm để kiểm tra có dữ liệu mới không
+  try {
+    const fresh   = await apiGet();
+    const changed = JSON.stringify(fresh) !== JSON.stringify(allArticles);
+    setCache(fresh);
+    if (changed) {
+      if (!allArticles.length) {
+        allArticles = fresh;
+        renderAll();
+      } else {
+        pendingData = fresh;
+        document.getElementById('cacheBanner').classList.add('show');
+      }
+    }
+  } catch(e) {
+    if (!cached?.data?.length) {
+      allArticles = [];
+      renderAll();
+    }
+  }
+}
+
+function applyUpdate() {
+  if (pendingData) { allArticles = pendingData; pendingData = null; renderAll(); showToast('✓ Đã cập nhật'); }
+  document.getElementById('cacheBanner').classList.remove('show');
+}
+
+// ── RENDER ───────────────────────────────────────────────────
+function getSecIcon(sec) {
+  const s = SECTIONS.find(x => x.key === sec);
+  return s ? s.icon : '📝';
+}
+
+function getFiltered() {
+  const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+  return allArticles.filter(a => {
+    const secOk = activeSection === 'all' || a.phan === activeSection || a.danhMuc === activeSection;
+    if (!q) return secOk;
+    const hay = ((a.tieuDe||'') + ' ' + (a.tomTat||'') + ' ' + (a.tags||'')).toLowerCase();
+    return secOk && hay.includes(q);
+  });
+}
+
+function getSecCount(key) {
+  if (key === 'all') return allArticles.length;
+  return allArticles.filter(a => (a.phan || a.danhMuc) === key).length;
+}
+
+function renderSectionTabs() {
+  const tabs = document.getElementById('sectionTabs');
+  tabs.innerHTML = SECTIONS
+    .filter(s => s.key === 'all' || getSecCount(s.key) > 0)
+    .map(s => `
+      <button class="sec-tab${s.key === activeSection ? ' active' : ''}" onclick="setSection('${s.key}')">
+        ${s.icon} ${s.label}
+        <span class="tab-count">${getSecCount(s.key)}</span>
+      </button>
+    `).join('');
+}
+
+function renderArticles() {
+  const filtered = getFiltered();
+  const grid = document.getElementById('articlesGrid');
+  document.getElementById('countBadge').textContent = `${filtered.length} bài viết`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="state-box" style="grid-column:1/-1">
+      <div class="ico">${allArticles.length === 0 ? '📭' : '🔍'}</div>
+      <p>${allArticles.length === 0
+        ? 'Chưa có bài viết nào.<br>Admin/CTV có thể thêm bài viết mới.'
+        : 'Không tìm thấy bài viết phù hợp.<br>Thử từ khoá khác hoặc chọn chủ đề khác.'}</p>
+    </div>`;
+    return;
+  }
+
+  const q = (document.getElementById('searchInput').value || '').trim();
+  grid.innerHTML = filtered.map((a, idx) => {
+    const featured = idx === 0 && activeSection === 'all' && !q;
+    const secLabel = a.phan || a.danhMuc || 'Khác';
+    const tags = (a.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+    const imgEl = a.anhUrl
+      ? `<img src="${escHtml(a.anhUrl)}" alt="${escHtml(a.tieuDe||'')}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=art-card-img-placeholder>${getSecIcon(secLabel)}</div>'">`
+      : `<div class="art-card-img-placeholder">${getSecIcon(secLabel)}</div>`;
+    const canEdit = effectiveRole === 'admin' || effectiveRole === 'ctv';
+    const editBtn = canEdit
+      ? `<button class="card-edit-btn" style="display:inline-flex" onclick="event.stopPropagation();openAdd(allArticles.find(x=>String(x.id)==='${escHtml(String(a.id))}'))">✏️ Sửa</button>`
+      : '';
+    const delBtn = effectiveRole === 'admin'
+      ? `<button class="card-del-btn" style="display:inline-flex" onclick="event.stopPropagation();askDeleteArticle('${escHtml(String(a.id))}')">🗑</button>`
+      : '';
+    return `<div class="art-card${featured ? ' featured' : ''}" onclick="openModal('${escHtml(String(a.id))}')">
+      ${editBtn}${delBtn}
+      <div class="art-card-img">${imgEl}</div>
+      <div class="art-card-body">
+        <div class="art-meta">
+          <span class="art-sec">${getSecIcon(secLabel)} ${escHtml(secLabel)}</span>
+          <span class="art-date">${a.ngayDang || ''}</span>
+        </div>
+        <div class="art-title">${escHtml(a.tieuDe || '')}</div>
+        <div class="art-excerpt">${escHtml(a.tomTat || '')}</div>
+        <div class="art-footer">
+          <div class="art-tags">${tags.slice(0,3).map(t => `<span class="art-tag">${escHtml(t)}</span>`).join('')}</div>
+          <span class="art-read">Đọc ngay <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPopular() {
+  const top = [...allArticles].sort((a, b) => (b.noiBat||0) - (a.noiBat||0)).slice(0, 5);
+  document.getElementById('popularList').innerHTML = top.length
+    ? top.map((a, i) => `
+        <div class="pop-item${i < 2 ? ' top' : ''}" onclick="openModal('${escHtml(String(a.id))}')">
+          <div class="pop-num">${i + 1}</div>
+          <div>
+            <div class="pop-title">${escHtml(a.tieuDe || '')}</div>
+            <div class="pop-sec">${getSecIcon(a.phan || a.danhMuc || '')} ${a.phan || a.danhMuc || 'Khác'}</div>
+          </div>
+        </div>`).join('')
+    : '<div style="color:var(--muted);font-size:12px;text-align:center;padding:8px 0">Chưa có bài viết</div>';
+}
+
+function renderTip() {
+  document.getElementById('tipBox').innerHTML = `<p>${QUICK_TIPS[tipIdx]}</p>`;
+}
+
+function renderAll() {
+  renderSectionTabs();
+  updateFilterBtn();
+  renderPopular();
+  renderTip();
+  renderArticles();
+}
+
+function setSection(key) {
+  activeSection = key;
+  renderSectionTabs();
+  updateFilterBtn();
+  renderArticles();
+  if (window.innerWidth < 768) {
+    document.querySelector('.wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ── MODAL CHI TIẾT ──────────────────────────────────────────
+let currentModalId = null;
+
+function openModal(id) {
+  const a = allArticles.find(x => String(x.id) === String(id));
+  if (!a) return;
+  currentModalId = id;
+  const tags = (a.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+  const secLabel = a.phan || a.danhMuc || 'Khác';
+
+  if (a.anhUrl) {
+    document.getElementById('modalImg').innerHTML = `<img src="${escHtml(a.anhUrl)}" alt="${escHtml(a.tieuDe||'')}" onerror="this.parentElement.innerHTML='<div class=modal-img-placeholder>${getSecIcon(secLabel)}</div>'">`;
+  } else {
+    document.getElementById('modalImg').innerHTML = `<div class="modal-img-placeholder">${getSecIcon(secLabel)}</div>`;
+  }
+  document.getElementById('modalSec').textContent    = `${getSecIcon(secLabel)} ${secLabel}`;
+  document.getElementById('modalDate').textContent   = a.ngayDang || '';
+  document.getElementById('modalAuthor').textContent = a.tacGia ? `✍ ${a.tacGia}` : '';
+  document.getElementById('modalTitle').textContent  = a.tieuDe || '';
+  document.getElementById('modalContent').innerHTML  = formatContent(a.noiDung || a.tomTat || '');
+  document.getElementById('modalTags').innerHTML     = tags.map(t => `<span class="modal-tag">#${escHtml(t)}</span>`).join('');
+  const linkEl = document.getElementById('modalLink');
+  if (a.link) { linkEl.href = a.link; linkEl.style.display = 'inline-flex'; }
+  else { linkEl.style.display = 'none'; }
+
+  // Nút Sửa trong modal: hiện cho admin và ctv
+  const editBtn = document.getElementById('modalEditBtn');
+  const deleteBtn = document.getElementById('modalDeleteBtn');
+  if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
+    editBtn.style.display = 'inline-flex';
+  } else {
+    editBtn.style.display = 'none';
+  }
+  if (effectiveRole === 'admin') {
+    deleteBtn.style.display = 'inline-flex';
+  } else {
+    deleteBtn.style.display = 'none';
+  }
+
+  // Áp dụng font size hiện tại
+  const slider = document.getElementById('readerSlider');
+  applyReaderFont(slider.value);
+
+  // Click ảnh trong nội dung → lightbox
+  setTimeout(() => {
+    document.querySelectorAll('#modalContent img').forEach(img => {
+      img.onclick = () => {
+        document.getElementById('lightboxImg').src = img.src;
+        document.getElementById('lightbox').classList.add('open');
+      };
+    });
+  }, 50);
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  tipIdx = (tipIdx + 1) % QUICK_TIPS.length;
+  renderTip();
+}
+
+function editFromModal() {
+  if (!currentModalId) return;
+  const a = allArticles.find(x => String(x.id) === String(currentModalId));
+  if (!a) return;
+  closeModalDirect();
+  openAdd(a);
+}
+
+// ── XOÁ BÀI VIẾT ────────────────────────────────────────────
+let deleteTargetId = null;
+
+function askDeleteArticle(id) {
+  const a = allArticles.find(x => String(x.id) === String(id));
+  if (!a) return;
+  deleteTargetId = id;
+  document.getElementById('delTitlePreview').textContent = `"${a.tieuDe || ''}"`;
+  document.getElementById('delConfirmOverlay').classList.add('open');
+}
+
+function deleteArticle() {
+  // Gọi từ nút trong modal
+  if (!currentModalId) return;
+  closeModalDirect();
+  askDeleteArticle(currentModalId);
+}
+
+function closeDelConfirm() {
+  document.getElementById('delConfirmOverlay').classList.remove('open');
+  deleteTargetId = null;
+}
+
+async function confirmDelete() {
+  if (!deleteTargetId) return;
+  const btn = document.getElementById('btnDelConfirm');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="animation:spin .7s linear infinite"><path d="M12 2a10 10 0 0 1 10 10"/></svg> Đang xoá...';
+  try {
+    await apiPost({ action: 'deleteKinhNghiem', id: deleteTargetId });
+    allArticles = allArticles.filter(x => String(x.id) !== String(deleteTargetId));
+    setCache(allArticles);
+    renderAll();
+    closeDelConfirm();
+    showToast('🗑 Đã xoá bài viết');
+  } catch(e) {
+    showToast('⚠ Lỗi khi xoá. Vui lòng thử lại.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg> Xoá bài viết';
+  }
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModalDirect(); }
+});
+
+function formatContent(raw) {
+  if (!raw) return '';
+
+  // 1. Escape HTML
+  let s = raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // 2. Markdown & icons
+  s = s
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.*?)__/g, '<u>$1</u>')
+    .replace(/_(.*?)_/g, '<em>$1</em>')
+    .replace(/(✅|⚠️|📌|🔹|💡|✔|❌)/g, '<strong>$1</strong>');
+
+  // 3. Ảnh markdown
+  s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
+    '<img src="$2" alt="$1" loading="lazy" style="max-width:100%;border-radius:6px;margin:8px 0;display:block" onerror="this.style.opacity=0.3">');
+
+  // 4. Màu chữ {c:#hex|text} — parse từ trong ra ngoài (xử lý lồng nhau)
+  let prev;
+  do {
+    prev = s;
+    s = s.replace(/\{c:([^|{}]+)\|([^{}]*)\}/g, '<span style="color:$1">$2</span>');
+  } while (s !== prev);
+
+  // 5. Tương thích ngược span HTML bị escape
+  s = s.replace(
+    /&lt;span style=(?:&quot;|")(color:[^"&]+)(?:&quot;|")&gt;([\s\S]*?)&lt;\/span&gt;/g,
+    '<span style="$1">$2</span>'
+  );
+
+  // 6. Xuống dòng
+  s = s.replace(/\n/g, '<br>');
+  return s;
+}
+
+// ── MODAL THÊM / SỬA ───────────────────────────────────────
+let editingId = null;
+
+function openAdd(article) {
+  editingId = article ? article.id : null;
+  document.getElementById('addModalTitle').textContent = article ? '✏️ Sửa bài viết' : '✏️ Thêm bài viết mới';
+  document.getElementById('addModalSub').textContent   = effectiveRole === 'ctv'
+    ? 'Bài viết sẽ gửi admin duyệt trước khi đăng'
+    : 'Bài viết sẽ lưu trực tiếp lên Google Sheets';
+  document.getElementById('ctvNotice').style.display   = effectiveRole === 'ctv' ? 'flex' : 'none';
+  document.getElementById('editId').value = editingId || '';
+
+  // Điền dữ liệu nếu sửa
+  document.getElementById('fTieuDe').value  = article?.tieuDe  || '';
+  document.getElementById('fPhan').value    = article?.phan || article?.danhMuc || '';
+  document.getElementById('fAnhUrl').value  = article?.anhUrl  || '';
+  document.getElementById('fTomTat').value  = article?.tomTat  || '';
+  document.getElementById('fNoiDung').value = article?.noiDung || '';
+  document.getElementById('fTags').value    = article?.tags    || '';
+  document.getElementById('fTacGia').value  = article?.tacGia  || (user || '');
+  document.getElementById('fLink').value    = article?.link    || '';
+  previewImg();
+
+  document.getElementById('addOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('mobMenu').classList.remove('open');
+  // Reset preview panel
+  rtePreviewOn = false;
+  document.getElementById('rtePreviewToggle').classList.remove('on');
+  document.getElementById('rtePreviewPanel').classList.remove('on');
+  document.getElementById('rtePreviewArrow').style.transform = '';
+  setTimeout(() => document.getElementById('fTieuDe').focus(), 200);
+}
+
+function closeAdd() {
+  document.getElementById('addOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  editingId = null;
+}
+
+function previewImg() {
+  const url  = document.getElementById('fAnhUrl').value.trim();
+  const prev = document.getElementById('imgPreview');
+  if (url) { prev.src = url; prev.classList.add('on'); prev.onerror = () => prev.classList.remove('on'); }
+  else { prev.src = ''; prev.classList.remove('on'); }
+}
+
+async function saveArticle() {
+  const tieuDe  = document.getElementById('fTieuDe').value.trim();
+  const phan    = document.getElementById('fPhan').value;
+  const tomTat  = document.getElementById('fTomTat').value.trim();
+  const noiDung = document.getElementById('fNoiDung').value.trim();
+
+  if (!tieuDe)  { showToast('⚠ Vui lòng nhập tiêu đề'); return; }
+  if (!phan)    { showToast('⚠ Vui lòng chọn chủ đề'); return; }
+  if (!tomTat)  { showToast('⚠ Vui lòng nhập tóm tắt'); return; }
+  if (!noiDung) { showToast('⚠ Vui lòng nhập nội dung'); return; }
+
+  const isNew = !editingId;
+  const id    = editingId || ('KN' + Date.now());
+  const now   = new Date();
+  const ngay  = now.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+
+  const obj = {
+    id,
+    tieuDe,
+    phan,
+    danhMuc: phan, // backward compat
+    tomTat,
+    noiDung,
+    anhUrl : document.getElementById('fAnhUrl').value.trim(),
+    tags   : document.getElementById('fTags').value.trim(),
+    tacGia : document.getElementById('fTacGia').value.trim() || (user || 'Hùng Lê Design'),
+    link   : document.getElementById('fLink').value.trim(),
+    ngayDang: isNew ? ngay : (allArticles.find(a => a.id === id)?.ngayDang || ngay),
+    noiBat : isNew ? 0 : (allArticles.find(a => a.id === id)?.noiBat || 0),
+  };
+
+  const isCTV = effectiveRole === 'ctv';
+  if (isCTV) obj.status = 'pending';
+
+  const btn = document.getElementById('btnSave');
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="animation:spin .7s linear infinite"><path d="M12 2a10 10 0 0 1 10 10"/></svg> Đang lưu...';
+
+  try {
+    const action = isCTV ? 'submitPendingKN' : (isNew ? 'addKinhNghiem' : 'editKinhNghiem');
+    await apiPost({ action, article: obj, submittedBy: user || '' });
+
+    if (isNew) allArticles.push(obj);
+    else { const i = allArticles.findIndex(x => x.id === id); if (i >= 0) allArticles[i] = obj; }
+
+    setCache(allArticles);
+    renderAll();
+    closeAdd();
+    showToast(isCTV ? '✓ Đã gửi chờ admin duyệt' : (isNew ? '✓ Đã đăng bài viết' : '✓ Đã cập nhật bài viết'));
+  } catch(e) {
+    showToast('⚠ Lỗi kết nối. Vui lòng thử lại.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Lưu bài viết';
+  }
+}
+
+// ── FILTER DROPDOWN ─────────────────────────────────────────
+function renderFilterDrop() {
+  const drop = document.getElementById('filterDrop');
+  drop.innerHTML = SECTIONS.map(s => {
+    const cnt = getSecCount(s.key);
+    if (s.key !== 'all' && cnt === 0) return '';
+    return `<button class="fd-item${s.key === activeSection ? ' sel' : ''}" onclick="pickFilterSection('${s.key}')">
+      <span>${s.icon} ${s.label}</span>
+      <span class="fd-cnt">${cnt}</span>
+    </button>`;
+  }).join('');
+}
+
+function updateFilterBtn() {
+  const btn   = document.getElementById('filterBtn');
+  const label = document.getElementById('filterBtnLabel');
+  const badge = document.getElementById('filterBtnBadge');
+  if (activeSection === 'all') {
+    btn.classList.remove('active');
+    label.textContent = 'Lọc bài viết';
+    badge.style.display = 'none';
+  } else {
+    btn.classList.add('active');
+    const sec = SECTIONS.find(s => s.key === activeSection);
+    label.textContent = sec ? sec.icon + ' ' + sec.label : activeSection;
+    badge.textContent = getSecCount(activeSection);
+    badge.style.display = '';
+  }
+}
+
+function toggleFilterDrop(e) {
+  e.stopPropagation();
+  renderFilterDrop();
+  document.getElementById('filterDrop').classList.toggle('open');
+}
+
+function pickFilterSection(key) {
+  document.getElementById('filterDrop').classList.remove('open');
+  setSection(key);
+}
+
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('filterWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('filterDrop').classList.remove('open');
+  }
+});
+
+// ── CON TRƯỢT CỠ CHỮ ────────────────────────────────────────
+function applyReaderFont(val) {
+  document.getElementById('modalContent').style.fontSize = val + 'px';
+  document.getElementById('readerSizeDisplay').textContent = val + 'px';
+}
+
+// ── CHÈN ẢNH VÀO NỘI DUNG ──────────────────────────────────
+let imgInsertCursorPos = 0;
+
+function openImgInsertPopup() {
+  const ta = document.getElementById('fNoiDung');
+  imgInsertCursorPos = ta.selectionStart;
+  // Reset về 1 row trống
+  document.getElementById('imgUrlRows').innerHTML = buildImgRow('');
+  document.getElementById('imgInsertPopup').classList.add('open');
+}
+
+function buildImgRow(val) {
+  return `<div class="img-url-row">
+    <input type="url" value="${val}" placeholder="Dán URL ảnh vào đây..." oninput="previewInsertImg(this)" onpaste="setTimeout(()=>previewInsertImg(this),60)">
+    <img class="img-preview-thumb${val ? ' on' : ''}" src="${val}" alt="">
+    <button type="button" class="img-row-del" onclick="removeImgRow(this)" title="Xoá">✕</button>
+  </div>`;
+}
+
+function addImgRow() {
+  document.getElementById('imgUrlRows').insertAdjacentHTML('beforeend', buildImgRow(''));
+}
+
+function removeImgRow(btn) {
+  const rows = document.querySelectorAll('#imgUrlRows .img-url-row');
+  if (rows.length <= 1) { btn.closest('.img-url-row').querySelector('input').value = ''; previewInsertImg(btn.closest('.img-url-row').querySelector('input')); return; }
+  btn.closest('.img-url-row').remove();
+}
+
+function closeImgPopup() {
+  document.getElementById('imgInsertPopup').classList.remove('open');
+}
+
+function previewInsertImg(input) {
+  const thumb = input.nextElementSibling;
+  const url = input.value.trim();
+  if (url) {
+    thumb.src = url;
+    thumb.classList.add('on');
+    thumb.onerror = () => { thumb.classList.remove('on'); thumb.src = ''; };
+  } else {
+    thumb.src = '';
+    thumb.classList.remove('on');
+  }
+}
+
+function doInsertImages() {
+  const ta = document.getElementById('fNoiDung');
+  const inputs = document.querySelectorAll('#imgUrlRows input[type=url]');
+  let inserted = 0;
+  let syntax = '';
+  inputs.forEach(inp => {
+    const url = inp.value.trim();
+    if (url) { syntax += `\n![](${url})`; inserted++; }
+  });
+  if (!syntax) { closeImgPopup(); return; }
+  ta.value = ta.value.substring(0, imgInsertCursorPos) + syntax + ta.value.substring(imgInsertCursorPos);
+  ta.selectionStart = ta.selectionEnd = imgInsertCursorPos + syntax.length;
+  ta.focus();
+  closeImgPopup();
+  showToast(`✓ Đã chèn ${inserted} ảnh vào nội dung`);
+}
+
+// ── LIVE PREVIEW ─────────────────────────────────────────────
+let rtePreviewOn = false;
+
+function toggleRtePreview() {
+  rtePreviewOn = !rtePreviewOn;
+  const toggle = document.getElementById('rtePreviewToggle');
+  const panel  = document.getElementById('rtePreviewPanel');
+  const arrow  = document.getElementById('rtePreviewArrow');
+  toggle.classList.toggle('on', rtePreviewOn);
+  panel.classList.toggle('on', rtePreviewOn);
+  arrow.style.transform = rtePreviewOn ? 'rotate(180deg)' : '';
+  if (rtePreviewOn) updateRtePreview();
+}
+
+function updateRtePreview() {
+  if (!rtePreviewOn) return;
+  const ta  = document.getElementById('fNoiDung');
+  const panel = document.getElementById('rtePreviewPanel');
+  const raw = ta.value;
+  if (!raw.trim()) {
+    panel.innerHTML = '<span class="rte-preview-empty">Nội dung preview sẽ hiển thị ở đây...</span>';
+    return;
+  }
+  panel.innerHTML = formatContent(raw);
+  // Sync font từ textarea
+  panel.style.fontFamily = ta.style.fontFamily || "'Bookerly',Georgia,serif";
+  panel.style.fontSize   = ta.style.fontSize   || '14px';
+}
+
+// ── FONT / MÀU / CỠ CHỮ TRONG SOẠN THẢO ────────────────────
+function rteApplyFont(font) {
+  const ta = document.getElementById('fNoiDung');
+  ta.style.fontFamily = font === 'Bookerly' ? "'Bookerly',Georgia,serif" : font;
+  updateRtePreview();
+}
+
+function rteApplyFontSize(size) {
+  document.getElementById('fNoiDung').style.fontSize = size + 'px';
+  updateRtePreview();
+}
+
+function rteApplyColor(color) {
+  document.getElementById('rteColorBar').style.background = color;
+  const ta = document.getElementById('fNoiDung');
+  let s  = rteColorCursor.s;
+  let e2 = rteColorCursor.e;
+
+  // Lấy toàn bộ nội dung
+  let full = ta.value;
+
+  // Nếu không có selection, thử mở rộng ra khối {c:...|...} đang chứa cursor
+  if (s === e2) {
+    const before = full.substring(0, s);
+    const after  = full.substring(s);
+    const startMatch = before.match(/\{c:[^|]+\|[^}]*$/);   // {c:...|...  (chưa đóng)
+    const endIdx = after.indexOf('}');
+    if (startMatch && endIdx !== -1) {
+      s  = s - startMatch[0].length;
+      e2 = e2 + endIdx + 1;
+    }
+  }
+
+  let sel = full.substring(s, e2);
+
+  // Unwrap tất cả lớp {c:...|...} lồng nhau trong selection → lấy text thuần
+  function stripColor(str) {
+    let prev;
+    do {
+      prev = str;
+      str = str.replace(/\{c:[^|]+\|((?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*)\}/g, '$1');
+    } while (str !== prev);
+    // Cũng dọn span HTML cũ (tương thích ngược)
+    str = str.replace(/<span style="color:[^"]*">([\s\S]*?)<\/span>/g, '$1');
+    return str;
+  }
+
+  const cleanText = stripColor(sel);
+
+  let insert, cursorAfter;
+  if (cleanText.trim()) {
+    // Có text → bọc bằng màu mới
+    insert = `{c:${color}|${cleanText}}`;
+    cursorAfter = s + insert.length;
+  } else {
+    // Không có text → chèn placeholder để gõ
+    insert = `{c:${color}|}`;
+    cursorAfter = s + insert.length - 1;
+  }
+
+  ta.value = full.substring(0, s) + insert + full.substring(e2);
+  ta.selectionStart = ta.selectionEnd = cursorAfter;
+  ta.focus();
+  updateRtePreview();
+}
+
+// Lưu vị trí cursor & selection trước khi color picker chiếm focus
+let rteColorCursor = { s: 0, e: 0 };
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('fNoiDung');
+  const colorInput = document.getElementById('rteColor');
+  if (ta && colorInput) {
+    // Lưu cursor mỗi khi textarea thay đổi selection
+    ['mouseup','keyup','focus'].forEach(ev => {
+      ta.addEventListener(ev, () => {
+        rteColorCursor = { s: ta.selectionStart, e: ta.selectionEnd };
+      });
+    });
+    // Lưu lại lúc click vào color wrap (trước khi textarea mất focus)
+    colorInput.closest('.rte-color-wrap')?.addEventListener('mousedown', () => {
+      rteColorCursor = { s: ta.selectionStart, e: ta.selectionEnd };
+    });
+  }
+});
+
+// ── RICH-TEXT TOOLBAR ───────────────────────────────────────
+function rteFormat(type) {
+  const ta = document.getElementById('fNoiDung');
+  const s  = ta.selectionStart;
+  const e2 = ta.selectionEnd;
+  const sel = ta.value.substring(s, e2);
+  const map  = { bold: ['**','**'], italic: ['_','_'], underline: ['__','__'] };
+  const [o, c] = map[type];
+
+  // Toggle: nếu đã bọc thì bỏ, chưa thì thêm
+  if (s < e2) {
+    const before = ta.value.substring(s - o.length, s);
+    const after  = ta.value.substring(e2, e2 + c.length);
+    if (before === o && after === c) {
+      // Bỏ format
+      ta.value = ta.value.substring(0, s - o.length) + sel + ta.value.substring(e2 + c.length);
+      ta.selectionStart = s - o.length;
+      ta.selectionEnd   = e2 - o.length;
+    } else {
+      // Thêm format
+      ta.value = ta.value.substring(0, s) + o + sel + c + ta.value.substring(e2);
+      ta.selectionStart = s;
+      ta.selectionEnd   = e2 + o.length + c.length;
+    }
+  } else {
+    // Không có selection: chèn placeholder
+    const ph = { bold: 'chữ đậm', italic: 'chữ nghiêng', underline: 'gạch chân' }[type];
+    ta.value = ta.value.substring(0, s) + o + ph + c + ta.value.substring(s);
+    ta.selectionStart = s + o.length;
+    ta.selectionEnd   = s + o.length + ph.length;
+  }
+  ta.focus();
+}
+
+function rteInsert(text) {
+  const ta = document.getElementById('fNoiDung');
+  const s  = ta.selectionStart;
+  ta.value = ta.value.substring(0, s) + text + ta.value.substring(s);
+  ta.selectionStart = ta.selectionEnd = s + text.length;
+  ta.focus();
+}
+
+// Ctrl+B/I/U shortcut trong textarea
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('fNoiDung');
+  if (ta) {
+    ta.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
+        if (e.key === 'b' || e.key === 'B') { e.preventDefault(); rteFormat('bold'); }
+        if (e.key === 'i' || e.key === 'I') { e.preventDefault(); rteFormat('italic'); }
+        if (e.key === 'u' || e.key === 'U') { e.preventDefault(); rteFormat('underline'); }
+      }
+    });
+  }
+});
+async function apiPost(payload) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    redirect: 'follow',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ ...payload, token: adminToken || '' }),
+  });
+  const json = await res.json();
+  if (json.ok === false) throw new Error(json.error || 'API error');
+  return json;
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── UTILS ────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+loadArticles();
+</script>
+</body>
+</html>

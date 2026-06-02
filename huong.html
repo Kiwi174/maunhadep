@@ -205,7 +205,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     <button class="nb nb-ghost" onclick="location.href='noithat.html'">🛋 Nội thất</button>
     <button class="nb nb-green" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
     <button class="nb nb-ghost" onclick="location.href='estimate.html'">Khái toán chi phí</button>
-    <button class="nb nb-ghost" onclick="location.href='dutoanvattu.html'">📦 Vật tư</button>
+    <button class="nb nb-ghost" onclick="location.href='kinhnghiem.html'">📖 Kinh nghiệm</button>
     <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
     <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
     <button class="nb nb-ghost" id="navLogoutBtn" onclick="logout()">Đăng xuất</button>
@@ -220,7 +220,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
   <a href="noithat.html" class="mob-item">🛋 Tư vấn nội thất</a>
   <a href="estimate.html" class="mob-item">🧮 Dự toán chi phí</a>
-  <a href="dutoanvattu.html" class="mob-item">📦 Dự toán vật tư</a>
+  <a href="kinhnghiem.html" class="mob-item">📖 Kinh nghiệm xây nhà</a>
   <a href="huong.html" class="mob-item">🧭 Hướng nhà hợp tuổi</a>
   <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
   <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
@@ -423,11 +423,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') document.getElementById('mobMenu').classList.remove('open');
 });
 
-// ══ DỮ LIỆU BÁT TRẠCH ══
-// Cung mệnh theo năm sinh ÂM LỊCH × giới tính
-// Công thức chuẩn theo Bát Trạch (dùng 2 số cuối năm AL):
-// Sinh trước 2000 — Nam: 10 - s (nếu = 5 → 2/Khôn), Nữ: s + 5 (nếu = 5 → 8/Cấn)
-// Sinh từ 2000    — Nam:  9 - s (nếu = 5 → 2/Khôn), Nữ: s + 6 (nếu = 5 → 8/Cấn)
+
 
 const CUNG_NAME = ['','Khảm','Khôn','Chấn','Tốn','(5)','Càn','Đoài','Cấn','Ly'];
 const CUNG_SYMBOL = ['','☵','☷','☳','☴','','☰','☱','☶','☲'];
