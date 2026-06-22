@@ -35,12 +35,12 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 @keyframes slideUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
 
 /* ── NAV ── */
-.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07)}
+.nav{position:sticky;top:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 32px;min-height:var(--nav-h);border-bottom:1px solid var(--bd);box-shadow:0 1px 6px rgba(61,107,52,.07);flex-wrap:wrap;gap:10px}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;min-width:0}
 .nav-logo img{height:40px;width:40px;flex-shrink:0;border-radius:4px}
 .nl-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:.3px;line-height:1.1}
 .nl-sub{font-size:9px;color:var(--green2);letter-spacing:2px;text-transform:uppercase;font-weight:600}
-.nav-r{display:flex;gap:6px;align-items:center}
+.nav-r{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .nav-user{font-size:12px;color:var(--muted);margin-right:4px;font-weight:500}
 .nav-phone{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--green2);font-weight:600;border:1px solid rgba(90,158,74,.35);border-radius:20px;padding:5px 13px;text-decoration:none;transition:.2s}
 .nav-phone:hover{border-color:var(--green2);background:var(--green2);color:#fff}
@@ -420,6 +420,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
     <button class="nb nb-ghost" onclick="location.href='noithat.html'">🛋Nội thất</button>
     <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
     <button class="nb nb-ghost" onclick="location.href='estimate.html'">Khái toán</button>
+    <button class="nb nb-ghost" onclick="location.href='hopdong.html'">📝 Lập hợp đồng</button>
     <button class="nb nb-ghost" onclick="location.href='kinhnghiem.html'">📖 Kinh nghiệm</button>
     <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
     <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
@@ -440,6 +441,7 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
   <a href="noithat.html" class="mob-item">🛋 Tư vấn nội thất</a>
   <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
   <a href="estimate.html" class="mob-item">📊 Khái toán chi phí xây dựng</a>
+  <a href="hopdong.html" class="mob-item">📝 Lập hợp đồng</a>
   <a href="kinhnghiem.html" class="mob-item">📖 Kinh nghiệm xây nhà</a>
   <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
   <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
