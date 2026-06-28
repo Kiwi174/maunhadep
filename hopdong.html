@@ -851,7 +851,7 @@
       <button class="nb nb-ghost" onclick="location.href='home.html'">🏠 Thư viện</button>
       <button class="nb nb-ghost" onclick="location.href='noithat.html'">🛋 Nội thất</button>
       <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
-      <button class="nb nb-ghost" onclick="location.href='estimate.html'">Khái toán</button>
+      <button class="nb nb-ghost" onclick="location.href='estimate.html'">📊 Khái toán</button>
       <button class="nb nb-green" onclick="location.href='hopdong.html'">📝 Lập hợp đồng</button>
       <button class="nb nb-ghost" onclick="location.href='kinhnghiem.html'">📖 Kinh nghiệm</button>
       <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
@@ -872,14 +872,14 @@
   <div class="mob-menu" id="mobMenu">
     <div class="mob-user" id="mobUser" style="font-size:13px;color:var(--muted);padding:8px 16px;font-weight:500"></div>
     <div class="mob-sep"></div>
-    <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
-    <a href="noithat.html" class="mob-item">🛋 Tư vấn nội thất</a>
-    <a href="estimate.html" class="mob-item">📊 Khái toán chi phí</a>
-    <a href="hopdong.html" class="mob-item" style="color:var(--green);background:var(--gl)">📝 Lập hợp đồng</a>
-    <a href="huong.html" class="mob-item">🧭 Hướng nhà / Phong thuỷ</a>
-    <a href="kinhnghiem.html" class="mob-item">📖 Kinh nghiệm xây nhà</a>
+    <a href="home.html" class="mob-item">🏠 Thư viện</a>
+    <a href="noithat.html" class="mob-item">🛋 Nội thất</a>
+    <a href="huong.html" class="mob-item">🧭 Hướng nhà</a>
+    <a href="estimate.html" class="mob-item">📊 Khái toán</a>
+    <a href="hopdong.html" class="mob-item active-page">📝 Lập hợp đồng</a>
+    <a href="kinhnghiem.html" class="mob-item">📖 Kinh nghiệm</a>
     <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
-    <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
+    <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi</a>
     <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
     <div class="mob-sep"></div>
     <button class="mob-item" onclick="logout()" id="mobLogoutBtn" style="display:none;color:#c05050">🚪 Đăng
@@ -906,13 +906,25 @@
       <div class="section-title">THÔNG TIN ĐƠN VỊ THIẾT KẾ (BÊN B)</div>
       <div class="fg">
         <label>Tên thương hiệu / Công ty</label>
-        <input type="text" id="brandName" value="KANA HOME DESIGN" placeholder="VD: KANA HOME DESIGN"
+        <input type="text" id="brandName" value="Hùng Lê Design Studio" placeholder="VD: Hùng Lê Design Studio"
           oninput="updateField('TEN_THUONG_HIEU', this.value)">
       </div>
       <div class="fg">
         <label>Người đại diện</label>
         <input type="text" id="brandRep" value="LÊ SỸ HÙNG" placeholder="VD: LÊ SỸ HÙNG"
           oninput="updateField('NGUOI_DAI_DIEN', this.value)">
+      </div>
+      <div class="fg">
+        <label>CCCD / CMND (Bên Thiết Kế)</label>
+        <input type="text" id="brandCCCD" placeholder="VD: 001090001234" oninput="updateField('THUONG_HIEU_CCCD', this.value)">
+      </div>
+      <div class="fg">
+        <label>Ngày cấp (Bên Thiết Kế)</label>
+        <input type="text" id="brandCCCDDate" placeholder="VD: 01/01/2020" oninput="updateField('THUONG_HIEU_NGAY_CAP', this.value)">
+      </div>
+      <div class="fg">
+        <label>Nơi cấp (Bên Thiết Kế)</label>
+        <input type="text" id="brandCCCDPlace" value="Cục C06 - Bộ Công an" placeholder="VD: Cục C06 - Bộ Công an" oninput="updateField('THUONG_HIEU_NOI_CAP', this.value)">
       </div>
 
       <div class="section-title">THÔNG TIN KHÁCH HÀNG (BÊN A)</div>
@@ -921,13 +933,18 @@
         <input type="text" id="cusName" placeholder="VD: Nguyễn Văn A"
           oninput="updateField('TEN_KHACH_HANG', this.value)">
       </div>
-      <div class="fg">
-        <label>Năm sinh</label>
-        <input type="text" id="cusDOB" placeholder="VD: 1990" oninput="updateField('NAM_SINH', this.value)">
-      </div>
+
       <div class="fg">
         <label>CCCD / CMND</label>
         <input type="text" id="cusID" placeholder="VD: 001090001234" oninput="updateField('CCCD', this.value)">
+      </div>
+      <div class="fg">
+        <label>Ngày cấp (Khách Hàng)</label>
+        <input type="text" id="cusCCCDDate" placeholder="VD: 01/01/2020" oninput="updateField('KHACH_HANG_NGAY_CAP', this.value)">
+      </div>
+      <div class="fg">
+        <label>Nơi cấp (Khách Hàng)</label>
+        <input type="text" id="cusCCCDPlace" value="Cục C06 - Bộ Công an" placeholder="VD: Cục C06 - Bộ Công an" oninput="updateField('KHACH_HANG_NOI_CAP', this.value)">
       </div>
       <div class="fg">
         <label>Địa chỉ thường trú</label>
@@ -1209,13 +1226,16 @@
   
   <p class="bold" style="margin-top: 15px;">BÊN A (BÊN GIAO THIẾT KẾ): CHỦ ĐẦU TƯ</p>
   <p>- Đại diện: <strong class="ph-TEN_KHACH_HANG">..............................</strong></p>
-  <p>- Số CCCD: <span class="ph-CCCD">.........................</span></p>
   <p>- Địa chỉ thường trú: <span class="ph-DIA_CHI">....................................................................................</span></p>
   <p>- Điện thoại: <span class="ph-SDT">.........................</span></p>
+  <p>- Số CCCD: <span class="ph-CCCD">.........................</span> Ngày cấp: <span class="ph-KHACH_HANG_NGAY_CAP">.......................</span> Nơi cấp: <span class="ph-KHACH_HANG_NOI_CAP">.......................</span></p>
 
-  <p class="bold" style="margin-top: 15px;">BÊN B (BÊN NHẬN THIẾT KẾ): <span class="ph-TEN_THUONG_HIEU" style="text-transform: uppercase;">KANA HOME DESIGN</span></p>
-  <p>- Địa chỉ Trụ sở: Tầng 4, Tòa nhà Nissan Bình Thủy, phường Thành Sen, Hà Tĩnh</p>
-  <p>- Người đại diện: <strong class="ph-NGUOI_DAI_DIEN">LÊ SỸ HÙNG</strong>, Điện thoại: 0947.017.495, Chức vụ: Quản lý thiết kế và thi công.</p>
+  <p class="bold" style="margin-top: 15px;">BÊN B (BÊN NHẬN THIẾT KẾ): <span class="ph-TEN_THUONG_HIEU" style="text-transform: uppercase;">Hùng Lê Design Studio</span></p>
+  <p>- Đại diện: <strong class="ph-NGUOI_DAI_DIEN">LÊ SỸ HÙNG</strong></p>
+  <p>- Chức vụ: Quản lý thiết kế và thi công</p>
+  <p>- Địa chỉ trụ sở: Tầng 4, Tòa nhà Nissan Bình Thủy, phường Thành Sen, Hà Tĩnh</p>
+  <p>- Điện thoại: 0947.017.495</p>
+  <p>- Số CCCD: <span class="ph-THUONG_HIEU_CCCD">.........................</span> Ngày cấp: <span class="ph-THUONG_HIEU_NGAY_CAP">.......................</span> Nơi cấp: <span class="ph-THUONG_HIEU_NOI_CAP">.......................</span></p>
   
   <p style="margin-top: 15px;">Hai bên thống nhất ký kết Hợp đồng Tư Vấn và Thiết Kế Kiến Trúc cho công trình nhà ở với các điều khoản sau:</p>
   
@@ -1249,7 +1269,7 @@
   </ul>
 
   <p class="bold" style="margin-top: 15px;">2. GIÁ TRỊ HỢP ĐỒNG & PHƯƠNG THỨC THANH TOÁN:</p>
-  <p>Diện tích xây dựng: <span class="ph-DIEN_TICH">..........................................</span></p>
+  <p>Diện tích xây dựng: <span class="ph-DIEN_TICH">..........................................</span> m2</p>
   <p>Đơn giá thiết kế: Đối với diện tích &lt; 200m2, giá 20.000.000 đồng/bộ hồ sơ, đối với diện tích &gt;=200 m2 thì đơn giá thiết kế là 120.000đ/m2</p>
   <p>Giá Trị Hợp Đồng: <strong class="ph-GIA_TRI_HD">....................</strong> đồng</p>
   <p>Bằng chữ: <span class="ph-GIA_TRI_HD_CHU">........................................................................................</span></p>
@@ -1286,10 +1306,10 @@
   <p>5.3 Hợp đồng này có hiệu lực từ ngày ký cho đến khi hoàn tất việc thanh lý Hợp đồng. Hợp đồng này được lập thành 02 bản, Bên A giữ 01 bản, Bên B giữ 01 bản, và có giá trị pháp lý như nhau.</p>
   <p>Sau khi đọc lại lần cuối cùng và thống nhất với những nội dung đã ghi trong Hợp đồng, hai bên cùng ký tên dưới đây.</p>
 
-  <table style="border: none; margin-top: 40px; text-align: center;">
+  <table style="width: 100%; border: none; margin-top: 40px; text-align: center;">
     <tr>
-      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN A</p><p class="italic">(Ký và ghi rõ họ tên)</p><br><br><br><br><p class="ph-TEN_KHACH_HANG">..............................</p></td>
-      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN B</p><p class="italic">(Ký và ghi rõ họ tên)</p><br><br><br><br><p class="ph-NGUOI_DAI_DIEN">LÊ SỸ HÙNG</p></td>
+      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN A</p><p class="italic">(Ký và ghi rõ họ tên)</p><br><br><br><br><p class="bold ph-TEN_KHACH_HANG">..............................</p></td>
+      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN B</p><p class="italic">(Ký và ghi rõ họ tên)</p><br><br><br><br><p class="bold ph-NGUOI_DAI_DIEN">LÊ SỸ HÙNG</p></td>
     </tr>
   </table>
 `;
@@ -1311,12 +1331,12 @@
   <p>– Đại diện: <strong class="ph-NGUOI_DAI_DIEN">..............................</strong></p>
   <p>– Địa chỉ          : ....................................................................................</p>
   <p>– Điện thoại   : .........................</p>
-  <p>– Số CCCD : ......................... Ngày cấp: ....................... Nơi Cấp: .......................</p>
+  <p>– Số CCCD : <span class="ph-THUONG_HIEU_CCCD">.........................</span> Ngày cấp: <span class="ph-THUONG_HIEU_NGAY_CAP">.......................</span> Nơi cấp: <span class="ph-THUONG_HIEU_NOI_CAP">.......................</span></p>
 
   <p class="bold" style="margin-top: 15px;">BÊN B (BÊN THUÊ THIẾT KẾ): <strong class="ph-TEN_KHACH_HANG" style="text-transform: uppercase;">..............................</strong></p>
   <p>– Địa chỉ          : <span class="ph-DIA_CHI">....................................................................................</span></p>
   <p>– Điện thoại   : <span class="ph-SDT">.........................</span></p>
-  <p>– Số CCCD : <span class="ph-CCCD">.........................</span> Ngày cấp: ....................... Nơi Cấp: .......................</p>
+  <p>– Số CCCD : <span class="ph-CCCD">.........................</span> Ngày cấp: <span class="ph-KHACH_HANG_NGAY_CAP">.......................</span> Nơi cấp: <span class="ph-KHACH_HANG_NOI_CAP">.......................</span></p>
 
   <p style="margin-top: 15px;">Hai bên thỏa thuận ký kết hợp đồng thiết kế nội thất với các điều khoản sau:</p>
 
@@ -1370,10 +1390,10 @@
   <p>– Hợp đồng này là cơ sở để ký kết hợp đồng thi công.</p>
   <p>– Hợp đồng này có hiệu lực kể từ ngày ký và được lập thành 02 bản có giá trị Pháp lý như nhau. Mỗi bên giữ 01 bản.</p>
 
-  <table style="border: none; margin-top: 40px; text-align: center;">
+  <table style="width: 100%; border: none; margin-top: 40px; text-align: center;">
     <tr>
-      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN A</p><p class="italic">(Đóng dấu, ký và ghi rõ họ tên)</p><br><br><br><br><p class="ph-TEN_THUONG_HIEU">..............................</p></td>
-      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN B</p><p class="italic">(Ký và ghi rõ họ tên)</p><br><br><br><br><p class="ph-TEN_KHACH_HANG">..............................</p></td>
+      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN A</p><p class="italic">(Đóng dấu, ký và ghi rõ họ tên)</p><br><br><br><br><p class="bold ph-TEN_THUONG_HIEU">..............................</p></td>
+      <td style="border: none; width: 50%;"><p class="bold">ĐẠI DIỆN BÊN B</p><p class="italic">(Ký và ghi rõ họ tên)</p><br><br><br><br><p class="bold ph-TEN_KHACH_HANG">..............................</p></td>
     </tr>
   </table>
 `;
@@ -1382,9 +1402,14 @@
     const inputsState = {
       TEN_THUONG_HIEU: 'Hùng Lê Design Studio',
       NGUOI_DAI_DIEN: 'LÊ SỸ HÙNG',
+      THUONG_HIEU_CCCD: '',
+      THUONG_HIEU_NGAY_CAP: '',
+      THUONG_HIEU_NOI_CAP: 'Cục C06 - Bộ Công an',
       TEN_KHACH_HANG: '',
-      NAM_SINH: '',
+
       CCCD: '',
+      KHACH_HANG_NGAY_CAP: '',
+      KHACH_HANG_NOI_CAP: 'Cục C06 - Bộ Công an',
       DIA_CHI: '',
       SDT: '',
       TEN_CONG_TRINH: '',
@@ -1401,6 +1426,16 @@
     function generateContract() {
       const type = document.getElementById('contractType').value;
       let html = type === 'noithat' ? TPL_NOITHAT : TPL_KIENTRUC;
+
+      // Lấy ngày hiện tại theo múi giờ Việt Nam (Asia/Ho_Chi_Minh)
+      const d = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+
+      html = html.replace('ngày ..... tháng ..... năm 20....,', `ngày ${dd} tháng ${mm} năm ${yyyy},`);
+      html = html.replace('ngày....... tháng ...năm ..............,', `ngày ${dd} tháng ${mm} năm ${yyyy},`);
+
       document.getElementById('paper').innerHTML = html;
 
       // Re-apply current input values
@@ -1576,9 +1611,14 @@
             const fields = {
               'TEN_THUONG_HIEU': 'brandName',
               'NGUOI_DAI_DIEN': 'brandRep',
+              'THUONG_HIEU_CCCD': 'brandCCCD',
+              'THUONG_HIEU_NGAY_CAP': 'brandCCCDDate',
+              'THUONG_HIEU_NOI_CAP': 'brandCCCDPlace',
               'TEN_KHACH_HANG': 'cusName',
-              'NAM_SINH': 'cusDOB',
+
               'CCCD': 'cusID',
+              'KHACH_HANG_NGAY_CAP': 'cusCCCDDate',
+              'KHACH_HANG_NOI_CAP': 'cusCCCDPlace',
               'DIA_CHI': 'cusAddress',
               'SDT': 'cusPhone',
               'TEN_CONG_TRINH': 'prjName',

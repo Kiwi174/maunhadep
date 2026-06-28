@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -530,14 +530,14 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.81 19.79 19.79 0 01.14 2.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
       0947.017.495
     </a>
-    <a class="nb nb-ghost" href="home.html" style="text-decoration:none">🏠 Mẫu nhà </a>
+    <button class="nb nb-ghost" onclick="location.href='home.html'">🏠 Thư viện</button>
     <button class="nb nb-green" onclick="location.href='noithat.html'">🛋 Nội thất</button>
-    <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Xem Hướng </button>
-    <button class="nb nb-ghost" onclick="location.href='estimate.html'">Khái toán </button>
+    <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">📊 Khái toán</button>
     <button class="nb nb-ghost" onclick="location.href='hopdong.html'">📝 Lập hợp đồng</button>
     <button class="nb nb-ghost" onclick="location.href='kinhnghiem.html'">📖 Kinh nghiệm</button>
     <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
-    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi làm nhà</button>
+    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
     <button class="nb nb-ghost" id="navLogoutBtn" style="display:none" onclick="logout()">Đăng xuất</button>
     <a class="nb nb-ghost" href="index.html" id="navLoginBtn" style="display:none;text-decoration:none">Đăng nhập</a>
   </div>
@@ -549,15 +549,14 @@ footer{background:#EBF4E8;padding:18px 32px;display:flex;align-items:center;just
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <div class="mob-label" id="mobUser"></div>
-  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
-  <a href="noithat.html" class="mob-item active-page">🛋 Tư vấn nội thất</a>
-  <div class="mob-sep"></div>
-  <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
-  <a href="estimate.html" class="mob-item">📊 Khái toán chi phí xây dựng</a>
+  <a href="home.html" class="mob-item">🏠 Thư viện</a>
+  <a href="noithat.html" class="mob-item active-page">🛋 Nội thất</a>
+  <a href="huong.html" class="mob-item">🧭 Hướng nhà</a>
+  <a href="estimate.html" class="mob-item">📊 Khái toán</a>
   <a href="hopdong.html" class="mob-item">📝 Lập hợp đồng</a>
-  <a href="kinhnghiem.html" class="mob-item">📖 Kinh nghiệm xây nhà</a>
+  <a href="kinhnghiem.html" class="mob-item">📖 Kinh nghiệm</a>
   <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
-  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi</a>
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobLogoutBtn" style="display:none;color:#c03030" onclick="logout()">🚪 Đăng xuất</button>

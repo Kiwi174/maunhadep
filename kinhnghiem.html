@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -39,6 +39,8 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .nb-active:hover{background:#3A6330}
 .nb-green{background:var(--green);color:#fff;border:none;display:inline-flex;align-items:center;gap:5px}
 .nb-green:hover{background:#3A6330}
+.nb-blue{background:#0284c7;color:#fff;border:none;display:inline-flex;align-items:center;gap:5px}
+.nb-blue:hover{background:#0369a1}
 
 /* ── MOBILE NAV ── */
 .mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);-webkit-tap-highlight-color:transparent}
@@ -158,27 +160,32 @@ body{font-family:"Be Vietnam Pro",-apple-system,sans-serif;background:var(--crea
 .toast.show{opacity:1}
 
 /* ── MODAL chi tiết ── */
-.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(20,25,22,.7);backdrop-filter:blur(4px);align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:#fff;align-items:flex-start;justify-content:center;padding:0;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:#fff;border-radius:8px;max-width:760px;width:100%;box-shadow:var(--shadow-lg);animation:mUp .25s ease;position:relative}
+.modal{background:#fff;border-radius:0;max-width:900px;width:100%;min-height:100vh;box-shadow:none;animation:mUp .25s ease;position:relative;margin:0 auto}
 @keyframes mUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.modal-img{height:280px;background:var(--cream2);border-radius:8px 8px 0 0;overflow:hidden}
+.modal-img{height:380px;background:var(--cream2);border-radius:0;overflow:hidden}
 .modal-img img{width:100%;height:100%;object-fit:cover}
 .modal-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;background:linear-gradient(135deg,var(--gl),var(--cream2))}
-.modal-body{padding:24px 28px 28px}
+.modal-body{padding:32px 32px 48px}
 .modal-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .modal-sec{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--gl);color:var(--green)}
 .modal-date{font-size:12px;color:var(--muted)}
 .modal-author{font-size:12px;color:var(--muted);margin-left:auto}
 .modal-title{font-size:clamp(18px,2.5vw,24px);font-weight:700;color:var(--text);line-height:1.3;margin-bottom:14px;letter-spacing:-.3px}
-.modal-content{font-size:14px;color:var(--text);line-height:1.85;white-space:pre-line}
-.modal-content strong{color:var(--green);font-weight:700}
-.modal-content img{max-width:100%;height:auto;border-radius:6px;margin:10px 0;display:block;cursor:pointer;transition:transform .2s}
+.modal-content{font-size:15px;color:var(--text);line-height:1.8;white-space:normal}
+.modal-content strong{color:#2a4a24;font-weight:700}
+.modal-content .md-h2{font-size:1.4em;color:var(--green);margin:1.2em 0 0.5em;font-weight:700}
+.modal-content .md-h3{font-size:1.25em;color:var(--green);margin:1.2em 0 0.5em;font-weight:700;border-bottom:1px solid var(--bd);padding-bottom:5px}
+.modal-content .md-h4{font-size:1.1em;color:var(--green);margin:1em 0 0.4em;font-weight:700}
+.modal-content .md-li{margin-left:20px;list-style-type:disc;margin-bottom:6px}
+.modal-content .md-icon{color:var(--green)}
+.modal-content img{max-width:100%;height:auto;border-radius:6px;margin:16px 0;display:block;cursor:pointer;transition:transform .2s;box-shadow:var(--shadow)}
 .modal-content img:hover{transform:scale(1.01)}
 .modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--bd)}
 .modal-tag{font-size:11px;color:var(--muted);background:var(--cream2);padding:3px 10px;border-radius:10px;border:1px solid var(--bd)}
-.modal-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.4);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.2s;z-index:1;-webkit-tap-highlight-color:transparent}
-.modal-close:hover{background:rgba(0,0,0,.7)}
+.modal-close{position:fixed;top:16px;left:16px;background:rgba(255,255,255,0.95);border:1px solid var(--bd);color:var(--text);padding:8px 16px;border-radius:24px;cursor:pointer;font-size:14px;font-weight:700;display:inline-flex;align-items:center;gap:6px;box-shadow:var(--shadow);z-index:210;transition:.2s;backdrop-filter:blur(4px);-webkit-tap-highlight-color:transparent}
+.modal-close:hover{background:#fff;color:var(--green);border-color:var(--green);transform:translateY(-1px)}
 .modal-link{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:10px 18px;background:var(--green);color:#fff;border-radius:var(--radius);font-size:13px;font-weight:700;text-decoration:none;transition:.2s}
 .modal-link:hover{background:#3A6330}
 /* Nút Sửa trong modal */
@@ -362,10 +369,11 @@ footer{background:#EBF4E8;padding:14px 32px;display:flex;align-items:center;just
     <button class="nb nb-ghost" onclick="location.href='home.html'">🏠 Thư viện</button>
     <button class="nb nb-ghost" onclick="location.href='noithat.html'">🛋 Nội thất</button>
     <button class="nb nb-ghost" onclick="location.href='huong.html'">🧭 Hướng nhà</button>
-    <button class="nb nb-ghost" onclick="location.href='estimate.html'">Khái toán</button>
+    <button class="nb nb-ghost" onclick="location.href='estimate.html'">📊 Khái toán</button>
     <button class="nb nb-ghost" onclick="location.href='hopdong.html'">📝 Lập hợp đồng</button>
-    <button class="nb nb-active">📖 Kinh nghiệm</button>
-    <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Lỗ Ban</button>
+    <button class="nb nb-green" onclick="location.href='kinhnghiem.html'">📖 Kinh nghiệm</button>
+    <button class="nb nb-ghost" onclick="location.href='thuocloban.html'">📐 Thước Lỗ Ban</button>
+    <button class="nb nb-ghost" onclick="location.href='xemtuoilamnha.html'">🗓 Xem tuổi</button>
     <button class="nb nb-ghost" id="navLogoutBtn" onclick="logout()" style="display:none">Đăng xuất</button>
   </div>
   <button class="mob-toggle" id="mobToggle" onclick="toggleMobMenu()" aria-label="Menu">
@@ -377,14 +385,14 @@ footer{background:#EBF4E8;padding:14px 32px;display:flex;align-items:center;just
 <div class="mob-menu" id="mobMenu">
   <div class="mob-user" id="mobUser"></div>
   <div class="mob-sep"></div>
-  <a href="home.html" class="mob-item">🏠 Thư viện mẫu nhà</a>
-  <a href="noithat.html" class="mob-item">🛋 Tư vấn nội thất</a>
-  <a href="estimate.html" class="mob-item">📊 Khái toán chi phí xây dựng</a>
+  <a href="home.html" class="mob-item">🏠 Thư viện</a>
+  <a href="noithat.html" class="mob-item">🛋 Nội thất</a>
+  <a href="huong.html" class="mob-item">🧭 Hướng nhà</a>
+  <a href="estimate.html" class="mob-item">📊 Khái toán</a>
   <a href="hopdong.html" class="mob-item">📝 Lập hợp đồng</a>
-  <a href="kinhnghiem.html" class="mob-item active">📖 Kinh nghiệm xây nhà</a>
-  <a href="huong.html" class="mob-item">🧭 Xem hướng nhà phong thuỷ</a>
+  <a href="kinhnghiem.html" class="mob-item active-page">📖 Kinh nghiệm</a>
   <a href="thuocloban.html" class="mob-item">📐 Thước Lỗ Ban</a>
-  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi làm nhà</a>
+  <a href="xemtuoilamnha.html" class="mob-item">🗓 Xem tuổi</a>
   <a href="tel:0947017495" class="mob-item">📞 Gọi: 0947.017.495</a>
   <div class="mob-sep"></div>
   <button class="mob-item" id="mobAddBtn" onclick="openAdd()" style="display:none;color:var(--green)">✏️ Thêm bài viết</button>
@@ -398,10 +406,17 @@ footer{background:#EBF4E8;padding:14px 32px;display:flex;align-items:center;just
       <h1>Kinh nghiệm <span>xây nhà</span></h1>
       <p>Tổng hợp kiến thức & bài học thực tế từ hàng trăm công trình — giúp bạn xây nhà đúng, đủ, đẹp</p>
     </div>
-    <button class="nb nb-green" id="addBtnTop" onclick="openAdd()" style="display:none">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-      Thêm bài viết
-    </button>
+    <div style="display:inline-flex; gap:8px">
+      <button class="nb nb-blue" id="importBtnTop" onclick="triggerImport()" style="display:none">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        Nhập JSON
+      </button>
+      <input type="file" id="importFile" accept=".json" multiple style="display:none" onchange="handleImportFile(event)">
+      <button class="nb nb-green" id="addBtnTop" onclick="openAdd()" style="display:none">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Thêm bài viết
+      </button>
+    </div>
   </div>
 </div>
 
@@ -483,7 +498,10 @@ footer{background:#EBF4E8;padding:14px 32px;display:flex;align-items:center;just
 <!-- MODAL CHI TIẾT -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <button class="modal-close" onclick="closeModalDirect()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Quay lại
+    </button>
     <div class="modal-img" id="modalImg"></div>
     <!-- Con trượt cỡ chữ -->
     <div class="modal-reader-bar">
@@ -750,8 +768,16 @@ if (effectiveRole === 'admin' || effectiveRole === 'ctv') {
   document.getElementById('addBtnTop').style.display = 'inline-flex';
   document.getElementById('mobAddBtn').style.display = '';
 }
+if (effectiveRole === 'admin') {
+  const importBtn = document.getElementById('importBtnTop');
+  if (importBtn) importBtn.style.display = 'inline-flex';
+}
 
-function logout() { sessionStorage.clear(); location.href = 'index.html'; }
+function logout() { 
+  localStorage.removeItem('kh_articles_cache'); 
+  sessionStorage.clear(); 
+  location.href = 'index.html'; 
+}
 
 function toggleMobMenu() {
   document.getElementById('mobMenu').classList.toggle('open');
@@ -777,7 +803,303 @@ const SECTIONS = [
 ];
 
 // ── STATE ────────────────────────────────────────────────────
-let allArticles  = [];
+const LOCAL_ARTICLES = [
+  {
+    id: 'local_1',
+    tieuDe: 'Kinh nghiệm xây nhà lần đầu theo 10 bước chi tiết',
+    phan: 'Khác',
+    anhUrl: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    tomTat: '10 bước để xây dựng nhà ở đã được rất nhiều người áp dụng thành công. Hướng dẫn chi tiết từ lập kế hoạch đến hoàn công.',
+    noiDung: `Xây nhà là việc trọng đại, tốn kém và vất vả. Chính vì thế nhiều người rất lo lắng khi lần đầu tiên làm nhà, không biết phải chuẩn bị những gì và bắt đầu từ đâu. Hiểu được điều này, trong bài viết dưới đây Hùng Lê Design Studio sẽ “bật mí” cho bạn 10 bước để xây dựng nhà ở đã được rất nhiều người áp dụng thành công.
+
+## Bước 1: Xác định nhu cầu sử dụng nhà ở
+Nếu xây nhà để ở riêng một mình thì bạn có thể thiết kế các khu vực chức năng theo ý muốn, sao cho phù hợp với bản thân là được. Còn nếu có thêm những người khác cùng sinh sống trong căn nhà, bạn cần thống kê các thông tin sau:
+- Ngôi nhà được xây dựng với mục đích gì, để ở, kinh doanh, kết hợp để ở và kinh doanh hay cho thuê.
+- Tổng số thành viên sẽ sinh sống cố định trong căn nhà, độ tuổi/nghề nghiệp/tình trạng sức khỏe của từng người.
+- Những người thường xuyên ghé thăm hoặc ở lại nhà thời gian ngắn (ngày, tuần).
+- Những người sẽ ở lại nhà trong thời gian dài (tháng).
+
+Việc nắm bắt rõ các thông tin trên sẽ giúp bạn biết được nên sắp xếp, phân chia các khu vực chức năng như thế nào cho hợp lý, thuận tiện. Các khu vực chức năng bao gồm: phòng khách, phòng ngủ, phòng tắm, phòng bếp, nhà vệ sinh…
+
+## Bước 2: Xác định quy mô xây dựng nhà ở
+Sau bước 1, bạn sẽ biết được tổng số lượng người sẽ lưu trú trong căn nhà. Từ đó, bạn sẽ xác định được căn nhà cần có những khu vực chức năng nào, số lượng các khu vực chức năng, số tầng, tổng diện tích sàn….
+Tiếp đến, bạn cần tìm hiểu các quy định về xây dựng nhà ở theo khu vực của Nhà nước về:
+- Chiều cao tối đa được phép xây dựng
+- Số tầng tối đa được phép xây dựng
+- Diện tích tối đa được phép xây dựng
+
+## Bước 3: Dự tính tổng chi phí xây dựng nhà ở
+Để dự trù được kinh phí xây dựng nhà ở, trước hết, bạn cần hiểu rõ chi phí xây dựng nhà ở bao gồm những gì.
+- Nếu bạn muốn xây nhà trên mảnh đất có căn nhà cũ thì phải tốn thêm chi phí phá dỡ nhà và san lấp mặt bằng.
+- Nếu bạn xây nhà trên nền đất yếu thì phải tốn thêm chi phí gia cố móng để đảm bảo sự vững chắc cho ngôi nhà.
+- Chi phí cấp phép xây dựng phụ thuộc vào diện tích xây dựng nhà ở và khu vực xây dựng.
+- Chi phí xây dựng cơ bản được tính bằng: chi phí xây dựng phần thô + chi phí xây dựng phần hoàn thiện + chi phí nhân công + giám sát công trình + chi phí thuê nhà thầu.
+- Chi phí mua sắm vật tư thiết bị tùy thuộc vào quy mô xây dựng và nhãn hiệu vật tư mà bạn sử dụng. Đây là hạng mục tiêu tốn chi phí khá lớn.
+- Chi phí thiết kế phụ thuộc vào kiểu nhà bạn muốn xây, đơn giản hay phức tạp, theo mẫu có sẵn hay ý tưởng cá nhân.
+- Trên thực tế, dù có tính toán kỹ càng đến đâu thì trong quá trình thi công xây dựng vẫn sẽ có thêm các chi phí phát sinh. Vì thế, bạn nên chuẩn bị thêm 10% tổng các chi phí ở trên.
+
+## Bước 4: Tìm hiểu về phong thủy nhà đất
+Khi xây nhà, yếu tố phong thủy là rất quan trọng bởi nó ảnh hưởng đến vận mệnh của gia chủ và các thành viên sống trong ngôi nhà. Với sự phát triển mạnh mẽ của Internet, bạn có thể tìm hiểu các kiến thức về phong thủy một cách dễ dàng.
+Về phong thủy nhà ở, bạn nên chú trọng đến những vấn đề sau: hướng xây nhà hợp mệnh, năm xây nhà hợp tuổi, thế đất đẹp trong phong thủy, kiêng kỵ về hình dáng của ngôi nhà, ngày giờ phá dỡ nhà/động thổ/cất nóc/nhập trạch…
+
+## Bước 5: Tìm kiếm đơn vị thiết kế
+Trước khi gặp kiến trúc sư, bạn phải:
+- Định hình được ngôi nhà mình muốn xây có phong cách như thế nào? Hiện đại, truyền thống, tân cổ điển, đơn giản hay sang trọng…
+- Ngôi nhà có hướng như thế nào? Màu sắc chủ đạo của ngôi nhà ra sao? Bao nhiêu lầu/tầng? Bao nhiêu phòng?
+- Bản thân và các thành viên trong gia đình có sở thích như thế nào với các phòng chức năng (phòng ngủ, nhà bếp…)
+- Ngôi nhà muốn xây có sân vườn, tầng thượng, ban công, bể bơi, giếng trời… không?
+- Quy định về xây dựng nhà ở (chiều cao, số tầng…) tại địa phương.
+
+Việc định hình ngôi nhà muốn xây một cách rõ ràng, chi tiết sẽ giúp bạn có thể truyền tải hết những gì mình mong muốn với kiến trúc sư. Kiến trúc sư tại Hùng Lê Design Studio sẽ kết hợp với khả năng và kinh nghiệm của mình để đưa ra cho bạn những phương án thiết kế phù hợp nhất, tốt nhất về mặt thẩm mỹ lẫn kỹ thuật.
+
+## Bước 6: Xin giấy phép xây dựng
+Trước khi tiến hành xây dựng nhà ở, bạn phải làm hồ sơ xin cấp giấy phép xây dựng, bao gồm:
+- Đơn đề nghị cấp giấy phép xây dựng theo mẫu. Bạn có thể tham khảo trên internet và in ra hoặc có thể đến cơ quan chức năng xin mẫu.
+- Bản sao xác thực chứng minh quyền sở hữu đất ở (Sổ đỏ).
+- Bản sao bản thiết kế xây dựng.
+- Nếu là công trình xây dựng liền kề thì phải có thêm bản cam kết đảm bảo an toàn xây dựng đối với công trình kế bên.
+
+Thông thường, bạn sẽ nhận được giấy phép xây dựng sau 15 ngày nếu hồ sơ hợp lệ.
+
+## Bước 7: Lựa chọn nhà thầu thi công
+Nhìn chung, có 3 cách thuê nhà thầu là:
+- Chỉ thuê nhân công
+- Khoán một phần cho nhà thầu
+- Khoán toàn bộ gói thầu
+
+Nếu bạn lần đầu làm nhà thì phương án tốt nhất là khoán toàn bộ cho nhà thầu. Mặc dù sẽ tốn kém thêm một ít chi phí nhưng việc thi công xây dựng nhà ở sẽ dễ dàng hơn nhiều.
+Điều quan trọng là bạn phải tìm được nhà thầu thi công uy tín, có giấy phép kinh doanh. Bạn có thể kiểm tra độ uy tín của nhà thầu bằng cách tìm hiểu chất lượng của các công trình họ đã thi công. Tại Hùng Lê Design Studio, chúng tôi luôn đảm bảo tiến độ và chất lượng thi công.
+Khi đã chọn được nhà thầu thi công, bạn nên để nhà thầu chốt phương án thi công khả thi trên bản thiết kế đã chốt với kiến trúc sư. Tránh trường hợp thi công bị sai với thiết kế ban đầu hoặc bị chậm trễ về tiến độ xây dựng.
+
+## Bước 8: Làm hợp đồng với nhà thầu thi công
+- Mặc dù việc phát sinh trong quá trình xây dựng nhà ở là điều không thể tránh khỏi. Tuy nhiên, chi phí phát sinh của các nhà thầu thường rất cao, bất hợp lý.
+- Ngoài ra, vì bạn mới lần đầu làm nhà nên một số nhà thầu có thể làm khó bạn bằng cách thi công chậm tiến độ, sai thiết kế, sử dụng vật tư kém chất lượng, sử dụng nhân công có tay nghề kém…
+- Việc lập hợp đồng ràng buộc giữa hai bên sẽ khiến nhà thầu có trách nhiệm trong việc thi công xây dựng nhà ở đúng theo những gì đã cam kết.
+
+## Bước 9: Tìm đơn vị/người giám sát thi công
+Nếu không có người giám sát công trình, rất có thể sẽ xảy ra nhiều sự việc như:
+- Nhân công hoặc người bên ngoài lấy trộm vật liệu, tiền bạc.
+- Nhân công làm ẩu cho nhanh xong hoặc kéo dài thời gian hoàn thành nhà ở.
+- Nhà thầu thi công xây dựng sai phạm so với bản thiết kế đã thống nhất từ trước.
+
+Vì thế, bạn có thể cân nhắc thuê đơn vị giám sát công trình uy tín tại địa phương. Hoặc nhờ vả người thân quen có kiến thức về xây dựng và chịu khó ở tại hiện trường thi công. Người giám sát sẽ có trách nhiệm là báo cáo tình hình thi công lại cho bạn, đặc biệt là những điều chỉnh về thiết kế.
+
+## Bước 10: Xây dựng mối quan hệ tốt với hàng xóm
+Có nhiều người mới lần đầu làm nhà vì có quá nhiều vấn đề phải giải quyết mà quên mất đến hàng xóm xung quanh. Tuy nhiên, trước khi xây nhà, bạn nên sang nói chuyện với hàng xóm xung quanh. Nguyên nhân là bởi:
+- Việc bạn xây nhà có thể gây phiền toái cho hàng xóm xung quanh. Ví dụ như: tiếng ồn của máy móc và nhân công, vật liệu đổ đống bên đường gây khó khăn trong việc đi lại…
+- Công trình xây dựng của bạn có thể gây hỏng hóc cho nhà hàng xóm. Ví dụ như: tường bị nứt, nền nhà bị sụt lún… Tốt nhất, trước khi xây dựng bạn nên kiểm tra vấn đề này thật kỹ và chụp hình lại để làm bằng chứng nếu xảy ra tranh chấp.
+- Hướng nhà bạn xây có thể ảnh hưởng đến lối đi hoặc phong thủy nhà ở của hàng xóm. Vì thế, bạn nên trao đổi rõ với họ trước khi tiến hành xây nhà.
+- Trong quá trình xây dựng, bạn có thể phải nhờ vả đến hàng xóm trong việc cất giữ vật liệu xây dựng, dùng nhờ điện nước…
+
+Chính vì thế, bạn nên mang một ít bánh quà qua thăm hỏi hàng xóm để mọi việc trở nên thuận lợi hơn. Sau này, khi ngôi nhà hoàn thiện, gia đình bạn dọn vào sống thì cũng dễ dàng hòa nhập với mọi người trong khu phố/xóm hơn.
+Hy vọng qua bài viết trên bạn có thể xây cho mình một căn nhà như ý một cách dễ dàng.`,
+    ngayDang: '28/06/2026',
+    noiBat: 1,
+    tacGia: 'Hùng Lê'
+  },
+  {
+    id: 'local_2',
+    tieuDe: 'Quy trình xây nhà từ A-Z và những kinh nghiệm đắt giá',
+    phan: 'Khác',
+    anhUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    tomTat: 'Những kiến thức cơ bản về quy trình xây nhà từ móng đến mái cùng kinh nghiệm thực tiễn sẽ giúp bạn hiện thực hóa ngôi nhà mơ ước một cách dễ dàng hơn.',
+    noiDung: `Là một trong những việc hệ trọng nhất đời người, xây nhà đòi hỏi gia chủ phải dành ra rất nhiều tâm huyết, thời gian, tiền bạc mới mong quá trình thi công diễn ra thuận lợi, có được ngôi nhà ưng ý. Đừng bỏ qua bài viết này nếu bạn đang có dự định xây nhà nhưng còn nhiều băn khoăn, lo lắng, chưa biết phải bắt đầu từ đâu. Cùng Hùng Lê Design Studio tìm hiểu quy trình xây nhà chi tiết từ A-Z và những kinh nghiệm quý báu giúp bạn xây nên ngôi nhà mơ ước một cách thuận lợi.
+
+Dưới đây là quy trình xây nhà đầy đủ, chi tiết từ móng đến mái, từ bước chuẩn bị đến khi nghiệm thu cùng những kinh nghiệm tương ứng với từng giai đoạn để bạn đọc tham khảo:
+
+## 1. Giai đoạn chuẩn bị
+
+**– Chuẩn bị nền đất xây dựng**
+Dĩ nhiên, để xây nhà thì trước tiên bạn phải có đất. Lựa chọn được một mảnh đất phù hợp đồng nghĩa với việc ngôi nhà của bạn sẽ có nền tảng vững chắc, đẹp cả về phong thủy lẫn thiết kế. Phù hợp ở đây nghĩa là phải đảm bảo các tiêu chí như: vị trí thuận lợi, hướng đẹp (Đông, Đông Nam là tốt nhất, hoặc tùy theo tuổi gia chủ), giao thông thuận tiện, khu vực địa chất tốt, an ninh, diện tích đủ với nhu cầu sử dụng. Một điều nữa cũng rất quan trọng, không thể bỏ qua chính là tính pháp lý của mảnh đất, bạn phải chắc chắn rằng đất định xây nhà có đầy đủ giấy tờ pháp lý cần thiết để đề phòng rủi ro tiền mất, tật mang.
+Trước khi tiến hành xây nhà, bạn cần chuẩn bị mặt bằng, tiến hành phá dỡ nhà cũ nếu có, dọn vệ sinh, vận chuyển xà bần. Bên cạnh đó, các điều kiện khác cần cho quá trình thi công như nguồn điện, nguồn nước, nơi sinh hoạt cho công nhân, hàng rào che chắn hoặc bạt phủ công trình,… cũng cần được chuẩn bị đầy đủ.
+
+**– Phác thảo ý tưởng ban đầu**
+Gia đình bạn nên thảo luận, bàn bạc và quyết định một số ý tưởng ban đầu về ngôi nhà định xây, ví dụ: diện tích, số tầng, số phòng, dự trù chi phí xây nhà, nhu cầu sử dụng trong bao nhiêu năm,… Thống nhất được các thông tin này sẽ giúp bạn hình dung cơ bản về ngôi nhà mơ ước, làm cơ sở để tiến hành các giai đoạn sau.
+
+**– Dự trù chi phí**
+Chi phí có thể coi là vấn đề quan trọng hàng đầu mà mỗi gia chủ phải tính đến khi quyết định xây nhà. Dự trù chính xác chi phí xây nhà là điều không đơn giản, bởi xây nhà tốn rất nhiều loại chi phí và không cố định theo thời gian. Thông thường, bạn cần dự trù các khoản chi phí sau:
+- Chi phí phá dỡ nhà cũ (nếu có)
+- Chi phí gia cố móng (nếu nền móng yếu)
+- Chi phí thiết kế nhà (nếu có nhu cầu)
+- Chi phí xin giấy phép xây dựng
+- Chi phí mua sắm vật tư, thiết bị
+- Chi phí nhân công xây dựng
+- Chi phí giám sát
+- Chí phí mua nội thất
+- Chi phí thiết kế nội thất (nếu có nhu cầu)
+- Chi phí lắp đặt thiết bị, nội thất
+- Chi phí dự phòng cho các khoản phát sinh
+
+Nếu lựa chọn sử dụng dịch vụ trọn xây nhà trọn gói tại Hùng Lê Design Studio, bạn chỉ cần lựa chọn nhà thầu uy tín, phù hợp với nhu cầu và ngân sách. Bảng giá thành, chi phí cụ thể sẽ do nhà thầu lập dự toán cho bạn.
+
+*Kinh nghiệm dự trù chi phí:* Bạn hãy liệt kê tất cả các khoản chi phí cần thanh toán, càng chi tiết càng tốt, sau đó tính tổng số tiền cần chi và dự trù thêm từ 10-20% cho trường hợp phát sinh, phòng khi bạn muốn thay đổi thiết kế ban đầu hoặc đổi sang vật tư tốt hơn. Hãy giới hạn số tiền tối đa có thể bỏ ra, trường hợp hết tiền thì vay ở đâu, kế hoạch trả nợ như nào,… để không xây dở dang.
+
+**– Chọn thời điểm xây nhà**
+Xây nhà vào mùa thời tiết thuận lợi sẽ giúp quá trình thi công suôn sẻ, nhanh chóng, góp phần tiết kiệm chi phí, tránh các khoản phát sinh. Bạn nên tránh mùa mưa bão để hạn chế khả năng thời tiết cực đoạn ảnh hưởng xấu đến công trình và tiến độ thi công. Ở nước ta, người dân thường chọn thời điểm từ tháng 8 -12 để xây nhà vì thời tiết mát mẻ, không còn mưa quá to, xây xong có thể dọn về nhà mới để đón Tết.
+
+**– Thuê đơn vị tư vấn thiết kế**
+Đã xa rồi cái thời xây nhà kiểu đơn giản, rập khuôn vài kiểu truyền thống, nghèo nàn ý tưởng, công năng kém, không tối ưu được không gian. Khi thuê đơn vị thiết kế chuyên nghiệp như Hùng Lê Design Studio, kiến trúc sư (KTS) sẽ giúp bạn hình dung được cụ thể ngôi nhà của mình, chọn được phương án thiết kế tối ưu ngay từ đầu, dễ dàng làm việc với bên nhà thầu, tránh thay đổi, điều chỉnh rồi lại phát sinh chi phí khi thi công. 
+*Kinh nghiệm làm việc với KTS:* Gia chủ nên thoả thuận trước với KTS, yêu cầu KTS có mặt tại công trình tại những thời điểm quan trọng như đổ bê tông, xây tường… để KTS có thể theo dõi, kiểm tra và có những điều chỉnh phù hợp nếu điều kiện thi công có khác biệt so với trên bản vẽ.
+
+**– Chọn nhà thầu thi công**
+Sau khi chốt bản vẽ thiết kế kiến trúc, kết cấu cho ngôi nhà, bước tiếp theo, gia chủ sẽ phải tìm hiểu và lựa chọn nhà thầu uy tín để giao phó công trình. Bạn có thể tự tìm hiểu thông qua các mối quan hệ, các diễn đàn, trang web uy tín hoặc thuê chính Hùng Lê Design Studio làm nhà thầu để thiết kế và thi công được đồng bộ. 
+
+## 2. Giai đoạn thi công phần thô
+
+Đây là giai đoạn cực kỳ quan trọng, có ảnh hưởng trực tiếp đến chất lượng của công trình. Các bước thi công phần thô cơ bản gồm:
+- Thi công móng
+- Xây dựng phần thô (cột, dầm, sàn, tường, cầu thang)
+- Thi công mái
+- Lắp đặt hệ thống điện, nước âm tường
+
+*Kinh nghiệm giám sát phần thô:* 
+- Thường xuyên kiểm tra chất lượng vật tư đưa vào công trình có đúng chủng loại, thương hiệu đã cam kết không.
+- Kiểm tra kích thước hình học của cấu kiện, đảm bảo sai số nằm trong giới hạn cho phép.
+- Chú ý đến công tác bảo dưỡng bê tông sau khi đổ để tránh nứt nẻ.
+
+## 3. Giai đoạn hoàn thiện
+
+Giai đoạn hoàn thiện quyết định tính thẩm mỹ và tiện nghi của ngôi nhà. Các hạng mục chính bao gồm:
+- Trát tường, láng nền
+- Ốp, lát gạch nền và tường
+- Lắp đặt trần thạch cao, cửa, cầu thang
+- Sơn nước, dán tường
+- Lắp đặt thiết bị vệ sinh, thiết bị điện
+
+*Kinh nghiệm hoàn thiện:* Lựa chọn vật liệu hoàn thiện cần phù hợp với phong cách thiết kế, độ bền cao và dễ vệ sinh bảo dưỡng.
+
+## 4. Giai đoạn nghiệm thu và hoàn công
+
+Sau khi nhà thầu hoàn thành công trình, chủ nhà cần phối hợp với đơn vị giám sát tiến hành nghiệm thu các hạng mục thi công. Nếu có sai sót, yêu cầu nhà thầu khắc phục ngay lập tức trước khi thanh toán. Cuối cùng, thực hiện thủ tục hoàn công để cập nhật tài sản lên sổ đỏ, hoàn tất pháp lý cho ngôi nhà.`,
+    ngayDang: '28/06/2026',
+    noiBat: 1,
+    tacGia: 'Hùng Lê'
+  },
+  {
+    id: 'local_3',
+    tieuDe: '7 Kinh nghiệm ép cọc bê tông "xương máu" cho chủ nhà 2026',
+    phan: 'Phần móng',
+    anhUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    tomTat: 'Tổng hợp 7 kinh nghiệm ép cọc bê tông "xương máu". Lưu ý quan trọng khi ép cọc nhà hẻm nhỏ, nhà 2 tầng, xử lý nhà liền kề. Tư vấn từ Hùng Lê Design Studio.',
+    noiDung: `Xây nhà là một trong những việc trọng đại nhất của đời người. Trong đó, hạng mục nền móng – phần "chìm" của ngôi nhà – lại là yếu tố quyết định sự an toàn và bền vững của toàn bộ tài sản. Nhưng đây cũng là hạng mục gây ra nhiều lo lắng nhất cho các chủ nhà: Liệu nhà mình có thật sự cần ép cọc không? Nên chọn cọc 200x200 hay 250x250? Dùng ép Neo hay ép Tải? Nỗi lo lớn nhất: Ép cọc có làm nứt nhà hàng xóm không? Phải xử lý thế nào? Nhà mình trong hẻm nhỏ thì phải làm sao? 
+
+Những câu hỏi này, nếu không được giải đáp thấu đáo, có thể dẫn đến những quyết định sai lầm, gây lãng phí chi phí hoặc tệ hơn là ảnh hưởng đến an toàn kết cấu. Với tư cách là chuyên gia nền móng, đã đồng hành cùng hàng trăm chủ nhà vượt qua giai đoạn căng thẳng này, Hùng Lê Design Studio xin đúc kết lại 7 kinh nghiệm ép cọc bê tông "xương máu". Đây không phải là lý thuyết suông, mà là những bài học thực chiến giúp bạn kiểm soát chất lượng, tối ưu chi phí và quan trọng nhất là "an tâm ngủ ngon".
+
+## Kinh nghiệm 1: Trả lời câu hỏi "Có nên ép cọc nhà 2 tầng, 3 tầng?"
+Đây là băn khoăn đầu tiên về chi phí. Nhiều chủ nhà nghĩ rằng nhà thấp tầng (2-3 tầng) thì chỉ cần làm móng băng, móng bè cho tiết kiệm.
+Sự thật: Việc quyết định ép cọc hay không không phụ thuộc vào số tầng, mà phụ thuộc vào hai yếu tố: Tải trọng công trình và Sức chịu tải của nền đất.
+
+**Tại sao phải ép cọc?**
+Hãy tưởng tượng ngôi nhà của bạn là một người khổng lồ, và nền móng là đôi chân.
+- Nếu người đó đứng trên nền đá cứng (địa chất tốt), họ chỉ cần một đôi giày (móng nông: móng băng, móng bè).
+- Nếu người đó đứng trên nền bùn lầy (địa chất yếu), họ cần những cây cà kheo (cọc bê tông) để chống xuống tận lớp đất cứng bên dưới.
+
+**Danh sách quyết định: Có nên ép cọc nhà 2 tầng?**
+- Nền đất của bạn là gì? 
+  - Trường hợp bắt buộc phải ép cọc: Nền đất bùn ao, đất ruộng cũ, đất ven sông rạch, đất san lấp từ xà bần hoặc rác (rất yếu và lún không đều). Kể cả nhà 1 tầng (nhà cấp 4) xây trên nền đất này cũng đã có nguy cơ lún nứt.
+  - Trường hợp có thể không cần ép cọc: Nền đất đồi, đất thổ cư lâu năm, đất thịt cứng.
+- Quy mô nhà 2-3 tầng của bạn thế nào?
+  - Bạn xây 2-3 tầng nhưng kết cấu phức tạp, mái bê tông, nhiều tường ngăn? Tải trọng này lớn hơn nhiều so với nhà 2-3 tầng mái tôn, ít tường.
+  
+**Kinh nghiệm ép cọc bê tông thực tế:** Tại các khu đô thị lớn, phần lớn nền đất là đất yếu. Việc ép cọc bê tông cho nhà 2-3 tầng gần như là giải pháp bắt buộc để đảm bảo an toàn tuyệt đối. Chi phí móng chỉ chiếm 10-15% tổng giá trị, nhưng nó quyết định 100% sự an toàn. Đừng tiết kiệm ở hạng mục này.
+
+## Kinh nghiệm 2: Chọn đúng phương pháp (Ép neo cho nhà hẻm nhỏ hay ép tải)
+Sau khi quyết định phải ép cọc, bạn sẽ nghe nhà thầu hỏi: "Anh/chị chọn ép Neo hay ép Tải?". Đây là một lưu ý khi ép cọc cực kỳ quan trọng vì nó ảnh hưởng trực tiếp đến chi phí và khả năng thi công.
+
+**Phân biệt nhanh Neo và Tải:**
+- **Ép Tải (Dùng đối trọng):** Là phương pháp dùng các khối bê tông hoặc khối sắt (đối trọng) nặng hàng chục tấn đè lên giàn máy để tạo lực ép cọc xuống. 
+  - Ưu điểm: Lực ép rất lớn (Pmax 70-150 tấn), độ tin cậy tuyệt đối, đồng hồ áp lực phản ánh chính xác 100%.
+  - Nhược điểm: Cồng kềnh, chi phí cao, bắt buộc phải có mặt bằng rộng, đường lớn cho xe tải nặng và xe cẩu vào.
+- **Ép Neo (Dùng neo xoắn):** Là phương pháp dùng các cánh neo xoắn sâu xuống đất để "níu" giàn máy lại, tạo lực kháng để ép cọc.
+  - Ưu điểm: Gọn nhẹ, cơ động, chi phí rẻ hơn.
+  - Nhược điểm: Lực ép bị giới hạn (Pmax thường 35-50 tấn). Nếu đất quá yếu, neo có thể bị trồi; nếu đất quá cứng, neo không xuống được.
+
+**Kinh nghiệm lựa chọn:**
+- Nếu nhà bạn trong hẻm: Bạn không có lựa chọn nào khác ngoài ép cọc nhà hẻm nhỏ bằng phương pháp ép Neo. Đây là giải pháp "cứu cánh" cho các công trình trong đô thị chật hẹp.
+- Nếu nhà bạn mặt tiền, đường rộng, xây 5-7 tầng: Bạn nên chọn Ép Tải. Dù chi phí cao hơn, nó đảm bảo cọc được ép với lực nén lớn, đủ sức chịu tải cho công trình cao tầng.
+- Nếu nhà bạn mặt tiền nhưng chỉ xây 2-4 tầng: Bạn có thể chọn Ép Neo để tối ưu chi phí, miễn là tải trọng thiết kế cọc của bạn thấp hơn Pmax của máy ép neo.
+
+## Kinh nghiệm 3: Chọn tiết diện cọc (200x200 hay 250x250) - Không phải cứ to là tốt
+Chủ nhà thường có tâm lý "dùng cọc to 250x250 cho nó chắc". Tuy nhiên, đây là một kinh nghiệm ép cọc bê tông cần được làm rõ.
+- **Cọc 200x200 (Mác 200-250):** Là loại cọc "quốc dân", được sử dụng cho 80% nhà phố 2-5 tầng. Sức chịu tải của cọc này (khoảng 20-25 tấn/đầu cọc) là hoàn toàn phù hợp với tải trọng nhà phố thông thường.
+- **Cọc 250x250 (Mác 250):** Dùng cho công trình có tải trọng lớn hơn (nhà 5-7 tầng, biệt thự, nhà có bước cột xa, hoặc nền đất quá yếu cần cọc dài để tăng ma sát thân).
+
+**Kinh nghiệm:** Việc chọn tiết diện cọc là do kỹ sư kết cấu quyết định, không phải do chủ nhà hay nhà thầu. Kỹ sư sẽ tính toán chính xác tổng tải trọng ngôi nhà rồi chia đều cho số lượng tim cọc để ra tải trọng trên mỗi đầu cọc.
+
+## Kinh nghiệm 4: Khảo sát địa chất - "Bệnh viện" của nền đất
+Nhiều chủ nhà thường bỏ qua bước này để "tiết kiệm" vài triệu đồng. Đây là một sai lầm nghiêm trọng. Kinh nghiệm ép cọc bê tông cho thấy, không khảo sát địa chất giống như "bốc thuốc" mà không "bắt mạch".
+Nếu không khảo sát, bạn sẽ không biết lớp đất tốt nằm ở độ sâu nào, dễ dẫn đến lãng phí hoặc nguy hiểm khi cọc bị ép treo lơ lửng trong bùn.
+Giải pháp "kinh tế" cho nhà hẻm nhỏ: Hãy đi "do thám" khu vực, hỏi các nhà hàng xóm xung quanh đã xây xem họ ép cọc bao nhiêu mét thì đủ tải. Một nhà thầu có tâm như Hùng Lê Design Studio sẽ luôn chủ động hỏi thông tin này cho bạn khi đến khảo sát.
+
+## Kinh nghiệm 5: Xử lý vấn đề nhà liền kề - Lưu ý khi ép cọc sống còn
+Đây là nỗi lo số 1 của 100% chủ nhà xây nhà trong đô thị: Sợ làm nứt nhà hàng xóm. Việc ép cọc vẫn gây ra sự dịch chuyển của đất, có thể tạo áp lực ngang đẩy vào móng nhà bên cạnh. 
+Quy trình an toàn:
+1. Ngoại giao: Thăm hỏi hàng xóm trước khi thi công.
+2. Khảo sát hiện trạng (Pháp lý): Cùng nhà thầu và chủ nhà bên cạnh quay phim, chụp hình chi tiết các vết nứt hiện có và lập biên bản.
+3. Chọn phương pháp thi công an toàn: Nếu cần, có thể phải khoan mồi trước khi ép cọc để giảm áp lực ngang.
+4. Theo dõi sát sao: Trong khi ép, liên tục quan sát hiện trạng nhà bên cạnh.
+
+## Kinh nghiệm 6: Giám sát thi công - Chủ nhà cần xem gì?
+- Kiểm tra cọc đầu vào: Cọc chở đến phải là cọc mới, vuông thành sắc cạnh, không bị nứt vỡ.
+- Kiểm tra độ thẳng đứng: Khi bắt đầu ép, cọc phải được dựng thẳng đứng (dùng quả dọi hoặc máy thủy bình để kiểm tra).
+- Mối hàn nối cọc: Phải hàn kín 4 mặt, đủ đường hàn, chờ nguội rồi mới ép tiếp.
+
+## Kinh nghiệm 7: 5 Sai lầm "chết người" của chủ nhà khi ép cọc
+1. Chọn nhà thầu chỉ vì giá rẻ.
+2. Không ký hợp đồng rõ ràng, không có biên bản nghiệm thu.
+3. Bỏ qua bước khảo sát hiện trạng nhà liền kề.
+4. Tự ý thay đổi tiết diện cọc mà không hỏi ý kiến kỹ sư thiết kế.
+5. Không có kỹ sư chuyên môn giám sát lực ép cọc tại hiện trường.
+
+Liên hệ ngay Hùng Lê Design Studio để được tư vấn thiết kế và thi công phần móng vững chắc, an toàn tuyệt đối cho tổ ấm của bạn!`,
+    ngayDang: '28/06/2026',
+    noiBat: 1,
+    tacGia: 'Hùng Lê'
+  },
+  {
+    id: 'local_4',
+    tieuDe: 'Kinh nghiệm xây nhà tiết kiệm chi phí',
+    phan: 'Chi phí',
+    anhUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+    tomTat: 'Cách lập dự toán chặt chẽ, tối ưu hóa không gian và tận dụng nguồn sáng tự nhiên để giảm thiểu chi phí phát sinh. Các gói thiết kế linh hoạt của Hùng Lê Design Studio.',
+    noiDung: `Xây nhà là một quá trình đòi hỏi sự đầu tư lớn cả về tài chính, thời gian lẫn công sức. Trong bối cảnh vật giá leo thang, việc tối ưu hóa chi phí xây dựng mà không làm ảnh hưởng đến chất lượng và độ bền vững của công trình luôn là ưu tiên hàng đầu của mọi gia chủ. Hùng Lê Design Studio xin chia sẻ những kinh nghiệm thực tiễn giúp bạn kiểm soát ngân sách hiệu quả nhất.
+
+## 1. Lập kế hoạch tài chính và thiết kế rõ ràng ngay từ đầu
+Nhiều người nghĩ rằng "nhà đẹp thì phải đắt tiền", nhưng thực tế, sự tinh tế trong thiết kế mới là yếu tố quyết định. Với sự giúp sức từ Hùng Lê Design Studio, bạn hoàn toàn có thể xây được ngôi nhà vừa đẹp, vừa tối ưu ngân sách.
+
+**Tối ưu ngay từ bản vẽ thiết kế:** Một bản vẽ thiết kế thông minh không có "không gian thừa" hay góc chết. Việc loại bỏ các chi tiết trang trí mặt tiền quá cầu kỳ, rườm rà (phù điêu, phào chỉ phức tạp) sẽ giúp tiết kiệm một lượng lớn chi phí vật tư và nhân công, đồng thời giúp ngôi nhà mang vẻ đẹp hiện đại, thanh lịch vượt thời gian.
+
+**Lập bảng dự toán chặt chẽ:** Mọi thứ cần được lượng hóa bằng số liệu: Cần bao nhiêu viên gạch, bao nhiêu bao xi măng, mét vuông cửa nhôm...? Trong hồ sơ thiết kế, Hùng Lê Design Studio sẽ bóc tách chi tiết từng hạng mục để gia chủ kiểm soát ngân sách, không để xảy ra tình trạng "xây đến đâu tính đến đó", nguyên nhân chính dẫn đến đội vốn.
+
+## 2. Lựa chọn vật liệu xây dựng thông minh
+Không nhất thiết phải dùng gỗ tự nhiên đắt đỏ hay đá marble nhập khẩu để tạo sự sang trọng. Hiện nay có rất nhiều vật liệu công nghiệp thay thế hoàn hảo và tiết kiệm chi phí:
+
+- **Gạch ốp lát:** Dùng gạch ốp lát giả đá vân mây thay vì đá tự nhiên. Vừa dễ thi công, chi phí thấp hơn lại dễ dàng vệ sinh.
+- **Vật liệu gỗ:** Dùng gỗ công nghiệp An Cường, cốt MDF chống ẩm phủ Melamine thay cho gỗ tự nhiên, vừa đẹp, bền lại chống cong vênh tốt.
+- **Trần thạch cao:** Thay vì làm trần thạch cao giật cấp nhiều lớp tốn kém và cầu kỳ, hãy ưu tiên làm trần phẳng kết hợp đèn LED âm trần. Cách này không chỉ tạo cảm giác không gian trần nhà cao, rộng hơn mà còn tiết kiệm được vật tư và tiền công thợ.
+
+## 3. Tận dụng ánh sáng và gió tự nhiên (Thiết kế xanh)
+Việc bố trí không gian mở và lấy sáng tự nhiên giúp giảm thiểu đáng kể chi phí điện năng chiếu sáng và điều hòa không khí về lâu dài.
+- **Sử dụng giếng trời:** Đây là giải pháp hoàn hảo cho nhà ống, nhà phố chật hẹp, mang lại sự lưu thông không khí và ánh sáng cho toàn bộ ngôi nhà.
+- **Gạch thông gió:** Vừa là giải pháp thẩm mỹ mặt tiền, vừa mang lại sự thông thoáng tuyệt vời, cản nắng gắt trực tiếp nhưng vẫn đón gió mát vào nhà.
+- **Hệ cửa sổ lớn:** Sử dụng cửa nhôm kính kích thước lớn kết hợp với rèm cửa chống nắng để điều tiết linh hoạt lượng ánh sáng vào phòng.
+
+## 4. Lựa chọn đúng đơn vị thiết kế và thi công trọn gói
+Rất nhiều gia chủ lầm tưởng rằng tự thuê thợ và tự mua vật tư sẽ tiết kiệm hơn. Tuy nhiên, sự thiếu kinh nghiệm trong việc tính toán lượng vật tư dễ dẫn đến việc mua dư thừa, hao hụt lãng phí, cộng với rủi ro chất lượng thi công kém, phải đập đi xây lại.
+
+Khi ký hợp đồng thiết kế và thi công trọn gói với Hùng Lê Design Studio, bạn sẽ được bảo đảm:
+- Không phát sinh chi phí ngoài hợp đồng.
+- Nguồn vật tư chính hãng với chiết khấu tốt từ các đối tác vật liệu.
+- Quy trình giám sát thi công chặt chẽ, đảm bảo chất lượng, đúng thiết kế, đúng tiến độ.
+
+Một sự chuẩn bị chu đáo sẽ giúp bạn vừa tiết kiệm, vừa giảm thiểu lo âu trong suốt quá trình làm nhà. Hãy để Hùng Lê Design Studio biến hành trình xây nhà của bạn trở thành một trải nghiệm an tâm và tuyệt vời nhất!`,
+    ngayDang: '28/06/2026',
+    noiBat: 1,
+    tacGia: 'Hùng Lê'
+  }
+];
+
+let allArticles = [];
 let pendingData  = null;
 let activeSection = 'all';
 
@@ -816,39 +1138,37 @@ async function apiGet() {
 async function loadArticles() {
   const cached = getCached();
 
+  const mergeArticles = (fetched) => {
+    const filteredFetched = fetched.filter(a => !LOCAL_ARTICLES.some(loc => String(loc.id) === String(a.id)));
+    return [...LOCAL_ARTICLES, ...filteredFetched];
+  };
+
   // 1. Hiển thị cache ngay lập tức
   if (cached?.data?.length) {
-    allArticles = cached.data;
+    allArticles = mergeArticles(cached.data);
     renderAll();
     // Nếu cache còn mới (< 5 phút) → dừng, không fetch
     if (Date.now() - (cached.ts || 0) < CACHE_TTL) return;
+  } else {
+    allArticles = [...LOCAL_ARTICLES];
+    renderAll();
   }
 
-  // 2. Fetch ngầm để kiểm tra có dữ liệu mới không
+  // 2. Fetch ngầm và cập nhật lập tức
   try {
     const fresh   = await apiGet();
-    const changed = JSON.stringify(fresh) !== JSON.stringify(allArticles);
+    const mergedFresh = mergeArticles(fresh);
+    const changed = JSON.stringify(mergedFresh) !== JSON.stringify(allArticles);
     setCache(fresh);
     if (changed) {
-      if (!allArticles.length) {
-        allArticles = fresh;
-        renderAll();
-      } else {
-        pendingData = fresh;
-        document.getElementById('cacheBanner').classList.add('show');
-      }
-    }
-  } catch(e) {
-    if (!cached?.data?.length) {
-      allArticles = [];
+      allArticles = mergedFresh;
       renderAll();
     }
-  }
+  } catch(e) {}
 }
 
 function applyUpdate() {
-  if (pendingData) { allArticles = pendingData; pendingData = null; renderAll(); showToast('✓ Đã cập nhật'); }
-  document.getElementById('cacheBanner').classList.remove('show');
+  // Không dùng banner nữa nhưng giữ hàm rỗng tránh lỗi nếu có chỗ khác gọi
 }
 
 // ── RENDER ───────────────────────────────────────────────────
@@ -1095,32 +1415,45 @@ function formatContent(raw) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
+  // Headings
+  s = s.replace(/^### (.*)$/gm, '<h4 class="md-h4">$1</h4>');
+  s = s.replace(/^## (.*)$/gm, '<h3 class="md-h3">$1</h3>');
+  s = s.replace(/^# (.*)$/gm, '<h2 class="md-h2">$1</h2>');
+
   // 2. Markdown & icons
   s = s
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/__(.*?)__/g, '<u>$1</u>')
     .replace(/_(.*?)_/g, '<em>$1</em>')
-    .replace(/(✅|⚠️|📌|🔹|💡|✔|❌)/g, '<strong>$1</strong>');
+    .replace(/(✅|⚠️|📌|🔹|💡|✔|❌)/g, '<span class="md-icon">$1</span>');
+
+  // Lists
+  s = s.replace(/^- (.*)$/gm, '<li class="md-li">$1</li>');
 
   // 3. Ảnh markdown
   s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
-    '<img src="$2" alt="$1" loading="lazy" style="max-width:100%;border-radius:6px;margin:8px 0;display:block" onerror="this.style.opacity=0.3">');
+    '<img src="$2" alt="$1" loading="lazy" class="md-img" onerror="this.style.opacity=0.3">');
 
-  // 4. Màu chữ {c:#hex|text} — parse từ trong ra ngoài (xử lý lồng nhau)
+  // 4. Màu chữ {c:#hex|text}
   let prev;
   do {
     prev = s;
     s = s.replace(/\{c:([^|{}]+)\|([^{}]*)\}/g, '<span style="color:$1">$2</span>');
   } while (s !== prev);
 
-  // 5. Tương thích ngược span HTML bị escape
+  // 5. Tương thích ngược span HTML
   s = s.replace(
     /&lt;span style=(?:&quot;|")(color:[^"&]+)(?:&quot;|")&gt;([\s\S]*?)&lt;\/span&gt;/g,
     '<span style="$1">$2</span>'
   );
 
-  // 6. Xuống dòng
+  // 6. Xuống dòng (tránh <br> thừa quanh các thẻ block)
+  s = s.replace(/(<\/h[234]>)\n+/g, '$1');
+  s = s.replace(/\n+(<h[234])/g, '$1');
+  s = s.replace(/(<\/li>)\n+/g, '$1');
+  s = s.replace(/\n+(<li)/g, '$1');
   s = s.replace(/\n/g, '<br>');
+
   return s;
 }
 
@@ -1524,6 +1857,112 @@ async function apiPost(payload) {
   const json = await res.json();
   if (json.ok === false) throw new Error(json.error || 'API error');
   return json;
+}
+
+function triggerImport() {
+  document.getElementById('importFile').click();
+}
+
+async function handleImportFile(event) {
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+
+  let allArticlesToImport = [];
+
+  // Đọc nội dung của toàn bộ các file được chọn
+  for (let f = 0; f < files.length; f++) {
+    const file = files[f];
+    try {
+      const fileText = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e);
+        reader.readAsText(file);
+      });
+
+      const articles = JSON.parse(fileText);
+      if (!Array.isArray(articles)) {
+        alert(`File ${file.name} không phải là một mảng các bài viết.`);
+        return;
+      }
+      allArticlesToImport = allArticlesToImport.concat(articles);
+    } catch (err) {
+      alert(`Lỗi khi đọc file hoặc phân tích cú pháp JSON trong file ${file.name}: ` + err.message);
+      return;
+    }
+  }
+
+  if (allArticlesToImport.length === 0) {
+    showToast('⚠ Không tìm thấy bài viết nào hợp lệ để nhập.');
+    return;
+  }
+
+  if (!confirm(`Bạn đã chọn ${files.length} file. Bạn có chắc chắn muốn nhập tổng cộng ${allArticlesToImport.length} bài viết này vào Google Sheets?`)) {
+    return;
+  }
+
+  showToast('⏳ Bắt đầu nhập bài viết hàng loạt...');
+  let successCount = 0;
+  let failCount = 0;
+
+  const importBtn = document.getElementById('importBtnTop');
+  const addBtn = document.getElementById('addBtnTop');
+  if (importBtn) importBtn.disabled = true;
+  if (addBtn) addBtn.disabled = true;
+
+  for (let i = 0; i < allArticlesToImport.length; i++) {
+    const article = allArticlesToImport[i];
+    if (!article.tieuDe || !article.phan || !article.noiDung) {
+      failCount++;
+      continue;
+    }
+
+    const id = article.id || ('KN' + Date.now() + Math.floor(Math.random() * 1000));
+    const now = new Date();
+    const ngay = now.toLocaleDateString('vi-VN', { day:'2-digit', month:'2-digit', year:'numeric' });
+
+    const obj = {
+      id,
+      tieuDe: article.tieuDe,
+      phan: article.phan,
+      danhMuc: article.phan,
+      tomTat: article.tomTat || (article.noiDung.substring(0, 150) + '...'),
+      noiDung: article.noiDung,
+      anhUrl: article.anhUrl || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      tags: article.tags || '',
+      tacGia: article.tacGia || 'Hùng Lê Design Studio',
+      link: article.link || '',
+      ngayDang: article.ngayDang || ngay,
+      noiBat: article.noiBat !== undefined ? article.noiBat : 0
+    };
+
+    const exists = allArticles.some(x => x.id === obj.id);
+    const action = exists ? 'editKinhNghiem' : 'addKinhNghiem';
+
+    try {
+      showToast(`⏳ Đang nhập (${i + 1}/${allArticlesToImport.length}): ${obj.tieuDe.substring(0, 20)}...`);
+      await apiPost({ action, article: obj, submittedBy: user || '' });
+      
+      const existsIdx = allArticles.findIndex(x => x.id === obj.id);
+      if (existsIdx >= 0) {
+        allArticles[existsIdx] = obj;
+      } else {
+        allArticles.push(obj);
+      }
+      successCount++;
+    } catch (err) {
+      console.error(err);
+      failCount++;
+    }
+  }
+
+  setCache(allArticles);
+  renderAll();
+  showToast(`✓ Đã nhập thành công ${successCount}/${allArticlesToImport.length} bài.`);
+  
+  if (importBtn) importBtn.disabled = false;
+  if (addBtn) addBtn.disabled = false;
+  event.target.value = '';
 }
 
 // ── TOAST ────────────────────────────────────────────────────
